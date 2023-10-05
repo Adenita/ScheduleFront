@@ -1,0 +1,47 @@
+<main>
+  <div class = "container">
+    <h2>Department List</h2>
+    <div class = "table-container" *ngIf="departments$; else noDepartmentsFound">
+      <table>
+        <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let department of departments$ | async">
+          <td [routerLink]="['/departments', department.id]">{{ department.name }} </td>
+          <td><button (click)="toEdit(department.id)">Edit</button></td>
+          <td><button (click)="deleteDepartment(department.id)">Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noDepartmentsFound>
+      <p>No Departments Found.</p>
+    </ng-template>
+
+    <div class="crud-buttons">
+      <button (click)="openForm()">Add Department</button>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <form [formGroup]="departmentForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Department Name" >
+      </div>
+      <div *ngIf="editing; else postingDepartment">
+        <button class= "save-button" (click)="updateDepartment(scheduleToBeEditedId)">Edit Department</button>
+      </div>
+      <ng-template #postingDepartment>
+        <button class= "save-button" (click)="postDepartment()">Add Department</button>
+      </ng-template>
+    </form>
+  </div>
+
+</main>
+<footer>
+
+</footer>
