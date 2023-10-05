@@ -1,0 +1,19 @@
+<main>
+  <div class = "container">
+    <app-program-list [programs$]="programs$" [departmentId]="departmentId"></app-program-list>
+
+    <div class="crud-buttons">
+      <button (click)="openForm()">Add Program</button>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <form [formGroup]="programForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Program Name" >
+      </div>
+      <button class= "save-button" (click)="postProgram()">Add Program</button>
+    </form>
+  </div>
+</main>
