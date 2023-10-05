@@ -1,0 +1,12 @@
+<div *ngIf="department">
+  <p>{{ department.name }}</p>
+</div>
+
+<div>
+  <div>
+    <app-program-list [programs$]="previewPrograms" [departmentId]="departmentId"></app-program-list>
+    <button [routerLink]="['/departments', departmentId, 'programs']">Programs</button>
+  </div>
+</div>
+
+
