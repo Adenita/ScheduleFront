@@ -16,9 +16,11 @@ export class DepartmentDetailsComponent implements OnInit {
   departmentId: number = -1;
   department: DepartmentTransport = {} as DepartmentTransport;
   previewPrograms: BehaviorSubject<Program[] | ProgramDetails[]>;
+  previewProfessors: BehaviorSubject<Professor[]>;
 
   constructor(private route: ActivatedRoute, private departmentService: DepartmentService) {
     this.previewPrograms = new BehaviorSubject<Program[] | ProgramDetails[]>([]);
+    this.previewProfessors = new BehaviorSubject<Professor[]>([]);
   }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class DepartmentDetailsComponent implements OnInit {
     this.departmentService.getDepartmentDetails(departmentId).subscribe({next: (department) => {
        this.department = department;
        this.previewPrograms.next(department.programTransports.slice(0, 3));
+       this.previewProfessors.next(department.professorTransports.slice(0,3));
       }})
   }
 
