@@ -14,13 +14,16 @@ import {Program, ProgramDetails} from "../../shared/models/program";
 })
 export class DepartmentDetailsComponent implements OnInit {
   departmentId: number = -1;
+  numberToPreview: number = 3;
   department: DepartmentTransport = {} as DepartmentTransport;
   previewPrograms: BehaviorSubject<Program[] | ProgramDetails[]>;
   previewProfessors: BehaviorSubject<Professor[]>;
+  previewClassrooms: BehaviorSubject<Classroom[]>;
 
   constructor(private route: ActivatedRoute, private departmentService: DepartmentService) {
     this.previewPrograms = new BehaviorSubject<Program[] | ProgramDetails[]>([]);
     this.previewProfessors = new BehaviorSubject<Professor[]>([]);
+    this.previewClassrooms = new BehaviorSubject<Classroom[]>([]);
   }
 
   ngOnInit(): void {
@@ -33,8 +36,9 @@ export class DepartmentDetailsComponent implements OnInit {
    getDepartment(departmentId: number) {
     this.departmentService.getDepartmentDetails(departmentId).subscribe({next: (department) => {
        this.department = department;
-       this.previewPrograms.next(department.programTransports.slice(0, 3));
-       this.previewProfessors.next(department.professorTransports.slice(0,3));
+       this.previewPrograms.next(department.programTransports.slice(0, this.numberToPreview));
+       this.previewProfessors.next(department.professorTransports.slice(0, this.numberToPreview));
+       this.previewClassrooms.next(department.classrooms.slice(0, this.numberToPreview));
       }})
   }
 

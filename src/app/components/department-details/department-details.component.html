@@ -11,6 +11,10 @@
     <app-professor-list [professors$]="previewProfessors" [departmentId]="departmentId"></app-professor-list>
     <button [routerLink]="['/departments', departmentId, 'professors']">Professors</button>
   </div>
+  <div>
+    <app-classroom-list [classrooms$]="previewClassrooms"></app-classroom-list>
+    <button [routerLink]="['/departments', departmentId, 'classrooms']">Classrooms</button>
+  </div>
 </div>
 
 
