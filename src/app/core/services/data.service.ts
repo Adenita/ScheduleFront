@@ -1,7 +1,7 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {RouteParametersService} from "./route-parameters.service";
+
 @Injectable({
   providedIn: 'root',
 })
