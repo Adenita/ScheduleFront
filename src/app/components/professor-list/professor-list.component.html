@@ -1,0 +1,20 @@
+<h2>Professor List</h2>
+<div class = "table-container" *ngIf="professors$ | async; else noProfessorsFound">
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let professor of professors$ | async" >
+      <td>{{ professor.name }}</td>
+      <td>{{ professor.role }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noProfessorsFound>
+  <p>No Professors Found.</p>
+</ng-template>

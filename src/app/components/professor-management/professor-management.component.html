@@ -1,0 +1,26 @@
+<main>
+  <div class = "container">
+   <app-professor-list [professors$]="professors$"></app-professor-list>
+
+    <div class="crud-buttons">
+      <button (click)="openForm()">Add Professor</button>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <form [formGroup]="professorForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Professor Name" >
+      </div>
+      <div class="form-group">
+        <label for="role">Role: </label>
+        <select id="role" formControlName="role">
+          <option *ngFor="let role of professorRoles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+      <button class= "save-button" (click)="postProfessor()">Add Professor
+      </button>
+    </form>
+  </div>
+</main>
