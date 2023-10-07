@@ -1,18 +1,17 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {DataService} from "../services/data.service";
-import {Department, DepartmentTransport} from "../../shared/models/department";
-import {Observable} from "rxjs";
-import {ProgramsTransport} from "../../shared/models/program";
-
+import { DataService } from '../services/data.service';
+import { DepartmentListTransport, DepartmentTransport } from '../../shared/models/department';
+import { Observable } from 'rxjs';
+import { ProgramsTransport } from '../../shared/models/program';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DepartmentService extends DataService<Department, DepartmentTransport>{
+export class DepartmentService extends DataService<DepartmentTransport, DepartmentListTransport> {
   constructor(private httpClient: HttpClient) {
     super(httpClient);
-    this.apiUrl = "departments";
+    this.apiUrl = 'departments';
   }
 
   getProgramsPerDepartment(departmentId: number): Observable<ProgramsTransport> {

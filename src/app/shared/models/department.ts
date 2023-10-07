@@ -12,11 +12,15 @@ export interface DepartmentTransport {
   departments: Department[];
 }
 
-export interface DepartmentTransport{
+export interface DepartmentTransport {
   id: number;
   name: string;
   programTransports: ProgramDetails[];
   classrooms: Classroom[];
   professorTransports: Professor[];
   timeslots: Timeslot[];
+}
+
+export interface DepartmentListTransport {
+  departmentTransportList: DepartmentTransport[];
 }
