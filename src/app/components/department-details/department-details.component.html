@@ -6,17 +6,14 @@
   <div class = "preview-container">
     <div class = "preview-box">
       <app-program-list [programs$]="previewPrograms" [departmentId]="departmentId"></app-program-list>
-<!--      <app-program-management></app-program-management>-->
       <button [routerLink]="['/departments', departmentId, 'programs']">Programs</button>
     </div>
     <div class = "preview-box">
       <app-professor-list [professors$]="previewProfessors" [departmentId]="departmentId"></app-professor-list>
-<!--  <app-professors-management></app-professors-management>-->
       <button [routerLink]="['/departments', departmentId, 'professors']">Professors</button>
     </div>
     <div class = "preview-box">
       <app-classroom-list [classrooms$]="previewClassrooms"></app-classroom-list>
-<!--      <app-classroom-management></app-classroom-management>-->
       <button [routerLink]="['/departments', departmentId, 'classrooms']">Classrooms</button>
     </div>
   </div>
