@@ -1,4 +1,4 @@
-import { StudentGroup } from './student-groups';
+import { StudentGroupTransport } from './student-group';
 import { SubjectDetailsTransport } from './subject';
 
 export interface ProgramTransport {
@@ -10,7 +10,7 @@ export interface ProgramDetailsTransport {
   id: number;
   name: string;
   subjectsTransport: SubjectDetailsTransport[];
-  studentsGroupsDetailsTransports: StudentGroup[];
+  studentsGroupsDetailsTransports: StudentGroupTransport[];
 }
 
 export interface ProgramListTransport {

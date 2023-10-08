@@ -1,5 +1,5 @@
 import { ProfessorTransport } from './professor';
-import { StudentGroupTransport } from './student-groups';
+import { StudentGroupTransport } from './student-group';
 
 export enum LabRequirement {
   YES = 'Yes',
