@@ -1,22 +1,24 @@
-<h2>Classroom List</h2>
-<div class = "table-container" *ngIf="classrooms$ | async; else noClassroomsFound">
-  <table>
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Seats</th>
-      <th>Lab</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let classroom of classrooms$ | async">
-      <td>{{ classroom.name }}</td>
-      <td>{{ classroom.numberOfSeats }}</td>
-      <td>{{ classroom.hasComputers }}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class = "list-container">
+  <h2 class = "list-header">Classroom List</h2>
+  <div class = "table-container" *ngIf="classrooms$ | async; else noClassroomsFound">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Seats</th>
+        <th>Lab</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let classroom of classrooms$ | async">
+        <td>{{ classroom.name }}</td>
+        <td>{{ classroom.numberOfSeats }}</td>
+        <td>{{ classroom.hasComputers }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noClassroomsFound>
+    <p>No Classrooms Found.</p>
+  </ng-template>
 </div>
-<ng-template #noClassroomsFound>
-  <p>No Classrooms Found.</p>
-</ng-template>
