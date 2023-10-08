@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -11,8 +11,28 @@ export class DataService<T, K> {
 
   constructor(private http: HttpClient) {}
 
+  getAll(): Observable<K> {
+    return this.http.get<K>(`${this.url + '/' + this.apiUrl}`);
+  }
+
+  get(id: number): Observable<T> {
+    return this.http.get<T>(`${this.url + '/' + this.apiUrl}/${id}`);
+  }
+
+  post(entity: T): Observable<T> {
+    return this.http.post<T>(`${this.url + '/' + this.apiUrl}`, entity);
+  }
+
+  update(id: number, entity: T): Observable<T> {
+    return this.http.put<T>(`${this.url + '/' + this.apiUrl}/${id}`, entity);
+  }
+
+  delete(id: number): Observable<T> {
+    return this.http.delete<T>(`${this.url + '/' + this.apiUrl}/${id}`);
+  }
+
   set apiUrl(_apiUrl: string) {
-    this._apiUrl = _apiUrl
+    this._apiUrl = _apiUrl;
   }
 
   get apiUrl() {
@@ -22,25 +42,4 @@ export class DataService<T, K> {
   get url() {
     return this._url;
   }
-
-  getAll(): Observable<K> {
-    return this.http.get<K>(`${this.url+"/"+this.apiUrl}`);
-  }
-
-  get(id: number): Observable<T> {
-    return this.http.get<T>(`${this.url+"/"+this.apiUrl}/${id}`);
-  }
-
-  post(entity: T): Observable<T> {
-    return this.http.post<T>(`${this.url+"/"+this.apiUrl}`, entity);
-  }
-
-  update(id: number, entity: T): Observable<T> {
-    return this.http.put<T>(`${this.url+"/"+this.apiUrl}/${id}`, entity);
-  }
-
-  delete(id: number): Observable<T> {
-    return this.http.delete<T>(`${this.url+"/"+this.apiUrl}/${id}`);
-  }
-
 }
