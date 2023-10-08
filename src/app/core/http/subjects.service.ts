@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
 import { SubjectListTransport, SubjectTransport } from '../../shared/models/subject';
 import { Observable } from 'rxjs';
-import { StudentGroupsTransport } from '../../shared/models/student-groups';
+import { StudentGroupListTransport } from '../../shared/models/student-group';
 import { ProfessorTransport } from '../../shared/models/professor';
 
 @Injectable({
@@ -15,8 +15,8 @@ export class SubjectService extends DataService<SubjectTransport, SubjectListTra
     this.apiUrl = 'subjects';
   }
 
-  getStudentGroupsPerSubject(subjectId: number): Observable<StudentGroupsTransport> {
-    return this.httpClient.get<StudentGroupsTransport>(`${this.url}/${this.apiUrl}/${subjectId}/student_groups`);
+  getStudentGroupsPerSubject(subjectId: number): Observable<StudentGroupListTransport> {
+    return this.httpClient.get<StudentGroupListTransport>(`${this.url}/${this.apiUrl}/${subjectId}/student_groups`);
   }
 
   getLecturersPerSubject(subjectId: number): Observable<ProfessorTransport> {
