@@ -1,15 +1,15 @@
-export interface Professor {
+export interface ProfessorTransport {
   id: number;
   name: string;
   role: Role;
 }
 
 export enum Role {
-  PROFESSOR = "Professor",
-  ASSISTANT = "Assistant",
-  PROFESSOR_ASSISTANT = "Professor assistant",
+  PROFESSOR = 'Professor',
+  ASSISTANT = 'Assistant',
+  PROFESSOR_ASSISTANT = 'Professor assistant',
 }
 
-export interface ProfessorTransport {
-  professors: Professor[];
+export interface ProfessorListTransport {
+  professors: ProfessorTransport[];
 }

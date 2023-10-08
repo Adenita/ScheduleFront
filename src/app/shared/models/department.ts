@@ -1,26 +1,26 @@
-import {ProgramDetails} from "./program";
-import {Professor} from "./professor";
-import {Timeslot} from "./time-slots";
-import {Classroom} from "./classroom";
-
-export interface Department {
-  id: number;
-  name: string;
-}
-
-export interface DepartmentTransport {
-  departments: Department[];
-}
+import { ProgramDetailsTransport } from './program';
+import { ProfessorTransport } from './professor';
+import { Timeslot } from './time-slots';
+import { Classroom } from './classroom';
 
 export interface DepartmentTransport {
   id: number;
   name: string;
-  programTransports: ProgramDetails[];
+}
+
+export interface DepartmentDetailTransport {
+  id: number;
+  name: string;
+  programTransports: ProgramDetailsTransport[];
   classrooms: Classroom[];
-  professorTransports: Professor[];
+  professorTransports: ProfessorTransport[];
   timeslots: Timeslot[];
 }
 
 export interface DepartmentListTransport {
+  departmentTransportList: DepartmentDetailTransport[];
+}
+
+export interface DepartmentDetailsListTransport {
   departmentTransportList: DepartmentTransport[];
 }

@@ -1,22 +1,22 @@
-import {StudentGroup} from "./student-groups";
-import {SubjectDetails} from "./subject";
+import { StudentGroup } from './student-groups';
+import { SubjectDetailsTransport } from './subject';
 
-export interface Program {
+export interface ProgramTransport {
   id: number;
   name: string;
 }
 
-export interface ProgramDetails {
+export interface ProgramDetailsTransport {
   id: number;
   name: string;
-  subjectsTransport: SubjectDetails[],
-  studentsGroupsDetailsTransports: StudentGroup[]
+  subjectsTransport: SubjectDetailsTransport[];
+  studentsGroupsDetailsTransports: StudentGroup[];
 }
 
-export interface ProgramsTransport {
-  programTransports: Program[];
+export interface ProgramListTransport {
+  programTransports: ProgramTransport[];
 }
 
-export interface ProgramsDetailsTransport {
-  programsDetails: ProgramDetails[];
+export interface ProgramsDetailsListTransport {
+  programsDetails: ProgramDetailsTransport[];
 }
