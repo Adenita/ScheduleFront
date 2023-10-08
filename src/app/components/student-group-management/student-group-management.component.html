@@ -1,0 +1,30 @@
+<main>
+  <div class = "container">
+    <app-student-group-list [studentGroups$]="studentGroups$" ></app-student-group-list>
+
+    <div class="crud-buttons">
+      <button (click)="openForm()">Add StudentGroup
+      </button>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <form [formGroup]="studentGroupForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
+      </div>
+      <div class="form-group">
+        <label for="numberOfStudents">Number Of Students</label>
+        <input class= "form-control" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
+      </div>
+      <div class="form-group">
+        <label for="groupType">Group Type: </label>
+        <select id="groupType" formControlName="groupType">
+          <option *ngFor="let groupType of groupTypes" [ngValue]="groupType">{{ groupType }}</option>
+        </select>
+      </div>
+      <button class= "save-button" (click)="postStudentGroupToContext()">Add StudentGroup</button>
+    </form>
+  </div>
+</main>

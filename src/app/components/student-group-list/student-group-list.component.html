@@ -1,0 +1,24 @@
+<div class = "list-container">
+  <h2>Student Group List</h2>
+  <div class = "table-container" *ngIf="studentGroups$ | async; else noStudentGroupsFound">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Number of Students</th>
+        <th>Group Type</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let studentGroup of studentGroups$ | async" >
+        <td>{{ studentGroup.name }}</td>
+        <td>{{ studentGroup.numberOfStudents }}</td>
+        <td>{{ studentGroup.groupType }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noStudentGroupsFound>
+    <p>No StudentGroup Found.</p>
+  </ng-template>
+</div>
