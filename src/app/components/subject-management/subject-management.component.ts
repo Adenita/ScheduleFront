@@ -50,12 +50,12 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   getSubjectByContext() {
-    if (this.programId) this.getProgramSubjects();
+    if (this.programId != -1) this.getProgramSubjects();
     else this.getSubjects();
   }
 
   postSubjectToContext() {
-    if (this.programId) this.postSubjectToProgram();
+    if (this.programId != -1) this.postSubjectToProgram();
     else this.postSubject();
   }
 
@@ -86,7 +86,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   postSubjectToProgram() {
     if (this.subjectForm.valid) {
       this.programService
-        .addSubjectToProgram(this.programId, this.subjectForm.value)
+        .postSubjectToProgram(this.programId, this.subjectForm.value)
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: (subjectTransport: SubjectTransport) => {
