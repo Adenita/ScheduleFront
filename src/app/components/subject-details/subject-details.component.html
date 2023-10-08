@@ -1,0 +1,16 @@
+<div class = "department-container">
+  <div *ngIf="subject">
+    <h1>{{ subject.name }}</h1>
+  </div>
+
+  <div class = "preview-container">
+    <div class = "preview-box">
+      <app-student-group-list [studentGroups$]="previewStudentGroups$"></app-student-group-list>
+      <button [routerLink]="['/departments', departmentId, 'programs', programId, 'student_groups']">Student Groups</button>
+    </div>
+    <div class = "preview-box">
+      <app-professor-list [professors$]="previewProfessors$" [departmentId]="departmentId"></app-professor-list>
+      <button [routerLink]="['/departments', departmentId, 'professors']">Professors</button>
+    </div>
+  </div>
+</div>
