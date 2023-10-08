@@ -1,0 +1,26 @@
+<div class = "list-container">
+  <h2>Subject List</h2>
+  <div class = "table-container" *ngIf="subjects$ | async; else noSubjectsFound">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Etcs</th>
+        <th>Requires Lab</th>
+        <th>Semester</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let subject of subjects$ | async" >
+        <td>{{ subject.name }}</td>
+        <td>{{ subject.etcs }}</td>
+        <td>{{ subject.requiresLab }}</td>
+        <td>{{ subject.semester }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noSubjectsFound>
+    <p>No Subjects Found.</p>
+  </ng-template>
+</div>

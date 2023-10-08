@@ -1,0 +1,33 @@
+<main>
+  <div class = "container">
+    <app-subject-list [subjects$]="subjects$"></app-subject-list>
+    <div class="crud-buttons">
+      <button (click)="openForm()">Add Subject</button>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showForm">
+    <form [formGroup]="subjectForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Subject Name" >
+      </div>
+      <div class="form-group">
+        <label for="etcs">Etcs</label>
+        <input class= "form-control" type="number" id="etcs" formControlName="etcs" placeholder="Etcs" >
+      </div>
+      <div class="form-group">
+        <label for="requiresLab">Requires Lab: </label>
+        <select id="requiresLab" formControlName="requiresLab">
+          <option *ngFor="let labRequirement of labRequirements" [value]="labRequirement">{{ labRequirement }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="semester">Semester</label>
+        <input class= "form-control" type="number" id="semester" formControlName="semester" placeholder="Semester" >
+      </div>
+      <button class="save-button" (click)="postSubjectToContext()">Add Subject</button>
+    </form>
+  </div>
+</main>
+
