@@ -9,7 +9,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let professor of professors$ | async" >
+      <tr *ngFor="let professor of professors$ | async" [routerLink]="route ? route + '/' + professor.id : null">
         <td>{{ professor.name }}</td>
         <td>{{ professor.role }}</td>
       </tr>

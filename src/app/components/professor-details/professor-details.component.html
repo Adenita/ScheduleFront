@@ -6,7 +6,7 @@
   <div class = "preview-container">
     <div class = "preview-box">
       <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
-      <button [routerLink]="['/departments', departmentId, 'programs', programId, 'subjects']">Subjects</button>
+      <button [routerLink]="[currentRoute, 'subjects']">Subjects</button>
     </div>
   </div>
 </div>

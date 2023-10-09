@@ -15,6 +15,7 @@ import { ProgramTransport, ProgramListTransport } from '../../shared/models/prog
 export class ProgramManagementComponent implements OnInit {
   departmentId: number = -1;
   programs$: BehaviorSubject<ProgramTransport[]>;
+  route: string = '';
   programForm: FormGroup;
   showForm = false;
 
@@ -30,8 +31,11 @@ export class ProgramManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setDepartmentId();
-    this.loadDepartmentPrograms(this.departmentId);
+    this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
+      this.route = this.routeParametersService.setRoute('programs');
+      this.loadDepartmentPrograms(this.departmentId);
+    });
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -48,11 +52,6 @@ export class ProgramManagementComponent implements OnInit {
       },
       error: (err) => console.error('Error loading department programs', err),
     });
-  }
-
-  setDepartmentId() {
-    this.routeParametersService.getRouteParams(this.activatedRoute);
-    this.departmentId = this.routeParametersService.departmentId;
   }
 
   postProgram() {

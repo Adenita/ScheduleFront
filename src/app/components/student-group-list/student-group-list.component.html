@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let studentGroup of studentGroups$ | async" >
+      <tr *ngFor="let studentGroup of studentGroups$ | async" [routerLink]="route ? route + '/' + studentGroup.id : null">
         <td>{{ studentGroup.name }}</td>
         <td>{{ studentGroup.numberOfStudents }}</td>
         <td>{{ studentGroup.groupType }}</td>

@@ -5,16 +5,16 @@
 
   <div class = "preview-container">
     <div class = "preview-box">
-      <app-program-list [programs$]="previewPrograms" [departmentId]="departmentId"></app-program-list>
-      <button [routerLink]="['/departments', departmentId, 'programs']">Programs</button>
+      <app-program-list [programs$]="previewPrograms"></app-program-list>
+      <button [routerLink]="[currentRoute, 'programs']">Programs</button>
     </div>
     <div class = "preview-box">
       <app-professor-list [professors$]="previewProfessors"></app-professor-list>
-      <button [routerLink]="['/departments', departmentId, 'professors']">Professors</button>
+      <button [routerLink]="[currentRoute, 'professors']">Professors</button>
     </div>
     <div class = "preview-box">
       <app-classroom-list [classrooms$]="previewClassrooms"></app-classroom-list>
-      <button [routerLink]="['/departments', departmentId, 'classrooms']">Classrooms</button>
+      <button [routerLink]="[currentRoute, 'classrooms']">Classrooms</button>
     </div>
   </div>
 </div>

@@ -12,5 +12,5 @@ export class ProfessorListComponent {
   professors$!: BehaviorSubject<ProfessorTransport[]>;
 
   @Input()
-  departmentId!: number;
+  route!: string;
 }

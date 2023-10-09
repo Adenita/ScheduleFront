@@ -21,6 +21,7 @@ export class SubjectDetailsComponent implements OnInit, OnDestroy {
   previewStudentGroups$: BehaviorSubject<StudentGroupTransport[]>;
   previewProfessors$: BehaviorSubject<ProfessorTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
+  currentRoute: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +37,7 @@ export class SubjectDetailsComponent implements OnInit, OnDestroy {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.subjectId = this.routeParametersService.subjectId;
+      this.currentRoute = this.routeParametersService.setRoute('');
       this.getSubject(this.subjectId);
     });
   }

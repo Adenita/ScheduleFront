@@ -20,6 +20,7 @@ export class DepartmentDetailsComponent implements OnInit {
   previewPrograms: BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>;
   previewProfessors: BehaviorSubject<ProfessorTransport[]>;
   previewClassrooms: BehaviorSubject<Classroom[]>;
+  currentRoute: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class DepartmentDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.routeParametersService.getRouteParams(this.route).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
+      this.currentRoute = this.routeParametersService.setRoute('');
       this.getDepartment(this.departmentId);
     });
   }
@@ -48,4 +50,6 @@ export class DepartmentDetailsComponent implements OnInit {
       },
     });
   }
+
+  protected readonly isSecureContext = isSecureContext;
 }

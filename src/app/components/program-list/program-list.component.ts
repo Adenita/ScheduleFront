@@ -12,5 +12,5 @@ export class ProgramListComponent {
   programs$!: BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>;
 
   @Input()
-  departmentId!: number;
+  route!: string;
 }

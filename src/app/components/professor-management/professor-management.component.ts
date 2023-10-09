@@ -3,6 +3,8 @@ import { ProfessorTransport, Role } from '../../shared/models/professor';
 import { ProfessorService } from '../../core/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { RouteParametersService } from '../../core/services/route-parameters.service';
 
 @Component({
   selector: 'app-professors-management',
@@ -10,12 +12,17 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./professor-management.component.css'],
 })
 export class ProfessorManagementComponent implements OnInit {
+  departmentId: number = -1;
+  programId: number = -1;
   professors$: BehaviorSubject<ProfessorTransport[]>;
   professorRoles: Role[] = Object.values(Role);
+  route: string = '';
   professorForm: FormGroup;
   showForm = false;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
   ) {
@@ -24,7 +31,12 @@ export class ProfessorManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getProfessors();
+    this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
+      this.programId = this.routeParametersService.programId;
+      this.route = this.routeParametersService.setRoute('professors');
+      this.getProfessors();
+    });
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {

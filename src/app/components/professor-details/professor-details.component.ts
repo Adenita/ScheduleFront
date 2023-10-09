@@ -18,6 +18,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   numberToPreview: number = 3;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
   previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -33,6 +34,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
+      this.currentRoute = this.routeParametersService.setRoute('');
       this.getProfessor(this.professorId);
     });
   }

@@ -13,8 +13,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./subject-management.component.css'],
 })
 export class SubjectManagementComponent implements OnInit, OnDestroy {
+  departmentId: number = -1;
   programId: number = -1;
+  professorId: number = -1;
   labRequirements: LabRequirement[] = Object.values(LabRequirement);
+  route: string = '';
 
   subjectForm: FormGroup;
   showForm: boolean = false;
@@ -35,7 +38,10 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
+      this.professorId = this.routeParametersService.professorId;
+      this.route = this.routeParametersService.setRoute('subjects');
       this.getSubjectByContext();
     });
   }

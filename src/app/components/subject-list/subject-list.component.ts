@@ -10,4 +10,7 @@ import { SubjectDetailsTransport, SubjectTransport } from '../../shared/models/s
 export class SubjectListComponent {
   @Input()
   subjects$!: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+
+  @Input()
+  route!: string;
 }

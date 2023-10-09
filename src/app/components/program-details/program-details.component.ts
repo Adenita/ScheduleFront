@@ -19,6 +19,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
   program: ProgramDetailsTransport = {} as ProgramDetailsTransport;
   previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   previewStudentGroups$: BehaviorSubject<StudentGroupTransport[]>;
+  currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -34,6 +35,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     this.routeParametersService.getRouteParams(this.route).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
+      this.currentRoute = this.routeParametersService.setRoute('');
       this.getProgram(this.programId);
     });
   }

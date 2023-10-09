@@ -15,6 +15,7 @@ import { RouteParametersService } from '../../core/services/route-parameters.ser
 export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   programId: number = -1;
   groupTypes: GroupType[] = Object.values(GroupType);
+  route: string = '';
 
   studentGroupForm: FormGroup;
   showForm = false;
@@ -36,6 +37,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
       this.programId = this.routeParametersService.programId;
+      this.route = this.routeParametersService.setRoute('student_groups');
       this.getStudentGroupsByContext();
     });
   }

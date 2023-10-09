@@ -1,6 +1,6 @@
 <main>
   <div class = "container">
-    <app-student-group-list [studentGroups$]="studentGroups$" ></app-student-group-list>
+    <app-student-group-list [studentGroups$]="studentGroups$" [route]="route"></app-student-group-list>
 
     <div class="crud-buttons">
       <button (click)="openForm()">Add StudentGroup

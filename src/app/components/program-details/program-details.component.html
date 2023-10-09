@@ -6,11 +6,11 @@
   <div class = "preview-container">
     <div class = "preview-box">
       <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
-      <button [routerLink]="['/departments', departmentId, 'programs', programId, 'subjects']">Subjects</button>
+      <button [routerLink]="[currentRoute, 'subjects']">Subjects</button>
     </div>
     <div class = "preview-box">
       <app-student-group-list [studentGroups$]="previewStudentGroups$"></app-student-group-list>
-      <button [routerLink]="['/departments', departmentId, 'programs', programId, 'student_groups']">Student Groups</button>
+      <button [routerLink]="[currentRoute, 'student_groups']">Student Groups</button>
     </div>
   </div>
 </div>

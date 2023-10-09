@@ -10,4 +10,7 @@ import { StudentGroupTransport } from '../../shared/models/student-group';
 export class StudentGroupListComponent {
   @Input()
   studentGroups$!: BehaviorSubject<StudentGroupTransport[]>;
+
+  @Input()
+  route!: string;
 }
