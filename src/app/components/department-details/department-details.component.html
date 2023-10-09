@@ -9,7 +9,7 @@
       <button [routerLink]="['/departments', departmentId, 'programs']">Programs</button>
     </div>
     <div class = "preview-box">
-      <app-professor-list [professors$]="previewProfessors" [departmentId]="departmentId"></app-professor-list>
+      <app-professor-list [professors$]="previewProfessors"></app-professor-list>
       <button [routerLink]="['/departments', departmentId, 'professors']">Professors</button>
     </div>
     <div class = "preview-box">

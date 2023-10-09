@@ -5,6 +5,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { SubjectTransport, SubjectDetailsTransport } from '../../shared/models/subject';
 import { ProgramService } from '../../core/http/program.service';
 import { RouteParametersService } from '../../core/services/route-parameters.service';
+import { StudentGroupTransport } from '../../shared/models/student-group';
 
 @Component({
   selector: 'app-program-details',
@@ -17,6 +18,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
   numberToPreview: number = 3;
   program: ProgramDetailsTransport = {} as ProgramDetailsTransport;
   previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  previewStudentGroups$: BehaviorSubject<StudentGroupTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -25,6 +27,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     private programService: ProgramService,
   ) {
     this.previewSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
+    this.previewStudentGroups$ = new BehaviorSubject<StudentGroupTransport[]>([]);
   }
 
   ngOnInit(): void {
@@ -43,6 +46,8 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
         next: (programDetails: ProgramDetailsTransport) => {
           this.program = programDetails;
           this.previewSubjects$.next(programDetails.subjectsTransport.slice(0, this.numberToPreview));
+          //this does not exist in back add it
+          // this.previewStudentGroups$.next(programDetails.studentGroupTransports.slice(0, this.numberToPreview));
         },
       });
   }
