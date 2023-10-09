@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
-import { SubjectListTransport, SubjectTransport } from '../../shared/models/subject';
+import { SubjectDetailsTransport, SubjectListTransport, SubjectTransport } from '../../shared/models/subject';
 import { Observable } from 'rxjs';
 import { StudentGroupListTransport } from '../../shared/models/student-group';
 import { ProfessorTransport } from '../../shared/models/professor';
@@ -15,6 +15,9 @@ export class SubjectService extends DataService<SubjectTransport, SubjectListTra
     this.apiUrl = 'subjects';
   }
 
+  getSubjectDetails(subjectId: number): Observable<SubjectDetailsTransport> {
+    return this.httpClient.get<SubjectDetailsTransport>(`${this.url}/${this.apiUrl}/${subjectId}/details`);
+  }
   getStudentGroupsPerSubject(subjectId: number): Observable<StudentGroupListTransport> {
     return this.httpClient.get<StudentGroupListTransport>(`${this.url}/${this.apiUrl}/${subjectId}/student_groups`);
   }
