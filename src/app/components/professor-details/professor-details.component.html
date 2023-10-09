@@ -1,0 +1,12 @@
+<div class = "department-container">
+  <div *ngIf="professor">
+    <h1>{{ professor.name }}</h1>
+  </div>
+
+  <div class = "preview-container">
+    <div class = "preview-box">
+      <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
+      <button [routerLink]="['/departments', departmentId, 'programs', programId, 'subjects']">Subjects</button>
+    </div>
+  </div>
+</div>
