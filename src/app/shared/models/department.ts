@@ -1,6 +1,6 @@
 import { ProgramDetailsTransport } from './program';
 import { ProfessorTransport } from './professor';
-import { Timeslot } from './time-slots';
+import { Timeslot } from './timeslots';
 import { Classroom } from './classroom';
 
 export interface DepartmentTransport {
