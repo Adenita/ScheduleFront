@@ -10,7 +10,7 @@ export interface ProgramDetailsTransport {
   id: number;
   name: string;
   subjectsTransport: SubjectDetailsTransport[];
-  studentsGroupsDetailsTransports: StudentGroupTransport[];
+  studentGroupTransports: StudentGroupTransport[];
 }
 
 export interface ProgramListTransport {
