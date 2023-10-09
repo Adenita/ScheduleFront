@@ -24,6 +24,33 @@ export class RouteParametersService {
     });
   }
 
+  setRoute(lastRoute: string): string {
+    let route: string = '';
+
+    if (this.departmentId != -1) {
+      route += '/departments/' + this.departmentId;
+    }
+
+    if (this.programId != -1) {
+      route += '/programs/' + this.programId;
+    }
+
+    if (this.professorId != -1) {
+      route += '/professors/' + this.professorId;
+    }
+
+    if (this.subjectId != -1) {
+      route += '/subjects/' + this.subjectId;
+    }
+
+    if (this.studentGroupId != -1) {
+      route += '/students_groups/' + this.studentGroupId;
+    }
+
+    route += '/' + lastRoute;
+    return route;
+  }
+
   get departmentId(): number {
     return this._departmentId ?? -1;
   }
