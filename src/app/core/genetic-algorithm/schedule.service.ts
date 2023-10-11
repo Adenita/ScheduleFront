@@ -3,10 +3,7 @@ import { EventTransport } from '../../shared/models/event';
 import { Schedule } from '../../shared/models/schedule';
 import { ProgramDetailsTransport } from '../../shared/models/program';
 import { SubjectDetailsTransport } from '../../shared/models/subject';
-import {
-  GroupType,
-  StudentGroupTransport,
-} from '../../shared/models/student-group';
+import { GroupType, StudentGroupTransport } from '../../shared/models/student-group';
 import { Timeslot } from '../../shared/models/timeslots';
 import { Classroom } from '../../shared/models/classroom';
 import { ProfessorTransport, Role } from '../../shared/models/professor';
@@ -32,44 +29,27 @@ export class ScheduleService {
     const timeslots: Timeslot[] = departmentTransport.timeslots;
     const classrooms: Classroom[] = departmentTransport.classrooms;
 
-    departmentTransport.programTransports.forEach(
-      (programDetails: ProgramDetailsTransport) => {
-        programDetails.subjectsTransport.forEach(
-          (subjectDetails: SubjectDetailsTransport) => {
-            subjectDetails.studentGroups.forEach(
-              (studentGroup: StudentGroupTransport) => {
-                const event: EventTransport = {} as EventTransport;
-                event.studentGroupTransport = studentGroup;
-                event.subjectTransport = subjectDetails;
-                event.programTransport = programDetails;
-                event.professorTransport =
-                  studentGroup.groupType === GroupType.EXERCISE
-                    ? this.getSubjectProfessorByRole(
-                        subjectDetails.professors,
-                        Role.ASSISTANT,
-                      )
-                    : this.getSubjectProfessorByRole(
-                        subjectDetails.professors,
-                        Role.PROFESSOR,
-                      );
+    departmentTransport.programTransports.forEach((programDetails: ProgramDetailsTransport) => {
+      programDetails.subjectsTransport.forEach((subjectDetails: SubjectDetailsTransport) => {
+        subjectDetails.studentGroups.forEach((studentGroup: StudentGroupTransport) => {
+          const event: EventTransport = {} as EventTransport;
+          event.studentGroupTransport = studentGroup;
+          event.subjectTransport = subjectDetails;
+          event.programTransport = programDetails;
+          event.professorTransport =
+            studentGroup.groupType === GroupType.EXERCISE
+              ? this.getSubjectProfessorByRole(subjectDetails.professors, Role.ASSISTANT)
+              : this.getSubjectProfessorByRole(subjectDetails.professors, Role.PROFESSOR);
 
-                event.classroom = this.getClassroomForStudentGroup(
-                  classrooms,
-                  studentGroup,
-                  subjectDetails,
-                );
+          event.classroom = this.getClassroomForStudentGroup(classrooms, studentGroup, subjectDetails);
 
-                event.timeslot =
-                  timeslots[this.getRandomIndex(timeslots.length)];
+          event.timeslot = timeslots[this.getRandomIndex(timeslots.length)];
 
-                event.id = this.count++;
-                schedule.events.push(event);
-              },
-            );
-          },
-        );
-      },
-    );
+          event.id = this.count++;
+          schedule.events.push(event);
+        });
+      });
+    });
 
     schedule.fitness = this.calculateFitness(schedule);
     schedule.id = ScheduleService.scheduleCount++;
@@ -78,32 +58,16 @@ export class ScheduleService {
 
   getSubjectProfessorByRole(professors: ProfessorTransport[], role: Role) {
     if (professors.length == 1) return professors[0];
-    const filteredProfessors: ProfessorTransport[] = professors.filter(
-      (professor) => professor.role.includes(role),
-    );
+    const filteredProfessors: ProfessorTransport[] = professors.filter((professor) => professor.role.includes(role));
     return filteredProfessors[0];
   }
 
-  getClassroomForStudentGroup(
-    classrooms: Classroom[],
-    studentGroup: StudentGroupTransport,
-    subject: SubjectDetailsTransport,
-  ): Classroom {
+  getClassroomForStudentGroup(classrooms: Classroom[], studentGroup: StudentGroupTransport, subject: SubjectDetailsTransport): Classroom {
     const suitableClassrooms: Classroom[] = classrooms.filter((classroom) => {
-      if (
-        subject.requiresLab === 'Yes' ||
-        (subject.requiresLab === 'Exercise only' &&
-          studentGroup.groupType === 'Exercise')
-      ) {
-        return (
-          classroom.hasComputers &&
-          studentGroup.numberOfStudents <= classroom.numberOfSeats
-        );
+      if (subject.requiresLab === 'Yes' || (subject.requiresLab === 'Exercise only' && studentGroup.groupType === 'Exercise')) {
+        return classroom.hasComputers && studentGroup.numberOfStudents <= classroom.numberOfSeats;
       } else {
-        return (
-          !classroom.hasComputers &&
-          studentGroup.numberOfStudents <= classroom.numberOfSeats
-        );
+        return !classroom.hasComputers && studentGroup.numberOfStudents <= classroom.numberOfSeats;
       }
     });
 
@@ -138,9 +102,7 @@ export class ScheduleService {
               schedule.conflicts.push(conflict);
             }
 
-            if (
-              event.professorTransport.id === nextEvent.professorTransport.id
-            ) {
+            if (event.professorTransport.id === nextEvent.professorTransport.id) {
               this.numberOfConflicts++;
               event.conflict = true;
               const conflict: ConflictType = {
@@ -160,14 +122,10 @@ export class ScheduleService {
 
   hasOverlap(firstTimeslot: Timeslot, secondTimeslot: Timeslot): boolean {
     if (firstTimeslot.day === secondTimeslot.day) {
-      const firstTimeslotStart: number =
-        firstTimeslot.startHour * 60 + firstTimeslot.startMinute;
-      const secondTimeslotStart: number =
-        secondTimeslot.startHour * 60 + secondTimeslot.startMinute;
-      const firstTimeslotEnd: number =
-        firstTimeslot.endHour * 60 + firstTimeslot.endMinute;
-      const secondTimeslotEnd: number =
-        secondTimeslot.endHour * 60 + secondTimeslot.endMinute;
+      const firstTimeslotStart: number = firstTimeslot.startHour * 60 + firstTimeslot.startMinute;
+      const secondTimeslotStart: number = secondTimeslot.startHour * 60 + secondTimeslot.startMinute;
+      const firstTimeslotEnd: number = firstTimeslot.endHour * 60 + firstTimeslot.endMinute;
+      const secondTimeslotEnd: number = secondTimeslot.endHour * 60 + secondTimeslot.endMinute;
 
       if (firstTimeslotStart > secondTimeslotStart) {
         return secondTimeslotEnd >= firstTimeslotStart;
