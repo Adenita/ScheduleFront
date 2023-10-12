@@ -50,6 +50,4 @@ export class DepartmentDetailsComponent implements OnInit {
       },
     });
   }
-
-  protected readonly isSecureContext = isSecureContext;
 }
