@@ -58,8 +58,8 @@ export class ProgramManagementComponent implements OnInit {
     if (this.programForm.valid) {
       const program = this.programForm.value;
       this.programService.post(program).subscribe({
-        next: () => {
-          this.loadDepartmentPrograms(this.departmentId);
+        next: (postedProgramTransport: ProgramTransport) => {
+          this.programs$.next([...this.programs$.getValue(), postedProgramTransport]);
           this.closeForm();
         },
         error: (err) => console.error('Error posting program:', err),

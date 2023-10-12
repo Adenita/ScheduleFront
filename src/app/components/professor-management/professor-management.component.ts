@@ -57,8 +57,8 @@ export class ProfessorManagementComponent implements OnInit {
     if (this.professorForm.valid) {
       const professor = this.professorForm.value;
       this.professorService.post(professor).subscribe({
-        next: () => {
-          this.getProfessors();
+        next: (postedProfessorTransport: ProfessorTransport) => {
+          this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
           this.closeForm();
         },
         error: (err) => console.error('Error posting professor:', err),

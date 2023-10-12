@@ -1,22 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {Classroom} from "../../shared/models/classroom";
-import {ClassroomService} from "../../core/http/classroom.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {BehaviorSubject} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { Classroom } from '../../shared/models/classroom';
+import { ClassroomService } from '../../core/http/classroom.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-classroom-management',
   templateUrl: './classroom-management.component.html',
-  styleUrls: ['./classroom-management.component.css']
+  styleUrls: ['./classroom-management.component.css'],
 })
-export class ClassroomManagementComponent implements OnInit{
+export class ClassroomManagementComponent implements OnInit {
   classrooms$: BehaviorSubject<Classroom[]>;
   classroomForm: FormGroup;
   showForm = false;
 
   constructor(
     private classroomService: ClassroomService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
     this.classroomForm = this.buildFormGroup(formBuilder);
@@ -26,31 +26,31 @@ export class ClassroomManagementComponent implements OnInit{
     this.getClassrooms();
   }
 
-  buildFormGroup(formBuilder: FormBuilder): FormGroup{
+  buildFormGroup(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       name: new FormControl('', Validators.required),
       numberOfSeats: new FormControl(Validators.required, Validators.min(10)),
-      hasComputers: new FormControl(false, Validators.required)
-    })
+      hasComputers: new FormControl(false, Validators.required),
+    });
   }
 
   getClassrooms(): void {
     this.classroomService.getAll().subscribe({
-      next: classroomTransport =>  this.classrooms$.next(classroomTransport.classrooms),
-      error: (err) => console.error('Error fetching classrooms', err)
-    })
-  };
+      next: (classroomTransport) => this.classrooms$.next(classroomTransport.classrooms),
+      error: (err) => console.error('Error fetching classrooms', err),
+    });
+  }
 
-  postClassroom(){
+  postClassroom() {
     if (this.classroomForm.valid) {
       const classroom = this.classroomForm.value;
       this.classroomService.post(classroom).subscribe({
-        next: () => {
-          this.getClassrooms();
+        next: (postedClassroom: Classroom) => {
+          this.classrooms$.next([...this.classrooms$.getValue(), postedClassroom]);
           this.closeForm();
         },
-        error: (err) =>  console.error('Error posting classroom:', err)
-      })
+        error: (err) => console.error('Error posting classroom:', err),
+      });
     }
   }
 
@@ -61,5 +61,4 @@ export class ClassroomManagementComponent implements OnInit{
   closeForm() {
     this.showForm = false;
   }
-
 }
