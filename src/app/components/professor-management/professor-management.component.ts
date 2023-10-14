@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfessorTransport, Role } from '../../shared/models/professor';
+import { ProfessorListTransport, ProfessorTransport, Role } from '../../shared/models/professor';
 import { ProfessorService } from '../../core/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -48,7 +48,7 @@ export class ProfessorManagementComponent implements OnInit {
 
   getProfessors(): void {
     this.professorService.getAll().subscribe({
-      next: (professorTransport) => this.professors$.next(professorTransport.professors),
+      next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
       error: (err) => console.error('Error fetching professors', err),
     });
   }

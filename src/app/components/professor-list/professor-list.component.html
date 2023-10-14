@@ -1,22 +1,19 @@
-<div class="list-container">
-  <h2 class = "list-header">Professor List</h2>
-  <div class = "table-container" *ngIf="professors$ | async; else noProfessorsFound">
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Role</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let professor of professors$ | async" [routerLink]="route ? route + '/' + professor.id : null">
-        <td>{{ professor.name }}</td>
-        <td>{{ professor.role }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <ng-template #noProfessorsFound>
-    <p>No Professors Found.</p>
-  </ng-template>
+<div class = "table-responsive" *ngIf="professors$ | async; else noProfessorsFound">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark-red">
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let professor of professors$ | async" [routerLink]="route ? route + '/' + professor.id : null">
+      <td>{{ professor.name }}</td>
+      <td>{{ professor.role }}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
+<ng-template #noProfessorsFound>
+  <p>No Professors Found.</p>
+</ng-template>

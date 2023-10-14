@@ -1,26 +1,34 @@
-<main>
-  <div class = "container">
-   <app-professor-list [professors$]="professors$" [route]="route"></app-professor-list>
-
-    <div class="crud-buttons">
-      <button (click)="openForm()">Add Professor</button>
+<div class = "container mt-5">
+  <div class="row justify-content-end align-items-center my-2">
+    <div class="col">
+      <h5 class="mb-0">Program List</h5>
+    </div>
+    <div class="col-lg-auto">
+      <button class= "btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
     </div>
   </div>
 
-  <div class="form-container" *ngIf="showForm">
-    <form [formGroup]="professorForm">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Professor Name" >
-      </div>
-      <div class="form-group">
-        <label for="role">Role: </label>
-        <select id="role" formControlName="role">
-          <option *ngFor="let role of professorRoles" [value]="role">{{ role }}</option>
-        </select>
-      </div>
-      <button class= "save-button" (click)="postProfessor()">Add Professor
-      </button>
-    </form>
+  <div class="row">
+    <div class="col-12">
+      <app-professor-list [professors$]="professors$" [route]="route"></app-professor-list>
+    </div>
   </div>
-</main>
+</div>
+
+<div class="form-container" *ngIf="showForm">
+  <form [formGroup]="professorForm">
+    <div class="form-group mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Professor Name" >
+    </div>
+    <div class="form-group">
+      <label for="role" class="form-label">Role </label>
+      <select id="role" formControlName="role" class="form-select">
+        <option *ngFor="let role of professorRoles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+    <button class= "btn btn-primary" (click)="postProfessor()">Add Professor
+    </button>
+  </form>
+</div>
+
