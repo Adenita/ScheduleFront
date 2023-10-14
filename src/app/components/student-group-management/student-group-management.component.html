@@ -1,30 +1,36 @@
-<main>
-  <div class = "container">
-    <app-student-group-list [studentGroups$]="studentGroups$" [route]="route"></app-student-group-list>
-
-    <div class="crud-buttons">
-      <button (click)="openForm()">Add StudentGroup
-      </button>
+<div class = "container mt-5">
+  <div class="row justify-content-end align-items-center my-2">
+    <div class="col">
+      <h5 class="mb-0">Student Group List</h5>
+    </div>
+    <div class="col-lg-auto">
+      <button class= "btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
     </div>
   </div>
 
-  <div class="form-container" *ngIf="showForm">
-    <form [formGroup]="studentGroupForm">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input class= "form-control" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
-      </div>
-      <div class="form-group">
-        <label for="numberOfStudents">Number Of Students</label>
-        <input class= "form-control" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
-      </div>
-      <div class="form-group">
-        <label for="groupType">Group Type: </label>
-        <select id="groupType" formControlName="groupType">
-          <option *ngFor="let groupType of groupTypes" [ngValue]="groupType">{{ groupType }}</option>
-        </select>
-      </div>
-      <button class= "save-button" (click)="postStudentGroupToContext()">Add StudentGroup</button>
-    </form>
+  <div class="row">
+    <div class="col-12">
+      <app-student-group-list [studentGroups$]="studentGroups$" [route]="route"></app-student-group-list>
+    </div>
   </div>
-</main>
+</div>
+
+<div class="form-container" *ngIf="showForm">
+  <form [formGroup]="studentGroupForm">
+    <div class="form-group">
+      <label class="form-label" for="name">Name</label>
+      <input class= "form-control" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="numberOfStudents">Number Of Students</label>
+      <input class= "form-control" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="groupType">Group Type: </label>
+      <select class="form-select" id="groupType" formControlName="groupType">
+        <option *ngFor="let groupType of groupTypes" [ngValue]="groupType">{{ groupType }}</option>
+      </select>
+    </div>
+    <button class= "btn btn-primary" (click)="postStudentGroupToContext()">Add Student Group</button>
+  </form>
+</div>
