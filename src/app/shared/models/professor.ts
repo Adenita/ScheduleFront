@@ -20,5 +20,5 @@ export enum Role {
 }
 
 export interface ProfessorListTransport {
-  professors: ProfessorTransport[];
+  professorTransports: ProfessorTransport[];
 }
