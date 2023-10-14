@@ -1,20 +1,17 @@
-<div class ="list-container">
-  <h2 class = "list-header">Program List</h2>
-  <div class = "table-container" *ngIf="programs$; else noProgramsFound">
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let program of programs$ | async"  [routerLink]="route ? route + '/' + program.id : null" >
-        <td>{{ program.name }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <ng-template #noProgramsFound>
-    <p>No Programs Found.</p>
-  </ng-template>
+<div class = "table-responsive" *ngIf="programs$; else noProgramsFound">
+  <table class="table table-bordered table-striped table-hover overflow-scroll">
+    <thead class="thead-dark-red">
+    <tr>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let program of programs$ | async"  [routerLink]="route ? route + '/' + program.id : null" >
+      <td>{{ program.name }}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
+<ng-template #noProgramsFound>
+  <p>No Programs Found.</p>
+</ng-template>
