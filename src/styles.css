@@ -1,3 +1,18 @@
+.modal-dialog {
+  max-width: max-content;
+}
+
+.modal-content {
+  border: none;
+}
+
+.modal-header {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  border: none;
+}
+
 .thead-dark-red {
   --bs-table-bg: #952323;
   --bs-table-color: white;
@@ -14,4 +29,3 @@
   justify-content: center;
   align-content: center;
 }
-
