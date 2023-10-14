@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { BehaviorSubject, count } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { EventTransport } from '../../shared/models/event';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleTransport } from '../../shared/models/schedule';
-import { ScheduleService } from '../../core/genetic-algorithm/schedule.service';
 import { ScheduleDataService } from '../../core/http/schedule-data.service';
 
 @Component({
