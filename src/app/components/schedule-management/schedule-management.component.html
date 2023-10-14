@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <div class="row justify-content-end align-items-center mb-1">
+    <div class="col">
+      <h3 class="mb-0" *ngIf="scheduleForProgram.events">{{currentProgramName}}</h3>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-dark" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="scheduleForProgram.events">
+    <app-schedule [bestProgramSchedule]="scheduleForProgram" ></app-schedule>
+  </ng-container>
+
+  <div class="mt-4">
+    <h3>Programs</h3>
+    <div>
+      <button *ngFor="let program of departmentTransport.programTransports"
+              class="btn btn-outline-dark me-2 mb-2"
+              (click)="loadProgramSchedule(program)">
+<!--              [ngClass]="{'btn-primary': program.clicked, 'btn-secondary': !program.clicked}"> -->
+        {{program.name}}
+      </button>
+    </div>
+  </div>
+</div>
