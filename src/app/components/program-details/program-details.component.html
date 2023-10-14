@@ -1,20 +1,41 @@
-<div class = "department-container">
-  <div *ngIf="program">
-    <h1>{{ program.name }}</h1>
-  </div>
-
-  <div class = "preview-container">
-    <div class = "preview-box">
-      <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
-      <button [routerLink]="[currentRoute, 'subjects']">Subjects</button>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col text-center">
+      <h2><strong>Program Information</strong></h2>
+      <h3><strong>Name:</strong> {{program.name}}</h3>
     </div>
-    <div class = "preview-box">
-      <app-student-group-list [studentGroups$]="previewStudentGroups$"></app-student-group-list>
-      <button [routerLink]="[currentRoute, 'student_groups']">Student Groups</button>
+  </div>
+  <div class="row mt-4 border-bottom">
+    <div class="col-md-4">
+      <div class="description-box p-3">
+        <h3>Subjects Preview</h3>
+        <p class="mb-2"><strong>Subjects count:</strong> 10</p>
+        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
+        <button class="btn btn-dark" [routerLink]="[currentRoute, 'subjects']">View All</button>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div>
+        <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4 border-bottom">
+    <div class="col-md-4">
+      <div class="description-box p-3">
+        <h3>Student Groups Preview</h3>
+        <p class="mb-2"><strong>Student Groups count:</strong> 10</p>
+        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
+        <button class="btn btn-dark" [routerLink]="[currentRoute, 'student_groups']">View All</button>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div>
+        <app-student-group-list></app-student-group-list>
+      </div>
     </div>
   </div>
 </div>
-
 
 
 
