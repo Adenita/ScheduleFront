@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
-import { Schedule } from '../../shared/models/schedule';
+import { ConflictType, Schedule } from '../../shared/models/schedule';
 import { ProgramDetailsTransport } from '../../shared/models/program';
 import { SubjectDetailsTransport } from '../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../shared/models/student-group';
@@ -8,12 +8,6 @@ import { Timeslot } from '../../shared/models/timeslots';
 import { Classroom } from '../../shared/models/classroom';
 import { ProfessorTransport, Role } from '../../shared/models/professor';
 import { DepartmentDetailTransport } from '../../shared/models/department';
-
-type ConflictType = {
-  event: EventTransport;
-  nextEvent: EventTransport;
-  message: string;
-};
 
 @Injectable({
   providedIn: 'root',
@@ -78,45 +72,46 @@ export class ScheduleService {
   calculateFitness(schedule: Schedule): number {
     schedule.conflicts = [];
     this.numberOfConflicts = 0;
-    schedule.events.forEach((event: EventTransport): void => {
+    for (let i = 0; i < schedule.events.length; i++) {
+      const event: EventTransport = schedule.events[i];
+      event.conflict = false;
       //@todo Add soft constraints such as preferred start time
-      schedule.events.forEach((nextEvent: EventTransport): void => {
-        if (nextEvent.id > event.id) {
-          if (this.hasOverlap(event.timeslot, nextEvent.timeslot)) {
-            if (event.classroom.id === nextEvent.classroom.id) {
-              this.numberOfConflicts++;
-              event.conflict = true;
-              const conflict: ConflictType = {
-                event,
-                nextEvent,
-                message:
-                  'Classroom Conflict: ' +
-                  event.classroom.name +
-                  ' Day: ' +
-                  event.timeslot.day +
-                  ' Start: ' +
-                  event.timeslot.startHour +
-                  ':' +
-                  event.timeslot.startMinute,
-              };
-              schedule.conflicts.push(conflict);
-            }
-
-            if (event.professorTransport.id === nextEvent.professorTransport.id) {
-              this.numberOfConflicts++;
-              event.conflict = true;
-              const conflict: ConflictType = {
-                event,
-                nextEvent,
-                message: 'Professor Conflict: ' + event.professorTransport.name,
-              };
-              schedule.conflicts.push(conflict);
-            }
+      for (let j = i + 1; j < schedule.events.length; j++) {
+        const nextEvent: EventTransport = schedule.events[j];
+        if (this.hasOverlap(event.timeslot, nextEvent.timeslot)) {
+          if (event.classroom.id === nextEvent.classroom.id) {
+            this.numberOfConflicts++;
+            event.conflict = true;
+            const conflict: ConflictType = {
+              event,
+              nextEvent,
+              message:
+                'Classroom Conflict: ' +
+                event.classroom.name +
+                ' Day: ' +
+                event.timeslot.day +
+                ' Start: ' +
+                event.timeslot.startHour +
+                ':' +
+                event.timeslot.startMinute,
+            };
+            schedule.conflicts.push(conflict);
+            break;
+          }
+          if (event.professorTransport.id === nextEvent.professorTransport.id) {
+            this.numberOfConflicts++;
+            event.conflict = true;
+            const conflict: ConflictType = {
+              event,
+              nextEvent,
+              message: 'Professor Conflict: ' + event.professorTransport.name,
+            };
+            schedule.conflicts.push(conflict);
+            break;
           }
         }
-      });
-    });
-
+      }
+    }
     return 1 / (this.numberOfConflicts + 1);
   }
 
