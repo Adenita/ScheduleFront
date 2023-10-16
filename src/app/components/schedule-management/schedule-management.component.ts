@@ -104,7 +104,6 @@ export class ScheduleManagementComponent implements OnInit {
   openGenerateScheduleModal() {
     const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
     modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
-    // modalRef.componentInstance.generation = this.generation;
     modalRef.componentInstance.schedules$ = this.schedules$;
     this.generateBestSchedule();
   }
@@ -116,8 +115,6 @@ export class ScheduleManagementComponent implements OnInit {
       population = this.geneticAlgorithmService.evolve(population, this.departmentTransport.timeslots);
       this.populationService.sortByFitness(population);
       this.bestScheduleEvents$.next(population.schedules[0].events);
-      console.log('GENERATION: ', this.generation);
-      console.log('Schedule fitness: ', population.schedules[0].fitness, ' Schedule Conflicts: ', population.schedules[0].conflicts);
       if (population.schedules[0].fitness === 1) {
         clearInterval(intervalId);
       }
