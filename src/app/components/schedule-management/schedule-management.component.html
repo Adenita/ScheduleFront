@@ -1,26 +1,40 @@
-<div class="container mt-5">
-  <div class="row justify-content-end align-items-center mb-1">
-    <div class="col">
-      <h3 class="mb-0" *ngIf="scheduleForProgram.events">{{currentProgramName}}</h3>
-    </div>
-    <div class="col-auto">
-      <button class="btn btn-dark" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
-    </div>
-  </div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-10">
+          <div class="container mt-5">
+            <div class="mb-2">
+              <h3  *ngIf="scheduleForProgram">{{currentProgramName}}</h3>
+            </div>
+            <ng-container *ngIf="scheduleForProgram">
+              <app-schedule [bestProgramSchedule]="scheduleForProgram" ></app-schedule>
+            </ng-container>
 
-  <ng-container *ngIf="scheduleForProgram.events">
-    <app-schedule [bestProgramSchedule]="scheduleForProgram" ></app-schedule>
-  </ng-container>
+            <div class="mt-4">
+              <h3>Programs</h3>
+              <div>
+                <button *ngFor="let program of departmentTransport.programTransports"
+                        class="btn btn-outline-dark me-2 mb-2"
+                        (click)="loadProgramSchedule(program)">
+                  {{program.name}}
+                </button>
+              </div>
+            </div>
+          </div>
+    </div>
 
-  <div class="mt-4">
-    <h3>Programs</h3>
-    <div>
-      <button *ngFor="let program of departmentTransport.programTransports"
-              class="btn btn-outline-dark me-2 mb-2"
-              (click)="loadProgramSchedule(program)">
-<!--              [ngClass]="{'btn-primary': program.clicked, 'btn-secondary': !program.clicked}"> -->
-        {{program.name}}
-      </button>
+    <div class="col-md-2">
+      <div class="mt-3 border-bottom border-1">
+        <div class="border-bottom border-black mb-3">
+          <h3>Available Schedules</h3>
+        </div>
+
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">{{schedule}} </li>
+          <div class="mt-3 mb-2">
+            <button class="btn btn-dark" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

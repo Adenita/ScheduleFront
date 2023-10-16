@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Schedule, ScheduleTransport } from '../../shared/models/schedule';
+import { Schedule, ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
 import { GeneticAlgorithmService } from '../../core/genetic-algorithm/genetic-algorithm.service';
 import { Population } from '../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -21,7 +21,7 @@ import { ScheduleGenerationModalComponent } from '../schedule-generation-modal/s
 export class ScheduleManagementComponent implements OnInit {
   departmentId: number = 1;
   currentBestSchedule!: ScheduleTransport;
-  departmentTransport!: DepartmentDetailTransport;
+  departmentTransport: DepartmentDetailTransport;
 
   scheduleForProgram!: ScheduleTransport;
   currentProgramName: string = '';
@@ -30,6 +30,7 @@ export class ScheduleManagementComponent implements OnInit {
   populationSize: number = 200;
   generation: number = 1;
   bestScheduleEvents$: BehaviorSubject<EventTransport[]>;
+  schedules$: BehaviorSubject<ScheduleTransport[]>;
 
   constructor(
     private modalService: NgbModal,
@@ -39,19 +40,33 @@ export class ScheduleManagementComponent implements OnInit {
     private geneticAlgorithmService: GeneticAlgorithmService,
     private scheduleDataService: ScheduleDataService,
   ) {
+    this.departmentTransport = {} as DepartmentDetailTransport;
     this.programScheduleMap = new Map<number, ScheduleTransport>();
     this.bestScheduleEvents$ = new BehaviorSubject<EventTransport[]>([]);
+    this.schedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
   }
 
   ngOnInit() {
     this.getDepartmentData()
       .then((departmentData) => (this.departmentTransport = departmentData))
-      .then(() => this.getCurrentSchedule())
-      .then((schedule) => {
-        this.currentBestSchedule = schedule;
-        this.setSchedulePerProgramMap(schedule, this.departmentTransport.programTransports);
+      .then(() => this.getSchedules());
+  }
+
+  async getDepartmentData() {
+    return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
+  }
+
+  getSchedules(): void {
+    this.scheduleDataService.getAll().subscribe({
+      next: (scheduleListTransport: ScheduleListTransport) => {
+        const schedules = scheduleListTransport.scheduleTransports;
+        this.schedules$.next(schedules);
+        this.currentBestSchedule = schedules[schedules.length - 1];
+        this.setSchedulePerProgramMap(this.currentBestSchedule, this.departmentTransport.programTransports);
         this.setCurrentProgramSchedule();
-      });
+      },
+      error: (err) => console.error('Error fetching professors', err),
+    });
   }
 
   setCurrentProgramSchedule() {
@@ -72,27 +87,26 @@ export class ScheduleManagementComponent implements OnInit {
     });
   }
 
-  async getDepartmentData() {
-    return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
-  }
-
-  async getCurrentSchedule() {
-    return await firstValueFrom(this.scheduleDataService.get(1));
-  }
-
-  openGenerateScheduleModal() {
-    const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
-    modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
-    modalRef.componentInstance.generation = this.generation;
-    this.generateBestSchedule();
-  }
-
   loadProgramSchedule(program: ProgramTransport) {
     this.currentProgramName = program.name;
     const schedule = this.programScheduleMap.get(program.id);
     if (schedule) {
       this.scheduleForProgram = schedule;
     }
+  }
+
+  selectSchedule(schedule: ScheduleTransport) {
+    this.currentBestSchedule = schedule;
+    this.setSchedulePerProgramMap(schedule, this.departmentTransport.programTransports);
+    this.setCurrentProgramSchedule();
+  }
+
+  openGenerateScheduleModal() {
+    const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
+    modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
+    // modalRef.componentInstance.generation = this.generation;
+    modalRef.componentInstance.schedules$ = this.schedules$;
+    this.generateBestSchedule();
   }
 
   generateBestSchedule() {
@@ -102,7 +116,8 @@ export class ScheduleManagementComponent implements OnInit {
       population = this.geneticAlgorithmService.evolve(population, this.departmentTransport.timeslots);
       this.populationService.sortByFitness(population);
       this.bestScheduleEvents$.next(population.schedules[0].events);
-
+      console.log('GENERATION: ', this.generation);
+      console.log('Schedule fitness: ', population.schedules[0].fitness, ' Schedule Conflicts: ', population.schedules[0].conflicts);
       if (population.schedules[0].fitness === 1) {
         clearInterval(intervalId);
       }
