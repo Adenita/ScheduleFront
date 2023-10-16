@@ -85,15 +85,7 @@ export class ScheduleService {
             const conflict: ConflictType = {
               event,
               nextEvent,
-              message:
-                'Classroom Conflict: ' +
-                event.classroom.name +
-                ' Day: ' +
-                event.timeslot.day +
-                ' Start: ' +
-                event.timeslot.startHour +
-                ':' +
-                event.timeslot.startMinute,
+              message: 'Classroom Conflict: ' + event.classroom.name,
             };
             schedule.conflicts.push(conflict);
             break;
@@ -108,6 +100,35 @@ export class ScheduleService {
             };
             schedule.conflicts.push(conflict);
             break;
+          }
+          if (event.studentGroupTransport.id === nextEvent.studentGroupTransport.id) {
+            this.numberOfConflicts++;
+            event.conflict = true;
+            const conflict: ConflictType = {
+              event,
+              nextEvent,
+              message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
+            };
+            schedule.conflicts.push(conflict);
+            break;
+          }
+          if (event.studentGroupTransport.semester === nextEvent.studentGroupTransport.semester) {
+            if (
+              (event.studentGroupTransport.groupType === GroupType.LECTURE &&
+                nextEvent.studentGroupTransport.groupType === GroupType.EXERCISE) ||
+              (event.studentGroupTransport.groupType === GroupType.EXERCISE &&
+                nextEvent.studentGroupTransport.groupType === GroupType.LECTURE)
+            ) {
+              this.numberOfConflicts++;
+              event.conflict = true;
+              const conflict: ConflictType = {
+                event,
+                nextEvent,
+                message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
+              };
+              schedule.conflicts.push(conflict);
+              break;
+            }
           }
         }
       }
