@@ -3,6 +3,7 @@ export interface StudentGroupTransport {
   name: string;
   numberOfStudents: number;
   groupType: GroupType;
+  semester: number;
 }
 
 export enum GroupType {
