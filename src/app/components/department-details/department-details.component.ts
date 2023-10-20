@@ -7,6 +7,7 @@ import { ProfessorTransport } from '../../shared/models/professor';
 import { Classroom } from '../../shared/models/classroom';
 import { ProgramTransport, ProgramDetailsTransport } from '../../shared/models/program';
 import { RouteParametersService } from '../../core/services/route-parameters.service';
+import { SubjectTransport } from '../../shared/models/subject';
 
 @Component({
   selector: 'app-department-details',
@@ -20,6 +21,7 @@ export class DepartmentDetailsComponent implements OnInit {
   previewPrograms: BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>;
   previewProfessors: BehaviorSubject<ProfessorTransport[]>;
   previewClassrooms: BehaviorSubject<Classroom[]>;
+  previewSubjects: BehaviorSubject<SubjectTransport[]>;
   currentRoute: string = '';
 
   constructor(
@@ -30,6 +32,7 @@ export class DepartmentDetailsComponent implements OnInit {
     this.previewPrograms = new BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>([]);
     this.previewProfessors = new BehaviorSubject<ProfessorTransport[]>([]);
     this.previewClassrooms = new BehaviorSubject<Classroom[]>([]);
+    this.previewSubjects = new BehaviorSubject<SubjectTransport[]>([]);
   }
 
   ngOnInit(): void {
@@ -47,6 +50,7 @@ export class DepartmentDetailsComponent implements OnInit {
         this.previewPrograms.next(department.programTransports.slice(0, this.numberToPreview));
         this.previewProfessors.next(department.professorTransports.slice(0, this.numberToPreview));
         this.previewClassrooms.next(department.classrooms.slice(0, this.numberToPreview));
+        this.previewSubjects.next(department.subjectTransports.slice(0, this.numberToPreview));
       },
     });
   }
