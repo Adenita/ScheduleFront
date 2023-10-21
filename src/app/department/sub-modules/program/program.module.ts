@@ -9,5 +9,6 @@ import { ProgramRoutingModule } from './program-routing.module';
 @NgModule({
   declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent],
   imports: [CommonModule, ReactiveFormsModule, ProgramRoutingModule],
+  exports: [ProgramListComponent],
 })
 export class ProgramModule {}
