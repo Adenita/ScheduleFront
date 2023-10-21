@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProgramService } from '../../core/http/program.service';
-import { DepartmentService } from '../../core/http/department.service';
+import { ProgramService } from '../../../../../core/http/program.service';
+import { DepartmentService } from '../../../../../core/http/department.service';
 import { ActivatedRoute } from '@angular/router';
-import { RouteParametersService } from '../../core/services/route-parameters.service';
+import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { BehaviorSubject } from 'rxjs';
-import { ProgramTransport, ProgramListTransport } from '../../shared/models/program';
+import { ProgramTransport, ProgramListTransport } from '../../../../../shared/models/program';
 
 @Component({
   selector: 'app-program-management',
