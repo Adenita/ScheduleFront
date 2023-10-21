@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { SubjectDetailsTransport } from '../../shared/models/subject';
-import { StudentGroupTransport } from '../../shared/models/student-group';
+import { SubjectDetailsTransport } from '../../../../../shared/models/subject';
+import { StudentGroupTransport } from '../../../../../shared/models/student-group';
 import { ActivatedRoute } from '@angular/router';
-import { RouteParametersService } from '../../core/services/route-parameters.service';
-import { ProfessorTransport } from '../../shared/models/professor';
-import { SubjectService } from '../../core/http/subjects.service';
+import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
+import { ProfessorTransport } from '../../../../../shared/models/professor';
+import { SubjectService } from '../../../../../core/http/subjects.service';
 
 @Component({
   selector: 'app-subject-details',

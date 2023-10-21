@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SubjectListComponent } from './components/subject-list/subject-list.component';
+import { SubjectManagementComponent } from './pages/subject-management/subject-management.component';
+import { SubjectDetailsComponent } from './pages/subject-details/subject-details.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  declarations: [SubjectListComponent, SubjectManagementComponent, SubjectDetailsComponent],
+  imports: [CommonModule, ReactiveFormsModule],
+  exports: [SubjectListComponent],
 })
 export class SubjectModule {}
