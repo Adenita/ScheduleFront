@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfessorListTransport, ProfessorTransport, Role } from '../../shared/models/professor';
-import { ProfessorService } from '../../core/http/professor.service';
+import { ProfessorListTransport, ProfessorTransport, Role } from '../../../../../shared/models/professor';
+import { ProfessorService } from '../../../../../core/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { RouteParametersService } from '../../core/services/route-parameters.service';
+import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 
 @Component({
   selector: 'app-professors-management',

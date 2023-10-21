@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ProfessorTransport } from '../../shared/models/professor';
+import { ProfessorTransport } from '../../../../../shared/models/professor';
 
 @Component({
   selector: 'app-professor-list',

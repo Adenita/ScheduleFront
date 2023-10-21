@@ -5,10 +5,11 @@ import { DepartmentDetailsComponent } from './pages/department-details/departmen
 import { ReactiveFormsModule } from '@angular/forms';
 import { DepartmentRoutingModule } from './department-routing.module';
 import { ProgramModule } from './sub-modules/program/program.module';
+import { ProfessorModule } from './sub-modules/professor/professor.module';
 
 @NgModule({
   declarations: [DepartmentsListComponent, DepartmentDetailsComponent],
-  imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule, ProgramModule],
+  imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule, ProgramModule, ProfessorModule],
   exports: [DepartmentsListComponent, DepartmentDetailsComponent],
 })
 export class DepartmentModule {}
