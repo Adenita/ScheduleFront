@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { StudentGroupTransport } from '../../shared/models/student-group';
+import { StudentGroupTransport } from '../../../../../shared/models/student-group';
 
 @Component({
   selector: 'app-student-group-list',

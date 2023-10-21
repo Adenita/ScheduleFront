@@ -7,10 +7,11 @@ import { DepartmentRoutingModule } from './department-routing.module';
 import { ProgramModule } from './sub-modules/program/program.module';
 import { ProfessorModule } from './sub-modules/professor/professor.module';
 import { SubjectModule } from './sub-modules/subject/subject.module';
+import { StudentGroupModule } from './sub-modules/student-group/student-group.module';
 
 @NgModule({
   declarations: [DepartmentsListComponent, DepartmentDetailsComponent],
-  imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule, ProgramModule, ProfessorModule, SubjectModule],
+  imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule, ProgramModule, ProfessorModule, SubjectModule, StudentGroupModule],
   exports: [DepartmentsListComponent, DepartmentDetailsComponent],
 })
 export class DepartmentModule {}
