@@ -7,11 +7,8 @@ import { ClassroomManagementComponent } from './components/classroom-management/
 import { RouterModule, Routes } from '@angular/router';
 import { ProfessorManagementComponent } from './components/professor-management/professor-management.component';
 import { SubjectManagementComponent } from './components/subject-management/subject-management.component';
-import { ProgramManagementComponent } from './components/program-management/program-management.component';
 import { StudentGroupManagementComponent } from './components/student-group-management/student-group-management.component';
-import { ProgramDetailsComponent } from './components/program-details/program-details.component';
 import { ScheduleManagementComponent } from './components/schedule-management/schedule-management.component';
-import { ProgramListComponent } from './components/program-list/program-list.component';
 import { ProfessorListComponent } from './components/professor-list/professor-list.component';
 import { ClassroomListComponent } from './components/classroom-list/classroom-list.component';
 import { SubjectListComponent } from './components/subject-list/subject-list.component';
@@ -36,8 +33,6 @@ const routes: Routes = [
     path: 'departments/:id/professors/:ppid',
     component: ProfessorDetailsComponent,
   },
-  { path: 'departments/:id/programs', component: ProgramManagementComponent },
-  { path: 'departments/:id/programs/:pid', component: ProgramDetailsComponent },
   {
     path: 'departments/:id/programs/:pid/subjects',
     component: SubjectManagementComponent,
@@ -63,11 +58,8 @@ const routes: Routes = [
     ClassroomManagementComponent,
     ProfessorManagementComponent,
     SubjectManagementComponent,
-    ProgramManagementComponent,
     StudentGroupManagementComponent,
-    ProgramDetailsComponent,
     ScheduleManagementComponent,
-    ProgramListComponent,
     ProfessorListComponent,
     ClassroomListComponent,
     SubjectListComponent,
@@ -82,12 +74,6 @@ const routes: Routes = [
   imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, RouterModule.forRoot(routes)],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [
-    RouterModule,
-    ProgramListComponent,
-    ProfessorListComponent,
-    SubjectListComponent,
-    ClassroomListComponent,
-  ],
+  exports: [RouterModule, ProfessorListComponent, SubjectListComponent, ClassroomListComponent],
 })
 export class AppModule {}

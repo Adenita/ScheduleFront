@@ -4,9 +4,10 @@ import { ProgramListComponent } from './components/program-list/program-list.com
 import { ProgramDetailsComponent } from './pages/program-details/program-details.component';
 import { ProgramManagementComponent } from './pages/program-management/program-management.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProgramRoutingModule } from './program-routing.module';
 
 @NgModule({
   declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ProgramRoutingModule],
 })
 export class ProgramModule {}
