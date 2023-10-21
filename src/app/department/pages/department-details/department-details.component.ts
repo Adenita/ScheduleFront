@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DepartmentService } from '../../core/http/department.service';
+import { DepartmentService } from '../../../core/http/department.service';
 import { BehaviorSubject } from 'rxjs';
-import { DepartmentTransport } from '../../shared/models/department';
-import { ProfessorTransport } from '../../shared/models/professor';
-import { Classroom } from '../../shared/models/classroom';
-import { ProgramTransport, ProgramDetailsTransport } from '../../shared/models/program';
-import { RouteParametersService } from '../../core/services/route-parameters.service';
-import { SubjectTransport } from '../../shared/models/subject';
+import { DepartmentTransport } from '../../../shared/models/department';
+import { ProfessorTransport } from '../../../shared/models/professor';
+import { Classroom } from '../../../shared/models/classroom';
+import { ProgramTransport, ProgramDetailsTransport } from '../../../shared/models/program';
+import { RouteParametersService } from '../../../core/services/route-parameters.service';
+import { SubjectTransport } from '../../../shared/models/subject';
 
 @Component({
   selector: 'app-department-details',
