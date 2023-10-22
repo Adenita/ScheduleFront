@@ -11,7 +11,7 @@ import { ProgramTransport } from '../../shared/models/program';
 import { ScheduleDataService } from '../../core/http/schedule-data.service';
 import { EventTransport } from '../../shared/models/event';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ScheduleGenerationModalComponent } from '../schedule-generation-modal/schedule-generation-modal.component';
+import { ScheduleGenerationModalComponent } from '../../schedule/components/schedule-generation-modal/schedule-generation-modal.component';
 
 @Component({
   selector: 'app-schedule-management',
@@ -23,9 +23,9 @@ export class ScheduleManagementComponent implements OnInit {
   currentBestSchedule!: ScheduleTransport;
   departmentTransport: DepartmentDetailTransport;
 
-  scheduleForProgram!: ScheduleTransport;
   currentProgramName: string = '';
   programScheduleMap: Map<number, ScheduleTransport>;
+  programSchedule$: BehaviorSubject<ScheduleTransport>;
 
   populationSize: number = 200;
   generation: number = 1;
@@ -44,6 +44,7 @@ export class ScheduleManagementComponent implements OnInit {
     this.programScheduleMap = new Map<number, ScheduleTransport>();
     this.bestScheduleEvents$ = new BehaviorSubject<EventTransport[]>([]);
     this.schedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
+    this.programSchedule$ = new BehaviorSubject<ScheduleTransport>({} as ScheduleTransport);
   }
 
   ngOnInit() {
@@ -63,19 +64,18 @@ export class ScheduleManagementComponent implements OnInit {
         this.schedules$.next(schedules);
         this.currentBestSchedule = schedules[schedules.length - 1];
         this.setSchedulePerProgramMap(this.currentBestSchedule, this.departmentTransport.programTransports);
-        this.setCurrentProgramSchedule();
+        this.currentProgramName = this.departmentTransport.programTransports[0].name;
+        this.setCurrentProgramSchedule(1);
       },
       error: (err) => console.error('Error fetching professors', err),
     });
   }
 
-  setCurrentProgramSchedule() {
-    const sch = this.programScheduleMap.get(1);
-    if (sch) {
-      this.currentProgramName = this.departmentTransport.programTransports[0].name;
-      this.scheduleForProgram = sch;
-    }
+  setCurrentProgramName() {
+    const program = this.departmentTransport.programTransports.filter((programTransport) => (programTransport.id = 1))[0];
+    this.currentProgramName = program.name;
   }
+
   setSchedulePerProgramMap(schedule: ScheduleTransport, programs: ProgramTransport[]) {
     programs.forEach((program) => {
       const programSchedule = new Schedule();
@@ -89,16 +89,19 @@ export class ScheduleManagementComponent implements OnInit {
 
   loadProgramSchedule(program: ProgramTransport) {
     this.currentProgramName = program.name;
-    const schedule = this.programScheduleMap.get(program.id);
-    if (schedule) {
-      this.scheduleForProgram = schedule;
-    }
+    this.setCurrentProgramSchedule(program.id);
   }
 
+  setCurrentProgramSchedule(programId: number) {
+    const schedule = this.programScheduleMap.get(programId);
+    if (schedule) {
+      this.programSchedule$.next(schedule);
+    }
+  }
   selectSchedule(schedule: ScheduleTransport) {
     this.currentBestSchedule = schedule;
     this.setSchedulePerProgramMap(schedule, this.departmentTransport.programTransports);
-    this.setCurrentProgramSchedule();
+    this.setCurrentProgramSchedule(1);
   }
 
   openGenerateScheduleModal() {

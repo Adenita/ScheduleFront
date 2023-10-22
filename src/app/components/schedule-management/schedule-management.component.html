@@ -1,13 +1,12 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-10">
-          <div class="container mt-5">
+          <div  *ngIf="departmentTransport.programTransports" class="container mt-5">
             <div class="mb-2">
-              <h3  *ngIf="scheduleForProgram">{{currentProgramName}}</h3>
+              <h3 class="fw-semibold">{{currentProgramName}}</h3>
             </div>
-            <ng-container *ngIf="scheduleForProgram">
-              <app-schedule [bestProgramSchedule]="scheduleForProgram" ></app-schedule>
-            </ng-container>
+
+            <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
 
             <div class="mt-4">
               <h3>Programs</h3>
