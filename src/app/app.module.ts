@@ -4,28 +4,19 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { ScheduleManagementComponent } from './components/schedule-management/schedule-management.component';
-import { ScheduleComponent } from './components/schedule/schedule.component';
-import { ScheduleGenerationModalComponent } from './components/schedule-generation-modal/schedule-generation-modal.component';
+import { ScheduleManagementComponent } from './schedule/pages/schedule-management/schedule-management.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ScheduleProgramComponent } from './components/schedule-program/schedule-program.component';
 import { DepartmentModule } from './department/department.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'schedules', component: ScheduleComponent },
+  { path: 'schedules', component: ScheduleManagementComponent },
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ScheduleManagementComponent,
-    ScheduleComponent,
-    ScheduleGenerationModalComponent,
-    HomeComponent,
-    ScheduleProgramComponent,
-  ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), DepartmentModule],
+  declarations: [AppComponent, HomeComponent],
+  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), DepartmentModule, ScheduleModule],
   providers: [],
   bootstrap: [AppComponent],
   exports: [RouterModule],

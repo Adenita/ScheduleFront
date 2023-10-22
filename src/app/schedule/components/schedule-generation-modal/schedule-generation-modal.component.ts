@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { EventTransport } from '../../shared/models/event';
+import { EventTransport } from '../../../shared/models/event';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ScheduleTransport } from '../../shared/models/schedule';
-import { ScheduleDataService } from '../../core/http/schedule-data.service';
+import { ScheduleTransport } from '../../../shared/models/schedule';
+import { ScheduleDataService } from '../../../core/http/schedule-data.service';
 
 @Component({
   selector: 'app-generate-schedule-modal',
@@ -13,6 +13,9 @@ import { ScheduleDataService } from '../../core/http/schedule-data.service';
 export class ScheduleGenerationModalComponent {
   @Input()
   bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
+
+  @Input()
+  schedules$!: BehaviorSubject<ScheduleTransport[]>;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -28,7 +31,8 @@ export class ScheduleGenerationModalComponent {
       fitness: 1,
     } as ScheduleTransport;
     this.scheduleDataService.post(scheduleTransport).subscribe({
-      next: () => {
+      next: (scheduleTransport: ScheduleTransport) => {
+        this.schedules$.next([...this.schedules$.getValue(), scheduleTransport]);
         this.closeModal();
       },
     });

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Schedule, ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
-import { GeneticAlgorithmService } from '../../core/genetic-algorithm/genetic-algorithm.service';
-import { Population } from '../../shared/models/population';
+import { Schedule, ScheduleListTransport, ScheduleTransport } from '../../../shared/models/schedule';
+import { GeneticAlgorithmService } from '../../../core/genetic-algorithm/genetic-algorithm.service';
+import { Population } from '../../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { PopulationService } from '../../core/genetic-algorithm/population.service';
-import { DepartmentService } from '../../core/http/department.service';
-import { DepartmentDetailTransport } from '../../shared/models/department';
-import { ScheduleService } from '../../core/genetic-algorithm/schedule.service';
-import { ProgramTransport } from '../../shared/models/program';
-import { ScheduleDataService } from '../../core/http/schedule-data.service';
-import { EventTransport } from '../../shared/models/event';
+import { PopulationService } from '../../../core/genetic-algorithm/population.service';
+import { DepartmentService } from '../../../core/http/department.service';
+import { DepartmentDetailTransport } from '../../../shared/models/department';
+import { ScheduleService } from '../../../core/genetic-algorithm/schedule.service';
+import { ProgramTransport } from '../../../shared/models/program';
+import { ScheduleDataService } from '../../../core/http/schedule-data.service';
+import { EventTransport } from '../../../shared/models/event';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ScheduleGenerationModalComponent } from '../../schedule/components/schedule-generation-modal/schedule-generation-modal.component';
+import { ScheduleGenerationModalComponent } from '../../components/schedule-generation-modal/schedule-generation-modal.component';
 
 @Component({
   selector: 'app-schedule-management',
