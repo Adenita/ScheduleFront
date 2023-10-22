@@ -109,5 +109,8 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
     this.showForm = false;
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
 }
