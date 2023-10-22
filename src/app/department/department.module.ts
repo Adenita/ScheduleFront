@@ -9,6 +9,7 @@ import { ProfessorModule } from './sub-modules/professor/professor.module';
 import { SubjectModule } from './sub-modules/subject/subject.module';
 import { StudentGroupModule } from './sub-modules/student-group/student-group.module';
 import { ClassroomModule } from './sub-modules/classroom/classroom.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [DepartmentsListComponent, DepartmentDetailsComponent],
@@ -21,6 +22,7 @@ import { ClassroomModule } from './sub-modules/classroom/classroom.module';
     SubjectModule,
     StudentGroupModule,
     ClassroomModule,
+    SharedModule,
   ],
   exports: [DepartmentsListComponent, DepartmentDetailsComponent],
 })
