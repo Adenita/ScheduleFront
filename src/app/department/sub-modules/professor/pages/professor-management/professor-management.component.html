@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col-12">
-      <app-professor-list [professors$]="professors$" [route]="route"></app-professor-list>
+      <app-professor-list [professors$]="professors$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteProfessor($event)"></app-professor-list>
     </div>
   </div>
 </div>
@@ -27,8 +27,12 @@
         <option *ngFor="let role of professorRoles" [value]="role">{{ role }}</option>
       </select>
     </div>
-    <button class= "btn btn-primary" (click)="postProfessor()">Add Professor
-    </button>
+    <div *ngIf="isEditMode; else postingProfessor">
+      <button class="btn btn-primary" (click)="updateProfessor(professorToBeEditedId)">Edit Professor</button>
+    </div>
+    <ng-template #postingProfessor>
+      <button class="btn btn-primary" (click)="postProfessor()">Add Professor</button>
+    </ng-template>
   </form>
 </div>
 
