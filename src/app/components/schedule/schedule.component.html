@@ -2,16 +2,15 @@
   <table class="table table-bordered table-striped table-hover">
     <thead class="thead-dark-red">
     <tr>
-      <!--      Make some sort of distinction by rows for semesters-->
       <th>Subject</th>
       <th>M/O</th>
       <th>Hours</th>
-      <th>ECTS</th>
+      <th>Ects</th>
       <th>L/E</th>
       <th>Professor</th>
       <th>Day</th>
-      <th>Hour</th>
-      <th>Classroom</th>
+      <th>Timeslot </th>
+      <th>Class</th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +21,7 @@
       <td>{{event.subjectTransport.etcs}}</td>
       <td>{{ event.studentGroupTransport.groupType}}</td>
       <td>{{ event.professorTransport.name}}</td>
-      <td>{{ event.timeslot.day}}</td>
+      <td>{{ event.timeslot.day.slice(0,3)}}</td>
       <td>{{event.timeslot.startHour + ":" + event.timeslot.startMinute + "-" + event.timeslot.endHour + ":" + event.timeslot.endMinute}}</td>
       <td>{{ event.classroom.name}}</td>
     </tr>

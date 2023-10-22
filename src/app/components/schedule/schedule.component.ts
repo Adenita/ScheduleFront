@@ -8,7 +8,7 @@ import { ScheduleTransport } from '../../shared/models/schedule';
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css'],
 })
-export class Schedule {
+export class ScheduleComponent {
   @Input()
   bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
 

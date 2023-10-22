@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Schedule } from './schedule.component';
+import { ScheduleComponent } from './schedule.component';
 
 describe('ScheduleEventsComponent', () => {
-  let component: Schedule;
-  let fixture: ComponentFixture<Schedule>;
+  let component: ScheduleComponent;
+  let fixture: ComponentFixture<ScheduleComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Schedule],
+      declarations: [ScheduleComponent],
     });
-    fixture = TestBed.createComponent(Schedule);
+    fixture = TestBed.createComponent(ScheduleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
