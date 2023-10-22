@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DepartmentService } from '../../../core/http/department.service';
+import { DepartmentService } from '../../../core/services/http/department.service';
 import { BehaviorSubject } from 'rxjs';
 import { DepartmentTransport } from '../../../shared/models/department';
 import { ProfessorTransport } from '../../../shared/models/professor';

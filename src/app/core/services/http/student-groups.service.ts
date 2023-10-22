@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { StudentGroupTransport, StudentGroupListTransport } from '../../shared/models/student-group';
+import { DataService } from '../data.service';
+import { StudentGroupTransport, StudentGroupListTransport } from '../../../shared/models/student-group';
 
 @Injectable({
   providedIn: 'root',

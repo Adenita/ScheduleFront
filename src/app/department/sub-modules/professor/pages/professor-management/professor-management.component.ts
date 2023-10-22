@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfessorListTransport, ProfessorTransport, Role } from '../../../../../shared/models/professor';
-import { ProfessorService } from '../../../../../core/http/professor.service';
+import { ProfessorService } from '../../../../../core/services/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';

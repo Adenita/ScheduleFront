@@ -5,7 +5,7 @@ import { StudentGroupTransport } from '../../../../../shared/models/student-grou
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { ProfessorTransport } from '../../../../../shared/models/professor';
-import { SubjectService } from '../../../../../core/http/subjects.service';
+import { SubjectService } from '../../../../../core/services/http/subjects.service';
 
 @Component({
   selector: 'app-subject-details',

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProgramDetailsTransport } from '../../../../../shared/models/program';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { SubjectTransport, SubjectDetailsTransport } from '../../../../../shared/models/subject';
-import { ProgramService } from '../../../../../core/http/program.service';
+import { ProgramService } from '../../../../../core/services/http/program.service';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { StudentGroupTransport } from '../../../../../shared/models/student-group';
 

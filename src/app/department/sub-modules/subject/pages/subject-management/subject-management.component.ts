@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LabRequirement, SubjectDetailsTransport, SubjectListTransport, SubjectTransport } from '../../../../../shared/models/subject';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SubjectService } from '../../../../../core/http/subjects.service';
-import { ProgramService } from '../../../../../core/http/program.service';
+import { SubjectService } from '../../../../../core/services/http/subjects.service';
+import { ProgramService } from '../../../../../core/services/http/program.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { ActivatedRoute } from '@angular/router';

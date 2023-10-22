@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProgramService } from '../../../../../core/http/program.service';
-import { DepartmentService } from '../../../../../core/http/department.service';
+import { ProgramService } from '../../../../../core/services/http/program.service';
+import { DepartmentService } from '../../../../../core/services/http/department.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { BehaviorSubject } from 'rxjs';

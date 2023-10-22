@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { EventTransport } from '../../../shared/models/event';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleTransport } from '../../../shared/models/schedule';
-import { ScheduleDataService } from '../../../core/http/schedule-data.service';
+import { ScheduleDataService } from '../../../core/services/http/schedule-data.service';
 
 @Component({
   selector: 'app-generate-schedule-modal',

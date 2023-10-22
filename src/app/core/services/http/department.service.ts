@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { DepartmentDetailTransport, DepartmentListTransport, DepartmentTransport } from '../../shared/models/department';
+import { DataService } from '../data.service';
+import { DepartmentDetailTransport, DepartmentListTransport, DepartmentTransport } from '../../../shared/models/department';
 import { Observable } from 'rxjs';
-import { ProgramListTransport } from '../../shared/models/program';
+import { ProgramListTransport } from '../../../shared/models/program';
 
 @Injectable({
   providedIn: 'root',

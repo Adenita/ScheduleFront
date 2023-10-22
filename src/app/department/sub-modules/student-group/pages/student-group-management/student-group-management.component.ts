@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProgramService } from '../../../../../core/http/program.service';
+import { ProgramService } from '../../../../../core/services/http/program.service';
 import { GroupType, StudentGroupListTransport, StudentGroupTransport } from '../../../../../shared/models/student-group';
-import { StudentGroupsService } from '../../../../../core/http/student-groups.service';
+import { StudentGroupsService } from '../../../../../core/services/http/student-groups.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';

@@ -4,7 +4,7 @@ import { SubjectDetailsTransport, SubjectTransport } from '../../../../../shared
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { ProfessorDetailsTransport } from '../../../../../shared/models/professor';
-import { ProfessorService } from '../../../../../core/http/professor.service';
+import { ProfessorService } from '../../../../../core/services/http/professor.service';
 
 @Component({
   selector: 'app-professor-details',

@@ -1,5 +1,5 @@
-import { DataService } from '../services/data.service';
-import { ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
+import { DataService } from '../data.service';
+import { ScheduleListTransport, ScheduleTransport } from '../../../shared/models/schedule';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -11,4 +11,6 @@ export class ScheduleDataService extends DataService<ScheduleTransport, Schedule
     super(httpClient);
     this.apiUrl = 'schedules';
   }
+
+  //cache schedule
 }

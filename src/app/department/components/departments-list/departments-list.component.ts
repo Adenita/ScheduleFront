@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DepartmentListTransport, DepartmentTransport } from '../../../shared/models/department';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DepartmentService } from '../../../core/http/department.service';
+import { DepartmentService } from '../../../core/services/http/department.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -52,10 +52,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: (createdDepartmentTransport: DepartmentTransport) => {
-            const updatedDepartments: DepartmentTransport[] = [
-              ...this.departments$.getValue(),
-              createdDepartmentTransport,
-            ];
+            const updatedDepartments: DepartmentTransport[] = [...this.departments$.getValue(), createdDepartmentTransport];
             this.departments$.next(updatedDepartments);
             this.closeForm();
           },
@@ -71,9 +68,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           const currentDepartments: DepartmentTransport[] = this.departments$.getValue();
-          const updatedDepartments: DepartmentTransport[] = currentDepartments.filter(
-            (department) => department.id !== departmentId,
-          );
+          const updatedDepartments: DepartmentTransport[] = currentDepartments.filter((department) => department.id !== departmentId);
           this.departments$.next(updatedDepartments);
         },
         error: (err) => console.error('Error deleting department:', err),

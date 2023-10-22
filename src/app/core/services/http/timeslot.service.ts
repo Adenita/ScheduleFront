@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { Timeslot, TimeslotsTransport } from '../../shared/models/timeslots';
+import { DataService } from '../data.service';
+import { Timeslot, TimeslotsTransport } from '../../../shared/models/timeslots';
 
 @Injectable({
   providedIn: 'root',

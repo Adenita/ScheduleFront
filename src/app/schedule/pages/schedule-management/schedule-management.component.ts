@@ -4,11 +4,11 @@ import { GeneticAlgorithmService } from '../../services/genetic-algorithm/geneti
 import { Population } from '../../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { PopulationService } from '../../services/genetic-algorithm/population.service';
-import { DepartmentService } from '../../../core/http/department.service';
+import { DepartmentService } from '../../../core/services/http/department.service';
 import { DepartmentDetailTransport } from '../../../shared/models/department';
 import { ScheduleService } from '../../services/genetic-algorithm/schedule.service';
 import { ProgramTransport } from '../../../shared/models/program';
-import { ScheduleDataService } from '../../../core/http/schedule-data.service';
+import { ScheduleDataService } from '../../../core/services/http/schedule-data.service';
 import { EventTransport } from '../../../shared/models/event';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleGenerationModalComponent } from '../../components/schedule-generation-modal/schedule-generation-modal.component';

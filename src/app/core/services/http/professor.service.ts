@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { ProfessorDetailsTransport, ProfessorListTransport, ProfessorTransport } from '../../shared/models/professor';
+import { DataService } from '../data.service';
+import { ProfessorDetailsTransport, ProfessorListTransport, ProfessorTransport } from '../../../shared/models/professor';
 import { Observable } from 'rxjs';
 
 @Injectable({

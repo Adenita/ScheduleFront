@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { SubjectDetailsTransport, SubjectListTransport, SubjectTransport } from '../../shared/models/subject';
+import { DataService } from '../data.service';
+import { SubjectDetailsTransport, SubjectListTransport, SubjectTransport } from '../../../shared/models/subject';
 import { Observable } from 'rxjs';
-import { StudentGroupListTransport } from '../../shared/models/student-group';
-import { ProfessorTransport } from '../../shared/models/professor';
+import { StudentGroupListTransport } from '../../../shared/models/student-group';
+import { ProfessorTransport } from '../../../shared/models/professor';
 
 @Injectable({
   providedIn: 'root',
