@@ -7,13 +7,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { DepartmentModule } from './department/department.module';
 import { ScheduleModule } from './schedule/schedule.module';
-import { SharedModule } from './shared/shared.module';
 
 const routes: Routes = [{ path: '', component: HomeComponent }];
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
-  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), DepartmentModule, ScheduleModule, SharedModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), DepartmentModule, ScheduleModule],
   providers: [],
   bootstrap: [AppComponent],
   exports: [RouterModule],

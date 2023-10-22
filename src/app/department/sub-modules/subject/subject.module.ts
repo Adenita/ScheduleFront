@@ -5,7 +5,7 @@ import { SubjectManagementComponent } from './pages/subject-management/subject-m
 import { SubjectDetailsComponent } from './pages/subject-details/subject-details.component';
 import { SubjectRoutingModule } from './subject-routing.module';
 import { StudentGroupModule } from '../student-group/student-group.module';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [SubjectManagementComponent, SubjectDetailsComponent],

@@ -4,7 +4,7 @@ import { ProfessorDetailsComponent } from './pages/professor-details/professor-d
 import { ProfessorManagementComponent } from './pages/professor-management/professor-management.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfessorRoutingModule } from './professor-routing.module';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [ProfessorDetailsComponent, ProfessorManagementComponent],

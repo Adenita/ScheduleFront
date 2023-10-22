@@ -6,7 +6,7 @@ import { ProgramManagementComponent } from './pages/program-management/program-m
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgramRoutingModule } from './program-routing.module';
 import { StudentGroupModule } from '../student-group/student-group.module';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent],
