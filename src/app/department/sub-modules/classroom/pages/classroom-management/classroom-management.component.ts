@@ -64,7 +64,6 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          console.log('deleting classroom with id: ', classroomId);
           const currentClassrooms: Classroom[] = this.classrooms$.getValue();
           const updatedClassrooms: Classroom[] = currentClassrooms.filter((classroom) => classroom.id !== classroomId);
           this.classrooms$.next(updatedClassrooms);
