@@ -6,6 +6,7 @@ import { StudentGroupsService } from '../../../../../core/services/http/student-
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
+import { update } from 'lodash';
 
 @Component({
   selector: 'app-student-groups-list',
@@ -18,7 +19,9 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   route: string = '';
 
   studentGroupForm: FormGroup;
-  showForm = false;
+  showForm: boolean = false;
+  isEditMode: boolean = false;
+  studentGroupToBeEditedId: number = -1;
 
   studentGroups$: BehaviorSubject<StudentGroupTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
@@ -66,6 +69,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (studentGroupTransport) => {
+          console.log(studentGroupTransport.studentGroupTransportList);
           this.studentGroups$.next(studentGroupTransport.studentGroupTransportList);
         },
         error: (err) => console.error('Error fetching studentGroups', err),
@@ -114,6 +118,49 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  deleteStudentGroup(studentGroupId: number) {
+    this.studentGroupService
+      .delete(studentGroupId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
+          const updatedStudentGroups: StudentGroupTransport[] = currentStudentGroups.filter((studentGroup) => studentGroup.id !== studentGroupId);
+          this.studentGroups$.next(updatedStudentGroups);
+        },
+        error: (err) => console.error('Error deleting studentGroup:', err),
+      });
+  }
+
+  updateStudentGroup(studentGroupId: number) {
+    if (this.studentGroupForm.valid) {
+      this.studentGroupService
+        .update(studentGroupId, this.studentGroupForm.value)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe({
+          next: (updatedStudentGroup: StudentGroupTransport) => {
+            const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
+            const updatedStudentGroups: StudentGroupTransport[] = currentStudentGroups.map((studentGroup) => {
+              if (studentGroup.id === studentGroupId) {
+                return updatedStudentGroup;
+              }
+              return studentGroup;
+            });
+            this.studentGroups$.next(updatedStudentGroups);
+            this.closeForm();
+            this.isEditMode = false;
+          },
+          error: (err) => console.error('Error updating studentGroup:', err),
+        });
+    }
+  }
+
+  openEditForm(studentGroupId: number) {
+    this.isEditMode = true;
+    this.studentGroupToBeEditedId = studentGroupId;
+    this.openForm();
+  }
+
   openForm() {
     this.showForm = true;
   }
@@ -126,4 +173,6 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
+
+  protected readonly update = update;
 }
