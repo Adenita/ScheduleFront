@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Classroom } from '../../../../../shared/models/classroom';
 import { ClassroomService } from '../../../../../core/services/http/classroom.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { ClassroomTransport } from '../../../../../shared/models/classroom';
 
 @Component({
   selector: 'app-classroom-management',
   templateUrl: './classroom-management.component.html',
   styleUrls: ['./classroom-management.component.css'],
 })
-export class ClassroomManagementComponent implements OnInit {
+export class ClassroomManagementComponent implements OnInit, OnDestroy {
   classrooms$: BehaviorSubject<Classroom[]>;
   classroomForm: FormGroup;
-  showForm = false;
+  showForm: boolean = false;
+  isEditMode: boolean = false;
+  classroomToBeEditedId: number = -1;
+  destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private classroomService: ClassroomService,
@@ -54,6 +58,50 @@ export class ClassroomManagementComponent implements OnInit {
     }
   }
 
+  deleteClassroom(classroomId: number) {
+    this.classroomService
+      .delete(classroomId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          console.log('deleting classroom with id: ', classroomId);
+          const currentClassrooms: Classroom[] = this.classrooms$.getValue();
+          const updatedClassrooms: Classroom[] = currentClassrooms.filter((classroom) => classroom.id !== classroomId);
+          this.classrooms$.next(updatedClassrooms);
+        },
+        error: (err) => console.error('Error deleting classroom:', err),
+      });
+  }
+
+  updateClassroom(classroomId: number) {
+    if (this.classroomForm.valid) {
+      this.classroomService
+        .update(classroomId, this.classroomForm.value)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe({
+          next: (updatedClassroom: Classroom) => {
+            const currentClassrooms: Classroom[] = this.classrooms$.getValue();
+            const updatedClassrooms: Classroom[] = currentClassrooms.map((classroom) => {
+              if (classroom.id === classroomId) {
+                return updatedClassroom;
+              }
+              return classroom;
+            });
+            this.classrooms$.next(updatedClassrooms);
+            this.closeForm();
+            this.isEditMode = false;
+          },
+          error: (err) => console.error('Error updating classroom:', err),
+        });
+    }
+  }
+
+  openEditForm(classroomId: number) {
+    this.isEditMode = true;
+    this.classroomToBeEditedId = classroomId;
+    this.openForm();
+  }
+
   openForm() {
     this.showForm = true;
   }
@@ -61,4 +109,6 @@ export class ClassroomManagementComponent implements OnInit {
   closeForm() {
     this.showForm = false;
   }
+
+  ngOnDestroy(): void {}
 }
