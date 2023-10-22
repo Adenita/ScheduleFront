@@ -21,6 +21,8 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   subjectForm: FormGroup;
   showForm: boolean = false;
+  isEditMode: boolean = false;
+  subjectToBeEditedId: number = -1;
 
   subjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
@@ -117,6 +119,49 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
           error: (err) => console.error('Error posting subject:', err),
         });
     }
+  }
+
+  deleteSubject(subjectId: number) {
+    this.subjectService
+      .delete(subjectId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          const currentSubjects: SubjectTransport[] = this.subjects$.getValue();
+          const updatedSubjects: SubjectTransport[] = currentSubjects.filter((subject) => subject.id !== subjectId);
+          this.subjects$.next(updatedSubjects);
+        },
+        error: (err) => console.error('Error deleting subject:', err),
+      });
+  }
+
+  updateSubject(subjectId: number) {
+    if (this.subjectForm.valid) {
+      this.subjectService
+        .update(subjectId, this.subjectForm.value)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe({
+          next: (updatedProgram: SubjectTransport) => {
+            const currentSubjects: SubjectTransport[] = this.subjects$.getValue();
+            const updatedSubjects: SubjectTransport[] = currentSubjects.map((subject) => {
+              if (subject.id === subjectId) {
+                return updatedProgram;
+              }
+              return subject;
+            });
+            this.subjects$.next(updatedSubjects);
+            this.closeForm();
+            this.isEditMode = false;
+          },
+          error: (err) => console.error('Error updating subject:', err),
+        });
+    }
+  }
+
+  openEditForm(subjectId: number) {
+    this.isEditMode = true;
+    this.subjectToBeEditedId = subjectId;
+    this.openForm();
   }
 
   openForm() {

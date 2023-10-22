@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col-12">
-      <app-subject-list [subjects$]="subjects$" [route]="route"></app-subject-list>
+      <app-subject-list [subjects$]="subjects$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteSubject($event)"></app-subject-list>
     </div>
   </div>
 </div>
@@ -35,7 +35,12 @@
       <label class="form-label" for="semester">Semester</label>
       <input class= "form-control" type="number" id="semester" formControlName="semester" placeholder="Semester" >
     </div>
-    <button class="btn btn-primary" (click)="postSubjectToContext()">Add Subject</button>
+    <div *ngIf="isEditMode; else postingSubject">
+      <button class="btn btn-primary" (click)="updateSubject(subjectToBeEditedId)">Edit Subject</button>
+    </div>
+    <ng-template #postingSubject>
+      <button class="btn btn-primary" (click)="postSubjectToContext()">Add Subject</button>
+    </ng-template>
   </form>
 </div>
 
