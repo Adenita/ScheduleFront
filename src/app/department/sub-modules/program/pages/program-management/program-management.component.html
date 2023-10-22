@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col-12">
-      <app-program-list [programs$]="programs$" [route]="route"></app-program-list>
+      <app-program-list [programs$]="programs$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteProgram($event)"></app-program-list>
     </div>
   </div>
 </div>
@@ -21,6 +21,11 @@
       <label class="form-label" for="name">Name</label>
       <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Program Name" >
     </div>
-    <button class= "btn btn-primary" (click)="postProgram()">Add Program</button>
+    <div *ngIf="isEditMode; else postingProgram">
+      <button class="btn btn-primary" (click)="updateProgram(programToBeEditedId)">Edit Program</button>
+    </div>
+    <ng-template #postingProgram>
+      <button class="btn btn-primary" (click)="postProgram()">Add Program</button>
+    </ng-template>
   </form>
 </div>
