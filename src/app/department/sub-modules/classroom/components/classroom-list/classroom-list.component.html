@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Seats</th>
       <th>Lab</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -12,6 +13,10 @@
       <td>{{ classroom.name }}</td>
       <td>{{ classroom.numberOfSeats }}</td>
       <td>{{ classroom.hasComputers }}</td>
+      <td class="d-flex justify-content-center">
+        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(classroom.id)">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(classroom.id)">Delete</button>
+      </td>
     </tr>
     </tbody>
   </table>

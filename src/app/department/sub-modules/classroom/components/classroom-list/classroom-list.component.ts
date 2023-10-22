@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Classroom } from '../../../../../shared/models/classroom';
 
@@ -10,4 +10,18 @@ import { Classroom } from '../../../../../shared/models/classroom';
 export class ClassroomListComponent {
   @Input()
   classrooms$!: BehaviorSubject<Classroom[]>;
+
+  @Output()
+  editEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
+  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  onEditClick(id: number) {
+    this.editEvent.emit(id);
+  }
+
+  onDeleteClick(id: number) {
+    this.deleteEvent.emit(id);
+  }
 }
