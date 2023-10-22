@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Classroom } from '../../shared/models/classroom';
-import { ClassroomService } from '../../core/http/classroom.service';
+import { Classroom } from '../../../../../shared/models/classroom';
+import { ClassroomService } from '../../../../../core/http/classroom.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
