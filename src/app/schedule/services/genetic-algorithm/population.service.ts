@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Schedule } from '../../shared/models/schedule';
+import { Schedule } from '../../../shared/models/schedule';
 import { ScheduleService } from './schedule.service';
-import { Population } from '../../shared/models/population';
-import { DepartmentDetailTransport } from '../../shared/models/department';
+import { Population } from '../../../shared/models/population';
+import { DepartmentDetailTransport } from '../../../shared/models/department';
 
 @Injectable({
   providedIn: 'root',

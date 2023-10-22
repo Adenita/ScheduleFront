@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { EventTransport } from '../../shared/models/event';
-import { ConflictType, Schedule } from '../../shared/models/schedule';
-import { ProgramDetailsTransport } from '../../shared/models/program';
-import { SubjectDetailsTransport } from '../../shared/models/subject';
-import { GroupType, StudentGroupTransport } from '../../shared/models/student-group';
-import { Timeslot } from '../../shared/models/timeslots';
-import { Classroom } from '../../shared/models/classroom';
-import { ProfessorTransport, Role } from '../../shared/models/professor';
-import { DepartmentDetailTransport } from '../../shared/models/department';
+import { EventTransport } from '../../../shared/models/event';
+import { ConflictType, Schedule } from '../../../shared/models/schedule';
+import { ProgramDetailsTransport } from '../../../shared/models/program';
+import { SubjectDetailsTransport } from '../../../shared/models/subject';
+import { GroupType, StudentGroupTransport } from '../../../shared/models/student-group';
+import { Timeslot } from '../../../shared/models/timeslots';
+import { Classroom } from '../../../shared/models/classroom';
+import { ProfessorTransport, Role } from '../../../shared/models/professor';
+import { DepartmentDetailTransport } from '../../../shared/models/department';
 
 @Injectable({
   providedIn: 'root',
@@ -114,10 +114,8 @@ export class ScheduleService {
           }
           if (event.studentGroupTransport.semester === nextEvent.studentGroupTransport.semester) {
             if (
-              (event.studentGroupTransport.groupType === GroupType.LECTURE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.EXERCISE) ||
-              (event.studentGroupTransport.groupType === GroupType.EXERCISE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.LECTURE)
+              (event.studentGroupTransport.groupType === GroupType.LECTURE && nextEvent.studentGroupTransport.groupType === GroupType.EXERCISE) ||
+              (event.studentGroupTransport.groupType === GroupType.EXERCISE && nextEvent.studentGroupTransport.groupType === GroupType.LECTURE)
             ) {
               this.numberOfConflicts++;
               event.conflict = true;

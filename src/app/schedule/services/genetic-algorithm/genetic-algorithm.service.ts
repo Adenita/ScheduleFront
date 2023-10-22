@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Population } from '../../shared/models/population';
-import { Schedule } from '../../shared/models/schedule';
+import { Population } from '../../../shared/models/population';
+import { Schedule } from '../../../shared/models/schedule';
 import { ScheduleService } from './schedule.service';
 import { PopulationService } from './population.service';
-import { Timeslot } from '../../shared/models/timeslots';
+import { Timeslot } from '../../../shared/models/timeslots';
 import _ from 'lodash';
 
 @Injectable({
