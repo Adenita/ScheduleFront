@@ -4,9 +4,10 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ScheduleGenerationModalComponent } from './components/schedule-generation-modal/schedule-generation-modal.component';
 import { ProgramScheduleComponent } from './components/program-schedule/program-schedule.component';
 import { ScheduleManagementComponent } from './pages/schedule-management/schedule-management.component';
+import { ScheduleRoutingModule } from './schedule-routing.module';
 
 @NgModule({
   declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, ScheduleRoutingModule],
 })
 export class ScheduleModule {}
