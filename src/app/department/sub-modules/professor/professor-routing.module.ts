@@ -28,6 +28,14 @@ const routes: Routes = [
     path: 'departments/:id/subjects/:sid/professors/:ppid',
     component: ProfessorDetailsComponent,
   },
+  {
+    path: 'departments/:id/programs/:pid/subjects/:sid/professors',
+    component: ProfessorManagementComponent,
+  },
+  {
+    path: 'departments/:id/programs/:pid//subjects/:sid/professors/:ppid',
+    component: ProfessorDetailsComponent,
+  },
 ];
 
 @NgModule({
