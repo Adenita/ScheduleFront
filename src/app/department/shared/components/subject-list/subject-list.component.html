@@ -6,14 +6,19 @@
       <th>Etcs</th>
       <th>Requires Lab</th>
       <th>Semester</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let subject of subjects$ | async"  [routerLink]="[route ? route + '/' + subject.id : null]">
-      <td>{{ subject.name }}</td>
+    <tr *ngFor="let subject of subjects$ | async">
+      <td [routerLink]="[route ? route + '/' + subject.id : null]">{{ subject.name }}</td>
       <td>{{ subject.etcs }}</td>
       <td>{{ subject.requiresLab }}</td>
       <td>{{ subject.semester }}</td>
+      <td class="d-flex justify-content-center">
+        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(subject.id)">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(subject.id)">Delete</button>
+      </td>
     </tr>
     </tbody>
   </table>
