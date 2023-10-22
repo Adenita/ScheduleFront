@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ProgramTransport, ProgramDetailsTransport } from '../../../../../shared/models/program';
 
@@ -13,4 +13,18 @@ export class ProgramListComponent {
 
   @Input()
   route!: string;
+
+  @Output()
+  editEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
+  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  onEditClick(programId: number) {
+    this.editEvent.emit(programId);
+  }
+
+  onDeleteClick(programId: number) {
+    this.deleteEvent.emit(programId);
+  }
 }
