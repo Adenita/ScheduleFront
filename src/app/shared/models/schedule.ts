@@ -5,6 +5,10 @@ export interface ScheduleTransport {
   fitness: number;
 }
 
+export interface ScheduleListTransport {
+  scheduleTransports: ScheduleTransport[];
+}
+
 export class Schedule {
   private _id: number = 0;
   private _events: EventTransport[] = [];
