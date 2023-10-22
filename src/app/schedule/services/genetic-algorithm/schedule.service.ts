@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EventTransport } from '../../../shared/models/event';
-import { ConflictType, Schedule } from '../../../shared/models/schedule';
+import { EventTransport } from '../../shared/models/event';
+import { ConflictType, Schedule } from '../../shared/models/schedule';
 import { ProgramDetailsTransport } from '../../../shared/models/program';
 import { SubjectDetailsTransport } from '../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../shared/models/student-group';

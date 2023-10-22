@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ScheduleTransport } from '../../../shared/models/schedule';
-import { EventTransport } from '../../../shared/models/event';
+import { ScheduleTransport } from '../../shared/models/schedule';
+import { EventTransport } from '../../shared/models/event';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
