@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ProfessorTransport } from '../../../../shared/models/professor';
 
@@ -13,4 +13,18 @@ export class ProfessorListComponent {
 
   @Input()
   route!: string;
+
+  @Output()
+  editEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
+  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  onEditClick(id: number) {
+    this.editEvent.emit(id);
+  }
+
+  onDeleteClick(id: number) {
+    this.deleteEvent.emit(id);
+  }
 }
