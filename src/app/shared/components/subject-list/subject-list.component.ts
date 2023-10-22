@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
+import { SubjectDetailsTransport, SubjectTransport } from '../../models/subject';
 
 @Component({
   selector: 'app-subject-list',
