@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content" style="border: 1px solid lightgray; border-radius: 10px;">
+    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+      <h4 class="modal-title fw-semibold text-center">Subject Form</h4>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
+    </div>
+    <div class="modal-body overflow-auto">
+      <div class="form-container mt-1 px-5">
+        <div class="form-container">
+          <form [formGroup]="subjectForm">
+            <div class="form-group">
+              <label class="form-label" for="name">Name</label>
+              <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Subject Name" >
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="etcs">Etcs</label>
+              <input class= "form-control" type="number" id="etcs" formControlName="etcs" placeholder="Etcs" >
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="requiresLab">Requires Lab: </label>
+              <select id="requiresLab" formControlName="requiresLab" class="form-select">
+                <option *ngFor="let labRequirement of labRequirements" [value]="labRequirement">{{ labRequirement }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="semester">Semester</label>
+              <input class= "form-control" type="number" id="semester" formControlName="semester" placeholder="Semester" >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between" >
+      <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+      <div *ngIf="isEditMode; else postingSubject">
+        <button class="btn btn-primary" (click)="onUpdateClick(subjectToBeEditedId)">Edit Subject</button>
+      </div>
+      <ng-template #postingSubject>
+        <button class="btn btn-success" (click)="onPostClick()">Add Subject</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
