@@ -6,6 +6,8 @@ import { ProgramService } from '../../../../../core/services/http/program.servic
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
 
 @Component({
   selector: 'app-subject-management',
@@ -20,7 +22,6 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   route: string = '';
 
   subjectForm: FormGroup;
-  showForm: boolean = false;
   isEditMode: boolean = false;
   subjectToBeEditedId: number = -1;
 
@@ -33,6 +34,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private programService: ProgramService,
     private formBuilder: FormBuilder,
+    private modalService: NgbModal,
   ) {
     this.subjectForm = this.buildFormGroup(formBuilder);
     this.subjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
@@ -51,9 +53,9 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       name: new FormControl('', Validators.required),
-      etcs: new FormControl(),
+      etcs: new FormControl(Validators.min(4)),
       requiresLab: new FormControl(LabRequirement.NO),
-      semester: new FormControl(),
+      semester: new FormControl(Validators.min(1)),
     });
   }
 
@@ -99,7 +101,6 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (subjectTransport: SubjectTransport) => {
             this.subjects$.next([...this.subjects$.getValue(), subjectTransport]);
-            this.closeForm();
           },
           error: (err) => console.error('Error posting subject:', err),
         });
@@ -114,7 +115,6 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (subjectTransport: SubjectTransport) => {
             this.subjects$.next([...this.subjects$.getValue(), subjectTransport]);
-            this.closeForm();
           },
           error: (err) => console.error('Error posting subject:', err),
         });
@@ -150,26 +150,67 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
               return subject;
             });
             this.subjects$.next(updatedSubjects);
-            this.closeForm();
-            this.isEditMode = false;
           },
           error: (err) => console.error('Error updating subject:', err),
         });
     }
   }
 
-  openEditForm(subjectId: number) {
+  openSubjectFormModal() {
+    const modalRef: NgbModalRef = this.modalService.open(SubjectFormModalComponent);
+    this.updateModalComponentData(modalRef);
+    this.handlePostEvent(modalRef);
+    this.handleUpdateEvent(modalRef);
+    this.handleCloseModalEvent(modalRef);
+  }
+  updateModalComponentData(modalRef: NgbModalRef) {
+    modalRef.componentInstance.subjectToBeEditedId = this.subjectToBeEditedId;
+    modalRef.componentInstance.subjectForm = this.subjectForm;
+    modalRef.componentInstance.isEditMode = this.isEditMode;
+    modalRef.componentInstance.labRequirements = this.labRequirements;
+  }
+
+  handleCloseModalEvent(modalRef: NgbModalRef) {
+    modalRef.componentInstance.closeForm.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.resetSubjectFormState();
+    });
+  }
+
+  handleUpdateEvent(modalRef: NgbModalRef) {
+    modalRef.componentInstance.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+      this.updateSubject(id);
+      this.resetSubjectFormState();
+      modalRef.close();
+    });
+  }
+
+  handlePostEvent(modalRef: NgbModalRef) {
+    modalRef.componentInstance.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.postSubjectToContext();
+      this.resetSubjectFormState();
+      modalRef.close();
+    });
+  }
+
+  resetSubjectFormState() {
+    this.isEditMode = false;
+    this.subjectToBeEditedId = -1;
+    this.subjectForm.reset();
+  }
+
+  openSubjectFormModalInEditMode(subjectId: number) {
     this.isEditMode = true;
     this.subjectToBeEditedId = subjectId;
-    this.openForm();
+    this.fillSubjectFormWithSubjectToBeEdited(subjectId);
+    this.openSubjectFormModal();
   }
 
-  openForm() {
-    this.showForm = true;
-  }
-
-  closeForm() {
-    this.showForm = false;
+  fillSubjectFormWithSubjectToBeEdited(id: number) {
+    const currentSubjects = this.subjects$.getValue();
+    const subject = currentSubjects.find((s) => s.id === id);
+    if (subject) {
+      this.subjectForm.patchValue(subject);
+    }
   }
 
   ngOnDestroy(): void {

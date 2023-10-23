@@ -4,43 +4,13 @@
       <h5 class="mb-0">Subject List</h5>
     </div>
     <div class="col-lg-auto">
-      <button class= "btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
+      <button class= "btn btn-sm btn-dark px-4" (click)="openSubjectFormModal()">Add</button>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <app-subject-list [subjects$]="subjects$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteSubject($event)"></app-subject-list>
+      <app-subject-list [subjects$]="subjects$" [route]="route" (editEvent)="openSubjectFormModalInEditMode($event)" (deleteEvent)="deleteSubject($event)"></app-subject-list>
     </div>
   </div>
 </div>
-
-<div class="form-container" *ngIf="showForm">
-  <form [formGroup]="subjectForm">
-    <div class="form-group">
-      <label class="form-label" for="name">Name</label>
-      <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Subject Name" >
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="etcs">Etcs</label>
-      <input class= "form-control" type="number" id="etcs" formControlName="etcs" placeholder="Etcs" >
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="requiresLab">Requires Lab: </label>
-      <select id="requiresLab" formControlName="requiresLab" class="form-select">
-        <option *ngFor="let labRequirement of labRequirements" [value]="labRequirement">{{ labRequirement }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="semester">Semester</label>
-      <input class= "form-control" type="number" id="semester" formControlName="semester" placeholder="Semester" >
-    </div>
-    <div *ngIf="isEditMode; else postingSubject">
-      <button class="btn btn-primary" (click)="updateSubject(subjectToBeEditedId)">Edit Subject</button>
-    </div>
-    <ng-template #postingSubject>
-      <button class="btn btn-primary" (click)="postSubjectToContext()">Add Subject</button>
-    </ng-template>
-  </form>
-</div>
-
