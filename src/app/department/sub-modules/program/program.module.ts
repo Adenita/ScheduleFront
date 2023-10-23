@@ -7,10 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProgramRoutingModule } from './program-routing.module';
 import { StudentGroupModule } from '../student-group/student-group.module';
 import { SharedModule } from '../../shared/shared.module';
+import { ProgramFormModalComponent } from './components/program-form-modal/program-form-modal.component';
+import { NgbActiveModal, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent],
+  declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent, ProgramFormModalComponent],
   imports: [CommonModule, ReactiveFormsModule, ProgramRoutingModule, StudentGroupModule, SharedModule],
   exports: [ProgramListComponent],
+  providers: [NgbActiveModal],
 })
 export class ProgramModule {}
