@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LabRequirement, SubjectDetailsTransport, SubjectListTransport, SubjectTransport } from '../../../../../shared/models/subject';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  LabRequirement,
+  SubjectDetailsTransport,
+  SubjectListTransport,
+  SubjectTransport,
+} from '../../../../../shared/models/subject';
+import { FormGroup } from '@angular/forms';
 import { SubjectService } from '../../../../../core/services/http/subjects.service';
 import { ProgramService } from '../../../../../core/services/http/program.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -9,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
 import { ProfessorService } from '../../../../../core/services/http/professor.service';
+import { SubjectFormBuilderService } from '../../services/subject-form-builder.service';
 
 @Component({
   selector: 'app-subject-management',
@@ -39,10 +45,10 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     private subjectService: SubjectService,
     private programService: ProgramService,
     private professorService: ProfessorService,
-    private formBuilder: FormBuilder,
     private modalService: NgbModal,
+    private subjectFormBuilderService: SubjectFormBuilderService,
   ) {
-    this.subjectForm = this.buildFormGroup(formBuilder);
+    this.subjectForm = this.subjectFormBuilderService.subjectForm;
     this.subjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
     this.departmentSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
   }
@@ -57,15 +63,6 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
         this.getSubjects();
       }
       this.getSubjectByContext();
-    });
-  }
-
-  buildFormGroup(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
-      name: new FormControl('', Validators.required),
-      etcs: new FormControl(Validators.min(4)),
-      requiresLab: new FormControl(LabRequirement.NO),
-      semester: new FormControl(Validators.min(1)),
     });
   }
 
