@@ -14,17 +14,30 @@ export class SubjectListComponent {
   @Input()
   route!: string;
 
+  @Input()
+  manageList!: boolean;
+
   @Output()
   editEvent: EventEmitter<number> = new EventEmitter<number>();
 
   @Output()
+  selectEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
   deleteEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  onEditClick(id: number) {
+  onEditClick(event: any, id: number) {
+    event.stopPropagation();
     this.editEvent.emit(id);
   }
 
-  onDeleteClick(id: number) {
+  onDeleteClick(event: any, id: number) {
+    event.stopPropagation();
     this.deleteEvent.emit(id);
+  }
+
+  onSelectClick(event: any, id: number) {
+    event.stopPropagation();
+    this.selectEvent.emit(id);
   }
 }
