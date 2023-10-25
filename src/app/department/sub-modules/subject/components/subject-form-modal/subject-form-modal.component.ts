@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { LabRequirement } from '../../../../../shared/models/subject';
+import { LabRequirement, SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-subject-form-modal',
@@ -19,6 +20,15 @@ export class SubjectFormModalComponent {
   subjectToBeEditedId!: number;
 
   @Input()
+  showForm!: boolean;
+
+  @Input()
+  subjects$!: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+
+  @Input()
+  route!: string;
+
+  @Input()
   labRequirements!: LabRequirement[];
 
   @Output()
@@ -29,6 +39,9 @@ export class SubjectFormModalComponent {
 
   @Output()
   closeForm: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  selectEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(public activeModal: NgbActiveModal) {}
   closeModal() {
@@ -42,5 +55,9 @@ export class SubjectFormModalComponent {
 
   onPostClick() {
     this.postEvent.emit();
+  }
+
+  getSelectedSubject(subjectId: number) {
+    this.selectEvent.emit(subjectId);
   }
 }

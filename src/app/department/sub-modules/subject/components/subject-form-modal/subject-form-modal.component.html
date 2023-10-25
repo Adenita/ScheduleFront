@@ -4,9 +4,8 @@
       <h4 class="modal-title fw-semibold text-center">Subject Form</h4>
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
     </div>
-    <div class="modal-body overflow-auto">
-      <div class="form-container mt-1 px-5">
-        <div class="form-container">
+    <div class="modal-body overflow-y-scroll" style="height: 500px">
+        <div class="form-container mt-1 px-5" *ngIf="showForm; else showList">
           <form [formGroup]="subjectForm">
             <div class="form-group">
               <label class="form-label" for="name">Name</label>
@@ -28,7 +27,9 @@
             </div>
           </form>
         </div>
-      </div>
+       <ng-template #showList>
+         <app-subject-list [subjects$]="subjects$" [route]="route" (selectEvent)="getSelectedSubject($event)"></app-subject-list>
+       </ng-template>
     </div>
     <div class="modal-footer d-flex justify-content-between" >
       <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
