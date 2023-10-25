@@ -8,6 +8,7 @@ import { RouteParametersService } from '../../../../../core/services/route-param
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
+import { ProfessorService } from '../../../../../core/services/http/professor.service';
 
 @Component({
   selector: 'app-subject-management',
@@ -18,14 +19,18 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId: number = -1;
   professorId: number = -1;
-  labRequirements: LabRequirement[] = Object.values(LabRequirement);
   route: string = '';
+
+  labRequirements: LabRequirement[] = Object.values(LabRequirement);
 
   subjectForm: FormGroup;
   isEditMode: boolean = false;
   subjectToBeEditedId: number = -1;
+  selectedSubjectId: number = -1;
+  showForm: boolean = true;
 
   subjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -33,11 +38,13 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     private routeParametersService: RouteParametersService,
     private subjectService: SubjectService,
     private programService: ProgramService,
+    private professorService: ProfessorService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
   ) {
     this.subjectForm = this.buildFormGroup(formBuilder);
     this.subjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
+    this.departmentSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
   }
 
   ngOnInit() {
@@ -46,6 +53,9 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
       this.route = this.routeParametersService.setRoute('subjects');
+      if (this.professorId != -1) {
+        this.getSubjects();
+      }
       this.getSubjectByContext();
     });
   }
@@ -61,11 +71,13 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();
+    else if (this.professorId != -1) this.getProfessorSubjects();
     else this.getSubjects();
   }
 
   postSubjectToContext() {
     if (this.programId != -1) this.postSubjectToProgram();
+    else if (this.professorId != -1) this.postSubjectToProfessor();
     else this.postSubject();
   }
 
@@ -75,7 +87,11 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (subjectTransport) => {
-          this.subjects$.next(subjectTransport.subjects);
+          if (this.professorId != -1) {
+            this.departmentSubjects$.next(subjectTransport.subjects);
+          } else {
+            this.subjects$.next(subjectTransport.subjects);
+          }
         },
         error: (err) => console.error('Error fetching subjects', err),
       });
@@ -84,6 +100,18 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   getProgramSubjects(): void {
     this.programService
       .getSubjectsPerProgram(this.programId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (subjectTransport: SubjectListTransport) => {
+          this.subjects$.next(subjectTransport.subjects);
+        },
+        error: (err) => console.error('Error fetching subjects', err),
+      });
+  }
+
+  getProfessorSubjects(): void {
+    this.professorService
+      .getProfessorSubjects(this.professorId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (subjectTransport: SubjectListTransport) => {
@@ -119,6 +147,18 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
           error: (err) => console.error('Error posting subject:', err),
         });
     }
+  }
+
+  postSubjectToProfessor() {
+    this.professorService
+      .addSubjectToProfessor(this.professorId, this.selectedSubjectId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (subjectTransport: SubjectTransport) => {
+          this.subjects$.next([...this.subjects$.getValue(), subjectTransport]);
+        },
+        error: (err) => console.error('Error posting subject:', err),
+      });
   }
 
   deleteSubject(subjectId: number) {
@@ -157,17 +197,30 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   openSubjectFormModal() {
+    if (this.professorId != -1) {
+      this.showForm = false;
+    } else {
+      this.showForm = true;
+    }
     const modalRef: NgbModalRef = this.modalService.open(SubjectFormModalComponent);
     this.updateModalComponentData(modalRef);
     this.handlePostEvent(modalRef);
     this.handleUpdateEvent(modalRef);
     this.handleCloseModalEvent(modalRef);
+
+    modalRef.componentInstance.selectEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+      this.selectedSubjectId = id;
+    });
   }
+
   updateModalComponentData(modalRef: NgbModalRef) {
     modalRef.componentInstance.subjectToBeEditedId = this.subjectToBeEditedId;
     modalRef.componentInstance.subjectForm = this.subjectForm;
     modalRef.componentInstance.isEditMode = this.isEditMode;
     modalRef.componentInstance.labRequirements = this.labRequirements;
+    modalRef.componentInstance.subjects$ = this.departmentSubjects$;
+    modalRef.componentInstance.route = this.route;
+    modalRef.componentInstance.showForm = this.showForm;
   }
 
   handleCloseModalEvent(modalRef: NgbModalRef) {
