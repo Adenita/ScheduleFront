@@ -4,7 +4,7 @@
       <h4 class="modal-title fw-semibold text-center">Subject Form</h4>
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
     </div>
-    <div class="modal-body overflow-y-scroll" style="height: 500px">
+    <div class="modal-body overflow-y-scroll" style="max-height: 450px">
         <div class="form-container mt-1 px-5" *ngIf="showForm; else showList">
           <form [formGroup]="subjectForm">
             <div class="form-group">
