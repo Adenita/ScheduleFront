@@ -11,10 +11,9 @@ import { ProgramService } from '../../../../../core/services/http/program.servic
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RouteParametersService } from '../../../../../core/services/route-parameters.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
 import { ProfessorService } from '../../../../../core/services/http/professor.service';
 import { SubjectFormBuilderService } from '../../services/subject-form-builder.service';
+import { SubjectModalData, SubjectModalManagementService } from '../../services/subject-modal-management.service';
 
 @Component({
   selector: 'app-subject-management',
@@ -31,7 +30,6 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   subjectForm: FormGroup;
   isEditMode: boolean = false;
-  subjectToBeEditedId: number = -1;
   selectedSubjectId: number = -1;
   showForm: boolean = true;
 
@@ -39,14 +37,16 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
 
+  subjectModalData: SubjectModalData = {} as SubjectModalData;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private subjectService: SubjectService,
     private programService: ProgramService,
     private professorService: ProfessorService,
-    private modalService: NgbModal,
     private subjectFormBuilderService: SubjectFormBuilderService,
+    private subjectModalManagementService: SubjectModalManagementService,
   ) {
     this.subjectForm = this.subjectFormBuilderService.subjectForm;
     this.subjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
@@ -59,13 +59,13 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
       this.route = this.routeParametersService.setRoute('subjects');
+      this.bindSubjectModalData();
       if (this.professorId != -1) {
         this.getSubjects();
       }
       this.getSubjectByContext();
     });
   }
-
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();
     else if (this.professorId != -1) this.getProfessorSubjects();
@@ -148,7 +148,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   postSubjectToProfessor() {
     this.professorService
-      .addSubjectToProfessor(this.professorId, this.selectedSubjectId)
+      .addSubjectToProfessor(this.professorId, this.subjectModalData.selectedSubjectId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (subjectTransport: SubjectTransport) => {
@@ -194,73 +194,28 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   openSubjectFormModal() {
-    if (this.professorId != -1) {
-      this.showForm = false;
-    } else {
-      this.showForm = true;
-    }
-    const modalRef: NgbModalRef = this.modalService.open(SubjectFormModalComponent);
-    this.updateModalComponentData(modalRef);
-    this.handlePostEvent(modalRef);
-    this.handleUpdateEvent(modalRef);
-    this.handleCloseModalEvent(modalRef);
-
-    modalRef.componentInstance.selectEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
-      this.selectedSubjectId = id;
-    });
+    this.showForm = this.professorId == -1;
+    this.subjectModalData.showForm = this.showForm;
+    this.subjectModalManagementService.postSubject = this.postSubjectToContext.bind(this);
+    this.subjectModalManagementService.openSubjectFormModal(this.subjectModalData);
   }
 
-  updateModalComponentData(modalRef: NgbModalRef) {
-    modalRef.componentInstance.subjectToBeEditedId = this.subjectToBeEditedId;
-    modalRef.componentInstance.subjectForm = this.subjectForm;
-    modalRef.componentInstance.isEditMode = this.isEditMode;
-    modalRef.componentInstance.labRequirements = this.labRequirements;
-    modalRef.componentInstance.subjects$ = this.departmentSubjects$;
-    modalRef.componentInstance.route = this.route;
-    modalRef.componentInstance.showForm = this.showForm;
+  openSubjectFormModalInEditMode(id: number) {
+    this.subjectModalManagementService.updateSubject = this.updateSubject.bind(this);
+    this.subjectModalManagementService.openSubjectFormModalInEditMode(id, this.subjectModalData);
   }
 
-  handleCloseModalEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.closeForm.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.resetSubjectFormState();
-    });
-  }
-
-  handleUpdateEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
-      this.updateSubject(id);
-      this.resetSubjectFormState();
-      modalRef.close();
-    });
-  }
-
-  handlePostEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.postSubjectToContext();
-      this.resetSubjectFormState();
-      modalRef.close();
-    });
-  }
-
-  resetSubjectFormState() {
-    this.isEditMode = false;
-    this.subjectToBeEditedId = -1;
-    this.subjectForm.reset();
-  }
-
-  openSubjectFormModalInEditMode(subjectId: number) {
-    this.isEditMode = true;
-    this.subjectToBeEditedId = subjectId;
-    this.fillSubjectFormWithSubjectToBeEdited(subjectId);
-    this.openSubjectFormModal();
-  }
-
-  fillSubjectFormWithSubjectToBeEdited(id: number) {
-    const currentSubjects = this.subjects$.getValue();
-    const subject = currentSubjects.find((s) => s.id === id);
-    if (subject) {
-      this.subjectForm.patchValue(subject);
-    }
+  bindSubjectModalData() {
+    this.subjectModalData = this.subjectModalManagementService.bindSubjectModalData(
+      this.selectedSubjectId,
+      this.showForm,
+      this.subjectForm,
+      this.isEditMode,
+      this.labRequirements,
+      this.subjects$,
+      this.departmentSubjects$,
+      this.route,
+    );
   }
 
   ngOnDestroy(): void {
