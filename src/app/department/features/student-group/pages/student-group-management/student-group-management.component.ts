@@ -139,6 +139,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: (updatedStudentGroup: StudentGroupTransport) => {
+            console.log('updated student group: ', updatedStudentGroup);
             const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
             const updatedStudentGroups: StudentGroupTransport[] = currentStudentGroups.map((studentGroup) => {
               if (studentGroup.id === studentGroupId) {
@@ -155,9 +156,29 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  // setSelectedStudentGroupDataToEditForm(studentGroupId: number) {
+  //   console.log('selecting: ', studentGroupId);
+  //   const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
+  //   console.log(currentStudentGroups[0], currentStudentGroups[3], currentStudentGroups[5], currentStudentGroups[6]);
+  //   const studentGroupToEdit = currentStudentGroups.filter((sg) => (sg.id = studentGroupId));
+  //   // console.log('current student groups; ', currentStudentGroups);
+  //   // const studentGroupToEdit: StudentGroupTransport | undefined = currentStudentGroups.find(
+  //   //   (studentGroup: StudentGroupTransport) => (studentGroup.id = studentGroupId),
+  //   // );
+  //   console.log(studentGroupToEdit[0]);
+  //   this.studentGroupForm.patchValue(studentGroupToEdit[0]);
+  //   // if (studentGroupToEdit) {
+  //   //   console.log('student group chosen: ', studentGroupToEdit);
+  //   //   const { id, name } = studentGroupToEdit;
+  //   //   console.log(id, name);
+  //   //   this.studentGroupForm.patchValue(studentGroupToEdit);
+  //   // }
+  // }
+
   openEditForm(studentGroupId: number) {
     this.isEditMode = true;
     this.studentGroupToBeEditedId = studentGroupId;
+    // this.setSelectedStudentGroupDataToEditForm(studentGroupId);
     this.openForm();
   }
 
@@ -166,6 +187,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   }
 
   closeForm() {
+    this.studentGroupForm.patchValue({});
     this.showForm = false;
   }
 

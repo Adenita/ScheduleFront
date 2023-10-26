@@ -4,11 +4,11 @@ import { DepartmentsListComponent } from './components/departments-list/departme
 import { DepartmentDetailsComponent } from './pages/department-details/department-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DepartmentRoutingModule } from './department-routing.module';
-import { ProgramModule } from './sub-modules/program/program.module';
-import { ProfessorModule } from './sub-modules/professor/professor.module';
-import { SubjectModule } from './sub-modules/subject/subject.module';
-import { StudentGroupModule } from './sub-modules/student-group/student-group.module';
-import { ClassroomModule } from './sub-modules/classroom/classroom.module';
+import { ProgramModule } from './features/program/program.module';
+import { ProfessorModule } from './features/professor/professor.module';
+import { SubjectModule } from './features/subject/subject.module';
+import { StudentGroupModule } from './features/student-group/student-group.module';
+import { ClassroomModule } from './features/classroom/classroom.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
