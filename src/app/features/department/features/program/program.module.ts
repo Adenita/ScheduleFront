@@ -8,7 +8,7 @@ import { ProgramRoutingModule } from './program-routing.module';
 import { StudentGroupModule } from '../student-group/student-group.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ProgramFormModalComponent } from './components/program-form-modal/program-form-modal.component';
-import { NgbActiveModal, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent, ProgramFormModalComponent],

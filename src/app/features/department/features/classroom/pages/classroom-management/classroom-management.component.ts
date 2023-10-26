@@ -3,7 +3,6 @@ import { Classroom } from '../../../../../../shared/models/classroom';
 import { ClassroomService } from '../../../../../../core/services/http/classroom.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { ClassroomTransport } from '../../../../../../shared/models/classroom';
 
 @Component({
   selector: 'app-classroom-management',
