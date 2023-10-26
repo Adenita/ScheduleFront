@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LabRequirement, SubjectDetailsTransport, SubjectTransport } from '../../../../../../shared/models/subject';
 import { BehaviorSubject } from 'rxjs';
+import { ModalEventsService } from '../../../../shared/services/modal-events.service';
 
 @Component({
   selector: 'app-subject-form-modal',
@@ -31,33 +32,24 @@ export class SubjectFormModalComponent {
   @Input()
   labRequirements!: LabRequirement[];
 
-  @Output()
-  updateEvent: EventEmitter<number> = new EventEmitter<number>();
-
-  @Output()
-  postEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  @Output()
-  closeForm: EventEmitter<void> = new EventEmitter<void>();
-
-  @Output()
-  selectEvent: EventEmitter<number> = new EventEmitter<number>();
-
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private modalEventsService: ModalEventsService,
+  ) {}
   closeModal() {
-    this.closeForm.emit();
+    this.modalEventsService.emitCloseEvent();
     this.activeModal.close();
   }
 
   onUpdateClick(programId: number) {
-    this.updateEvent.emit(programId);
+    this.modalEventsService.emitUpdateEvent(programId);
   }
 
   onPostClick() {
-    this.postEvent.emit();
+    this.modalEventsService.emitPostEvent();
   }
 
   getSelectedSubject(subjectId: number) {
-    this.selectEvent.emit(subjectId);
+    this.modalEventsService.emitSelectEvent(subjectId);
   }
 }

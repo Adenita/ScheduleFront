@@ -4,6 +4,7 @@ import { SubjectFormModalComponent } from '../components/subject-form-modal/subj
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { LabRequirement, SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
+import { ModalEventsService } from '../../../shared/services/modal-events.service';
 
 export type SubjectModalData = {
   selectedSubjectId: number;
@@ -24,7 +25,10 @@ export class SubjectModalManagementService implements OnDestroy {
   updateSubject!: (id: number) => void;
   private destroyed$: Subject<void> = new Subject();
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private modalEventsService: ModalEventsService,
+  ) {}
   openSubjectFormModal(subjectModalData: SubjectModalData) {
     const modalRef: NgbModalRef = this.modalService.open(SubjectFormModalComponent);
     this.updateModalComponentData(modalRef, subjectModalData);
@@ -45,19 +49,19 @@ export class SubjectModalManagementService implements OnDestroy {
   }
 
   handleSelectEvent(modalRef: NgbModalRef, subjectModalData: SubjectModalData) {
-    modalRef.componentInstance.selectEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+    this.modalEventsService.selectEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
       subjectModalData.selectedSubjectId = id;
     });
   }
 
   handleCloseModalEvent(modalRef: NgbModalRef, subjectModalData: SubjectModalData) {
-    modalRef.componentInstance.closeForm.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+    this.modalEventsService.closeEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
       this.resetSubjectFormState(subjectModalData);
     });
   }
 
   handleUpdateEvent(modalRef: NgbModalRef, subjectModalData: SubjectModalData, updateSubject: (id: number) => void) {
-    modalRef.componentInstance.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+    this.modalEventsService.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
       updateSubject(id);
       this.resetSubjectFormState(subjectModalData);
       modalRef.close();
@@ -65,7 +69,7 @@ export class SubjectModalManagementService implements OnDestroy {
   }
 
   handlePostEvent(modalRef: NgbModalRef, subjectModalData: SubjectModalData, postSubject: () => void) {
-    modalRef.componentInstance.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+    this.modalEventsService.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
       postSubject();
       this.resetSubjectFormState(subjectModalData);
       modalRef.close();
