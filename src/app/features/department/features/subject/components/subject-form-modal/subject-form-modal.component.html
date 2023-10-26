@@ -5,8 +5,8 @@
       <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
     </div>
     <div class="modal-body overflow-y-scroll" style="max-height: 450px">
-        <div class="form-container mt-1 px-5" *ngIf="showForm; else showList">
-          <form [formGroup]="subjectForm">
+        <div class="form-container mt-1 px-5" *ngIf="subjectModalData.showForm; else showList">
+          <form [formGroup]="subjectModalData.subjectForm">
             <div class="form-group">
               <label class="form-label" for="name">Name</label>
               <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Subject Name" >
@@ -18,7 +18,7 @@
             <div class="form-group">
               <label class="form-label" for="requiresLab">Requires Lab: </label>
               <select id="requiresLab" formControlName="requiresLab" class="form-select">
-                <option *ngFor="let labRequirement of labRequirements" [value]="labRequirement">{{ labRequirement }}</option>
+                <option *ngFor="let labRequirement of subjectModalData.labRequirements" [value]="labRequirement">{{ labRequirement }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -28,13 +28,13 @@
           </form>
         </div>
        <ng-template #showList>
-         <app-subject-list [subjects$]="subjects$" [route]="route" (selectEvent)="getSelectedSubject($event)"></app-subject-list>
+         <app-subject-list [subjects$]="subjectModalData.subjects$" [route]="subjectModalData.route" (selectEvent)="getSelectedSubject($event)"></app-subject-list>
        </ng-template>
     </div>
     <div class="modal-footer d-flex justify-content-between" >
       <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
-      <div *ngIf="isEditMode; else postingSubject">
-        <button class="btn btn-primary" (click)="onUpdateClick(subjectToBeEditedId)">Edit Subject</button>
+      <div *ngIf="subjectModalData.isEditMode; else postingSubject">
+        <button class="btn btn-primary" (click)="onUpdateClick(subjectModalData.selectedSubjectId)">Edit Subject</button>
       </div>
       <ng-template #postingSubject>
         <button class="btn btn-success" (click)="onPostClick()">Add Subject</button>

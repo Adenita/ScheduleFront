@@ -39,13 +39,7 @@ export class SubjectModalManagementService implements OnDestroy {
   }
 
   updateModalComponentData(modalRef: NgbModalRef, subjectModalData: SubjectModalData) {
-    modalRef.componentInstance.subjectToBeEditedId = subjectModalData.selectedSubjectId;
-    modalRef.componentInstance.subjectForm = subjectModalData.subjectForm;
-    modalRef.componentInstance.isEditMode = subjectModalData.isEditMode;
-    modalRef.componentInstance.showForm = subjectModalData.showForm;
-    modalRef.componentInstance.labRequirements = subjectModalData.labRequirements;
-    modalRef.componentInstance.route = subjectModalData.route;
-    modalRef.componentInstance.subjects$ = subjectModalData.departmentSubjects$;
+    modalRef.componentInstance.subjectModalData = subjectModalData;
   }
 
   handleSelectEvent(modalRef: NgbModalRef, subjectModalData: SubjectModalData) {
