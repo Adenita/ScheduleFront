@@ -5,14 +5,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { DepartmentModule } from './department/department.module';
-import { ScheduleModule } from './schedule/schedule.module';
+import { DepartmentModule } from './features/department/department.module';
+import { ScheduleModule } from './features/schedule/schedule.module';
 
 const routes: Routes = [{ path: '', component: HomeComponent }];
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
-  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), DepartmentModule, ScheduleModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    DepartmentModule,
+    ScheduleModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
   exports: [RouterModule],

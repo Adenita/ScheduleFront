@@ -1,5 +1,5 @@
 import { DataService } from '../data.service';
-import { ScheduleListTransport, ScheduleTransport } from '../../../schedule/shared/models/schedule';
+import { ScheduleListTransport, ScheduleTransport } from '../../../features/schedule/shared/models/schedule';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
