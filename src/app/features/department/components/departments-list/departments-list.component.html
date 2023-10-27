@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <div class="table-responsive" *ngIf="departments$; else noDepartmentsFound">
+      <div class="table-responsive" *ngIf="departments$.getValue().length > 0; else noDepartmentsFound">
         <table class="table table-bordered table-striped table-hover">
           <thead class="thead-dark-red">
           <tr>

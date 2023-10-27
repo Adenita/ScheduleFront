@@ -1,4 +1,4 @@
-<div class = "table-responsive" *ngIf="classrooms$ | async; else noClassroomsFound">
+<div class = "table-responsive" *ngIf="classrooms$.getValue().length > 0; else noClassroomsFound">
   <table class="table table-bordered table-striped table-hover overflow-scroll">
     <thead class="thead-dark-red">
     <tr>
