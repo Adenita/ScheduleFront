@@ -1,0 +1,33 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content" style="border: 1px solid lightgray; border-radius: 10px;">
+    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+      <h4 class="modal-title fw-semibold text-center">Classroom Form</h4>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
+    </div>
+    <div class="modal-body overflow-y-scroll" style="max-height: 450px">
+      <div class="form-container mt-1 px-5">
+        <form [formGroup]="modalData.form">
+          <div class="form-group mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Professor Name" >
+          </div>
+          <div class="form-group">
+            <label for="role" class="form-label">Role </label>
+            <select id="role" formControlName="role" class="form-select">
+              <option *ngFor="let role of modalData.professorRoles" [value]="role">{{ role }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between" >
+      <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+      <div *ngIf="modalData.isEditMode; else postingProfessor">
+        <button class="btn btn-primary" (click)="onUpdateClick(modalData.selectedId)">Edit Professor</button>
+      </div>
+      <ng-template #postingProfessor>
+        <button class="btn btn-primary" (click)="onPostClick()">Add Professor</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
