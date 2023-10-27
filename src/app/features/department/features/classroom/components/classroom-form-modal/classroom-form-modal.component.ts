@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalEventsService } from '../../../../shared/services/modal-events.service';
 import { ClassroomModalData } from '../../services/classroom-modal-management.service';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-classroom-form-modal',
@@ -23,8 +22,8 @@ export class ClassroomFormModalComponent {
     this.activeModal.close();
   }
 
-  onUpdateClick(programId: number) {
-    this.modalEventsService.emitUpdateEvent(programId);
+  onUpdateClick(id: number) {
+    this.modalEventsService.emitUpdateEvent(id);
   }
 
   onPostClick() {
