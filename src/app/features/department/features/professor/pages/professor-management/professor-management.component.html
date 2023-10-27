@@ -4,35 +4,20 @@
       <h5 class="mb-0">Professor List</h5>
     </div>
     <div class="col-lg-auto">
-      <button class= "btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
+      <button class= "btn btn-sm btn-dark px-4" (click)="openProfessorFormModal()">Add</button>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <app-professor-list [professors$]="professors$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteProfessor($event)"></app-professor-list>
+      <app-professor-list
+        [professors$]="professors$"
+        [route]="route"
+        (editEvent)="openProfessorFormModalInEditMode($event)"
+        (deleteEvent)="deleteProfessor($event)"
+      ></app-professor-list>
     </div>
   </div>
 </div>
 
-<div class="form-container" *ngIf="showForm">
-  <form [formGroup]="professorForm">
-    <div class="form-group mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input class= "form-control" type="text" id="name" formControlName="name" placeholder="Professor Name" >
-    </div>
-    <div class="form-group">
-      <label for="role" class="form-label">Role </label>
-      <select id="role" formControlName="role" class="form-select">
-        <option *ngFor="let role of professorRoles" [value]="role">{{ role }}</option>
-      </select>
-    </div>
-    <div *ngIf="isEditMode; else postingProfessor">
-      <button class="btn btn-primary" (click)="updateProfessor(professorToBeEditedId)">Edit Professor</button>
-    </div>
-    <ng-template #postingProfessor>
-      <button class="btn btn-primary" (click)="postProfessor()">Add Professor</button>
-    </ng-template>
-  </form>
-</div>
 

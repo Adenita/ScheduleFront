@@ -5,6 +5,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
+import { ProfessorFormModalComponent } from '../../components/professor-form-modal/professor-form-modal.component';
+import { ProfessorModalData, ProfessorModalManagementService } from '../../services/professor-modal-management.service';
 
 @Component({
   selector: 'app-professors-management',
@@ -18,16 +20,17 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   professorRoles: Role[] = Object.values(Role);
   route: string = '';
   professorForm: FormGroup;
-  showForm: boolean = false;
   isEditMode: boolean = false;
   professorToBeEditedId: number = -1;
   destroyed$: Subject<void> = new Subject<void>();
+  professorModalData: ProfessorModalData = {} as ProfessorModalData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
+    private professorModalManagementService: ProfessorModalManagementService,
   ) {
     this.professorForm = this.buildFormGroup(formBuilder);
     this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
@@ -38,6 +41,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.route = this.routeParametersService.setRoute('professors');
+      this.bindProfessorModalData();
       this.getProfessors();
     });
   }
@@ -51,8 +55,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
 
   getProfessors(): void {
     this.professorService.getAll().subscribe({
-      next: (professorListTransport: ProfessorListTransport) =>
-        this.professors$.next(professorListTransport.professorTransports),
+      next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
       error: (err) => console.error('Error fetching professors', err),
     });
   }
@@ -63,7 +66,6 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       this.professorService.post(professor).subscribe({
         next: (postedProfessorTransport: ProfessorTransport) => {
           this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
-          this.closeForm();
         },
         error: (err) => console.error('Error posting professor:', err),
       });
@@ -77,9 +79,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           const currentProfessors: ProfessorTransport[] = this.professors$.getValue();
-          const updatedProfessors: ProfessorTransport[] = currentProfessors.filter(
-            (professor) => professor.id !== professorId,
-          );
+          const updatedProfessors: ProfessorTransport[] = currentProfessors.filter((professor) => professor.id !== professorId);
           this.professors$.next(updatedProfessors);
         },
         error: (err) => console.error('Error deleting professor:', err),
@@ -101,28 +101,31 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
               return professor;
             });
             this.professors$.next(updatedProfessors);
-            this.closeForm();
-            this.isEditMode = false;
           },
           error: (err) => console.error('Error updating professor:', err),
         });
     }
   }
 
-  openEditForm(professorId: number) {
-    this.isEditMode = true;
-    this.professorToBeEditedId = professorId;
-    this.openForm();
+  openProfessorFormModalInEditMode(id: number) {
+    this.professorModalManagementService.update = this.updateProfessor.bind(this);
+    this.professorModalManagementService.openFormModalInEditMode(ProfessorFormModalComponent, id, this.professorModalData);
   }
 
-  openForm() {
-    this.showForm = true;
+  openProfessorFormModal() {
+    this.professorModalManagementService.post = this.postProfessor.bind(this);
+    this.professorModalManagementService.openFormModal(ProfessorFormModalComponent, this.professorModalData);
   }
 
-  closeForm() {
-    this.showForm = false;
+  bindProfessorModalData() {
+    this.professorModalData = this.professorModalManagementService.bindProfessorModalData(
+      this.professorToBeEditedId,
+      this.professorForm,
+      this.isEditMode,
+      this.professors$,
+      this.professorRoles,
+    );
   }
-
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
