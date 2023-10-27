@@ -16,13 +16,13 @@
     <tbody>
     <tr *ngFor="let event of (bestScheduleEvents$ | async) || bestProgramSchedule.events" [ngClass]="{'table-danger': event.conflict}">
       <td>{{ event.subjectTransport.name}}</td>
-      <td>Todo</td>
-      <td>Todo</td>
-      <td>{{event.subjectTransport.etcs}}</td>
+      <td>{{ event.subjectTransport.requirementType[0]}}</td>
+      <td>{{ event.subjectTransport.hours}}</td>
+      <td>{{ event.subjectTransport.etcs}}</td>
       <td>{{ event.studentGroupTransport.groupType}}</td>
       <td>{{ event.professorTransport.name}}</td>
       <td>{{ event.timeslot.day.slice(0,3)}}</td>
-      <td>{{event.timeslot.startHour + ":" + event.timeslot.startMinute + "-" + event.timeslot.endHour + ":" + event.timeslot.endMinute}}</td>
+      <td>{{ event.timeslot.startHour + ":" + event.timeslot.startMinute + "-" + event.timeslot.endHour + ":" + event.timeslot.endMinute}}</td>
       <td>{{ event.classroom.name}}</td>
     </tr>
     </tbody>
