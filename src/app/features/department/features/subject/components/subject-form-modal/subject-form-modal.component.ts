@@ -10,7 +10,7 @@ import { SubjectModalData } from '../../services/subject-modal-management.servic
 })
 export class SubjectFormModalComponent {
   @Input()
-  subjectModalData!: SubjectModalData;
+  modalData!: SubjectModalData;
 
   constructor(
     public activeModal: NgbActiveModal,

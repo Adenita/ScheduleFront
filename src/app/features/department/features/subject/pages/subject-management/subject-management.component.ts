@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 import { SubjectFormBuilderService } from '../../services/subject-form-builder.service';
 import { SubjectModalData, SubjectModalManagementService } from '../../services/subject-modal-management.service';
+import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
 
 @Component({
   selector: 'app-subject-management',
@@ -148,7 +149,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   postSubjectToProfessor() {
     this.professorService
-      .addSubjectToProfessor(this.professorId, this.subjectModalData.selectedSubjectId)
+      .addSubjectToProfessor(this.professorId, this.subjectModalData.selectedId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (subjectTransport: SubjectTransport) => {
@@ -196,13 +197,13 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   openSubjectFormModal() {
     this.showForm = this.professorId == -1;
     this.subjectModalData.showForm = this.showForm;
-    this.subjectModalManagementService.postSubject = this.postSubjectToContext.bind(this);
-    this.subjectModalManagementService.openSubjectFormModal(this.subjectModalData);
+    this.subjectModalManagementService.post = this.postSubjectToContext.bind(this);
+    this.subjectModalManagementService.openFormModal(SubjectFormModalComponent, this.subjectModalData);
   }
 
   openSubjectFormModalInEditMode(id: number) {
-    this.subjectModalManagementService.updateSubject = this.updateSubject.bind(this);
-    this.subjectModalManagementService.openSubjectFormModalInEditMode(id, this.subjectModalData);
+    this.subjectModalManagementService.update = this.updateSubject.bind(this);
+    this.subjectModalManagementService.openFormModalInEditMode(SubjectFormModalComponent, id, this.subjectModalData);
   }
 
   bindSubjectModalData() {
