@@ -1,17 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProgramService } from '../../../../../../core/services/http/program.service';
-import {
-  GroupType,
-  StudentGroupListTransport,
-  StudentGroupTransport,
-} from '../../../../../../shared/models/student-group';
+import { GroupType, StudentGroupListTransport, StudentGroupTransport } from '../../../../../../shared/models/student-group';
 import { StudentGroupsService } from '../../../../../../core/services/http/student-groups.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
-import { update } from 'lodash';
-
+import { StudentGroupModalData, StudentGroupModalManagementService } from '../../services/student-group-modal-management.service';
+import { StudentGroupFormModalComponent } from '../../components/student-group-form-modal/student-group-form-modal.component';
 @Component({
   selector: 'app-student-groups-list',
   templateUrl: './student-group-management.component.html',
@@ -23,12 +19,12 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   route: string = '';
 
   studentGroupForm: FormGroup;
-  showForm: boolean = false;
   isEditMode: boolean = false;
   studentGroupToBeEditedId: number = -1;
 
   studentGroups$: BehaviorSubject<StudentGroupTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
+  studentGroupModalData: StudentGroupModalData = {} as StudentGroupModalData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,6 +32,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     private studentGroupService: StudentGroupsService,
     private programService: ProgramService,
     private formBuilder: FormBuilder,
+    private studentGroupModalManagementService: StudentGroupModalManagementService,
   ) {
     this.studentGroupForm = this.buildFormGroup(formBuilder);
     this.studentGroups$ = new BehaviorSubject<StudentGroupTransport[]>([]);
@@ -45,6 +42,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
       this.programId = this.routeParametersService.programId;
       this.route = this.routeParametersService.setRoute('student_groups');
+      this.bindStudentGroupModalData();
       this.getStudentGroupsByContext();
     });
   }
@@ -100,7 +98,6 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (studentGroupTransport: StudentGroupTransport) => {
             this.studentGroups$.next([...this.studentGroups$.getValue(), studentGroupTransport]);
-            this.closeForm();
           },
           error: (err) => console.error('Error posting studentGroup:', err),
         });
@@ -115,7 +112,6 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (studentGroupTransport: StudentGroupTransport) => {
             this.studentGroups$.next([...this.studentGroups$.getValue(), studentGroupTransport]);
-            this.closeForm();
           },
           error: (err) => console.error('Error posting studentGroup:', err),
         });
@@ -154,53 +150,37 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
               return studentGroup;
             });
             this.studentGroups$.next(updatedStudentGroups);
-            this.closeForm();
-            this.isEditMode = false;
           },
           error: (err) => console.error('Error updating studentGroup:', err),
         });
     }
   }
 
-  // setSelectedStudentGroupDataToEditForm(studentGroupId: number) {
-  //   console.log('selecting: ', studentGroupId);
-  //   const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
-  //   console.log(currentStudentGroups[0], currentStudentGroups[3], currentStudentGroups[5], currentStudentGroups[6]);
-  //   const studentGroupToEdit = currentStudentGroups.filter((sg) => (sg.id = studentGroupId));
-  //   // console.log('current student groups; ', currentStudentGroups);
-  //   // const studentGroupToEdit: StudentGroupTransport | undefined = currentStudentGroups.find(
-  //   //   (studentGroup: StudentGroupTransport) => (studentGroup.id = studentGroupId),
-  //   // );
-  //   console.log(studentGroupToEdit[0]);
-  //   this.studentGroupForm.patchValue(studentGroupToEdit[0]);
-  //   // if (studentGroupToEdit) {
-  //   //   console.log('student group chosen: ', studentGroupToEdit);
-  //   //   const { id, name } = studentGroupToEdit;
-  //   //   console.log(id, name);
-  //   //   this.studentGroupForm.patchValue(studentGroupToEdit);
-  //   // }
-  // }
-
-  openEditForm(studentGroupId: number) {
-    this.isEditMode = true;
-    this.studentGroupToBeEditedId = studentGroupId;
-    // this.setSelectedStudentGroupDataToEditForm(studentGroupId);
-    this.openForm();
+  openStudentGroupFormModalInEditMode(id: number) {
+    this.studentGroupModalManagementService.update = this.updateStudentGroup.bind(this);
+    this.studentGroupModalManagementService.openFormModalInEditMode(
+      StudentGroupFormModalComponent,
+      id,
+      this.studentGroupModalData,
+    );
   }
 
-  openForm() {
-    this.showForm = true;
+  openStudentGroupFormModal() {
+    this.studentGroupModalManagementService.post = this.postStudentGroup.bind(this);
+    this.studentGroupModalManagementService.openFormModal(StudentGroupFormModalComponent, this.studentGroupModalData);
   }
 
-  closeForm() {
-    this.studentGroupForm.patchValue({});
-    this.showForm = false;
+  bindStudentGroupModalData() {
+    this.studentGroupModalData = this.studentGroupModalManagementService.bindStudentGroupModalData(
+      this.studentGroupToBeEditedId,
+      this.studentGroupForm,
+      this.isEditMode,
+      this.studentGroups$,
+      this.groupTypes,
+    );
   }
-
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
-
-  protected readonly update = update;
 }

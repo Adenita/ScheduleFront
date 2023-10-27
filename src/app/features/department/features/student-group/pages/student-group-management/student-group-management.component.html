@@ -4,38 +4,18 @@
       <h5 class="mb-0">Student Group List</h5>
     </div>
     <div class="col-lg-auto">
-      <button class= "btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
+      <button class= "btn btn-sm btn-dark px-4" (click)="openStudentGroupFormModal()">Add</button>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <app-student-group-list [studentGroups$]="studentGroups$" [route]="route" (editEvent)="openEditForm($event)" (deleteEvent)="deleteStudentGroup($event)"></app-student-group-list>
+      <app-student-group-list
+        [studentGroups$]="studentGroups$"
+        [route]="route"
+        (editEvent)="openStudentGroupFormModalInEditMode($event)"
+        (deleteEvent)="deleteStudentGroup($event)"
+      ></app-student-group-list>
     </div>
   </div>
-</div>
-
-<div class="form-container" *ngIf="showForm">
-  <form [formGroup]="studentGroupForm">
-    <div class="form-group">
-      <label class="form-label" for="name">Name</label>
-      <input class= "form-control" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="numberOfStudents">Number Of Students</label>
-      <input class= "form-control" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="groupType">Group Type: </label>
-      <select class="form-select" id="groupType" formControlName="groupType">
-        <option *ngFor="let groupType of groupTypes" [ngValue]="groupType">{{ groupType }}</option>
-      </select>
-    </div>
-    <div *ngIf="isEditMode; else postingStudentGroup">
-      <button class="btn btn-primary" (click)="updateStudentGroup(studentGroupToBeEditedId)">Edit Student Group</button>
-    </div>
-    <ng-template #postingStudentGroup>
-      <button class= "btn btn-primary" (click)="postStudentGroupToContext()">Add Student Group</button>
-    </ng-template>
-  </form>
 </div>
