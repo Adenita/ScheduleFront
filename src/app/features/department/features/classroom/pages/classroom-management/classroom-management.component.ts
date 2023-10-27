@@ -3,6 +3,8 @@ import { Classroom } from '../../../../../../shared/models/classroom';
 import { ClassroomService } from '../../../../../../core/services/http/classroom.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { ClassroomModalData, ClassroomModalManagementService } from '../../services/classroom-modal-management.service';
+import { ClassroomFormModalComponent } from '../../components/classroom-form-modal/classroom-form-modal.component';
 
 @Component({
   selector: 'app-classroom-management',
@@ -12,20 +14,22 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 export class ClassroomManagementComponent implements OnInit, OnDestroy {
   classrooms$: BehaviorSubject<Classroom[]>;
   classroomForm: FormGroup;
-  showForm: boolean = false;
   isEditMode: boolean = false;
   classroomToBeEditedId: number = -1;
+  classroomModalData: ClassroomModalData = {} as ClassroomModalData;
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private classroomService: ClassroomService,
     private formBuilder: FormBuilder,
+    private classroomModalManagementService: ClassroomModalManagementService,
   ) {
     this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
     this.classroomForm = this.buildFormGroup(formBuilder);
   }
 
   ngOnInit() {
+    this.bindClassroomModalData();
     this.getClassrooms();
   }
 
@@ -50,7 +54,6 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
       this.classroomService.post(classroom).subscribe({
         next: (postedClassroom: Classroom) => {
           this.classrooms$.next([...this.classrooms$.getValue(), postedClassroom]);
-          this.closeForm();
         },
         error: (err) => console.error('Error posting classroom:', err),
       });
@@ -86,26 +89,33 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
               return classroom;
             });
             this.classrooms$.next(updatedClassrooms);
-            this.closeForm();
-            this.isEditMode = false;
           },
           error: (err) => console.error('Error updating classroom:', err),
         });
     }
   }
 
-  openEditForm(classroomId: number) {
-    this.isEditMode = true;
-    this.classroomToBeEditedId = classroomId;
-    this.openForm();
+  openClassroomFormModalInEditMode(id: number) {
+    this.classroomModalManagementService.update = this.updateClassroom.bind(this);
+    this.classroomModalManagementService.openFormModalInEditMode(
+      ClassroomFormModalComponent,
+      id,
+      this.classroomModalData,
+    );
   }
 
-  openForm() {
-    this.showForm = true;
+  openClassroomFormModal() {
+    this.classroomModalManagementService.post = this.postClassroom.bind(this);
+    this.classroomModalManagementService.openFormModal(ClassroomFormModalComponent, this.classroomModalData);
   }
 
-  closeForm() {
-    this.showForm = false;
+  bindClassroomModalData() {
+    this.classroomModalData = this.classroomModalManagementService.bindClassroomModalData(
+      this.classroomToBeEditedId,
+      this.classroomForm,
+      this.isEditMode,
+      this.classrooms$,
+    );
   }
 
   ngOnDestroy(): void {
