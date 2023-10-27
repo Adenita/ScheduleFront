@@ -83,6 +83,11 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     else this.postSubject();
   }
 
+  removeSubjectByContext(subjectId: number) {
+    if (this.professorId != -1) this.removeSubjectFromProfessor(subjectId);
+    else this.deleteSubject(subjectId);
+  }
+
   getSubjects(): void {
     this.subjectService
       .getAll()
@@ -166,6 +171,20 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   deleteSubject(subjectId: number) {
     this.subjectService
       .delete(subjectId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          const currentSubjects: SubjectTransport[] = this.subjects$.getValue();
+          const updatedSubjects: SubjectTransport[] = currentSubjects.filter((subject) => subject.id !== subjectId);
+          this.subjects$.next(updatedSubjects);
+        },
+        error: (err) => console.error('Error deleting subject:', err),
+      });
+  }
+
+  removeSubjectFromProfessor(subjectId: number) {
+    this.professorService
+      .removeSubjectFromProfessor(this.professorId, subjectId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
