@@ -1,0 +1,37 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content" style="border: 1px solid lightgray; border-radius: 10px;">
+    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+      <h4 class="modal-title fw-semibold text-center">Student Group Form</h4>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
+    </div>
+    <div class="modal-body overflow-y-scroll" style="max-height: 450px">
+      <div class="form-container mt-1 px-5">
+        <form [formGroup]="modalData.form">
+          <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <input class= "form-control" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="numberOfStudents">Number Of Students</label>
+            <input class= "form-control" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="groupType">Group Type: </label>
+            <select class="form-select" id="groupType" formControlName="groupType">
+              <option *ngFor="let groupType of modalData.groupTypes" [ngValue]="groupType">{{ groupType }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between" >
+      <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+      <div *ngIf="modalData.isEditMode; else postingStudentGroup">
+        <button class="btn btn-primary" (click)="onUpdateClick(modalData.selectedId)">Edit Student Group</button>
+      </div>
+      <ng-template #postingStudentGroup>
+        <button class= "btn btn-primary" (click)="onPostClick()">Add Student Group</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
