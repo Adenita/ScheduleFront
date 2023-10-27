@@ -10,8 +10,8 @@ export class ModalEventsService {
   private _closeEvent: Subject<void> = new Subject<void>();
   private _selectEvent: Subject<number> = new Subject<number>();
 
-  emitUpdateEvent(programId: number) {
-    this._updateEvent.next(programId);
+  emitUpdateEvent(id: number) {
+    this._updateEvent.next(id);
   }
 
   emitPostEvent() {
@@ -22,8 +22,8 @@ export class ModalEventsService {
     this._closeEvent.next();
   }
 
-  emitSelectEvent(subjectId: number) {
-    this._selectEvent.next(subjectId);
+  emitSelectEvent(id: number) {
+    this._selectEvent.next(id);
   }
 
   get updateEvent(): Subject<number> {

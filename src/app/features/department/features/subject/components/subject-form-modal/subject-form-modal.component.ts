@@ -22,15 +22,15 @@ export class SubjectFormModalComponent {
     this.activeModal.close();
   }
 
-  onUpdateClick(programId: number) {
-    this.modalEventsService.emitUpdateEvent(programId);
+  onUpdateClick(id: number) {
+    this.modalEventsService.emitUpdateEvent(id);
   }
 
   onPostClick() {
     this.modalEventsService.emitPostEvent();
   }
 
-  getSelectedSubject(subjectId: number) {
-    this.modalEventsService.emitSelectEvent(subjectId);
+  getSelectedSubject(id: number) {
+    this.modalEventsService.emitSelectEvent(id);
   }
 }
