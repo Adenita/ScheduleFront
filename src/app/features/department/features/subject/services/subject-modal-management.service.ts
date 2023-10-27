@@ -3,9 +3,9 @@ import { SubjectFormModalComponent } from '../components/subject-form-modal/subj
 import { BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { LabRequirement, SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
-import { GeneralData, ModalManagementService } from '../../../shared/services/modal-management.service';
+import { GeneralModalData, ModalManagementService } from '../../../shared/services/modal-management.service';
 
-export interface SubjectModalData extends GeneralData {
+export interface SubjectModalData extends GeneralModalData {
   showForm: boolean;
   isEditMode: boolean;
   labRequirements: LabRequirement[];

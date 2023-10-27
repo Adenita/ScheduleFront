@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ModalEventsService } from './modal-events.service';
 import { FormGroup } from '@angular/forms';
 
-export interface GeneralData {
+export interface GeneralModalData {
   selectedId: number;
   form: FormGroup;
   data$: BehaviorSubject<any>;
@@ -13,7 +13,7 @@ export interface GeneralData {
 @Injectable({
   providedIn: 'root',
 })
-export class ModalManagementService<T, K extends GeneralData> implements OnDestroy {
+export class ModalManagementService<T, K extends GeneralModalData> implements OnDestroy {
   private destroyed$: Subject<void> = new Subject();
   post!: () => void;
   update!: (id: number) => void;
