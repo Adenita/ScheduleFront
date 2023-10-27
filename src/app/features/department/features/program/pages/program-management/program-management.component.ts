@@ -6,9 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ProgramTransport, ProgramListTransport } from '../../../../../../shared/models/program';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ProgramModalData, ProgramModalManagementService } from '../../services/program-modal-management.service';
 import { ProgramFormModalComponent } from '../../components/program-form-modal/program-form-modal.component';
-
 @Component({
   selector: 'app-program-management',
   templateUrl: './program-management.component.html',
@@ -22,6 +21,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   isEditMode: boolean = false;
   programToBeEditedId: number = -1;
   destroyed$: Subject<void> = new Subject<void>();
+  programModalData: ProgramModalData = {} as ProgramModalData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,7 +29,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     private programService: ProgramService,
     private departmentService: DepartmentService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal,
+    private programModalManagementService: ProgramModalManagementService,
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
@@ -39,6 +39,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.route = this.routeParametersService.setRoute('programs');
+      this.bindProgramModalData();
       this.loadDepartmentPrograms(this.departmentId);
     });
   }
@@ -106,63 +107,24 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  openProgramFormModalInEditMode(id: number) {
+    this.programModalManagementService.update = this.updateProgram.bind(this);
+    this.programModalManagementService.openFormModalInEditMode(ProgramFormModalComponent, id, this.programModalData);
+  }
+
   openProgramFormModal() {
-    const modalRef: NgbModalRef = this.modalService.open(ProgramFormModalComponent);
-    this.updateModalComponentData(modalRef);
-    this.handlePostEvent(modalRef);
-    this.handleUpdateEvent(modalRef);
-    this.handleCloseModalEvent(modalRef);
+    this.programModalManagementService.post = this.postProgram.bind(this);
+    this.programModalManagementService.openFormModal(ProgramFormModalComponent, this.programModalData);
   }
 
-  updateModalComponentData(modalRef: NgbModalRef) {
-    modalRef.componentInstance.programToBeEditedId = this.programToBeEditedId;
-    modalRef.componentInstance.programForm = this.programForm;
-    modalRef.componentInstance.isEditMode = this.isEditMode;
+  bindProgramModalData() {
+    this.programModalData = this.programModalManagementService.bindProgramModalData(
+      this.programToBeEditedId,
+      this.programForm,
+      this.isEditMode,
+      this.programs$,
+    );
   }
-
-  handleCloseModalEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.closeForm.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.resetProgramFormState();
-    });
-  }
-
-  handleUpdateEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
-      this.updateProgram(id);
-      this.resetProgramFormState();
-      modalRef.close();
-    });
-  }
-
-  handlePostEvent(modalRef: NgbModalRef) {
-    modalRef.componentInstance.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.postProgram();
-      this.resetProgramFormState();
-      modalRef.close();
-    });
-  }
-
-  resetProgramFormState() {
-    this.isEditMode = false;
-    this.programToBeEditedId = -1;
-    this.programForm.reset();
-  }
-
-  openProgramFormModalInEditMode(programId: number) {
-    this.isEditMode = true;
-    this.programToBeEditedId = programId;
-    this.fillProgramFormWithProgramToBeEdited(programId);
-    this.openProgramFormModal();
-  }
-
-  fillProgramFormWithProgramToBeEdited(id: number) {
-    const currentPrograms = this.programs$.getValue();
-    const program = currentPrograms.find((p) => p.id === id);
-    if (program) {
-      this.programForm.patchValue(program);
-    }
-  }
-
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
