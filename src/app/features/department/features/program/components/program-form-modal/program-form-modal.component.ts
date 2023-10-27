@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { ProgramModalData } from '../../services/program-modal-management.service';
+import { ModalEventsService } from '../../../../shared/services/modal-events.service';
 
 @Component({
   selector: 'app-program-form-modal',
@@ -12,26 +13,21 @@ export class ProgramFormModalComponent {
   @Input()
   modalData!: ProgramModalData;
 
-  @Output()
-  updateEvent: EventEmitter<number> = new EventEmitter<number>();
+  constructor(
+    public activeModal: NgbActiveModal,
+    private modalEventsService: ModalEventsService,
+  ) {}
 
-  @Output()
-  postEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  @Output()
-  closeForm: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor(public activeModal: NgbActiveModal) {}
   closeModal() {
-    this.closeForm.emit();
+    this.modalEventsService.emitCloseEvent();
     this.activeModal.close();
   }
 
-  onUpdateClick(programId: number) {
-    this.updateEvent.emit(programId);
+  onUpdateClick(id: number) {
+    this.modalEventsService.emitUpdateEvent(id);
   }
 
   onPostClick() {
-    this.postEvent.emit();
+    this.modalEventsService.emitPostEvent();
   }
 }
