@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
+import { ProgramModalData } from '../../services/program-modal-management.service';
 
 @Component({
   selector: 'app-program-form-modal',
@@ -9,13 +10,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProgramFormModalComponent {
   @Input()
-  programForm!: FormGroup;
-
-  @Input()
-  isEditMode!: boolean;
-
-  @Input()
-  programToBeEditedId!: number;
+  modalData!: ProgramModalData;
 
   @Output()
   updateEvent: EventEmitter<number> = new EventEmitter<number>();

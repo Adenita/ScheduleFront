@@ -6,7 +6,7 @@
     </div>
     <div class="modal-body overflow-auto">
       <div class="form-container mt-4 px-4">
-        <form [formGroup]="programForm">
+        <form [formGroup]="modalData.form">
           <div class="form-group">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" type="text" id="name" formControlName="name" placeholder="Program Name">
@@ -16,8 +16,8 @@
     </div>
     <div class="modal-footer d-flex justify-content-between" >
       <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
-      <div *ngIf="isEditMode; else postingProgram">
-        <button class="btn btn-dark mr-auto" (click)="onUpdateClick(programToBeEditedId)">Edit Program</button>
+      <div *ngIf="modalData.isEditMode; else postingProgram">
+        <button class="btn btn-dark mr-auto" (click)="onUpdateClick(modalData.selectedId)">Edit Program</button>
       </div>
       <ng-template #postingProgram>
         <button class="btn btn-dark mr-auto" (click)="onPostClick()">Add Program</button>
