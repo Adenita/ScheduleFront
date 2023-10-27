@@ -24,4 +24,8 @@ export class ProfessorService extends DataService<ProfessorTransport, ProfessorL
   addSubjectToProfessor(professorId: number, subjectId: number): Observable<SubjectTransport> {
     return this.httpClient.post<SubjectTransport>(`${this.url}/${this.apiUrl}/${professorId}/subjects`, subjectId);
   }
+
+  removeSubjectFromProfessor(professorId: number, subjectId: number): Observable<SubjectTransport> {
+    return this.httpClient.delete<SubjectTransport>(`${this.url}/${this.apiUrl}/${professorId}/subjects/${subjectId}`);
+  }
 }
