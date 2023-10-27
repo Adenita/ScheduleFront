@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  Hours,
   LabRequirement,
+  RequirementType,
   SubjectDetailsTransport,
   SubjectListTransport,
   SubjectTransport,
@@ -28,6 +30,8 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   route: string = '';
 
   labRequirements: LabRequirement[] = Object.values(LabRequirement);
+  requirementTypes: RequirementType[] = Object.values(RequirementType);
+  hours: Hours[] = Object.values(Hours);
 
   subjectForm: FormGroup;
   isEditMode: boolean = false;
@@ -216,6 +220,8 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       this.subjects$,
       this.departmentSubjects$,
       this.route,
+      this.requirementTypes,
+      this.hours,
     );
   }
 

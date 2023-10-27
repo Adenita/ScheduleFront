@@ -25,6 +25,18 @@
               <label class="form-label" for="semester">Semester</label>
               <input class= "form-control" type="number" id="semester" formControlName="semester" placeholder="Semester" >
             </div>
+            <div class="form-group">
+              <label class="form-label" for="requirementType">Requirement Type: </label>
+              <select id="requirementType" formControlName="requirementType" class="form-select">
+                <option *ngFor="let requirementType of modalData.requirementTypes" [value]="requirementType">{{ requirementType }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="hours">Hours: </label>
+              <select id="hours" formControlName="hours" class="form-select">
+                <option *ngFor="let hour of modalData.hours" [value]="hour">{{ hour }}</option>
+              </select>
+            </div>
           </form>
         </div>
        <ng-template #showList>

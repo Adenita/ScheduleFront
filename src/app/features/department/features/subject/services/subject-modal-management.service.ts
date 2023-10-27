@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { SubjectFormModalComponent } from '../components/subject-form-modal/subject-form-modal.component';
 import { BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { LabRequirement, SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
+import {
+  Hours,
+  LabRequirement,
+  RequirementType,
+  SubjectDetailsTransport,
+  SubjectTransport,
+} from '../../../../../shared/models/subject';
 import { GeneralModalData, ModalManagementService } from '../../../shared/services/modal-management.service';
 
 export interface SubjectModalData extends GeneralModalData {
@@ -11,6 +17,8 @@ export interface SubjectModalData extends GeneralModalData {
   labRequirements: LabRequirement[];
   departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   route: string;
+  requirementTypes: RequirementType[];
+  hours: Hours[];
 }
 
 @Injectable({
@@ -26,6 +34,8 @@ export class SubjectModalManagementService extends ModalManagementService<Subjec
     subjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>,
     departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>,
     route: string,
+    requirementTypes: RequirementType[],
+    hours: Hours[],
   ): SubjectModalData {
     return {
       selectedId: selectedSubjectId,
@@ -36,6 +46,8 @@ export class SubjectModalManagementService extends ModalManagementService<Subjec
       data$: subjects$,
       departmentSubjects$,
       route,
+      requirementTypes,
+      hours,
     };
   }
 }
