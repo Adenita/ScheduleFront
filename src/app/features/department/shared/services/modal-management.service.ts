@@ -40,7 +40,6 @@ export class ModalManagementService<T, K extends GeneralModalData> implements On
   openFormModal(modalComponent: Type<T>, modalData: K) {
     const modalRef: NgbModalRef = this.modalService.open(modalComponent);
     this.updateModalComponentData(modalRef, modalData);
-    console.log('updated modal ref component with modal data: ', modalRef.componentInstance.modalData);
     this.handlePostEvent(modalRef, modalData, this.post);
     this.handleUpdateEvent(modalRef, modalData, this.update);
     this.handleCloseModalEvent(modalRef, modalData);
