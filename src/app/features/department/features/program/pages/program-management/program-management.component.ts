@@ -72,6 +72,17 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  postProgramToDepartment() {
+    if (this.programForm.valid) {
+      this.departmentService.postProgramToDepartment(this.departmentId, this.programForm.value).subscribe({
+        next: (postedProgramTransport: ProgramTransport) => {
+          this.programs$.next([...this.programs$.getValue(), postedProgramTransport]);
+        },
+        error: (err) => console.error('Error posting program:', err),
+      });
+    }
+  }
+
   deleteProgram(programId: number) {
     this.programService
       .delete(programId)
@@ -113,7 +124,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   openProgramFormModal() {
-    this.programModalManagementService.post = this.postProgram.bind(this);
+    this.programModalManagementService.post = this.postProgramToDepartment.bind(this);
     this.programModalManagementService.openFormModal(ProgramFormModalComponent, this.programModalData);
   }
 
