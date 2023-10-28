@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorFormModalComponent } from '../../components/professor-form-modal/professor-form-modal.component';
 import { ProfessorModalData, ProfessorModalManagementService } from '../../services/professor-modal-management.service';
+import { DepartmentService } from '../../../../../../core/services/http/department.service';
 
 @Component({
   selector: 'app-professors-management',
@@ -28,6 +29,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
+    private departmentService: DepartmentService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
     private professorModalManagementService: ProfessorModalManagementService,
@@ -42,7 +44,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       this.programId = this.routeParametersService.programId;
       this.route = this.routeParametersService.setRoute('professors');
       this.bindProfessorModalData();
-      this.getProfessors();
+      this.getDepartmentProfessors();
     });
   }
 
@@ -57,6 +59,13 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
     this.professorService.getAll().subscribe({
       next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
       error: (err) => console.error('Error fetching professors', err),
+    });
+  }
+
+  getDepartmentProfessors() {
+    this.departmentService.getProfessorsPerDepartment(this.departmentId).subscribe({
+      next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
+      error: (err) => console.error('Error fetching department professors', err),
     });
   }
 
