@@ -71,7 +71,6 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (studentGroupTransport) => {
-          console.log(studentGroupTransport.studentGroupTransportList);
           this.studentGroups$.next(studentGroupTransport.studentGroupTransportList);
         },
         error: (err) => console.error('Error fetching studentGroups', err),
@@ -141,7 +140,6 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: (updatedStudentGroup: StudentGroupTransport) => {
-            console.log('updated student group: ', updatedStudentGroup);
             const currentStudentGroups: StudentGroupTransport[] = this.studentGroups$.getValue();
             const updatedStudentGroups: StudentGroupTransport[] = currentStudentGroups.map((studentGroup) => {
               if (studentGroup.id === studentGroupId) {
