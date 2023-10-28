@@ -17,6 +17,7 @@ import { ProfessorService } from '../../../../../../core/services/http/professor
 import { SubjectFormBuilderService } from '../../services/subject-form-builder.service';
 import { SubjectModalData, SubjectModalManagementService } from '../../services/subject-modal-management.service';
 import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
+import { DepartmentService } from '../../../../../../core/services/http/department.service';
 
 @Component({
   selector: 'app-subject-management',
@@ -47,6 +48,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
+    private departmentService: DepartmentService,
     private subjectService: SubjectService,
     private programService: ProgramService,
     private professorService: ProfessorService,
@@ -66,7 +68,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       this.route = this.routeParametersService.setRoute('subjects');
       this.bindSubjectModalData();
       if (this.professorId != -1) {
-        this.getSubjects();
+        this.getDepartmentSubjects();
       }
       this.getSubjectByContext();
     });
@@ -74,7 +76,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();
     else if (this.professorId != -1) this.getProfessorSubjects();
-    else this.getSubjects();
+    else this.getDepartmentSubjects();
   }
 
   postSubjectToContext() {
@@ -99,6 +101,18 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
           } else {
             this.subjects$.next(subjectTransport.subjects);
           }
+        },
+        error: (err) => console.error('Error fetching subjects', err),
+      });
+  }
+
+  getDepartmentSubjects(): void {
+    this.departmentService
+      .getSubjectsPerDepartment(this.departmentId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (subjectTransport: SubjectListTransport) => {
+          this.subjects$.next(subjectTransport.subjects);
         },
         error: (err) => console.error('Error fetching subjects', err),
       });

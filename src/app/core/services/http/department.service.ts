@@ -5,6 +5,7 @@ import { DepartmentDetailTransport, DepartmentListTransport, DepartmentTransport
 import { Observable } from 'rxjs';
 import { ProgramListTransport, ProgramTransport } from '../../../shared/models/program';
 import { ProfessorListTransport, ProfessorTransport } from '../../../shared/models/professor';
+import { SubjectListTransport } from '../../../shared/models/subject';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,10 @@ export class DepartmentService extends DataService<DepartmentTransport, Departme
 
   getProfessorsPerDepartment(departmentId: number): Observable<ProfessorListTransport> {
     return this.httpClient.get<ProfessorListTransport>(`${this.url}/${this.apiUrl}/${departmentId}/professors`);
+  }
+
+  getSubjectsPerDepartment(departmentId: number): Observable<SubjectListTransport> {
+    return this.httpClient.get<SubjectListTransport>(`${this.url}/${this.apiUrl}/${departmentId}/subjects`);
   }
 
   postProgramToDepartment(departmentId: number, programTransport: ProgramTransport): Observable<ProgramTransport> {
