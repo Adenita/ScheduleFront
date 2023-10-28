@@ -81,6 +81,17 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  postProfessorToDepartment() {
+    if (this.professorForm.valid) {
+      this.departmentService.postProfessorToDepartment(this.departmentId, this.professorForm.value).subscribe({
+        next: (postedProfessorTransport: ProfessorTransport) => {
+          this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
+        },
+        error: (err) => console.error('Error posting professor:', err),
+      });
+    }
+  }
+
   deleteProfessor(professorId: number) {
     this.professorService
       .delete(professorId)
@@ -122,7 +133,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   }
 
   openProfessorFormModal() {
-    this.professorModalManagementService.post = this.postProfessor.bind(this);
+    this.professorModalManagementService.post = this.postProfessorToDepartment.bind(this);
     this.professorModalManagementService.openFormModal(ProfessorFormModalComponent, this.professorModalData);
   }
 

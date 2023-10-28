@@ -27,6 +27,10 @@ export class DepartmentService extends DataService<DepartmentTransport, Departme
     return this.httpClient.post<ProgramTransport>(`${this.url}/${this.apiUrl}/${departmentId}/programs`, programTransport);
   }
 
+  postProfessorToDepartment(departmentId: number, professorTransport: ProfessorTransport): Observable<ProfessorTransport> {
+    return this.httpClient.post<ProfessorTransport>(`${this.url}/${this.apiUrl}/${departmentId}/professors`, professorTransport);
+  }
+
   getDepartmentDetails(departmentId: number): Observable<DepartmentDetailTransport> {
     return this.httpClient.get<DepartmentDetailTransport>(`${this.url}/${this.apiUrl}/${departmentId}/details`);
   }
