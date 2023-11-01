@@ -8,6 +8,8 @@ import { StudentGroupTransport } from './student-group';
 export interface DepartmentTransport {
   id: number;
   name: string;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface DepartmentScheduleDetailTransport {
@@ -29,10 +31,10 @@ export interface DepartmentDetailTransport {
   professorTransports: ProfessorTransport[];
 }
 
-export interface DepartmentListTransport {
+export interface DepartmentDetailsListTransport {
   departmentTransportList: DepartmentDetailTransport[];
 }
 
-export interface DepartmentDetailsListTransport {
+export interface DepartmentListTransport {
   departmentTransportList: DepartmentTransport[];
 }
