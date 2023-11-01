@@ -1,4 +1,4 @@
-<div class = "table-responsive" *ngIf="programs$.getValue().length > 0; else noProgramsFound">
+<div class = "table-responsive" *ngIf="programs$?.getValue() && programs$.getValue().length > 0; else noProgramsFound">
   <table class="table table-bordered table-striped table-hover overflow-scroll">
     <thead class="thead-dark-red">
     <tr>

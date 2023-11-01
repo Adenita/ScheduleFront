@@ -1,4 +1,4 @@
-<div class = "table-responsive" *ngIf="professors$.getValue().length > 0; else noProfessorsFound">
+<div class = "table-responsive" *ngIf="professors$?.getValue() && professors$.getValue().length > 0; else noProfessorsFound">
   <table class="table table-bordered table-striped table-hover">
     <thead class="thead-dark-red">
     <tr>

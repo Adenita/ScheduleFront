@@ -1,4 +1,4 @@
-<div class = "table-responsive" *ngIf="subjects$.getValue().length > 0; else noSubjectsFound">
+<div class = "table-responsive" *ngIf="subjects$?.getValue() && subjects$.getValue().length > 0; else noSubjectsFound">
   <table class="table table-bordered table-striped table-hover">
     <thead class="thead-dark-red">
     <tr>
