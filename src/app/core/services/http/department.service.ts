@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../data.service';
-import { DepartmentDetailTransport, DepartmentListTransport, DepartmentTransport } from '../../../shared/models/department';
+import {
+  DepartmentDetailTransport,
+  DepartmentListTransport,
+  DepartmentScheduleDetailTransport,
+  DepartmentTransport,
+} from '../../../shared/models/department';
 import { Observable } from 'rxjs';
 import { ProgramListTransport, ProgramTransport } from '../../../shared/models/program';
 import { ProfessorListTransport, ProfessorTransport } from '../../../shared/models/professor';
@@ -34,6 +39,10 @@ export class DepartmentService extends DataService<DepartmentTransport, Departme
 
   postProfessorToDepartment(departmentId: number, professorTransport: ProfessorTransport): Observable<ProfessorTransport> {
     return this.httpClient.post<ProfessorTransport>(`${this.url}/${this.apiUrl}/${departmentId}/professors`, professorTransport);
+  }
+
+  getDepartmentScheduleDetails(departmentId: number): Observable<DepartmentScheduleDetailTransport> {
+    return this.httpClient.get<DepartmentScheduleDetailTransport>(`${this.url}/${this.apiUrl}/${departmentId}/schedule-details`);
   }
 
   getDepartmentDetails(departmentId: number): Observable<DepartmentDetailTransport> {
