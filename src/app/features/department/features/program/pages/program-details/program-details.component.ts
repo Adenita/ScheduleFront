@@ -6,6 +6,7 @@ import { SubjectTransport, SubjectDetailsTransport } from '../../../../../../sha
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { StudentGroupTransport } from '../../../../../../shared/models/student-group';
+import { ProfessorTransport } from '../../../../../../shared/models/professor';
 
 @Component({
   selector: 'app-program-details',
@@ -19,6 +20,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
   program: ProgramDetailsTransport = {} as ProgramDetailsTransport;
   previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
   previewStudentGroups$: BehaviorSubject<StudentGroupTransport[]>;
+  previewProfessors$: BehaviorSubject<ProfessorTransport[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
@@ -29,6 +31,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
   ) {
     this.previewSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
     this.previewStudentGroups$ = new BehaviorSubject<StudentGroupTransport[]>([]);
+    this.previewProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
   }
 
   ngOnInit(): void {
@@ -47,9 +50,9 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (programDetails: ProgramDetailsTransport) => {
           this.program = programDetails;
-          this.previewSubjects$.next(programDetails.subjectsTransport.slice(0, this.numberToPreview));
-          //this does not exist in back add it
-          // this.previewStudentGroups$.next(programDetails.studentGroupTransports.slice(0, this.numberToPreview));
+          this.previewSubjects$.next(programDetails.subjectTransports?.slice(0, this.numberToPreview));
+          this.previewStudentGroups$.next(programDetails.studentGroupTransports?.slice(0, this.numberToPreview));
+          this.previewProfessors$.next(programDetails.professorTransports?.slice(0, this.numberToPreview));
         },
       });
   }
