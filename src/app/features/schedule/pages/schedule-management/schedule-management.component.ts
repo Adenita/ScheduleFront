@@ -5,7 +5,7 @@ import { Population } from '../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { PopulationService } from '../../services/genetic-algorithm/population.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
-import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
+import { DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 import { ScheduleService } from '../../services/genetic-algorithm/schedule.service';
 import { ProgramTransport } from '../../../../shared/models/program';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';

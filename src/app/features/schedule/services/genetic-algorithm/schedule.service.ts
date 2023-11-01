@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
 import { ConflictType, Schedule } from '../../shared/models/schedule';
-import { ProgramDetailsTransport, ProgramSubjectDetailsTransport } from '../../../../shared/models/program';
+import { ProgramSubjectDetailsTransport } from '../../../../shared/models/program';
 import { SubjectDetailsTransport } from '../../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Classroom } from '../../../../shared/models/classroom';
 import { ProfessorTransport, Role } from '../../../../shared/models/professor';
-import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
+import { DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 
 @Injectable({
   providedIn: 'root',
