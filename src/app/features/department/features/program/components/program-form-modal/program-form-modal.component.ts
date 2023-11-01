@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup } from '@angular/forms';
 import { ProgramModalData } from '../../services/program-modal-management.service';
 import { ModalEventsService } from '../../../../shared/services/modal-events.service';
 
