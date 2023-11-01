@@ -1,15 +1,27 @@
+body {
+  font-family: 'Poppins', 'sans-serif';
+}
+
 .modal-dialog {
+  --bs-modal-bg: none;
   max-width: max-content;
 }
 
 .modal-content {
   border: none;
+  height: 100%;
+}
+
+.modal-body {
+  background: white;
+}
+
+.modal-footer {
+  background: white;
 }
 
 .modal-header {
-  padding: 5px;
-  display: flex;
-  justify-content: center;
+  background: white;
   border: none;
 }
 
@@ -24,8 +36,12 @@
 }
 
 .form-container {
-  margin-top: 5rem;
   display: flex;
   justify-content: center;
   align-content: center;
+}
+
+.search-input {
+  width: 70%;
+  height: 85%;
 }
