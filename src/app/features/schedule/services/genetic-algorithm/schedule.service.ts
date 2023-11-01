@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
 import { ConflictType, Schedule } from '../../shared/models/schedule';
-import { ProgramDetailsTransport } from '../../../../shared/models/program';
+import { ProgramDetailsTransport, ProgramSubjectDetailsTransport } from '../../../../shared/models/program';
 import { SubjectDetailsTransport } from '../../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Classroom } from '../../../../shared/models/classroom';
 import { ProfessorTransport, Role } from '../../../../shared/models/professor';
-import { DepartmentDetailTransport } from '../../../../shared/models/department';
+import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +17,13 @@ export class ScheduleService {
   private count: number = 0;
   private static scheduleCount: number = 0;
 
-  initialize(departmentTransport: DepartmentDetailTransport): Schedule {
+  initialize(departmentTransport: DepartmentScheduleDetailTransport): Schedule {
     const schedule: Schedule = new Schedule();
 
     const timeslots: Timeslot[] = departmentTransport.timeslots;
     const classrooms: Classroom[] = departmentTransport.classrooms;
 
-    departmentTransport.programTransports.forEach((programDetails: ProgramDetailsTransport) => {
+    departmentTransport.programTransports.forEach((programDetails: ProgramSubjectDetailsTransport) => {
       programDetails.subjectsTransport.forEach((subjectDetails: SubjectDetailsTransport) => {
         subjectDetails.studentGroups.forEach((studentGroup: StudentGroupTransport) => {
           const event: EventTransport = {} as EventTransport;
@@ -62,10 +62,7 @@ export class ScheduleService {
     subject: SubjectDetailsTransport,
   ): Classroom {
     const suitableClassrooms: Classroom[] = classrooms.filter((classroom) => {
-      if (
-        subject.requiresLab === 'Yes' ||
-        (subject.requiresLab === 'Exercise only' && studentGroup.groupType === 'Exercise')
-      ) {
+      if (subject.requiresLab === 'Yes' || (subject.requiresLab === 'Exercise only' && studentGroup.groupType === 'Exercise')) {
         return classroom.hasComputers && studentGroup.numberOfStudents <= classroom.numberOfSeats;
       } else {
         return !classroom.hasComputers && studentGroup.numberOfStudents <= classroom.numberOfSeats;

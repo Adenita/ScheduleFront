@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Schedule } from '../../shared/models/schedule';
 import { ScheduleService } from './schedule.service';
 import { Population } from '../../shared/models/population';
-import { DepartmentDetailTransport } from '../../../../shared/models/department';
+import { DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { DepartmentDetailTransport } from '../../../../shared/models/department'
 export class PopulationService {
   constructor(private scheduleService: ScheduleService) {}
 
-  generatePopulation(populationSize: number, departmentTransport: DepartmentDetailTransport): Population {
+  generatePopulation(populationSize: number, departmentTransport: DepartmentScheduleDetailTransport): Population {
     let population: Population = new Population();
     for (let i: number = 0; i < populationSize; i++) {
       const schedule: Schedule = this.scheduleService.initialize(departmentTransport);
