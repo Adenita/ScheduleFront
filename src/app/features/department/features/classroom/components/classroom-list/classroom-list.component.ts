@@ -16,6 +16,7 @@ export class ClassroomListComponent {
 
   @Output()
   deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+  dateFormat: string = 'MMM d yyyy HH:mm';
 
   onEditClick(id: number) {
     this.editEvent.emit(id);
