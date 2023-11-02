@@ -4,6 +4,8 @@ export interface StudentGroupTransport {
   numberOfStudents: number;
   groupType: GroupType;
   semester: number;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export enum GroupType {
