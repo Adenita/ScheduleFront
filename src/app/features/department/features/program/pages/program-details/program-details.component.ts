@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProgramDetailsTransport } from '../../../../../../shared/models/program';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { SubjectTransport, SubjectDetailsTransport } from '../../../../../../shared/models/subject';
+import { SubjectTransport } from '../../../../../../shared/models/subject';
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { StudentGroupTransport } from '../../../../../../shared/models/student-group';
@@ -18,7 +18,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
   programId: number = -1;
   numberToPreview: number = 3;
   program: ProgramDetailsTransport = {} as ProgramDetailsTransport;
-  previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  previewSubjects$: BehaviorSubject<SubjectTransport[]>;
   previewStudentGroups$: BehaviorSubject<StudentGroupTransport[]>;
   previewProfessors$: BehaviorSubject<ProfessorTransport[]>;
   currentRoute: string = '';
@@ -29,7 +29,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     private routeParametersService: RouteParametersService,
     private programService: ProgramService,
   ) {
-    this.previewSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
+    this.previewSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
     this.previewStudentGroups$ = new BehaviorSubject<StudentGroupTransport[]>([]);
     this.previewProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
   }

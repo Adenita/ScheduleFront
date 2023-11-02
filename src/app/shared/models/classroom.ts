@@ -3,8 +3,10 @@ export interface Classroom {
   name: string;
   numberOfSeats: number;
   hasComputers: boolean;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface ClassroomTransport {
-  classrooms: Classroom[]
+  classrooms: Classroom[];
 }

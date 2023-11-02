@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { BehaviorSubject } from 'rxjs';
-import { DepartmentTransport } from '../../../../shared/models/department';
+import { DepartmentDetailTransport } from '../../../../shared/models/department';
 import { ProfessorTransport } from '../../../../shared/models/professor';
 import { Classroom } from '../../../../shared/models/classroom';
 import { ProgramTransport, ProgramDetailsTransport } from '../../../../shared/models/program';
@@ -18,7 +18,7 @@ import { StudentGroupTransport } from '../../../../shared/models/student-group';
 export class DepartmentDetailsComponent implements OnInit {
   departmentId: number = -1;
   numberToPreview: number = 3;
-  department: DepartmentTransport = {} as DepartmentTransport;
+  department: DepartmentDetailTransport = {} as DepartmentDetailTransport;
   previewPrograms: BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>;
   previewProfessors: BehaviorSubject<ProfessorTransport[]>;
   previewClassrooms: BehaviorSubject<Classroom[]>;

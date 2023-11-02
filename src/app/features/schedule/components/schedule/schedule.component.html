@@ -22,7 +22,10 @@
       <td>{{ event.studentGroupTransport.groupType}}</td>
       <td>{{ event.professorTransport.name}}</td>
       <td>{{ event.timeslot.day.slice(0,3)}}</td>
-      <td>{{ event.timeslot.startHour + ":" + event.timeslot.startMinute + "-" + event.timeslot.endHour + ":" + event.timeslot.endMinute}}</td>
+      <td>
+        {{ event.timeslot.startHour.toString().padStart(2, '0') }}:{{ event.timeslot.startMinute.toString().padStart(2, '0') }}
+        -{{ event.timeslot.endHour.toString().padStart(2, '0') }}:{{ event.timeslot.endMinute.toString().padStart(2, '0') }}
+      </td>
       <td>{{ event.classroom.name}}</td>
     </tr>
     </tbody>

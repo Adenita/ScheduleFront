@@ -28,7 +28,7 @@
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item" *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">{{schedule}} </li>
+          <li class="list-group-item" *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">{{schedule.creationDate | date: 'MMM d yyyy HH:mm'}} </li>
           <div class="mt-3 mb-2">
             <button class="btn btn-dark" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
           </div>

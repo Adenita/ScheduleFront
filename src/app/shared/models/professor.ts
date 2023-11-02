@@ -4,6 +4,8 @@ export interface ProfessorTransport {
   id: number;
   name: string;
   role: Role;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface ProfessorDetailsTransport {

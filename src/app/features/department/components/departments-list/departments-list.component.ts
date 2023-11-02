@@ -16,6 +16,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
   departmentForm: FormGroup;
   showForm: boolean = false;
   destroyed$: Subject<void> = new Subject<void>();
+  dateFormat: string = 'dd/MM/YYYY';
 
   constructor(
     private departmentService: DepartmentService,
@@ -39,6 +40,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
     this.departmentService.getAll().subscribe({
       next: (departmentListTransport: DepartmentListTransport) => {
         this.departments$.next(departmentListTransport.departmentTransportList);
+        console.log('department: ', departmentListTransport.departmentTransportList);
       },
       error: (err) => console.error('Error loading departments', err),
     });
@@ -52,10 +54,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: (createdDepartmentTransport: DepartmentTransport) => {
-            const updatedDepartments: DepartmentTransport[] = [
-              ...this.departments$.getValue(),
-              createdDepartmentTransport,
-            ];
+            const updatedDepartments: DepartmentTransport[] = [...this.departments$.getValue(), createdDepartmentTransport];
             this.departments$.next(updatedDepartments);
             this.closeForm();
           },

@@ -6,6 +6,8 @@
       <th>Number of Students</th>
       <th>Group Type</th>
       <th>Semester</th>
+      <th>Creation Date</th>
+      <th>Modification Date</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -15,6 +17,8 @@
       <td>{{ studentGroup.numberOfStudents }}</td>
       <td>{{ studentGroup.groupType }}</td>
       <td>{{studentGroup.semester}}</td>
+      <td>{{ studentGroup.creationDate | date: dateFormat}}</td>
+      <td>{{ studentGroup.modificationDate | date: dateFormat}}</td>
       <td class="d-flex justify-content-center">
         <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(studentGroup.id)">Edit</button>
         <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(studentGroup.id)">Delete</button>

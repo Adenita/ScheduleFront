@@ -3,7 +3,6 @@ import {
   Hours,
   LabRequirement,
   RequirementType,
-  SubjectDetailsTransport,
   SubjectListTransport,
   SubjectTransport,
 } from '../../../../../../shared/models/subject';
@@ -39,8 +38,8 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   selectedSubjectId: number = -1;
   showForm: boolean = true;
 
-  subjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
-  departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  subjects$: BehaviorSubject<SubjectTransport[]>;
+  departmentSubjects$: BehaviorSubject<SubjectTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
 
   subjectModalData: SubjectModalData = {} as SubjectModalData;
@@ -56,8 +55,8 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     private subjectModalManagementService: SubjectModalManagementService,
   ) {
     this.subjectForm = this.subjectFormBuilderService.subjectForm;
-    this.subjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
-    this.departmentSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
+    this.subjects$ = new BehaviorSubject<SubjectTransport[]>([]);
+    this.departmentSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
   }
 
   ngOnInit() {

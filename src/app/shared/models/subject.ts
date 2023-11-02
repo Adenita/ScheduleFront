@@ -32,6 +32,8 @@ export interface SubjectTransport {
   semester: number;
   requirementType: RequirementType;
   hours: Hours;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface SubjectDetailsTransport {
