@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core';
 import { SubjectFormModalComponent } from '../components/subject-form-modal/subject-form-modal.component';
 import { BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import {
-  Hours,
-  LabRequirement,
-  RequirementType,
-  SubjectDetailsTransport,
-  SubjectTransport,
-} from '../../../../../shared/models/subject';
+import { Hours, LabRequirement, RequirementType, SubjectTransport } from '../../../../../shared/models/subject';
 import { GeneralModalData, ModalManagementService } from '../../../shared/services/modal-management.service';
 
 export interface SubjectModalData extends GeneralModalData {

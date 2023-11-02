@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Schedule, ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
+import { ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
 import { GeneticAlgorithmService } from '../../services/genetic-algorithm/genetic-algorithm.service';
 import { Population } from '../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';

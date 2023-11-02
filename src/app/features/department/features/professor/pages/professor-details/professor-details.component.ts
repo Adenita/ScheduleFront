@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { SubjectDetailsTransport, SubjectTransport } from '../../../../../../shared/models/subject';
+import { SubjectTransport } from '../../../../../../shared/models/subject';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorDetailsTransport } from '../../../../../../shared/models/professor';

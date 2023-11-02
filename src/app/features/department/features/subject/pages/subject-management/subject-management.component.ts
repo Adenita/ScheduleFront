@@ -3,7 +3,6 @@ import {
   Hours,
   LabRequirement,
   RequirementType,
-  SubjectDetailsTransport,
   SubjectListTransport,
   SubjectTransport,
 } from '../../../../../../shared/models/subject';
