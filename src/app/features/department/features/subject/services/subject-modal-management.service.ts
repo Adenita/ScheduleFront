@@ -15,7 +15,7 @@ export interface SubjectModalData extends GeneralModalData {
   showForm: boolean;
   isEditMode: boolean;
   labRequirements: LabRequirement[];
-  departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  departmentSubjects$: BehaviorSubject<SubjectTransport[]>;
   route: string;
   requirementTypes: RequirementType[];
   hours: Hours[];
@@ -31,8 +31,8 @@ export class SubjectModalManagementService extends ModalManagementService<Subjec
     subjectForm: FormGroup,
     isEditMode: boolean,
     labRequirements: LabRequirement[],
-    subjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>,
-    departmentSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>,
+    subjects$: BehaviorSubject<SubjectTransport[]>,
+    departmentSubjects$: BehaviorSubject<SubjectTransport[]>,
     route: string,
     requirementTypes: RequirementType[],
     hours: Hours[],

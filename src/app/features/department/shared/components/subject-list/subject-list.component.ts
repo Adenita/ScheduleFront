@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SubjectDetailsTransport, SubjectTransport } from '../../../../../shared/models/subject';
+import { SubjectTransport } from '../../../../../shared/models/subject';
 
 @Component({
   selector: 'app-subject-list',
@@ -9,7 +9,7 @@ import { SubjectDetailsTransport, SubjectTransport } from '../../../../../shared
 })
 export class SubjectListComponent {
   @Input()
-  subjects$!: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  subjects$!: BehaviorSubject<SubjectTransport[]>;
 
   @Input()
   route!: string;

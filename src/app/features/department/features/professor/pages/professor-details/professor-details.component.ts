@@ -17,7 +17,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   professorId: number = -1;
   numberToPreview: number = 3;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
-  previewSubjects$: BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>;
+  previewSubjects$: BehaviorSubject<SubjectTransport[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
@@ -26,7 +26,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
   ) {
-    this.previewSubjects$ = new BehaviorSubject<SubjectTransport[] | SubjectDetailsTransport[]>([]);
+    this.previewSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
   }
 
   ngOnInit(): void {
