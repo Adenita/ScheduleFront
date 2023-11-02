@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
 import { ConflictType, Schedule } from '../../shared/models/schedule';
-import { ProgramSubjectDetailsTransport } from '../../../../shared/models/program';
-import { SubjectDetailsTransport } from '../../../../shared/models/subject';
+import { ProgramSubjectDetailsTransport, ProgramTransport } from '../../../../shared/models/program';
+import { SubjectDetailsTransport, SubjectTransport } from '../../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Classroom } from '../../../../shared/models/classroom';
@@ -28,8 +28,8 @@ export class ScheduleService {
         subjectDetails.studentGroups.forEach((studentGroup: StudentGroupTransport) => {
           const event: EventTransport = {} as EventTransport;
           event.studentGroupTransport = studentGroup;
-          event.subjectTransport = subjectDetails;
-          event.programTransport = programDetails;
+          event.subjectTransport = this.getSubjectTransportForEvent(subjectDetails);
+          event.programTransport = { id: programDetails.id, name: programDetails.name } as ProgramTransport;
           event.professorTransport =
             studentGroup.groupType === GroupType.EXERCISE
               ? this.getSubjectProfessorByRole(subjectDetails.professors, Role.ASSISTANT)
@@ -48,6 +48,18 @@ export class ScheduleService {
     schedule.fitness = this.calculateFitness(schedule);
     schedule.id = ScheduleService.scheduleCount++;
     return schedule;
+  }
+
+  getSubjectTransportForEvent(subjectDetails: SubjectDetailsTransport) {
+    return {
+      id: subjectDetails.id,
+      name: subjectDetails.name,
+      etcs: subjectDetails.etcs,
+      requirementType: subjectDetails.requirementType,
+      requiresLab: subjectDetails.requiresLab,
+      semester: subjectDetails.semester,
+      hours: subjectDetails.hours,
+    } as SubjectTransport;
   }
 
   getSubjectProfessorByRole(professors: ProfessorTransport[], role: Role) {
