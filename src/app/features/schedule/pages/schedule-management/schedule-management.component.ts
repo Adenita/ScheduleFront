@@ -85,13 +85,14 @@ export class ScheduleManagementComponent implements OnInit {
 
   setSchedulePerProgramMap(schedule: ScheduleTransport, programs: ProgramTransport[]) {
     programs.forEach((program) => {
-      const programSchedule = new Schedule();
+      const programSchedule = {} as ScheduleTransport;
       const events: EventTransport[] = this.currentBestSchedule.events.filter(
         (event) => event.programTransport.id === program.id,
       );
       events.sort((event1, event2) => event1.id - event2.id);
       programSchedule.events = events;
       programSchedule.fitness = 1;
+      programSchedule.creationDate = new Date();
       this.programScheduleMap.set(program.id, programSchedule);
     });
   }

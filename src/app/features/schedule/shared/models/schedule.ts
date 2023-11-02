@@ -3,6 +3,7 @@ import { EventTransport } from './event';
 export interface ScheduleTransport {
   events: EventTransport[];
   fitness: number;
+  creationDate: Date;
 }
 
 export interface ScheduleListTransport {

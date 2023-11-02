@@ -26,7 +26,7 @@ export class ProgramScheduleComponent implements OnInit, OnDestroy {
     this.programSchedulePerSemesterMap = schedule.events.reduce((acc: Map<number, ScheduleTransport>, event: EventTransport) => {
       const { semester } = event.subjectTransport;
       if (!acc.has(semester)) {
-        acc.set(semester, { events: [], fitness: 1 });
+        acc.set(semester, { events: [], fitness: 1, creationDate: new Date() });
       }
       acc.get(semester)?.events.push(event);
       return acc;
