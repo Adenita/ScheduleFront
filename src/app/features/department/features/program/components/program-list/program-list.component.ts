@@ -20,6 +20,8 @@ export class ProgramListComponent {
   @Output()
   deleteEvent: EventEmitter<number> = new EventEmitter<number>();
 
+  dateFormat: string = 'MMM d yyyy HH:mm';
+
   onEditClick(programId: number) {
     this.editEvent.emit(programId);
   }

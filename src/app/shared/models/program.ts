@@ -5,6 +5,8 @@ import { ProfessorTransport } from './professor';
 export interface ProgramTransport {
   id: number;
   name: string;
+  creationDate: Date;
+  modificationDate: Date;
 }
 
 export interface ProgramSubjectDetailsTransport {
@@ -16,6 +18,8 @@ export interface ProgramSubjectDetailsTransport {
 export interface ProgramDetailsTransport {
   id: number;
   name: string;
+  creationDate: Date;
+  modificationDate: Date;
   subjectTransports: SubjectTransport[];
   studentGroupTransports: StudentGroupTransport[];
   professorTransports: ProfessorTransport[];
