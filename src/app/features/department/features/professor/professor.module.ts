@@ -6,9 +6,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProfessorRoutingModule } from './professor-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ProfessorFormModalComponent } from './components/professor-form-modal/professor-form-modal.component';
+import { ProfessorPreferredDaysFromComponent } from './components/professor-preferred-days-from/professor-preferred-days-from.component';
+import { ProfessorPreferredDaysFromModalComponent } from './components/professor-preferred-days-from-modal/professor-preferred-days-from-modal.component';
 
 @NgModule({
-  declarations: [ProfessorDetailsComponent, ProfessorManagementComponent, ProfessorFormModalComponent],
+  declarations: [ProfessorDetailsComponent, ProfessorManagementComponent, ProfessorFormModalComponent, ProfessorPreferredDaysFromComponent, ProfessorPreferredDaysFromModalComponent],
   imports: [CommonModule, ReactiveFormsModule, ProfessorRoutingModule, SharedModule],
   exports: [],
 })
