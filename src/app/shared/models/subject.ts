@@ -1,4 +1,4 @@
-import { ProfessorTransport } from './professor';
+import { ProfessorScheduleTransport, ProfessorTransport } from './professor';
 import { StudentGroupTransport } from './student-group';
 
 export enum LabRequirement {
@@ -45,6 +45,18 @@ export interface SubjectDetailsTransport {
   requirementType: RequirementType;
   hours: Hours;
   professors: ProfessorTransport[];
+  studentGroups: StudentGroupTransport[];
+}
+
+export interface SubjectScheduleTransport {
+  id: number;
+  name: string;
+  etcs: number;
+  requiresLab: LabRequirement;
+  semester: number;
+  requirementType: RequirementType;
+  hours: Hours;
+  professors: ProfessorScheduleTransport[];
   studentGroups: StudentGroupTransport[];
 }
 

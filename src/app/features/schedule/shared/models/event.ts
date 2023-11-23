@@ -1,5 +1,5 @@
 import { Timeslot } from '../../../../shared/models/timeslots';
-import { ProfessorTransport } from '../../../../shared/models/professor';
+import { ProfessorScheduleTransport } from '../../../../shared/models/professor';
 import { SubjectTransport } from '../../../../shared/models/subject';
 import { Classroom } from '../../../../shared/models/classroom';
 import { StudentGroupTransport } from '../../../../shared/models/student-group';
@@ -10,7 +10,7 @@ export interface EventTransport {
   studentGroupTransport: StudentGroupTransport;
   programTransport: ProgramTransport;
   subjectTransport: SubjectTransport;
-  professorTransport: ProfessorTransport;
+  professorTransport: ProfessorScheduleTransport;
   classroom: Classroom;
   timeslot: Timeslot;
   conflict: boolean;
