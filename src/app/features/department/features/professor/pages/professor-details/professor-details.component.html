@@ -1,9 +1,12 @@
 <div class="container">
   <div class="row mt-4">
-    <div class="col text-center">
+    <div class="col text-center mb-4">
       <h2><strong>Professor Information</strong></h2>
       <h3><strong>Name:</strong> {{professor.name}}</h3>
     </div>
+  </div>
+  <div class="row ms-1">
+    <app-professor-preferred-days-from [professorId]="professorId" [professorPreferredDays$]="preferredDays$"></app-professor-preferred-days-from>
   </div>
   <div class="row mt-4 border-bottom">
     <div class="col-md-4">
