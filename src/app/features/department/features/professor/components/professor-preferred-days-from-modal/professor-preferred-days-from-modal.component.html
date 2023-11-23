@@ -1,0 +1,60 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content" style="border: 1px solid lightgray; border-radius: 10px;">
+    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+      <h4 class="modal-title fw-semibold text-center">Preferred Day Form</h4>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" style="color: white;"></button>
+    </div>
+    <div class="modal-body overflow-y-scroll" style="max-height: 450px">
+      <div class="form-container mt-1 px-5">
+        <form [formGroup]="modalData.form">
+          <!-- First Row: Inputs and Selects -->
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label for="day" class="form-label fw-bold">Day</label>
+            </div>
+            <div class="col-md-4 text-center">
+              <label for="startHour" class="form-label fw-bold">Start Hour</label>
+            </div>
+            <div class="col-md-4 text-center">
+              <label for="endHour" class="form-label fw-bold">End Hour</label>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-3">
+              <select id="day" formControlName="day" class="form-select">
+                <option *ngFor="let day of modalData.days" [value]="day">{{ day }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <input type="number" id="startHour" formControlName="preferredStartHour" class="form-control"
+                     min="8" max="19" required>
+            </div>
+            <div class="col-md-2" >
+              <input type="number" id="startMinute" formControlName="preferredStartMinute" class="form-control"
+                     min="0" max="45" step="15" required>
+            </div>
+
+            <div class="col-md-2">
+              <input type="number" id="endHour" formControlName="preferredEndHour" class="form-control"
+                     min="8" max="19" required>
+            </div>
+            <div class="col-md-2">
+              <input type="number" id="endMinute" formControlName="preferredEndMinute" class="form-control"
+                     min="0" max="45" step="15" required>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between" >
+      <button class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+      <div *ngIf="modalData.isEditMode; else postingPreferredDay">
+        <button class="btn btn-primary" (click)="onUpdateClick(modalData.selectedId)">Edit Day</button>
+      </div>
+      <ng-template #postingPreferredDay>
+        <button class="btn btn-primary" (click)="onPostClick()">Add Day</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
