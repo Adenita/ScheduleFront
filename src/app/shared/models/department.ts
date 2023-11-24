@@ -1,5 +1,5 @@
-import { ProgramSubjectDetailsTransport, ProgramTransport } from './program';
-import { ProfessorTransport } from './professor';
+import { ProgramScheduleTransport, ProgramTransport } from './program';
+import { ProfessorScheduleTransport, ProfessorTransport } from './professor';
 import { Timeslot } from './timeslots';
 import { Classroom } from './classroom';
 import { SubjectTransport } from './subject';
@@ -15,9 +15,9 @@ export interface DepartmentTransport {
 export interface DepartmentScheduleDetailTransport {
   id: number;
   name: string;
-  programTransports: ProgramSubjectDetailsTransport[];
+  programTransports: ProgramScheduleTransport[];
   classrooms: Classroom[];
-  professorTransports: ProfessorTransport[];
+  professorTransports: ProfessorScheduleTransport[];
   timeslots: Timeslot[];
 }
 

@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { SubjectTransport } from '../../../../../../shared/models/subject';
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
-import { ProfessorDetailsTransport } from '../../../../../../shared/models/professor';
+import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   professorId: number = -1;
   numberToPreview: number = 3;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
+  preferredDays$: BehaviorSubject<ProfessorPreferredDay[]>;
   previewSubjects$: BehaviorSubject<SubjectTransport[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
@@ -27,6 +28,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
   ) {
     this.previewSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
+    this.preferredDays$ = new BehaviorSubject<ProfessorPreferredDay[]>([]);
   }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (professorDetails: ProfessorDetailsTransport) => {
           this.professor = professorDetails;
+          this.preferredDays$.next(professorDetails.preferredDays);
           this.previewSubjects$.next(professorDetails.subjectTransportList.slice(0, this.numberToPreview));
         },
       });

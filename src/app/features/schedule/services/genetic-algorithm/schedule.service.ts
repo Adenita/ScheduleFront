@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
-import { ConflictType, Schedule } from '../../shared/models/schedule';
-import { ProgramSubjectDetailsTransport, ProgramTransport } from '../../../../shared/models/program';
-import { SubjectDetailsTransport, SubjectTransport } from '../../../../shared/models/subject';
+import { Schedule } from '../../shared/models/schedule';
+import { ProgramScheduleTransport, ProgramTransport } from '../../../../shared/models/program';
+import { SubjectScheduleTransport, SubjectTransport } from '../../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Classroom } from '../../../../shared/models/classroom';
-import { ProfessorTransport, Role } from '../../../../shared/models/professor';
+import { ProfessorPreferredDay, ProfessorScheduleTransport, Role } from '../../../../shared/models/professor';
 import { DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 
 @Injectable({
@@ -23,8 +23,8 @@ export class ScheduleService {
     const timeslots: Timeslot[] = departmentTransport.timeslots;
     const classrooms: Classroom[] = departmentTransport.classrooms;
 
-    departmentTransport.programTransports.forEach((programDetails: ProgramSubjectDetailsTransport) => {
-      programDetails.subjectsTransport.forEach((subjectDetails: SubjectDetailsTransport) => {
+    departmentTransport.programTransports.forEach((programDetails: ProgramScheduleTransport) => {
+      programDetails.subjectsTransport.forEach((subjectDetails: SubjectScheduleTransport) => {
         subjectDetails.studentGroups.forEach((studentGroup: StudentGroupTransport) => {
           const event: EventTransport = {} as EventTransport;
           event.studentGroupTransport = studentGroup;
@@ -34,7 +34,6 @@ export class ScheduleService {
             studentGroup.groupType === GroupType.EXERCISE
               ? this.getSubjectProfessorByRole(subjectDetails.professors, Role.ASSISTANT)
               : this.getSubjectProfessorByRole(subjectDetails.professors, Role.PROFESSOR);
-
           event.classroom = this.getClassroomForStudentGroup(classrooms, studentGroup, subjectDetails);
 
           event.timeslot = timeslots[this.getRandomIndex(timeslots.length)];
@@ -50,7 +49,7 @@ export class ScheduleService {
     return schedule;
   }
 
-  getSubjectTransportForEvent(subjectDetails: SubjectDetailsTransport) {
+  getSubjectTransportForEvent(subjectDetails: SubjectScheduleTransport) {
     return {
       id: subjectDetails.id,
       name: subjectDetails.name,
@@ -62,16 +61,15 @@ export class ScheduleService {
     } as SubjectTransport;
   }
 
-  getSubjectProfessorByRole(professors: ProfessorTransport[], role: Role) {
+  getSubjectProfessorByRole(professors: ProfessorScheduleTransport[], role: Role) {
     if (professors.length == 1) return professors[0];
-    const filteredProfessors: ProfessorTransport[] = professors.filter((professor) => professor.role.includes(role));
-    return filteredProfessors[0];
+    return professors.find((professor) => professor.role.includes(role))!;
   }
 
   getClassroomForStudentGroup(
     classrooms: Classroom[],
     studentGroup: StudentGroupTransport,
-    subject: SubjectDetailsTransport,
+    subject: SubjectScheduleTransport,
   ): Classroom {
     const suitableClassrooms: Classroom[] = classrooms.filter((classroom) => {
       if (subject.requiresLab === 'Yes' || (subject.requiresLab === 'Exercise only' && studentGroup.groupType === 'Exercise')) {
@@ -91,58 +89,45 @@ export class ScheduleService {
     for (let i = 0; i < schedule.events.length; i++) {
       const event: EventTransport = schedule.events[i];
       event.conflict = false;
-      //@todo Add soft constraints such as preferred start time
+      if (event.professorTransport.preferredDays.length > 0) {
+        const matchedPreferredDay: ProfessorPreferredDay | undefined = this.findMatchedEventProfessorPreferredDays(event);
+        if (!matchedPreferredDay) {
+          event.conflict = true;
+          continue;
+        } else {
+          if (this.isEventMatchingPreferredTime(event, matchedPreferredDay)) {
+            event.conflict = true;
+            continue;
+          }
+        }
+      }
+
       for (let j = i + 1; j < schedule.events.length; j++) {
         const nextEvent: EventTransport = schedule.events[j];
         if (this.hasOverlap(event.timeslot, nextEvent.timeslot)) {
           if (event.classroom.id === nextEvent.classroom.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'Classroom Conflict: ' + event.classroom.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'Classroom Conflict' });
             break;
           }
           if (event.professorTransport.id === nextEvent.professorTransport.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'Professor Conflict: ' + event.professorTransport.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'Professor Conflict' });
             break;
           }
           if (event.studentGroupTransport.id === nextEvent.studentGroupTransport.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'StudentGroup Conflict' });
             break;
           }
           if (event.studentGroupTransport.semester === nextEvent.studentGroupTransport.semester) {
-            if (
-              (event.studentGroupTransport.groupType === GroupType.LECTURE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.EXERCISE) ||
-              (event.studentGroupTransport.groupType === GroupType.EXERCISE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.LECTURE)
-            ) {
+            if (this.doStudentGroupsOverlap(event.studentGroupTransport, nextEvent.studentGroupTransport)) {
               this.numberOfConflicts++;
               event.conflict = true;
-              const conflict: ConflictType = {
-                event,
-                nextEvent,
-                message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
-              };
-              schedule.conflicts.push(conflict);
+              schedule.conflicts.push({ event, nextEvent, message: 'StudentGroup Conflict' });
               break;
             }
           }
@@ -150,6 +135,28 @@ export class ScheduleService {
       }
     }
     return 1 / (this.numberOfConflicts + 1);
+  }
+
+  findMatchedEventProfessorPreferredDays(event: EventTransport): ProfessorPreferredDay | undefined {
+    return event.professorTransport.preferredDays.find(
+      (preferredDay: ProfessorPreferredDay) => preferredDay.day === event.timeslot.day,
+    );
+  }
+
+  isEventMatchingPreferredTime(event: EventTransport, preferredTime: ProfessorPreferredDay): boolean {
+    return (
+      event.timeslot.startHour * 60 + event.timeslot.startMinute <
+        preferredTime.preferredStartHour * 60 + preferredTime.preferredStartMinute ||
+      event.timeslot.endHour * 60 + event.timeslot.endMinute >
+        preferredTime.preferredEndHour * 60 + preferredTime.preferredEndMinute
+    );
+  }
+
+  doStudentGroupsOverlap(studentGroup1: StudentGroupTransport, studentGroup2: StudentGroupTransport): boolean {
+    return (
+      (studentGroup1.groupType === GroupType.LECTURE && studentGroup2.groupType === GroupType.EXERCISE) ||
+      (studentGroup1.groupType === GroupType.EXERCISE && studentGroup2.groupType === GroupType.LECTURE)
+    );
   }
 
   hasOverlap(firstTimeslot: Timeslot, secondTimeslot: Timeslot): boolean {

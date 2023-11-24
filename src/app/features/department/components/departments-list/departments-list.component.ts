@@ -40,7 +40,6 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
     this.departmentService.getAll().subscribe({
       next: (departmentListTransport: DepartmentListTransport) => {
         this.departments$.next(departmentListTransport.departmentTransportList);
-        console.log('department: ', departmentListTransport.departmentTransportList);
       },
       error: (err) => console.error('Error loading departments', err),
     });

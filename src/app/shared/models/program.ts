@@ -1,5 +1,5 @@
 import { StudentGroupTransport } from './student-group';
-import { SubjectDetailsTransport, SubjectTransport } from './subject';
+import { SubjectDetailsTransport, SubjectScheduleTransport, SubjectTransport } from './subject';
 import { ProfessorTransport } from './professor';
 
 export interface ProgramTransport {
@@ -13,6 +13,12 @@ export interface ProgramSubjectDetailsTransport {
   id: number;
   name: string;
   subjectsTransport: SubjectDetailsTransport[];
+}
+
+export interface ProgramScheduleTransport {
+  id: number;
+  name: string;
+  subjectsTransport: SubjectScheduleTransport[];
 }
 
 export interface ProgramDetailsTransport {
