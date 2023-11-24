@@ -89,7 +89,6 @@ export class ScheduleService {
     for (let i = 0; i < schedule.events.length; i++) {
       const event: EventTransport = schedule.events[i];
       event.conflict = false;
-      //@todo Add soft constraints such as preferred start time
       if (event.professorTransport.preferredDays.length > 0) {
         const matchedPreferredDay: ProfessorPreferredDay | undefined = this.findMatchedEventProfessorPreferredDays(event);
         if (!matchedPreferredDay) {
