@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EventTransport } from '../../shared/models/event';
-import { ConflictType, Schedule } from '../../shared/models/schedule';
+import { ConflictType, Schedule, ScheduleTransport } from '../../shared/models/schedule';
 import { ProgramScheduleTransport, ProgramTransport } from '../../../../shared/models/program';
 import { SubjectScheduleTransport, SubjectTransport } from '../../../../shared/models/subject';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
@@ -91,19 +91,12 @@ export class ScheduleService {
       event.conflict = false;
       //@todo Add soft constraints such as preferred start time
       if (event.professorTransport.preferredDays.length > 0) {
-        const matchedPreferredDay: ProfessorPreferredDay | undefined = event.professorTransport.preferredDays.find(
-          (preferredDay: ProfessorPreferredDay) => preferredDay.day === event.timeslot.day,
-        );
+        const matchedPreferredDay: ProfessorPreferredDay | undefined = this.findMatchedEventProfessorPreferredDays(event);
         if (!matchedPreferredDay) {
           event.conflict = true;
           continue;
         } else {
-          if (
-            event.timeslot.startHour * 60 + event.timeslot.startMinute <
-              matchedPreferredDay.preferredStartHour * 60 + matchedPreferredDay.preferredStartMinute ||
-            event.timeslot.endHour * 60 + event.timeslot.endMinute >
-              matchedPreferredDay.preferredEndHour * 60 + matchedPreferredDay.preferredEndMinute
-          ) {
+          if (this.isEventMatchingPreferredTime(event, matchedPreferredDay)) {
             event.conflict = true;
             continue;
           }
@@ -116,51 +109,26 @@ export class ScheduleService {
           if (event.classroom.id === nextEvent.classroom.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'Classroom Conflict: ' + event.classroom.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'Classroom Conflict' });
             break;
           }
           if (event.professorTransport.id === nextEvent.professorTransport.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'Professor Conflict: ' + event.professorTransport.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'Professor Conflict' });
             break;
           }
           if (event.studentGroupTransport.id === nextEvent.studentGroupTransport.id) {
             this.numberOfConflicts++;
             event.conflict = true;
-            const conflict: ConflictType = {
-              event,
-              nextEvent,
-              message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
-            };
-            schedule.conflicts.push(conflict);
+            schedule.conflicts.push({ event, nextEvent, message: 'StudentGroup Conflict' });
             break;
           }
           if (event.studentGroupTransport.semester === nextEvent.studentGroupTransport.semester) {
-            if (
-              (event.studentGroupTransport.groupType === GroupType.LECTURE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.EXERCISE) ||
-              (event.studentGroupTransport.groupType === GroupType.EXERCISE &&
-                nextEvent.studentGroupTransport.groupType === GroupType.LECTURE)
-            ) {
+            if (this.doStudentGroupsOverlap(event.studentGroupTransport, nextEvent.studentGroupTransport)) {
               this.numberOfConflicts++;
               event.conflict = true;
-              const conflict: ConflictType = {
-                event,
-                nextEvent,
-                message: 'StudentGroup Conflict: ' + event.studentGroupTransport.name,
-              };
-              schedule.conflicts.push(conflict);
+              schedule.conflicts.push({ event, nextEvent, message: 'StudentGroup Conflict' });
               break;
             }
           }
@@ -168,6 +136,28 @@ export class ScheduleService {
       }
     }
     return 1 / (this.numberOfConflicts + 1);
+  }
+
+  findMatchedEventProfessorPreferredDays(event: EventTransport): ProfessorPreferredDay | undefined {
+    return event.professorTransport.preferredDays.find(
+      (preferredDay: ProfessorPreferredDay) => preferredDay.day === event.timeslot.day,
+    );
+  }
+
+  isEventMatchingPreferredTime(event: EventTransport, preferredTime: ProfessorPreferredDay): boolean {
+    return (
+      event.timeslot.startHour * 60 + event.timeslot.startMinute <
+        preferredTime.preferredStartHour * 60 + preferredTime.preferredStartMinute ||
+      event.timeslot.endHour * 60 + event.timeslot.endMinute >
+        preferredTime.preferredEndHour * 60 + preferredTime.preferredEndMinute
+    );
+  }
+
+  doStudentGroupsOverlap(studentGroup1: StudentGroupTransport, studentGroup2: StudentGroupTransport): boolean {
+    return (
+      (studentGroup1.groupType === GroupType.LECTURE && studentGroup2.groupType === GroupType.EXERCISE) ||
+      (studentGroup1.groupType === GroupType.EXERCISE && studentGroup2.groupType === GroupType.LECTURE)
+    );
   }
 
   hasOverlap(firstTimeslot: Timeslot, secondTimeslot: Timeslot): boolean {
