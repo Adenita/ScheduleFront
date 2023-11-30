@@ -1,6 +1,8 @@
 import { EventTransport } from './event';
 
 export interface ScheduleTransport {
+  id: number;
+  semester: string;
   events: EventTransport[];
   fitness: number;
   creationDate: Date;
