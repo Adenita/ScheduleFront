@@ -17,6 +17,9 @@ export class ScheduleGenerationModalComponent {
   @Input()
   schedules$!: BehaviorSubject<ScheduleTransport[]>;
 
+  @Input()
+  departmentId!: number;
+
   constructor(
     public activeModal: NgbActiveModal,
     public scheduleDataService: ScheduleDataService,
@@ -30,7 +33,7 @@ export class ScheduleGenerationModalComponent {
       events: this.bestScheduleEvents$.getValue(),
       fitness: 1,
     } as ScheduleTransport;
-    this.scheduleDataService.post(scheduleTransport).subscribe({
+    this.scheduleDataService.addScheduleToDepartment(scheduleTransport, this.departmentId).subscribe({
       next: (scheduleTransport: ScheduleTransport) => {
         this.schedules$.next([...this.schedules$.getValue(), scheduleTransport]);
         this.closeModal();
