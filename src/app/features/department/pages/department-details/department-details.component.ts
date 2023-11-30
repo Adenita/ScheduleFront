@@ -9,6 +9,8 @@ import { ProgramTransport, ProgramDetailsTransport } from '../../../../shared/mo
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { SubjectTransport } from '../../../../shared/models/subject';
 import { StudentGroupTransport } from '../../../../shared/models/student-group';
+import { ScheduleTransport } from '../../../schedule/shared/models/schedule';
+import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 
 @Component({
   selector: 'app-department-details',
@@ -24,26 +26,32 @@ export class DepartmentDetailsComponent implements OnInit {
   previewClassrooms: BehaviorSubject<Classroom[]>;
   previewSubjects: BehaviorSubject<SubjectTransport[]>;
   previewStudentGroups: BehaviorSubject<StudentGroupTransport[]>;
+  previewSchedules$: BehaviorSubject<ScheduleTransport[]>;
   currentRoute: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private departmentService: DepartmentService,
+    private scheduleDataService: ScheduleDataService,
   ) {
     this.previewPrograms = new BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>([]);
     this.previewProfessors = new BehaviorSubject<ProfessorTransport[]>([]);
     this.previewClassrooms = new BehaviorSubject<Classroom[]>([]);
     this.previewSubjects = new BehaviorSubject<SubjectTransport[]>([]);
     this.previewStudentGroups = new BehaviorSubject<StudentGroupTransport[]>([]);
+    this.previewSchedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
   }
 
   ngOnInit(): void {
-    this.routeParametersService.getRouteParams(this.route).then(() => {
-      this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.setRoute('');
-      this.getDepartment(this.departmentId);
-    });
+    this.routeParametersService
+      .getRouteParams(this.route)
+      .then(() => {
+        this.departmentId = this.routeParametersService.departmentId;
+        this.currentRoute = this.routeParametersService.setRoute('');
+      })
+      .then(() => this.getDepartment(this.departmentId))
+      .then(() => this.getDepartmentSchedules(this.departmentId));
   }
 
   getDepartment(departmentId: number) {
@@ -55,6 +63,14 @@ export class DepartmentDetailsComponent implements OnInit {
         this.previewClassrooms.next(department.classrooms.slice(0, this.numberToPreview));
         this.previewSubjects.next(department.subjectTransports.slice(0, this.numberToPreview));
         this.previewStudentGroups.next(department.studentGroupTransports?.slice(0, this.numberToPreview));
+      },
+    });
+  }
+
+  getDepartmentSchedules(departmentId: number) {
+    this.scheduleDataService.getDepartmentSchedules(departmentId).subscribe({
+      next: (schedules) => {
+        this.previewSchedules$.next(schedules.scheduleTransports.slice(0, this.numberToPreview));
       },
     });
   }

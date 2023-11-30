@@ -8,6 +8,21 @@
   <div class="row mt-4 border-bottom">
     <div class="col-md-4">
       <div class="description-box p-3">
+        <h3>Schedules Preview</h3>
+        <p class="mb-2"><strong>Schedules count:</strong> 10</p>
+        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
+        <button class="btn btn-dark" [routerLink]="[currentRoute, 'schedules']">View All</button>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div>
+        <app-schedule-list [schedules$]="previewSchedules$"></app-schedule-list>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4 border-bottom">
+    <div class="col-md-4">
+      <div class="description-box p-3">
         <h3>Programs Preview</h3>
         <p class="mb-2"><strong>Programs count:</strong> 10</p>
         <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
