@@ -14,6 +14,12 @@ export class ClassroomScheduleComponent implements OnInit, OnDestroy {
 
   classroomSchedulePerDayMap!: Map<DAY, ScheduleTransport>;
   destroyed$: Subject<void> = new Subject<void>();
+  emptyScheduleTransport: ScheduleTransport;
+  days: DAY[] = Object.values(DAY);
+
+  constructor() {
+    this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
+  }
 
   ngOnInit(): void {
     this.classroomSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
