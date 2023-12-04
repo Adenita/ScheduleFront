@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row mt-4">
   <div class="col-md-10">
     <app-classroom-schedule [classroomSchedule$]="classroomSchedule$"></app-classroom-schedule>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 mt-3">
     <div class="d-flex flex-column">
-      <h3>Classrooms</h3>
+      <h4 class="fw-semibold">Classrooms</h4>
       <button *ngFor="let classroom of classrooms"
                       class="btn btn-outline-dark me-2 mb-2"
                       (click)="loadClassroomSchedule(classroom)">
