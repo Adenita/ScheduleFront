@@ -10,6 +10,8 @@ export class RouteParametersService {
   private _professorId: number | null = null;
   private _subjectId: number | null = null;
   private _studentGroupId: number | null = null;
+  private _classroomId: number | null = null;
+  private _scheduleId: number | null = null;
 
   getRouteParams(activatedRoute: ActivatedRoute): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -19,6 +21,8 @@ export class RouteParametersService {
         this._professorId = +params['ppid'] || null;
         this._subjectId = +params['sid'] || null;
         this._studentGroupId = +params['ssid'] || null;
+        this._classroomId = +params['cid'] || null;
+        this._scheduleId = +params['scid'] || null;
         resolve();
       });
     });
@@ -29,6 +33,14 @@ export class RouteParametersService {
 
     if (this.departmentId != -1) {
       route += '/departments/' + this.departmentId;
+    }
+
+    if (this.scheduleId != -1) {
+      route += '/schedules/' + this.scheduleId;
+    }
+
+    if (this.classroomId != -1) {
+      route += '/classrooms/' + this.classroomId;
     }
 
     if (this.programId != -1) {
@@ -68,5 +80,13 @@ export class RouteParametersService {
 
   get studentGroupId(): number {
     return this._studentGroupId ?? -1;
+  }
+
+  get scheduleId(): number {
+    return this._scheduleId ?? -1;
+  }
+
+  get classroomId(): number {
+    return this._classroomId ?? -1;
   }
 }
