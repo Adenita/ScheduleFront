@@ -12,6 +12,10 @@ import { ScheduleDataService } from '../../../../core/services/http/schedule-dat
 import { EventTransport } from '../../shared/models/event';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleGenerationModalComponent } from '../../components/schedule-generation-modal/schedule-generation-modal.component';
+import { Classroom } from '../../../../shared/models/classroom';
+import { DAY } from '../../../../shared/models/timeslots';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 
 @Component({
   selector: 'app-schedule-management',
@@ -19,13 +23,15 @@ import { ScheduleGenerationModalComponent } from '../../components/schedule-gene
   styleUrls: ['./schedule-management.component.css'],
 })
 export class ScheduleManagementComponent implements OnInit {
-  departmentId: number = 1;
+  departmentId: number = -1;
   currentBestSchedule!: ScheduleTransport;
   departmentScheduleDetailTransport: DepartmentScheduleDetailTransport;
   departmentTransport: DepartmentDetailTransport;
 
   currentProgramName: string = '';
   programScheduleMap: Map<number, ScheduleTransport>;
+  classroomScheduleMap: Map<number, ScheduleTransport>;
+  currentRoute: string = '';
   programSchedule$: BehaviorSubject<ScheduleTransport>;
 
   populationSize: number = 200;
@@ -35,23 +41,37 @@ export class ScheduleManagementComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute,
     private departmentService: DepartmentService,
     private scheduleService: ScheduleService,
     private populationService: PopulationService,
     private geneticAlgorithmService: GeneticAlgorithmService,
     private scheduleDataService: ScheduleDataService,
+    private routeParametersService: RouteParametersService,
   ) {
     this.departmentTransport = {} as DepartmentDetailTransport;
     this.departmentScheduleDetailTransport = {} as DepartmentScheduleDetailTransport;
     this.programScheduleMap = new Map<number, ScheduleTransport>();
+    this.classroomScheduleMap = new Map<number, ScheduleTransport>();
     this.bestScheduleEvents$ = new BehaviorSubject<EventTransport[]>([]);
     this.schedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
     this.programSchedule$ = new BehaviorSubject<ScheduleTransport>({} as ScheduleTransport);
   }
 
   ngOnInit() {
-    this.getDepartmentData().then((departmentData) => (this.departmentTransport = departmentData));
-    this.getDepartmentScheduleDetails()
+    this.routeParametersService
+      .getRouteParams(this.route)
+      .then(() => {
+        this.departmentId = this.routeParametersService.departmentId;
+        this.currentRoute = this.routeParametersService.setRoute('schedules');
+      })
+      .then(() => this.getDepartmentData())
+      .then((departmentData) => {
+        this.departmentTransport = departmentData;
+      })
+      .then(() => this.getDepartmentScheduleDetails())
+
       .then((departmentData) => (this.departmentScheduleDetailTransport = departmentData))
       .then(() => this.getSchedules());
   }
@@ -71,6 +91,7 @@ export class ScheduleManagementComponent implements OnInit {
         this.schedules$.next(schedules);
         this.currentBestSchedule = schedules[schedules.length - 1];
         this.setSchedulePerProgramMap(this.currentBestSchedule, this.departmentTransport.programTransports);
+        this.setSchedulePerClassroomMap(this.currentBestSchedule, this.departmentTransport.classrooms);
         this.currentProgramName = this.departmentTransport.programTransports[0].name;
         this.setCurrentProgramSchedule(1);
       },
@@ -97,9 +118,26 @@ export class ScheduleManagementComponent implements OnInit {
     });
   }
 
+  setSchedulePerClassroomMap(schedule: ScheduleTransport, classrooms: Classroom[]) {
+    classrooms.forEach((classroom) => {
+      const classroomSchedule = {} as ScheduleTransport;
+      const events: EventTransport[] = this.currentBestSchedule.events.filter((event) => event.classroom.id === classroom.id);
+      const days = Object.values(DAY);
+      events.sort((event1, event2) => days.indexOf(event1.timeslot.day) - days.indexOf(event2.timeslot.day));
+      classroomSchedule.events = events;
+      classroomSchedule.fitness = 1;
+      classroomSchedule.creationDate = new Date();
+      this.classroomScheduleMap.set(classroom.id, classroomSchedule);
+    });
+  }
+
   loadProgramSchedule(program: ProgramTransport) {
     this.currentProgramName = program.name;
     this.setCurrentProgramSchedule(program.id);
+  }
+
+  loadClassroomSchedule(classroom: Classroom) {
+    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'classrooms', classroom.id]);
   }
 
   setCurrentProgramSchedule(programId: number) {
@@ -118,6 +156,7 @@ export class ScheduleManagementComponent implements OnInit {
     const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
     modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
     modalRef.componentInstance.schedules$ = this.schedules$;
+    modalRef.componentInstance.departmentId = this.departmentId;
     this.generateBestSchedule();
   }
 

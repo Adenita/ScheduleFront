@@ -18,6 +18,17 @@
                 </button>
               </div>
             </div>
+
+            <div class="mt-4">
+              <h3>Classrooms</h3>
+              <div>
+                <button *ngFor="let classroom of departmentTransport.classrooms"
+                        class="btn btn-outline-dark me-2 mb-2"
+                        (click)="loadClassroomSchedule(classroom)">
+                  {{classroom.name}}
+                </button>
+              </div>
+            </div>
           </div>
     </div>
 
