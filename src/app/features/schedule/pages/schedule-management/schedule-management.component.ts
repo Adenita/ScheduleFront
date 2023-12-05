@@ -3,15 +3,12 @@ import { ScheduleListTransport, ScheduleTransport } from '../../shared/models/sc
 import { BehaviorSubject, firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
-import { ProgramTransport } from '../../../../shared/models/program';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { EventTransport } from '../../shared/models/event';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleGenerationModalComponent } from '../../components/schedule-generation-modal/schedule-generation-modal.component';
-import { Classroom } from '../../../../shared/models/classroom';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
-import { ProfessorTransport } from '../../../../shared/models/professor';
 import { ScheduleGenerationService } from '../../services/schedule-generation.service';
 
 @Component({
@@ -73,16 +70,8 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadProgramSchedule(program: ProgramTransport) {
-    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'programs', program.id]);
-  }
-
-  loadClassroomSchedule(classroom: Classroom) {
-    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'classrooms', classroom.id]);
-  }
-
-  loadProfessorSchedule(professor: ProfessorTransport) {
-    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'professors', professor.id]);
+  navigateToPage(path: string, id: number) {
+    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, path, id]);
   }
 
   selectSchedule(schedule: ScheduleTransport) {

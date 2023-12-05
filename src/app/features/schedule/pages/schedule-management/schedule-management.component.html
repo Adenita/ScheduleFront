@@ -7,7 +7,7 @@
               <div>
                 <button *ngFor="let program of departmentTransport.programTransports"
                         class="btn btn-outline-dark me-2 mb-2"
-                        (click)="loadProgramSchedule(program)">
+                        (click)="navigateToPage('programs', program.id)">
                   {{program.name}}
                 </button>
               </div>
@@ -18,7 +18,7 @@
               <div>
                 <button *ngFor="let classroom of departmentTransport.classrooms"
                         class="btn btn-outline-dark me-2 mb-2"
-                        (click)="loadClassroomSchedule(classroom)">
+                        (click)="navigateToPage('classrooms', classroom.id)">
                   {{classroom.name}}
                 </button>
               </div>
@@ -29,7 +29,7 @@
               <div>
                 <button *ngFor="let professor of departmentTransport.professorTransports"
                         class="btn btn-outline-dark me-2 mb-2"
-                        (click)="loadProfessorSchedule(professor)">
+                        (click)="navigateToPage('professors', professor.id)">
                   {{professor.name}}
                 </button>
               </div>
