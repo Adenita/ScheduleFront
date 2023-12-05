@@ -6,7 +6,6 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { PopulationService } from '../../services/genetic-algorithm/population.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
-import { ScheduleService } from '../../services/genetic-algorithm/schedule.service';
 import { ProgramTransport } from '../../../../shared/models/program';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { EventTransport } from '../../shared/models/event';
@@ -36,11 +35,10 @@ export class ScheduleManagementComponent implements OnInit {
   schedules$: BehaviorSubject<ScheduleTransport[]>;
 
   constructor(
-    private modalService: NgbModal,
     private router: Router,
+    private modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
     private departmentService: DepartmentService,
-    private scheduleService: ScheduleService,
     private populationService: PopulationService,
     private geneticAlgorithmService: GeneticAlgorithmService,
     private scheduleDataService: ScheduleDataService,
