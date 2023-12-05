@@ -6,6 +6,7 @@ import { RouteParametersService } from '../../../../core/services/route-paramete
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
+import { ClassroomService } from '../../../../core/services/http/classroom.service';
 
 @Component({
   selector: 'app-classroom-schedule-management',
@@ -19,25 +20,26 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
 
   classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
   classrooms!: Classroom[];
+  classroomName: string = '';
 
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
-    private router: Router,
+    private classroomService: ClassroomService,
   ) {
     this.classroomSchedule$ = new BehaviorSubject({} as ScheduleTransport);
   }
 
   ngOnInit() {
     this.getRouteParameters()
-      .then(() => {
-        this.getScheduleForClassroom(this.scheduleId, this.classroomId);
-      })
+      .then(() => this.getInitialClassroom(this.classroomId))
+      .then(() => this.getScheduleForClassroom(this.scheduleId, this.classroomId))
       .then(() => {
         if (this.departmentId != -1) {
           this.getDepartmentClassrooms(this.departmentId);
@@ -79,7 +81,19 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
     const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
     const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
+    this.classroomName = classroom.name;
     this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
+  }
+
+  getInitialClassroom(professorId: number) {
+    this.classroomService
+      .get(professorId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (classroom: Classroom) => {
+          this.classroomName = classroom.name;
+        },
+      });
   }
 
   ngOnDestroy(): void {
