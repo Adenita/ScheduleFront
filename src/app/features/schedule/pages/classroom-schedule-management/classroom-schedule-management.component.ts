@@ -17,7 +17,6 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   classroomId: number = -1;
   departmentId: number = -1;
 
-  classroomScheduleMap: Map<number, ScheduleTransport>;
   classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
   classrooms!: Classroom[];
 
@@ -31,7 +30,6 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private router: Router,
   ) {
-    this.classroomScheduleMap = new Map<number, ScheduleTransport>();
     this.classroomSchedule$ = new BehaviorSubject({} as ScheduleTransport);
   }
 

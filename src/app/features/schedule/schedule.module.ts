@@ -7,9 +7,10 @@ import { ScheduleManagementComponent } from './pages/schedule-management/schedul
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { ClassroomScheduleComponent } from './components/classroom-schedule/classroom-schedule.component';
 import { ClassroomScheduleManagementComponent } from './pages/classroom-schedule-management/classroom-schedule-management.component';
+import { ProgramScheduleManagementComponent } from './pages/program-schedule-management/program-schedule-management.component';
 
 @NgModule({
-  declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent, ClassroomScheduleComponent, ClassroomScheduleManagementComponent],
+  declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent, ClassroomScheduleComponent, ClassroomScheduleManagementComponent, ProgramScheduleManagementComponent],
   imports: [CommonModule, ScheduleRoutingModule],
 })
 export class ScheduleModule {}

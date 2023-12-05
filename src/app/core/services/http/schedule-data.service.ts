@@ -25,5 +25,9 @@ export class ScheduleDataService extends DataService<ScheduleTransport, Schedule
     return this.httpClient.get<ScheduleTransport>(`${this.url}/${this.apiUrl}/${scheduleId}/classrooms/${classroomId}`);
   }
 
+  getScheduleForProgram(scheduleId: number, programId: number): Observable<ScheduleTransport> {
+    return this.httpClient.get<ScheduleTransport>(`${this.url}/${this.apiUrl}/${scheduleId}/programs/${programId}`);
+  }
+
   //cache schedule
 }
