@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
-import { GeneticAlgorithmService } from '../../services/genetic-algorithm/genetic-algorithm.service';
-import { Population } from '../../shared/models/population';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { PopulationService } from '../../services/genetic-algorithm/population.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 import { ProgramTransport } from '../../../../shared/models/program';
@@ -15,6 +12,7 @@ import { Classroom } from '../../../../shared/models/classroom';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { ProfessorTransport } from '../../../../shared/models/professor';
+import { ScheduleGenerationService } from '../../services/schedule-generation.service';
 
 @Component({
   selector: 'app-schedule-management',
@@ -39,10 +37,9 @@ export class ScheduleManagementComponent implements OnInit {
     private modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
     private departmentService: DepartmentService,
-    private populationService: PopulationService,
-    private geneticAlgorithmService: GeneticAlgorithmService,
     private scheduleDataService: ScheduleDataService,
     private routeParametersService: RouteParametersService,
+    private generateBestScheduleService: ScheduleGenerationService,
   ) {
     this.departmentTransport = {} as DepartmentDetailTransport;
     this.departmentScheduleDetailTransport = {} as DepartmentScheduleDetailTransport;
@@ -106,23 +103,11 @@ export class ScheduleManagementComponent implements OnInit {
     modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
     modalRef.componentInstance.schedules$ = this.schedules$;
     modalRef.componentInstance.departmentId = this.departmentId;
-    this.generateBestSchedule();
-  }
-
-  generateBestSchedule() {
-    this.generation = 1;
-    let population: Population = this.populationService.generatePopulation(
+    this.generateBestScheduleService.generateBestSchedule(
+      this.generation,
       this.populationSize,
       this.departmentScheduleDetailTransport,
+      this.bestScheduleEvents$,
     );
-    const intervalId = setInterval(() => {
-      population = this.geneticAlgorithmService.evolve(population, this.departmentScheduleDetailTransport.timeslots);
-      this.populationService.sortByFitness(population);
-      this.bestScheduleEvents$.next(population.schedules[0].events);
-      if (population.schedules[0].fitness === 1) {
-        clearInterval(intervalId);
-      }
-      this.generation++;
-    }, 90);
   }
 }
