@@ -16,6 +16,7 @@ import { Classroom } from '../../../../shared/models/classroom';
 import { DAY } from '../../../../shared/models/timeslots';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
+import { ProfessorTransport } from '../../../../shared/models/professor';
 
 @Component({
   selector: 'app-schedule-management',
@@ -139,6 +140,10 @@ export class ScheduleManagementComponent implements OnInit {
 
   loadClassroomSchedule(classroom: Classroom) {
     this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'classrooms', classroom.id]);
+  }
+
+  loadProfessorSchedule(professor: ProfessorTransport) {
+    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'professors', professor.id]);
   }
 
   setCurrentProgramSchedule(programId: number) {

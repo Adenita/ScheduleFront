@@ -8,9 +8,11 @@ import { ScheduleRoutingModule } from './schedule-routing.module';
 import { ClassroomScheduleComponent } from './components/classroom-schedule/classroom-schedule.component';
 import { ClassroomScheduleManagementComponent } from './pages/classroom-schedule-management/classroom-schedule-management.component';
 import { ProgramScheduleManagementComponent } from './pages/program-schedule-management/program-schedule-management.component';
+import { ProfessorScheduleManagementComponent } from './pages/professor-schedule-management/professor-schedule-management.component';
+import { ProfessorScheduleComponent } from './components/professor-schedule/professor-schedule.component';
 
 @NgModule({
-  declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent, ClassroomScheduleComponent, ClassroomScheduleManagementComponent, ProgramScheduleManagementComponent],
+  declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent, ClassroomScheduleComponent, ClassroomScheduleManagementComponent, ProgramScheduleManagementComponent, ProfessorScheduleManagementComponent, ProfessorScheduleComponent],
   imports: [CommonModule, ScheduleRoutingModule],
 })
 export class ScheduleModule {}

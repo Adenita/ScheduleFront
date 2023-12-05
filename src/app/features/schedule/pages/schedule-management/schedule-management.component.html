@@ -29,6 +29,17 @@
                 </button>
               </div>
             </div>
+
+            <div class="mt-4">
+              <h3>Professors</h3>
+              <div>
+                <button *ngFor="let professor of departmentTransport.professorTransports"
+                        class="btn btn-outline-dark me-2 mb-2"
+                        (click)="loadProfessorSchedule(professor)">
+                  {{professor.name}}
+                </button>
+              </div>
+            </div>
           </div>
     </div>
 
