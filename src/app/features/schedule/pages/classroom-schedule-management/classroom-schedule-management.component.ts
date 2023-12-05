@@ -76,7 +76,9 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   loadClassroomSchedule(classroom: Classroom) {
-    const nextRoute = this.currentRoute.slice(0, this.currentRoute.length - 2);
+    const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
+    const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
+    const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
   }
 
