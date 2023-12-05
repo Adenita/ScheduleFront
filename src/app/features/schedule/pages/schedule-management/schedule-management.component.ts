@@ -41,7 +41,7 @@ export class ScheduleManagementComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private departmentService: DepartmentService,
     private scheduleService: ScheduleService,
     private populationService: PopulationService,
@@ -58,12 +58,7 @@ export class ScheduleManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routeParametersService
-      .getRouteParams(this.route)
-      .then(() => {
-        this.departmentId = this.routeParametersService.departmentId;
-        this.currentRoute = this.routeParametersService.setRoute('schedules');
-      })
+    this.getRouteParameters()
       .then(() => this.getDepartmentData())
       .then((departmentData) => {
         this.departmentTransport = departmentData;
@@ -80,6 +75,13 @@ export class ScheduleManagementComponent implements OnInit {
 
   async getDepartmentData() {
     return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
+  }
+
+  getRouteParameters() {
+    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
+      this.currentRoute = this.routeParametersService.setRoute('schedules');
+    });
   }
 
   getSchedules(): void {
