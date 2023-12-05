@@ -28,10 +28,7 @@ export class ScheduleManagementComponent implements OnInit {
   departmentScheduleDetailTransport: DepartmentScheduleDetailTransport;
   departmentTransport: DepartmentDetailTransport;
 
-  currentProgramName: string = '';
-  programScheduleMap: Map<number, ScheduleTransport>;
   currentRoute: string = '';
-  programSchedule$: BehaviorSubject<ScheduleTransport>;
 
   populationSize: number = 200;
   generation: number = 1;
@@ -51,10 +48,8 @@ export class ScheduleManagementComponent implements OnInit {
   ) {
     this.departmentTransport = {} as DepartmentDetailTransport;
     this.departmentScheduleDetailTransport = {} as DepartmentScheduleDetailTransport;
-    this.programScheduleMap = new Map<number, ScheduleTransport>();
     this.bestScheduleEvents$ = new BehaviorSubject<EventTransport[]>([]);
     this.schedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
-    this.programSchedule$ = new BehaviorSubject<ScheduleTransport>({} as ScheduleTransport);
   }
 
   ngOnInit() {
@@ -87,36 +82,12 @@ export class ScheduleManagementComponent implements OnInit {
         const schedules = scheduleListTransport.scheduleTransports;
         this.schedules$.next(schedules);
         this.currentBestSchedule = schedules[schedules.length - 1];
-        this.setSchedulePerProgramMap(this.currentBestSchedule, this.departmentTransport.programTransports);
-        this.currentProgramName = this.departmentTransport.programTransports[0].name;
-        this.setCurrentProgramSchedule(1);
       },
       error: (err) => console.error('Error fetching professors', err),
     });
   }
 
-  setCurrentProgramName() {
-    const program = this.departmentTransport.programTransports.filter((programTransport) => (programTransport.id = 1))[0];
-    this.currentProgramName = program.name;
-  }
-
-  setSchedulePerProgramMap(schedule: ScheduleTransport, programs: ProgramTransport[]) {
-    programs.forEach((program) => {
-      const programSchedule = {} as ScheduleTransport;
-      const events: EventTransport[] = this.currentBestSchedule.events.filter(
-        (event) => event.programTransport.id === program.id,
-      );
-      events.sort((event1, event2) => event1.id - event2.id);
-      programSchedule.events = events;
-      programSchedule.fitness = 1;
-      programSchedule.creationDate = new Date();
-      this.programScheduleMap.set(program.id, programSchedule);
-    });
-  }
-
   loadProgramSchedule(program: ProgramTransport) {
-    this.currentProgramName = program.name;
-    this.setCurrentProgramSchedule(program.id);
     this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'programs', program.id]);
   }
 
@@ -128,16 +99,8 @@ export class ScheduleManagementComponent implements OnInit {
     this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'professors', professor.id]);
   }
 
-  setCurrentProgramSchedule(programId: number) {
-    const schedule = this.programScheduleMap.get(programId);
-    if (schedule) {
-      this.programSchedule$.next(schedule);
-    }
-  }
   selectSchedule(schedule: ScheduleTransport) {
     this.currentBestSchedule = schedule;
-    this.setSchedulePerProgramMap(schedule, this.departmentTransport.programTransports);
-    this.setCurrentProgramSchedule(1);
   }
 
   openGenerateScheduleModal() {
