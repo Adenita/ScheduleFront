@@ -134,6 +134,7 @@ export class ScheduleManagementComponent implements OnInit {
   loadProgramSchedule(program: ProgramTransport) {
     this.currentProgramName = program.name;
     this.setCurrentProgramSchedule(program.id);
+    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, 'programs', program.id]);
   }
 
   loadClassroomSchedule(classroom: Classroom) {
