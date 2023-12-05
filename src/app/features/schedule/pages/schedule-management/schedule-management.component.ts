@@ -60,11 +60,8 @@ export class ScheduleManagementComponent implements OnInit {
   ngOnInit() {
     this.getRouteParameters()
       .then(() => this.getDepartmentData())
-      .then((departmentData) => {
-        this.departmentTransport = departmentData;
-      })
+      .then((departmentData) => (this.departmentTransport = departmentData))
       .then(() => this.getDepartmentScheduleDetails())
-
       .then((departmentData) => (this.departmentScheduleDetailTransport = departmentData))
       .then(() => this.getSchedules());
   }
