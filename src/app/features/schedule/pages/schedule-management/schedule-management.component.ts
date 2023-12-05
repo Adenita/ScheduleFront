@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ScheduleListTransport, ScheduleTransport } from '../../shared/models/schedule';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 import { ProgramTransport } from '../../../../shared/models/program';
@@ -19,7 +19,7 @@ import { ScheduleGenerationService } from '../../services/schedule-generation.se
   templateUrl: './schedule-management.component.html',
   styleUrls: ['./schedule-management.component.css'],
 })
-export class ScheduleManagementComponent implements OnInit {
+export class ScheduleManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   currentBestSchedule!: ScheduleTransport;
   departmentScheduleDetailTransport: DepartmentScheduleDetailTransport;
@@ -31,6 +31,7 @@ export class ScheduleManagementComponent implements OnInit {
   generation: number = 1;
   bestScheduleEvents$: BehaviorSubject<EventTransport[]>;
   schedules$: BehaviorSubject<ScheduleTransport[]>;
+  destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -53,7 +54,10 @@ export class ScheduleManagementComponent implements OnInit {
       .then((departmentData) => (this.departmentTransport = departmentData))
       .then(() => this.getDepartmentScheduleDetails())
       .then((departmentData) => (this.departmentScheduleDetailTransport = departmentData))
-      .then(() => this.getSchedules());
+      .then(() => {
+        if (this.departmentId == -1) this.getSchedules();
+        else this.getDepartmentSchedules(this.departmentId);
+      });
   }
 
   openGenerateScheduleModal() {
@@ -101,13 +105,35 @@ export class ScheduleManagementComponent implements OnInit {
   }
 
   getSchedules(): void {
-    this.scheduleDataService.getAll().subscribe({
-      next: (scheduleListTransport: ScheduleListTransport) => {
-        const schedules = scheduleListTransport.scheduleTransports;
-        this.schedules$.next(schedules);
-        this.currentBestSchedule = schedules[schedules.length - 1];
-      },
-      error: (err) => console.error('Error fetching professors', err),
-    });
+    this.scheduleDataService
+      .getAll()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (scheduleListTransport: ScheduleListTransport) => {
+          const schedules = scheduleListTransport.scheduleTransports;
+          this.schedules$.next(schedules);
+          this.currentBestSchedule = schedules[schedules.length - 1];
+        },
+        error: (err) => console.error('Error fetching schedules', err),
+      });
+  }
+
+  getDepartmentSchedules(departmentId: number) {
+    this.scheduleDataService
+      .getDepartmentSchedules(departmentId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (scheduleListTransport: ScheduleListTransport) => {
+          const schedules = scheduleListTransport.scheduleTransports;
+          this.schedules$.next(schedules);
+          this.currentBestSchedule = schedules[schedules.length - 1];
+        },
+        error: (err) => console.error('Error fetching schedules', err),
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 }
