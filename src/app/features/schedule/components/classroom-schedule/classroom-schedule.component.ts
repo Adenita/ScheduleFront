@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ScheduleTransport } from '../../shared/models/schedule';
-import { DAY, Timeslot } from '../../../../shared/models/timeslots';
+import { DAY } from '../../../../shared/models/timeslots';
 import { ScheduleGroupingService } from '../../services/schedule-grouping.service';
 
 @Component({
