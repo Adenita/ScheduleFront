@@ -1,0 +1,19 @@
+<div class="row mt-4 text-center">
+  <h2 class="fw-semibold">{{programName}}</h2>
+</div>
+<div class="row ">
+  <div class="col-md-10">
+    <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
+  </div>
+  <div class="col-md-2 mt-3">
+    <div class="d-flex flex-column">
+      <h4 class="fw-semibold">Programs</h4>
+      <button *ngFor="let program of programs"
+              class="btn btn-outline-dark me-2 mb-2"
+              (click)="loadProgramSchedule(program)">
+        {{program.name}}
+      </button>
+    </div>
+  </div>
+</div>
+
