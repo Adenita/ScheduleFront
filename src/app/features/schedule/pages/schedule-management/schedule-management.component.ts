@@ -56,30 +56,17 @@ export class ScheduleManagementComponent implements OnInit {
       .then(() => this.getSchedules());
   }
 
-  async getDepartmentScheduleDetails() {
-    return await firstValueFrom(this.departmentService.getDepartmentScheduleDetails(this.departmentId));
-  }
-
-  async getDepartmentData() {
-    return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
-  }
-
-  getRouteParameters() {
-    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
-      this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.setRoute('schedules');
-    });
-  }
-
-  getSchedules(): void {
-    this.scheduleDataService.getAll().subscribe({
-      next: (scheduleListTransport: ScheduleListTransport) => {
-        const schedules = scheduleListTransport.scheduleTransports;
-        this.schedules$.next(schedules);
-        this.currentBestSchedule = schedules[schedules.length - 1];
-      },
-      error: (err) => console.error('Error fetching professors', err),
-    });
+  openGenerateScheduleModal() {
+    const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
+    modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
+    modalRef.componentInstance.schedules$ = this.schedules$;
+    modalRef.componentInstance.departmentId = this.departmentId;
+    this.generateBestScheduleService.generateBestSchedule(
+      this.generation,
+      this.populationSize,
+      this.departmentScheduleDetailTransport,
+      this.bestScheduleEvents$,
+    );
   }
 
   loadProgramSchedule(program: ProgramTransport) {
@@ -98,16 +85,29 @@ export class ScheduleManagementComponent implements OnInit {
     this.currentBestSchedule = schedule;
   }
 
-  openGenerateScheduleModal() {
-    const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
-    modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
-    modalRef.componentInstance.schedules$ = this.schedules$;
-    modalRef.componentInstance.departmentId = this.departmentId;
-    this.generateBestScheduleService.generateBestSchedule(
-      this.generation,
-      this.populationSize,
-      this.departmentScheduleDetailTransport,
-      this.bestScheduleEvents$,
-    );
+  getRouteParameters() {
+    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
+      this.currentRoute = this.routeParametersService.setRoute('schedules');
+    });
+  }
+
+  async getDepartmentScheduleDetails() {
+    return await firstValueFrom(this.departmentService.getDepartmentScheduleDetails(this.departmentId));
+  }
+
+  async getDepartmentData() {
+    return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
+  }
+
+  getSchedules(): void {
+    this.scheduleDataService.getAll().subscribe({
+      next: (scheduleListTransport: ScheduleListTransport) => {
+        const schedules = scheduleListTransport.scheduleTransports;
+        this.schedules$.next(schedules);
+        this.currentBestSchedule = schedules[schedules.length - 1];
+      },
+      error: (err) => console.error('Error fetching professors', err),
+    });
   }
 }
