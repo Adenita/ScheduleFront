@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ScheduleTransport } from '../../shared/models/schedule';
-import { DAY, Timeslot } from '../../../../shared/models/timeslots';
+import { DAY } from '../../../../shared/models/timeslots';
+import { ScheduleGroupingService } from '../../services/schedule-grouping.service';
 
 @Component({
   selector: 'app-professor-schedule',
@@ -16,7 +17,7 @@ export class ProfessorScheduleComponent implements OnInit, OnDestroy {
   emptyScheduleTransport: ScheduleTransport;
   days: DAY[] = Object.values(DAY);
 
-  constructor() {
+  constructor(private scheduleGroupingService: ScheduleGroupingService) {
     this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
   }
 
@@ -24,36 +25,10 @@ export class ProfessorScheduleComponent implements OnInit, OnDestroy {
     this.professorSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
       next: (schedule: ScheduleTransport) => {
         if (schedule.events) {
-          this.professorSchedulePerDayMap = this.groupEventsByDay(schedule);
-          this.sortGroupedEventsByTimeSlot(this.professorSchedulePerDayMap);
+          this.professorSchedulePerDayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
         }
       },
     });
-  }
-
-  groupEventsByDay(schedule: ScheduleTransport): Map<DAY, ScheduleTransport> {
-    return schedule.events.reduce((grouped, event) => {
-      const { day } = event.timeslot;
-      if (!grouped.has(day)) {
-        grouped.set(day, { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() });
-      }
-      grouped.get(day)!.events.push(event);
-      return grouped;
-    }, new Map<DAY, ScheduleTransport>());
-  }
-
-  sortGroupedEventsByTimeSlot(groups: Map<DAY, ScheduleTransport>): void {
-    groups.forEach((value) => {
-      value.events.sort((event1, event2) => this.compareTimeslots(event1.timeslot, event2.timeslot));
-    });
-  }
-
-  compareTimeslots(timeslot1: Timeslot, timeslot2: Timeslot): number {
-    if (timeslot1.startHour !== timeslot2.startHour) {
-      return timeslot1.startHour - timeslot2.startHour;
-    }
-
-    return timeslot1.startMinute - timeslot2.startMinute;
   }
 
   ngOnDestroy(): void {
