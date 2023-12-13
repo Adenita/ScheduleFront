@@ -11,7 +11,7 @@
       <div class="mb-2">
         <input type="text" class="form-control" placeholder="Kerko profesorin " (input)="onSearch($event)">
       </div>
-      <div class="d-flex flex-column">
+      <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
         <button *ngFor="let professor of filteredProfessors$ | async"
                 class="btn btn-outline-dark me-2 mb-2"
                 (click)="loadProfessorSchedule(professor)">
