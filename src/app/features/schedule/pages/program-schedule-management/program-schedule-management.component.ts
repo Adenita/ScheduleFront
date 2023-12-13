@@ -96,6 +96,14 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
     this.router.navigate([nextRoute, program.id]).then(() => this.getScheduleForProgram(this.scheduleId, program.id));
   }
 
+  goBack() {
+    if (this.departmentId != -1) {
+      this.router.navigate(['departments', this.departmentId, 'schedules']);
+    } else {
+      this.router.navigate(['schedules']);
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
