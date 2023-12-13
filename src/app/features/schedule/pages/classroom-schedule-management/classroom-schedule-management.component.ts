@@ -96,6 +96,14 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
       });
   }
 
+  goBack() {
+    if (this.departmentId != -1) {
+      this.router.navigate(['departments', this.departmentId, 'schedules']);
+    } else {
+      this.router.navigate(['schedules']);
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
