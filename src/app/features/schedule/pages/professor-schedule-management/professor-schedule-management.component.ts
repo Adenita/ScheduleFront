@@ -22,6 +22,9 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   professors!: ProfessorTransport[];
   professorName: string = '';
 
+  searchValue: string = '';
+  filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
+
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
@@ -34,6 +37,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
   ) {
     this.professorSchedule$ = new BehaviorSubject({} as ScheduleTransport);
+    this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
   }
 
   ngOnInit() {
@@ -54,6 +58,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (professorListTransport) => {
           this.professors = professorListTransport.professorTransports;
+          this.filteredProfessors$.next(this.professors);
         },
       });
   }
@@ -103,6 +108,13 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['schedules']);
     }
+  }
+
+  onSearch(event: any) {
+    this.searchValue = event.target.value;
+    this.filteredProfessors$.next(
+      this.professors.filter((professor) => professor.name.toLowerCase().includes(this.searchValue.toLowerCase())),
+    );
   }
 
   ngOnDestroy(): void {
