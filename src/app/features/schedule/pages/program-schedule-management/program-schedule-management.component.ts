@@ -89,7 +89,9 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   loadProgramSchedule(program: ProgramTransport) {
-    const nextRoute = this.currentRoute.slice(0, this.currentRoute.length - 2);
+    const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
+    const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
+    const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.programName = program.name;
     this.router.navigate([nextRoute, program.id]).then(() => this.getScheduleForProgram(this.scheduleId, program.id));
   }
