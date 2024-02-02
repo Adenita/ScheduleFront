@@ -1,41 +1,42 @@
 <div class="container py-5">
-  <div class="row">
-    <div class="col-12">
-      <div class="card text-center" style="background-color: #952323; color: #ffffff;">
-        <div class="card-body">
-          <h2>Welcome to the Schedule Generator</h2>
-          <p>Explore our powerful scheduling tools to optimize your department's resources.</p>
+    <div class="row">
+      <div class="col-12">
+        <div class="card text-center" style="background-color: #952323; color: #ffffff; min-width: 850px;">
+            <div class="card-body">
+              <h2>Welcome to Schedule Generator</h2>
+            </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-4">
-      <div class="card h-100" style="background-color: #ffffff;">
-        <div class="card-body text-center">
-          <h2 style="color: #952323;">Generate New Schedule</h2>
-          <button class="btn btn-danger" (click)="openGenerateModal()" [routerLink] = "['schedules']">Generate New Schedule</button>
+  <div class="row mt-2">
+    <div class="col-3">
+      <div class="card" style="height: 600px; min-height: 500px; min-width: 200px" >
+        <div class = "card-header text-center" style="background-color: #952323; color: #ffffff;">
+            <h4> FSHMN </h4>
+        </div>
+        <div class="card-body align-content-center" style="border: #952323 1px solid;">
+          <p>View existing schedules for the university departments.</p>
+          <h5 style="color:#952323">Departments</h5>
+          <div class="d-flex flex-column">
+            <button *ngFor="let department of departments | async"
+                    class="btn btn-outline-light me-2 mb-2"
+                    (click)="navigateToPage('departments', department.id)"
+                    style="border: #952323 1px solid; color: black;"
+            >
+              {{department.name}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-4">
-      <div class="card h-100" style="background-color: #ffffff;">
-        <div class="card-body text-center">
-          <h2 style="color: #952323;">Previous Schedules</h2>
-          <ul class="list-group">
-            <li class="list-group-item">ScheduleComponent 1</li>
-            <li class="list-group-item">ScheduleComponent 2</li>
-            <li class="list-group-item">ScheduleComponent 3</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="card h-100" style="background-color: #ffffff;">
-        <div class="card-body text-center">
-          <h2 style="color: #952323;">Manage Department</h2>
-          <button class="btn btn-danger">Department Data</button>
-        </div>
+    <div class="col-9">
+      <div class="card text-center" style="height: 600px; min-height: 500px; min-width: 600px">
+          <div class = "card-header text-center" style="background-color: #952323; color: #ffffff;">
+            <h4> University of Prishtina FSHMN </h4>
+          </div>
+          <div class="card-body" style="padding: 0; border: #952323 1px solid;">
+            <img src="/assets/universiteti-prishtines.jpg" alt="universiteti i prishtines" style="max-width: 100%; min-height: 100%;">
+          </div>
       </div>
     </div>
   </div>
