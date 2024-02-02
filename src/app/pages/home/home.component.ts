@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToPage(path: string, id: number) {
-    this.router.navigate([path, id]);
+    this.router.navigate([path, id, 'schedules']);
   }
 
   openGenerateModal() {
