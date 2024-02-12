@@ -12,9 +12,10 @@ import { ClassroomModule } from './features/classroom/classroom.module';
 import { FeatureSharedModule } from '../shared/shared.module';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './features/user/user.module';
+import { DepartmentFormModalComponent } from './components/department-form-modal/department-form-modal.component';
 
 @NgModule({
-  declarations: [DepartmentsListComponent, DepartmentDetailsComponent],
+  declarations: [DepartmentsListComponent, DepartmentDetailsComponent, DepartmentFormModalComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

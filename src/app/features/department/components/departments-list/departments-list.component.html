@@ -4,7 +4,7 @@
       <h5 class="mb-0">Department List</h5>
     </div>
     <div *ngIf="isAdmin" class="col-lg-auto">
-      <button class="btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
+      <button class="btn btn-sm btn-dark px-4" (click)="openDepartmentFormModal()">Add</button>
     </div>
   </div>
   <div class="row">
@@ -28,7 +28,7 @@
               <td>{{ department.creationDate | date:dateFormat }}</td>
               <td>{{ department.modificationDate | date:dateFormat }}</td>
               <td class="d-flex justify-content-center">
-                <button class="btn btn-sm btn-outline-dark me-1" (click)="openEditForm(department.id)">Edit</button>
+                <button class="btn btn-sm btn-outline-dark me-1" (click)="openDepartmentFormModalInEditMode(department.id)">Edit</button>
                 <button class="btn btn-sm btn-outline-danger" (click)="deleteDepartment(department.id)">Delete</button>
               </td>
             </ng-container>
@@ -41,20 +41,5 @@
       </ng-template>
     </div>
   </div>
-</div>
-
-<div *ngIf="showForm" class="form-container">
-  <form [formGroup]="departmentForm">
-    <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" id="name" class="form-control" formControlName="name" placeholder="Department Name">
-    </div>
-    <div *ngIf="isEditMode; else postingDepartment">
-      <button class="btn btn-primary" (click)="updateDepartment(scheduleToBeEditedId)">Edit Department</button>
-    </div>
-    <ng-template #postingDepartment>
-      <button class="btn btn-primary" (click)="postDepartment()">Add Department</button>
-    </ng-template>
-  </form>
 </div>
 
