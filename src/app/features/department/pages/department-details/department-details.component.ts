@@ -5,12 +5,14 @@ import { BehaviorSubject } from 'rxjs';
 import { DepartmentDetailTransport } from '../../../../shared/models/department';
 import { ProfessorTransport } from '../../../../shared/models/professor';
 import { Classroom } from '../../../../shared/models/classroom';
-import { ProgramTransport, ProgramDetailsTransport } from '../../../../shared/models/program';
+import { ProgramDetailsTransport, ProgramTransport } from '../../../../shared/models/program';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { SubjectTransport } from '../../../../shared/models/subject';
 import { StudentGroupTransport } from '../../../../shared/models/student-group';
 import { ScheduleTransport } from '../../../schedule/shared/models/schedule';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
+import { PermissionService } from '../../../../auth/services/permission.service';
+import { Role } from '../../../../shared/models/user';
 
 @Component({
   selector: 'app-department-details',
@@ -28,12 +30,15 @@ export class DepartmentDetailsComponent implements OnInit {
   previewStudentGroups: BehaviorSubject<StudentGroupTransport[]>;
   previewSchedules$: BehaviorSubject<ScheduleTransport[]>;
   currentRoute: string = '';
+  isAdmin: boolean = false;
+  hasPermission: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private departmentService: DepartmentService,
     private scheduleDataService: ScheduleDataService,
+    private permissionService: PermissionService,
   ) {
     this.previewPrograms = new BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>([]);
     this.previewProfessors = new BehaviorSubject<ProfessorTransport[]>([]);
@@ -52,6 +57,9 @@ export class DepartmentDetailsComponent implements OnInit {
       })
       .then(() => this.getDepartment(this.departmentId))
       .then(() => this.getDepartmentSchedules(this.departmentId));
+
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+    this.hasPermission = this.permissionService.hasAnyRole([Role.ADMIN, Role.PROFESSOR]);
   }
 
   getDepartment(departmentId: number) {

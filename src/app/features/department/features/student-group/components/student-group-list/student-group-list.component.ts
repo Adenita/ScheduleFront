@@ -12,6 +12,9 @@ export class StudentGroupListComponent {
   studentGroups$!: BehaviorSubject<StudentGroupTransport[]>;
 
   @Input()
+  isAdmin!: boolean;
+
+  @Input()
   route!: string;
 
   @Output()

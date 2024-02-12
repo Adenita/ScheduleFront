@@ -12,6 +12,7 @@ import { ProgramListTransport, ProgramTransport } from '../../../shared/models/p
 import { ProfessorListTransport, ProfessorTransport } from '../../../shared/models/professor';
 import { SubjectListTransport } from '../../../shared/models/subject';
 import { ClassroomTransport } from '../../../shared/models/classroom';
+import { UserListTransport } from '../../../shared/models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +53,9 @@ export class DepartmentService extends DataService<DepartmentTransport, Departme
 
   getDepartmentClassrooms(departmentId: number): Observable<ClassroomTransport> {
     return this.httpClient.get<ClassroomTransport>(`${this.url}/${this.apiUrl}/${departmentId}/classrooms`);
+  }
+
+  getDepartmentUsers(departmentId: number): Observable<UserListTransport> {
+    return this.httpClient.get<UserListTransport>(`${this.url}/${this.apiUrl}/${departmentId}/users`);
   }
 }

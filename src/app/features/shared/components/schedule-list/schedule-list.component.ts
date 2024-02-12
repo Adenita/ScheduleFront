@@ -11,6 +11,9 @@ export class ScheduleListComponent {
   @Input()
   schedules$!: BehaviorSubject<ScheduleTransport[]>;
 
+  @Input()
+  isAdmin!: boolean;
+
   @Output()
   editEvent: EventEmitter<number> = new EventEmitter<number>();
 

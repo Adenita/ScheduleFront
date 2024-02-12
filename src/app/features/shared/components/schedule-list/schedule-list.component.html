@@ -4,14 +4,14 @@
     <tr>
       <th>Semester</th>
       <th>Creation Date</th>
-      <th>Actions</th>
+      <th *ngIf="isAdmin">Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let schedule of schedules$ | async">
       <td>{{ schedule.semester }}</td>
       <td>{{ schedule.creationDate | date: dateFormat}}</td>
-      <td class="d-flex justify-content-center">
+      <td *ngIf="isAdmin" class="d-flex justify-content-center">
         <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(schedule.id)">Edit</button>
         <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(schedule.id)">Delete</button>
       </td>

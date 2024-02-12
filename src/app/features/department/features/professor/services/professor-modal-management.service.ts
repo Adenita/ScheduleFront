@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { ProfessorFormModalComponent } from '../components/professor-form-modal/professor-form-modal.component';
-import { ProfessorTransport, Role } from '../../../../../shared/models/professor';
+import { ProfessorTransport, Rank } from '../../../../../shared/models/professor';
 
 export interface ProfessorModalData extends GeneralModalData {
-  professorRoles: Role[];
+  ranks: Rank[];
 }
 @Injectable({
   providedIn: 'root',
@@ -17,14 +17,14 @@ export class ProfessorModalManagementService extends ModalManagementService<Prof
     professorForm: FormGroup,
     isEditMode: boolean,
     professors$: BehaviorSubject<ProfessorTransport[]>,
-    professorRoles: Role[],
+    ranks: Rank[],
   ): ProfessorModalData {
     return {
       selectedId: selectedProfessorId,
       form: professorForm,
       data$: professors$,
       isEditMode: isEditMode,
-      professorRoles,
+      ranks,
     };
   }
 }

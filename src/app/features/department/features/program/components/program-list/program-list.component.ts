@@ -12,6 +12,9 @@ export class ProgramListComponent {
   programs$!: BehaviorSubject<ProgramTransport[] | ProgramDetailsTransport[]>;
 
   @Input()
+  isAdmin!: boolean;
+
+  @Input()
   route!: string;
 
   @Output()

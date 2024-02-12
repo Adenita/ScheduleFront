@@ -9,14 +9,19 @@
               <a class="nav-link text-dark fs-5" routerLink="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark fs-5" routerLink="/departments">Manage Data</a>
+              <a class="nav-link text-dark fs-5" routerLink="/departments">Details</a>
             </li>
           </ul>
         </div>
-        <div>
-          <button class="btn btn-outline-danger me-2">Log In</button>
-          <button class="btn btn-danger me-2">Sign Up</button>
+        <div *ngIf="!isLoggedIn; else LoggedIn" >
+          <a class="btn btn-outline-danger me-2"  (click)="openLoginModalData()">Login</a>
         </div>
+        <ng-template #LoggedIn>
+          <div>
+            <span routerLink="/profile" class="navbar-text">{{ username }} | </span>
+            <button class="btn btn-danger me-2" (click)="logout()">Logout</button>
+          </div>
+        </ng-template>
       </div>
     </nav>
   </div>

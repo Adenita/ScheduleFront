@@ -11,6 +11,9 @@ export class ClassroomListComponent {
   @Input()
   classrooms$!: BehaviorSubject<Classroom[]>;
 
+  @Input()
+  isAdmin!: boolean;
+
   @Output()
   editEvent: EventEmitter<number> = new EventEmitter<number>();
 

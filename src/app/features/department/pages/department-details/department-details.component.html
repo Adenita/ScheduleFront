@@ -5,7 +5,7 @@
       <h3><strong>Name:</strong> {{department.name}}</h3>
     </div>
   </div>
-  <div class="row mt-4 border-bottom">
+  <div *ngIf="hasPermission" class="row mt-4 border-bottom">
     <div class="col-md-4">
       <div class="description-box p-3">
         <h3>Schedules Preview</h3>
@@ -35,6 +35,23 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="isAdmin" class="row mt-4 border-bottom">
+    <div class="col-md-4">
+      <div class="description-box p-3">
+        <h3>Users Preview</h3>
+        <p class="mb-2"><strong>Users count:</strong> 10</p>
+        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
+        <button class="btn btn-dark" [routerLink]="[currentRoute, 'users']">View All</button>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div>
+<!--        <app-user-list [users$]=""></app-user-list>-->
+      </div>
+    </div>
+  </div>
+
   <div class="row mt-4 border-bottom">
     <div class="col-md-4">
       <div class="description-box p-3">

@@ -3,6 +3,8 @@ import { DepartmentListTransport, DepartmentTransport } from '../../../../shared
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { PermissionService } from '../../../../auth/services/permission.service';
+import { Role } from '../../../../shared/models/user';
 
 @Component({
   selector: 'app-departments-list',
@@ -17,10 +19,12 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
   showForm: boolean = false;
   destroyed$: Subject<void> = new Subject<void>();
   dateFormat: string = 'dd/MM/YYYY';
+  isAdmin: boolean = false;
 
   constructor(
     private departmentService: DepartmentService,
     private formBuilder: FormBuilder,
+    private permissionService: PermissionService,
   ) {
     this.departmentForm = this.buildFormGroup(formBuilder);
     this.departments$ = new BehaviorSubject<DepartmentTransport[]>([]);
@@ -28,6 +32,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadDepartments();
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {

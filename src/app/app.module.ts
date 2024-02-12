@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { DepartmentModule } from './features/department/department.module';
 import { ScheduleModule } from './features/schedule/schedule.module';
+import { AuthModule } from './auth/auth.module';
 
 const routes: Routes = [{ path: '', component: HomeComponent }];
 
@@ -19,6 +20,7 @@ const routes: Routes = [{ path: '', component: HomeComponent }];
     RouterModule.forRoot(routes),
     DepartmentModule,
     ScheduleModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
