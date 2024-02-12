@@ -12,14 +12,14 @@ export interface ProgramModalData extends GeneralModalData {}
 export class ProgramModalManagementService extends ModalManagementService<ProgramFormModalComponent, ProgramModalData> {
   bindProgramModalData(
     selectedProgramId: number,
-    professorForm: FormGroup,
+    programForm: FormGroup,
     isEditMode: boolean,
-    professors$: BehaviorSubject<ProgramTransport[]>,
+    programs$: BehaviorSubject<ProgramTransport[]>,
   ): ProgramModalData {
     return {
       selectedId: selectedProgramId,
-      form: professorForm,
-      data$: professors$,
+      form: programForm,
+      data$: programs$,
       isEditMode: isEditMode,
     };
   }
