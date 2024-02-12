@@ -1,0 +1,32 @@
+<div class = "table-responsive" *ngIf="users$?.getValue() && users$.getValue().length > 0; else noUsersFound">
+  <table class="table table-bordered table-striped table-hover overflow-scroll">
+    <thead class="thead-dark-red">
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Role</th>
+      <th>Creation Date</th>
+      <th>Modification Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users$ | async" >
+      <td [routerLink]="route ? route + '/' + user.id : null" >{{ user.name }}</td>
+      <td>{{user.username}}</td>
+      <td> ******** </td>
+      <td>{{user.role}}</td>
+      <td>{{user.creationDate | date: dateFormat}}</td>
+      <td>{{user.modificationDate | date: dateFormat}}</td>
+      <td class="d-flex justify-content-center">
+        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(user.id)">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(user.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noUsersFound>
+  <p>No Users Found.</p>
+</ng-template>
