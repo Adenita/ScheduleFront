@@ -5,6 +5,8 @@ import { DepartmentService } from '../../../../core/services/http/department.ser
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { PermissionService } from '../../../../auth/services/permission.service';
 import { Role } from '../../../../shared/models/user';
+import { DepartmentModalData, DepartmentModalManagementService } from '../../services/department-modal-management.service';
+import { DepartmentFormModalComponent } from '../department-form-modal/department-form-modal.component';
 
 @Component({
   selector: 'app-departments-list',
@@ -14,17 +16,19 @@ import { Role } from '../../../../shared/models/user';
 export class DepartmentsListComponent implements OnInit, OnDestroy {
   departments$: BehaviorSubject<DepartmentTransport[]>;
   isEditMode: boolean = false;
-  scheduleToBeEditedId: number = -1;
+  departmentToBeEditedId: number = -1;
   departmentForm: FormGroup;
   showForm: boolean = false;
   destroyed$: Subject<void> = new Subject<void>();
   dateFormat: string = 'dd/MM/YYYY';
   isAdmin: boolean = false;
+  departmentModalData: DepartmentModalData = {} as DepartmentModalData;
 
   constructor(
     private departmentService: DepartmentService,
     private formBuilder: FormBuilder,
     private permissionService: PermissionService,
+    private departmentModalManagementService: DepartmentModalManagementService,
   ) {
     this.departmentForm = this.buildFormGroup(formBuilder);
     this.departments$ = new BehaviorSubject<DepartmentTransport[]>([]);
@@ -45,6 +49,7 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
     this.departmentService.getAll().subscribe({
       next: (departmentListTransport: DepartmentListTransport) => {
         this.departments$.next(departmentListTransport.departmentTransportList);
+        this.bindDepartmentModalData();
       },
       error: (err) => console.error('Error loading departments', err),
     });
@@ -60,7 +65,6 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
           next: (createdDepartmentTransport: DepartmentTransport) => {
             const updatedDepartments: DepartmentTransport[] = [...this.departments$.getValue(), createdDepartmentTransport];
             this.departments$.next(updatedDepartments);
-            this.closeForm();
           },
           error: (err) => console.error('Error posting department:', err),
         });
@@ -98,27 +102,29 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
               return department;
             });
             this.departments$.next(updatedDepartments);
-            this.closeForm();
-            this.isEditMode = false;
           },
           error: (err) => console.error('Error updating department:', err),
         });
     }
   }
 
-  openEditForm(departmentId: number) {
-    this.isEditMode = true;
-    this.scheduleToBeEditedId = departmentId;
-    this.openForm();
+  openDepartmentFormModalInEditMode(id: number) {
+    this.departmentModalManagementService.update = this.updateDepartment.bind(this);
+    this.departmentModalManagementService.openFormModalInEditMode(DepartmentFormModalComponent, id, this.departmentModalData);
   }
 
-  openForm() {
-    this.showForm = true;
+  openDepartmentFormModal() {
+    this.departmentModalManagementService.post = this.postDepartment.bind(this);
+    this.departmentModalManagementService.openFormModal(DepartmentFormModalComponent, this.departmentModalData);
   }
 
-  closeForm() {
-    this.showForm = false;
-    this.departmentForm.reset();
+  bindDepartmentModalData() {
+    this.departmentModalData = this.departmentModalManagementService.bindDepartmentModalData(
+      this.departmentToBeEditedId,
+      this.departmentForm,
+      this.isEditMode,
+      this.departments$,
+    );
   }
 
   ngOnDestroy(): void {
