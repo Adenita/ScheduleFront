@@ -11,6 +11,7 @@ import { StudentGroupModule } from './features/student-group/student-group.modul
 import { ClassroomModule } from './features/classroom/classroom.module';
 import { FeatureSharedModule } from '../shared/shared.module';
 import { SharedModule } from './shared/shared.module';
+import { UserModule } from './features/user/user.module';
 
 @NgModule({
   declarations: [DepartmentsListComponent, DepartmentDetailsComponent],
@@ -25,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
     ClassroomModule,
     SharedModule,
     FeatureSharedModule,
+    UserModule,
   ],
   exports: [DepartmentsListComponent, DepartmentDetailsComponent],
 })
