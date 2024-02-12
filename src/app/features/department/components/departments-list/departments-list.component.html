@@ -3,7 +3,7 @@
     <div class="col">
       <h5 class="mb-0">Department List</h5>
     </div>
-    <div class="col-lg-auto">
+    <div *ngIf="isAdmin" class="col-lg-auto">
       <button class="btn btn-sm btn-dark px-4" (click)="openForm()">Add</button>
     </div>
   </div>
