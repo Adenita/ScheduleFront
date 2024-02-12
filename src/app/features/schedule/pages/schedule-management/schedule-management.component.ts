@@ -10,6 +10,8 @@ import { ScheduleGenerationModalComponent } from '../../components/schedule-gene
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { ScheduleGenerationService } from '../../services/schedule-generation.service';
+import { PermissionService } from '../../../../auth/services/permission.service';
+import { Role } from '../../../../shared/models/user';
 
 @Component({
   selector: 'app-schedule-management',
@@ -30,6 +32,8 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
   schedules$: BehaviorSubject<ScheduleTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
 
+  isAdmin: boolean = false;
+
   constructor(
     private router: Router,
     private modalService: NgbModal,
@@ -38,6 +42,7 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
     private scheduleDataService: ScheduleDataService,
     private routeParametersService: RouteParametersService,
     private generateBestScheduleService: ScheduleGenerationService,
+    private permissionService: PermissionService,
   ) {
     this.departmentTransport = {} as DepartmentDetailTransport;
     this.departmentScheduleDetailTransport = {} as DepartmentScheduleDetailTransport;
@@ -55,6 +60,7 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
         if (this.departmentId == -1) this.getSchedules();
         else this.getDepartmentSchedules(this.departmentId);
       });
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   openGenerateScheduleModal() {
