@@ -7,7 +7,6 @@ export interface UserTransport {
   username: string;
   password: string;
   role: Role;
-  rank: Rank;
   departmentTransport: DepartmentTransport;
   creationDate: Date;
   modificationDate: Date;
@@ -19,5 +18,5 @@ export enum Role {
 }
 
 export interface UserListTransport {
-  userTransportList: UserTransport[];
+  userTransports: UserTransport[];
 }
