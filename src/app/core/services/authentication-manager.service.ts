@@ -15,7 +15,6 @@ export class AuthenticationManagerService {
 
   login(loginForm: FormGroup) {
     if (loginForm.valid) {
-      const username = loginForm.controls['username'].value;
       this.authenticationService
         .login(loginForm.value)
         .pipe()
@@ -31,7 +30,7 @@ export class AuthenticationManagerService {
   }
 
   logout() {
-    this.router.navigate(['/']).then((r) => {
+    this.router.navigate(['/']).then(() => {
       localStorage.removeItem('user_token');
       localStorage.removeItem('user_id');
     });

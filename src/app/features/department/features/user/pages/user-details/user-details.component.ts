@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserTransport } from '../../../../../../shared/models/user';
 import { UserService } from '../../../../../../core/services/http/user.service';
-import { BehaviorSubject } from 'rxjs';
 import { AuthenticationManagerService } from '../../../../../../core/services/authentication-manager.service';
 
 @Component({
