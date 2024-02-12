@@ -5,9 +5,11 @@
       <th>Name</th>
       <th>Seats</th>
       <th>Lab</th>
-      <th>Creation Date</th>
-      <th>Modification Date</th>
-      <th>Actions</th>
+      <ng-container *ngIf="isAdmin">
+        <th>Creation Date</th>
+        <th>Modification Date</th>
+        <th>Actions</th>
+      </ng-container>
     </tr>
     </thead>
     <tbody>
@@ -15,12 +17,14 @@
       <td>{{ classroom.name }}</td>
       <td>{{ classroom.numberOfSeats }}</td>
       <td>{{ classroom.hasComputers }}</td>
-      <td>{{ classroom.creationDate | date: dateFormat}}</td>
-      <td>{{ classroom.modificationDate | date: dateFormat}}</td>
-      <td class="d-flex justify-content-center">
-        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(classroom.id)">Edit</button>
-        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(classroom.id)">Delete</button>
-      </td>
+      <ng-container *ngIf="isAdmin">
+        <td>{{ classroom.creationDate | date: dateFormat}}</td>
+        <td>{{ classroom.modificationDate | date: dateFormat}}</td>
+        <td class="d-flex justify-content-center">
+          <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(classroom.id)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(classroom.id)">Delete</button>
+        </td>
+      </ng-container>
     </tr>
     </tbody>
   </table>

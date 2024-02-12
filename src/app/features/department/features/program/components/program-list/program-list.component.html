@@ -3,20 +3,24 @@
     <thead class="thead-dark-red">
     <tr>
       <th>Name</th>
-      <th>Creation Date</th>
-      <th>Modification Date</th>
-      <th>Actions</th>
+      <ng-container *ngIf="isAdmin">
+        <th>Creation Date</th>
+        <th>Modification Date</th>
+        <th>Actions</th>
+      </ng-container>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let program of programs$ | async" >
       <td [routerLink]="route ? route + '/' + program.id : null" >{{ program.name }}</td>
-      <td>{{program.creationDate | date: dateFormat}}</td>
-      <td>{{program.modificationDate | date: dateFormat}}</td>
-      <td class="d-flex justify-content-center">
-        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(program.id)">Edit</button>
-        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
-      </td>
+       <ng-container *ngIf="isAdmin">
+         <td>{{program.creationDate | date: dateFormat}}</td>
+         <td>{{program.modificationDate | date: dateFormat}}</td>
+         <td class="d-flex justify-content-center">
+           <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(program.id)">Edit</button>
+           <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
+         </td>
+       </ng-container>
     </tr>
     </tbody>
   </table>

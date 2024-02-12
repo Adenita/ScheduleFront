@@ -17,6 +17,8 @@ import { SubjectFormBuilderService } from '../../services/subject-form-builder.s
 import { SubjectModalData, SubjectModalManagementService } from '../../services/subject-modal-management.service';
 import { SubjectFormModalComponent } from '../../components/subject-form-modal/subject-form-modal.component';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
+import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-subject-management',
@@ -43,6 +45,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   destroyed$: Subject<void> = new Subject<void>();
 
   subjectModalData: SubjectModalData = {} as SubjectModalData;
+  isAdmin: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -53,6 +56,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
     private subjectFormBuilderService: SubjectFormBuilderService,
     private subjectModalManagementService: SubjectModalManagementService,
+    private permissionService: PermissionService,
   ) {
     this.subjectForm = this.subjectFormBuilderService.subjectForm;
     this.subjects$ = new BehaviorSubject<SubjectTransport[]>([]);
@@ -71,6 +75,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       }
       this.getSubjectByContext();
     });
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();

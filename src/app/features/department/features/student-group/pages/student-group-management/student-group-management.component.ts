@@ -8,6 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { StudentGroupModalData, StudentGroupModalManagementService } from '../../services/student-group-modal-management.service';
 import { StudentGroupFormModalComponent } from '../../components/student-group-form-modal/student-group-form-modal.component';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
+import { Role } from '../../../../../../shared/models/user';
+
 @Component({
   selector: 'app-student-groups-list',
   templateUrl: './student-group-management.component.html',
@@ -26,6 +29,8 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   destroyed$: Subject<void> = new Subject<void>();
   studentGroupModalData: StudentGroupModalData = {} as StudentGroupModalData;
 
+  isAdmin: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
@@ -33,6 +38,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
     private programService: ProgramService,
     private formBuilder: FormBuilder,
     private studentGroupModalManagementService: StudentGroupModalManagementService,
+    private permissionService: PermissionService,
   ) {
     this.studentGroupForm = this.buildFormGroup(formBuilder);
     this.studentGroups$ = new BehaviorSubject<StudentGroupTransport[]>([]);
@@ -45,6 +51,7 @@ export class StudentGroupManagementComponent implements OnInit, OnDestroy {
       this.bindStudentGroupModalData();
       this.getStudentGroupsByContext();
     });
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {

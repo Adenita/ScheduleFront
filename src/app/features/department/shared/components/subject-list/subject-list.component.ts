@@ -12,10 +12,10 @@ export class SubjectListComponent {
   subjects$!: BehaviorSubject<SubjectTransport[]>;
 
   @Input()
-  route!: string;
+  isAdmin!: boolean;
 
   @Input()
-  manageList!: boolean;
+  route!: string;
 
   @Output()
   editEvent: EventEmitter<number> = new EventEmitter<number>();

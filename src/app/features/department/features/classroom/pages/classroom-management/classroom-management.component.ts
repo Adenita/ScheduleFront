@@ -5,6 +5,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ClassroomModalData, ClassroomModalManagementService } from '../../services/classroom-modal-management.service';
 import { ClassroomFormModalComponent } from '../../components/classroom-form-modal/classroom-form-modal.component';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
+import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-classroom-management',
@@ -18,11 +20,13 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
   classroomToBeEditedId: number = -1;
   classroomModalData: ClassroomModalData = {} as ClassroomModalData;
   destroyed$: Subject<void> = new Subject<void>();
+  isAdmin: boolean = false;
 
   constructor(
     private classroomService: ClassroomService,
     private formBuilder: FormBuilder,
     private classroomModalManagementService: ClassroomModalManagementService,
+    private permissionService: PermissionService,
   ) {
     this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
     this.classroomForm = this.buildFormGroup(formBuilder);
@@ -31,6 +35,7 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.bindClassroomModalData();
     this.getClassrooms();
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -97,11 +102,7 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
 
   openClassroomFormModalInEditMode(id: number) {
     this.classroomModalManagementService.update = this.updateClassroom.bind(this);
-    this.classroomModalManagementService.openFormModalInEditMode(
-      ClassroomFormModalComponent,
-      id,
-      this.classroomModalData,
-    );
+    this.classroomModalManagementService.openFormModalInEditMode(ClassroomFormModalComponent, id, this.classroomModalData);
   }
 
   openClassroomFormModal() {

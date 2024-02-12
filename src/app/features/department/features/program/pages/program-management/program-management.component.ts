@@ -5,9 +5,12 @@ import { DepartmentService } from '../../../../../../core/services/http/departme
 import { ActivatedRoute } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { ProgramTransport, ProgramListTransport } from '../../../../../../shared/models/program';
+import { ProgramListTransport, ProgramTransport } from '../../../../../../shared/models/program';
 import { ProgramModalData, ProgramModalManagementService } from '../../services/program-modal-management.service';
 import { ProgramFormModalComponent } from '../../components/program-form-modal/program-form-modal.component';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
+import { Role } from '../../../../../../shared/models/user';
+
 @Component({
   selector: 'app-program-management',
   templateUrl: './program-management.component.html',
@@ -22,6 +25,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   programToBeEditedId: number = -1;
   destroyed$: Subject<void> = new Subject<void>();
   programModalData: ProgramModalData = {} as ProgramModalData;
+  isAdmin: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,6 +34,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private formBuilder: FormBuilder,
     private programModalManagementService: ProgramModalManagementService,
+    private permissionService: PermissionService,
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
@@ -42,6 +47,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
       this.bindProgramModalData();
       this.loadDepartmentPrograms(this.departmentId);
     });
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -52,6 +58,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   loadDepartmentPrograms(departmentId: number): void {
+    console.log('loading department programs: ');
     this.departmentService.getProgramsPerDepartment(departmentId).subscribe({
       next: (programsTransport: ProgramListTransport) => {
         this.programs$.next(programsTransport.programTransports);

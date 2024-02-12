@@ -3,7 +3,7 @@
     <div class="col">
       <h5 class="mb-0">Subject List</h5>
     </div>
-    <div class="col-lg-auto">
+    <div *ngIf="isAdmin" class="col-lg-auto">
       <button class= "btn btn-sm btn-dark px-4" (click)="openSubjectFormModal()">Add</button>
     </div>
   </div>
@@ -12,8 +12,8 @@
     <div class="col-12">
       <app-subject-list
         [subjects$]="subjects$"
+        [isAdmin]="isAdmin"
         [route]="route"
-        [manageList]="true"
         (editEvent)="openSubjectFormModalInEditMode($event)"
         (deleteEvent)="removeSubjectByContext($event)"
       ></app-subject-list>

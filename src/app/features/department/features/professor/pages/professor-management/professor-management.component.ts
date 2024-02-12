@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProfessorListTransport, ProfessorTransport, Role } from '../../../../../../shared/models/professor';
+import { ProfessorListTransport, ProfessorTransport, Rank } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -8,6 +8,8 @@ import { RouteParametersService } from '../../../../../../core/services/route-pa
 import { ProfessorFormModalComponent } from '../../components/professor-form-modal/professor-form-modal.component';
 import { ProfessorModalData, ProfessorModalManagementService } from '../../services/professor-modal-management.service';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
+import { Role } from '../../../../../../shared/models/user';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
 
 @Component({
   selector: 'app-professors-management',
@@ -18,13 +20,15 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId: number = -1;
   professors$: BehaviorSubject<ProfessorTransport[]>;
-  professorRoles: Role[] = Object.values(Role);
+  professorRoles: Rank[] = Object.values(Rank);
   route: string = '';
   professorForm: FormGroup;
   isEditMode: boolean = false;
   professorToBeEditedId: number = -1;
   destroyed$: Subject<void> = new Subject<void>();
   professorModalData: ProfessorModalData = {} as ProfessorModalData;
+  roles: Role[] = Object.values(Role);
+  isAdmin: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,6 +37,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
     private professorModalManagementService: ProfessorModalManagementService,
+    private permissionService: PermissionService,
   ) {
     this.professorForm = this.buildFormGroup(formBuilder);
     this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
@@ -46,12 +51,13 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       this.bindProfessorModalData();
       this.getDepartmentProfessors();
     });
+    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       name: new FormControl('', Validators.required),
-      role: new FormControl(Role.PROFESSOR),
+      role: new FormControl(Rank.PROFESSOR),
     });
   }
 

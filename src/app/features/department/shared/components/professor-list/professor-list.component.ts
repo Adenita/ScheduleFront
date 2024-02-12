@@ -12,6 +12,9 @@ export class ProfessorListComponent {
   professors$!: BehaviorSubject<ProfessorTransport[]>;
 
   @Input()
+  isAdmin!: boolean;
+
+  @Input()
   route!: string;
 
   @Output()

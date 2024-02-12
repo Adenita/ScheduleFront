@@ -3,22 +3,26 @@
     <thead class="thead-dark-red">
     <tr>
       <th>Name</th>
-      <th>Role</th>
-      <th>Creation Date</th>
-      <th>Modification Date</th>
-      <th>Actions</th>
+      <th>Rank</th>
+      <ng-container *ngIf="isAdmin">
+        <th>Creation Date</th>
+        <th>Modification Date</th>
+        <th>Actions</th>
+      </ng-container>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let professor of professors$ | async" >
       <td [routerLink]="route ? route + '/' + professor.id : null">{{ professor.name }}</td>
-      <td>{{ professor.role }}</td>
-      <td>{{ professor.creationDate | date: dateFormat}}</td>
-      <td>{{ professor.modificationDate | date: dateFormat}}</td>
-      <td class="d-flex justify-content-center">
-        <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(professor.id)">Edit</button>
-        <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(professor.id)">Delete</button>
-      </td>
+      <td>{{ professor.rank }}</td>
+      <ng-container *ngIf="isAdmin">
+        <td>{{ professor.creationDate | date: dateFormat}}</td>
+        <td>{{ professor.modificationDate | date: dateFormat}}</td>
+        <td class="d-flex justify-content-center">
+          <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(professor.id)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(professor.id)">Delete</button>
+        </td>
+      </ng-container>
     </tr>
     </tbody>
   </table>
