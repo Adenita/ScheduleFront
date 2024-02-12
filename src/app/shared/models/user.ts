@@ -1,5 +1,4 @@
 import { DepartmentTransport } from './department';
-import { Rank } from './professor';
 
 export interface UserTransport {
   id: number;
