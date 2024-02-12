@@ -6,7 +6,7 @@ import { SubjectScheduleTransport, SubjectTransport } from '../../../../shared/m
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Classroom } from '../../../../shared/models/classroom';
-import { ProfessorPreferredDay, ProfessorScheduleTransport, Role } from '../../../../shared/models/professor';
+import { ProfessorPreferredDay, ProfessorScheduleTransport, Rank } from '../../../../shared/models/professor';
 import { DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 
 @Injectable({
@@ -32,8 +32,8 @@ export class ScheduleService {
           event.programTransport = { id: programDetails.id, name: programDetails.name } as ProgramTransport;
           event.professorTransport =
             studentGroup.groupType === GroupType.EXERCISE
-              ? this.getSubjectProfessorByRole(subjectDetails.professors, Role.ASSISTANT)
-              : this.getSubjectProfessorByRole(subjectDetails.professors, Role.PROFESSOR);
+              ? this.getSubjectProfessorByRole(subjectDetails.professors, Rank.ASSISTANT)
+              : this.getSubjectProfessorByRole(subjectDetails.professors, Rank.PROFESSOR);
           event.classroom = this.getClassroomForStudentGroup(classrooms, studentGroup, subjectDetails);
 
           event.timeslot = timeslots[this.getRandomIndex(timeslots.length)];
@@ -61,9 +61,9 @@ export class ScheduleService {
     } as SubjectTransport;
   }
 
-  getSubjectProfessorByRole(professors: ProfessorScheduleTransport[], role: Role) {
+  getSubjectProfessorByRole(professors: ProfessorScheduleTransport[], rank: Rank) {
     if (professors.length == 1) return professors[0];
-    return professors.find((professor) => professor.role.includes(role))!;
+    return professors.find((professor) => professor.rank.includes(rank))!;
   }
 
   getClassroomForStudentGroup(

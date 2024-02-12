@@ -3,7 +3,7 @@ import { DAY } from './timeslots';
 export interface ProfessorTransport {
   id: number;
   name: string;
-  role: Role;
+  rank: Rank;
   creationDate: Date;
   modificationDate: Date;
 }
@@ -11,7 +11,7 @@ export interface ProfessorTransport {
 export interface ProfessorScheduleTransport {
   id: number;
   name: string;
-  role: Role;
+  rank: Rank;
   preferredDays: ProfessorPreferredDay[];
 }
 
@@ -26,15 +26,15 @@ export interface ProfessorPreferredDay {
 export interface ProfessorDetailsTransport {
   id: number;
   name: string;
-  role: Role;
+  rank: Rank;
   preferredDays: ProfessorPreferredDay[];
   subjectTransportList: SubjectTransport[];
 }
 
-export enum Role {
-  PROFESSOR = 'Professor',
-  ASSISTANT = 'Assistant',
-  PROFESSOR_ASSISTANT = 'Professor assistant',
+export enum Rank {
+  PROFESSOR = 'PROFESSOR',
+  ASSISTANT = 'ASSISTANT',
+  PROFESSOR_ASSISTANT = 'PROFESSOR_ASSISTANT',
 }
 
 export interface ProfessorListTransport {

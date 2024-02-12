@@ -1,0 +1,23 @@
+<div class = "container mt-5">
+  <div class="row justify-content-end align-items-center my-2">
+    <div class="col">
+      <h5 class="mb-0">Users List</h5>
+    </div>
+    <div class="col-lg-auto">
+      <button class= "btn btn-sm btn-outline-dark px-4" (click)="openUserFormModal()">Add</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <app-user-list
+        [users$]="users$"
+        [route]="route"
+        (editEvent)="openUserFormModalInEditMode($event)"
+        (deleteEvent)="deleteUser($event)"
+      ></app-user-list>
+    </div>
+  </div>
+</div>
+
+
