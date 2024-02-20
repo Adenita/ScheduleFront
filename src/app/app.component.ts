@@ -3,11 +3,15 @@ import { AuthenticationManagerService } from './core/services/authentication-man
 import { LoginFormModalComponent } from './auth/components/login-form-modal/login-form-modal.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginModalData, LoginModalManagementService } from './auth/services/login-modal-management.service';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { DepartmentService } from './core/services/http/department.service';
+import { DepartmentTransport } from './shared/models/department';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
@@ -15,21 +19,47 @@ export class AppComponent implements OnInit {
   loginForm: FormGroup;
   loginModalData: LoginModalData = {} as LoginModalData;
 
+  destroyed$: Subject<void> = new Subject<void>();
+  departments: BehaviorSubject<DepartmentTransport[]>;
+
   constructor(
     private authenticationManagerService: AuthenticationManagerService,
     private formBuilder: FormBuilder,
+    private router: Router,
     private loginModalManagementService: LoginModalManagementService,
+    private departmentService: DepartmentService,
   ) {
     this.loginForm = this.buildLoginFormGroup(formBuilder);
+    this.departments = new BehaviorSubject<DepartmentTransport[]>([]);
   }
 
   ngOnInit(): void {
+    this.getDepartments();
     this.bindLoginModalData();
     const user = this.authenticationManagerService.getUser();
     if (user) {
       this.username = user.username;
     }
     this.isLoggedIn = !!this.username;
+  }
+
+  getDepartments() {
+    this.departmentService
+      .getAll()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (departments) => {
+          this.departments.next(departments.departmentTransportList);
+        },
+        error: (err) => console.error('Error fetching departments', err),
+      });
+  }
+
+  onScheduleChange(selectedSchedule: any) {
+    if (selectedSchedule) {
+      const value = selectedSchedule.target.value;
+      this.router.navigate([`departments/${value}/schedules`]);
+    }
   }
 
   buildLoginFormGroup(formBuilder: FormBuilder): FormGroup {
