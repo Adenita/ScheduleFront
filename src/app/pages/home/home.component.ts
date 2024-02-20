@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Generate } from '../../core/services/generate';
 import { DepartmentService } from '../../core/services/http/department.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { DepartmentTransport } from '../../shared/models/department';
@@ -15,7 +14,6 @@ export class HomeComponent implements OnInit {
   departments: BehaviorSubject<DepartmentTransport[]>;
 
   constructor(
-    private generate: Generate,
     private departmentService: DepartmentService,
     private router: Router,
   ) {
@@ -39,9 +37,5 @@ export class HomeComponent implements OnInit {
 
   navigateToPage(path: string, id: number) {
     this.router.navigate([path, id, 'schedules']);
-  }
-
-  openGenerateModal() {
-    this.generate.generate = true;
   }
 }
