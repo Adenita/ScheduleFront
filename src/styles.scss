@@ -1,0 +1,62 @@
+body {
+  font-family: 'Poppins', 'sans-serif';
+}
+
+.modal {
+  &-dialog {
+    --bs-modal-bg: none;
+    max-width: max-content;
+  }
+
+  &-content {
+    border: none;
+    height: 100%;
+  }
+
+  &-body, &-footer, &-header {
+    background: white;
+
+    &:not(&-header) {
+      border: none;
+    }
+  }
+}
+
+.thead-dark-red {
+  --bs-table-bg: #952323;
+  --bs-table-color: white;
+  color: #ffffff;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.search-input {
+  width: 70%;
+  height: 85%;
+}
+
+.custom-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(5, 5, 5, 0.18);
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f8f5f5;
+  }
+}
