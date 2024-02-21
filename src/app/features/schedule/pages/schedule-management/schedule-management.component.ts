@@ -16,7 +16,7 @@ import { Role } from '../../../../shared/models/user';
 @Component({
   selector: 'app-schedule-management',
   templateUrl: './schedule-management.component.html',
-  styleUrls: ['./schedule-management.component.css'],
+  styleUrls: ['./schedule-management.component.scss'],
 })
 export class ScheduleManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
