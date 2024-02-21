@@ -35,7 +35,11 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  navigateToPage(path: string, id: number) {
-    this.router.navigate([path, id, 'schedules']);
+  navigateToPage(id: number, path?: string) {
+    if (path) {
+      this.router.navigate(['departments', id, path]);
+    } else {
+      this.router.navigate(['departments', id]);
+    }
   }
 }
