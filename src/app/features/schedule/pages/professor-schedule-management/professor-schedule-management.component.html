@@ -10,7 +10,7 @@
     <div class="d-flex flex-column">
       <h4 class="fw-semibold">Professors</h4>
       <div class="mb-2">
-        <input type="text" class="form-control" placeholder="Kerko profesorin " (input)="onSearch($event)">
+        <input type="text" class="form-control" placeholder="Search professor " (input)="onSearch($event)">
       </div>
       <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
         <button *ngFor="let professor of filteredProfessors$ | async"
