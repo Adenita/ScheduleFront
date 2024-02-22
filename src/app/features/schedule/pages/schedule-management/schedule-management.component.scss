@@ -9,6 +9,10 @@
   padding: 8px;
 }
 
+.search_input::placeholder {
+  color: white;
+}
+
 .search_input {
   color: white;
   border: 0;
