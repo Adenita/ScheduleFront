@@ -1,115 +1,58 @@
-<div class="container">
-  <div class="row mt-4">
-    <div class="col text-center">
-      <h2><strong>Department Information</strong></h2>
-      <h3><strong>Name:</strong> {{department.name}}</h3>
+<div class="row align-items-start" style="margin-top: 2em;">
+  <div class="col">
+    <div style="margin-top: 12em;">
+      <h2 class="fw-bold">Department Information</h2>
+      <h3 class="fw-semibold mb-0">Name | <span class="red-text"> {{department.name}} </span> </h3>
     </div>
   </div>
-  <div *ngIf="hasPermission" class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Schedules Preview</h3>
-        <p class="mb-2"><strong>Schedules count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'schedules']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-schedule-list [schedules$]="previewSchedules$"></app-schedule-list>
-      </div>
-    </div>
+  <div class="col-auto d-flex align-items-start me-5">
+    <div class="half-image-container"></div>
   </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Programs Preview</h3>
-        <p class="mb-2"><strong>Programs count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'programs']">View All</button>
-      </div>
+</div>
+<div class="row mt-2">
+  <div class="card tab-card p-1">
+    <div class="card-header  rounded-3  box-shadow pb-3 text-center">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active " href="#programs" id="programs-tab" data-bs-toggle="tab" role="tab" aria-controls="programs" aria-selected="true">Programs</a>
+        </li>
+        <li *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link" id="users-tab" href="#users" data-bs-toggle="tab" role="tab" aria-controls="users" aria-selected="false">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="#professors" id="professors-tab" data-bs-toggle="tab" role="tab" aria-controls="professors" aria-selected="false">Professors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="subjects-tab" href="#subjects" data-bs-toggle="tab"  role="tab" aria-controls="subjects" aria-selected="false">Subjects</a>
+        </li>
+        <li *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link" id="studentGroups-tab" href="#studentGroups" data-bs-toggle="tab"  role="tab" aria-controls="studentGroups" aria-selected="false">Student Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="classrooms-tab" href="#classrooms" data-bs-toggle="tab" role="tab" aria-controls="classrooms" aria-selected="false">Classrooms</a>
+        </li>
+      </ul>
     </div>
-    <div class="col-md-8">
-      <div>
-        <app-program-list [programs$]="previewPrograms"></app-program-list>
-      </div>
-    </div>
-  </div>
 
-  <div *ngIf="isAdmin" class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Users Preview</h3>
-        <p class="mb-2"><strong>Users count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'users']">View All</button>
+    <div class="card-body tab-content" id="myTabContent">
+      <div class="tab-pane fade show active " id="programs" role="tabpanel" aria-labelledby="programs-tab">
+        <app-program-management></app-program-management>
       </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-<!--        <app-user-list [users$]=""></app-user-list>-->
+      <div *ngIf="isAdmin" class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+         <app-user-list></app-user-list>
       </div>
-    </div>
-  </div>
-
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Professors Preview</h3>
-        <p class="mb-2"><strong>Professors count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'professors']">View All</button>
+      <div class="tab-pane fade show " id="professors" role="tabpanel" aria-labelledby="professors-tab">
+        <app-professors-management></app-professors-management>
       </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-professor-list [professors$]="previewProfessors"></app-professor-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Subjects Preview</h3>
-        <p class="mb-2"><strong>Subjects count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'subjects']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-subject-list [subjects$]="previewSubjects"></app-subject-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Student Groups Preview</h3>
-        <p class="mb-2"><strong>Student group count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'student_groups']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-student-group-list [studentGroups$]="previewStudentGroups"></app-student-group-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Classrooms Preview</h3>
-        <p class="mb-2"><strong>Programs count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'classrooms']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-classroom-list [classrooms$]="previewClassrooms"></app-classroom-list>
-      </div>
+        <div class="tab-pane fade" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
+          <app-subject-management></app-subject-management>
+        </div>
+        <div class="tab-pane fade" id="studentGroups" role="tabpanel" aria-labelledby="studentGroups-tab">
+          <app-student-group-list></app-student-group-list>
+        </div>
+        <div class="tab-pane fade" id="classrooms" role="tabpanel" aria-labelledby="classrooms-tab">
+          <app-classroom-management></app-classroom-management>
+        </div>
     </div>
   </div>
 </div>
