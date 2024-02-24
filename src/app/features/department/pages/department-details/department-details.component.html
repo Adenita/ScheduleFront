@@ -2,57 +2,41 @@
   <div class="col">
     <div style="margin-top: 12em;">
       <h2 class="fw-bold">Department Information</h2>
-      <h3 class="fw-semibold mb-0">Name | <span class="red-text"> {{department.name}} </span> </h3>
+      <h3 class="fw-semibold mb-0">Name | <span class="red-text"> {{department$.getValue()?.name}} </span> </h3>
     </div>
   </div>
   <div class="col-auto d-flex align-items-start me-5">
     <div class="half-image-container"></div>
   </div>
 </div>
+
 <div class="row mt-2">
   <div class="card tab-card p-1">
-    <div class="card-header  rounded-3  box-shadow pb-3 text-center">
+    <div class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active " href="#programs" id="programs-tab" data-bs-toggle="tab" role="tab" aria-controls="programs" aria-selected="true">Programs</a>
+          <a class="nav-link rounded-3 active" (click)="navigateToRoute('programs')" id="programs-tab" role="tab" data-bs-toggle="tab"  aria-controls="programs" aria-selected="true">Programs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('professors')"  id="professors-tab" role="tab"  data-bs-toggle="tab"  aria-controls="professors" aria-selected="false">Professors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3"  (click)="navigateToRoute('subjects')"  id="subjects-tab" data-bs-toggle="tab"  role="tab" aria-controls="subjects" aria-selected="false">Subjects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('classrooms')"  id="classrooms-tab"  data-bs-toggle="tab" role="tab" aria-controls="classrooms" aria-selected="false">Classrooms</a>
         </li>
         <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link" id="users-tab" href="#users" data-bs-toggle="tab" role="tab" aria-controls="users" aria-selected="false">Users</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="#professors" id="professors-tab" data-bs-toggle="tab" role="tab" aria-controls="professors" aria-selected="false">Professors</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="subjects-tab" href="#subjects" data-bs-toggle="tab"  role="tab" aria-controls="subjects" aria-selected="false">Subjects</a>
+          <a class="nav-link rounded-3" (click)="navigateToRoute('student-groups')"  id="studentGroups-tab"  data-bs-toggle="tab"  role="tab" aria-controls="studentGroups" aria-selected="false">Student Groups</a>
         </li>
         <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link" id="studentGroups-tab" href="#studentGroups" data-bs-toggle="tab"  role="tab" aria-controls="studentGroups" aria-selected="false">Student Groups</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="classrooms-tab" href="#classrooms" data-bs-toggle="tab" role="tab" aria-controls="classrooms" aria-selected="false">Classrooms</a>
+          <a class="nav-link rounded-3" (click)="navigateToRoute('users')"  id="users-tab" data-bs-toggle="tab" role="tab" aria-controls="users" aria-selected="false">Users</a>
         </li>
       </ul>
     </div>
 
     <div class="card-body tab-content" id="myTabContent">
-      <div class="tab-pane fade show active " id="programs" role="tabpanel" aria-labelledby="programs-tab">
-        <app-program-management></app-program-management>
-      </div>
-      <div *ngIf="isAdmin" class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-         <app-user-list></app-user-list>
-      </div>
-      <div class="tab-pane fade show " id="professors" role="tabpanel" aria-labelledby="professors-tab">
-        <app-professors-management></app-professors-management>
-      </div>
-        <div class="tab-pane fade" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
-          <app-subject-management></app-subject-management>
-        </div>
-        <div class="tab-pane fade" id="studentGroups" role="tabpanel" aria-labelledby="studentGroups-tab">
-          <app-student-group-list></app-student-group-list>
-        </div>
-        <div class="tab-pane fade" id="classrooms" role="tabpanel" aria-labelledby="classrooms-tab">
-          <app-classroom-management></app-classroom-management>
-        </div>
+        <router-outlet></router-outlet>
     </div>
   </div>
 </div>

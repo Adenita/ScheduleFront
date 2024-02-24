@@ -1,5 +1,5 @@
 .half-image-container {
-  width: 600px;
+  width: 550px;
   height: 300px;
   background-image: url('/assets/fshmn-logo-mini.png');
   background-size: cover;
@@ -12,18 +12,18 @@
 
   &-header {
     border-bottom: none;
-    background-color: #f8f9fa;
+    background-color: #212121EF;
 
     .nav-link {
-      color: black;
-      font-weight: 500;
-      font-size: 1.2em;
+      color: white;
+      font-weight: 700;
+      font-size: 1.35em;
       border: none;
       transition: 0.2s ease-in-out;
 
       &.active {
-        background-color: #f8f9fa;
-        color: #ce2a2d;
+        background-color: #ce2a2d;
+        color: white;
       }
 
       &:hover {
