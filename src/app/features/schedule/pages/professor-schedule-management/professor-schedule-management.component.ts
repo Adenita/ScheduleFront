@@ -11,7 +11,7 @@ import { ProfessorService } from '../../../../core/services/http/professor.servi
 @Component({
   selector: 'app-professor-schedule-management',
   templateUrl: './professor-schedule-management.component.html',
-  styleUrls: ['./professor-schedule-management.component.css'],
+  styleUrls: ['./professor-schedule-management.component.scss'],
 })
 export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   scheduleId: number = -1;
