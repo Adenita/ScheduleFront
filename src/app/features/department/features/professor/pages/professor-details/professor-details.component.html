@@ -1,26 +1,17 @@
-<div class="container">
-  <div class="row mt-4">
-    <div class="col text-center mb-4">
-      <h2><strong>Professor Information</strong></h2>
-      <h3><strong>Name:</strong> {{professor.name}}</h3>
-    </div>
+<div class="card mt-2">
+  <div class="card-header rounded-3 ps-1 box-shadow text-center">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link rounded-3" [routerLink]="['subjects']" routerLinkActive="active" role="tab" aria-controls="subjects" aria-selected="true">Subjects</a>
+      </li>
+    </ul>
   </div>
-  <div class="row ms-1">
-    <app-professor-preferred-days-from [professorId]="professorId" [professorPreferredDays$]="preferredDays$"></app-professor-preferred-days-from>
+  <div class="card-body tab-content mt-2" id="myTabContent">
+    <router-outlet></router-outlet>
   </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Subjects Preview</h3>
-        <p class="mb-2"><strong>Subjects count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'subjects']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
-      </div>
-    </div>
-  </div>
+</div>
+
+
+<div class="row ms-1 mt-3">
+  <app-professor-preferred-days-from [professorId]="professorId" [professorPreferredDays$]="preferredDays$"></app-professor-preferred-days-from>
 </div>

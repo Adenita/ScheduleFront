@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { SubjectTransport } from '../../../../../../shared/models/subject';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
@@ -9,7 +9,7 @@ import { ProfessorService } from '../../../../../../core/services/http/professor
 @Component({
   selector: 'app-professor-details',
   templateUrl: './professor-details.component.html',
-  styleUrls: ['./professor-details.component.css'],
+  styleUrls: ['./professor-details.component.scss'],
 })
 export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
@@ -24,6 +24,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
   ) {
@@ -32,7 +33,7 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeParametersService.getRouteParams(this.route).then(() => {
+    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
@@ -47,9 +48,11 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (professorDetails: ProfessorDetailsTransport) => {
-          this.professor = professorDetails;
-          this.preferredDays$.next(professorDetails.preferredDays);
-          this.previewSubjects$.next(professorDetails.subjectTransportList.slice(0, this.numberToPreview));
+          if (professorDetails) {
+            this.professor = professorDetails;
+            this.preferredDays$.next(professorDetails.preferredDays);
+            this.previewSubjects$.next(professorDetails.subjectTransportList.slice(0, this.numberToPreview));
+          }
         },
       });
   }
