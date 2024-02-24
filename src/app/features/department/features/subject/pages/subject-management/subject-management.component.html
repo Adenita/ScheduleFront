@@ -1,7 +1,11 @@
-<div class = "container mt-5">
+<div class="container mt-5">
   <div class="row justify-content-end align-items-center my-2">
     <div class="col">
-      <h5 class="mb-0">Subject List</h5>
+      <h5 class="mb-0 lead fw-normal">Subject List</h5>
+    </div>
+    <div class="searchbar me-2 ">
+      <input class="search_input " type="text" name="" (input)="onSearch($event)" placeholder="Search...">
+      <span class="search_icon"><i class="bi bi-search"></i></span>
     </div>
     <div *ngIf="isAdmin" class="col-lg-auto">
       <button class= "btn btn-sm btn-dark px-4" (click)="openSubjectFormModal()">Add</button>
@@ -11,7 +15,7 @@
   <div class="row">
     <div class="col-12">
       <app-subject-list
-        [subjects$]="subjects$"
+        [subjects$]="filteredSubjects$"
         [isAdmin]="isAdmin"
         [route]="route"
         (editEvent)="openSubjectFormModalInEditMode($event)"

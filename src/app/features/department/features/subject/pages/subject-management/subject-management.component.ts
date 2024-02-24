@@ -11,7 +11,7 @@ import { SubjectService } from '../../../../../../core/services/http/subjects.se
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 import { SubjectFormBuilderService } from '../../services/subject-form-builder.service';
 import { SubjectModalData, SubjectModalManagementService } from '../../services/subject-modal-management.service';
@@ -23,7 +23,7 @@ import { Role } from '../../../../../../shared/models/user';
 @Component({
   selector: 'app-subject-management',
   templateUrl: './subject-management.component.html',
-  styleUrls: ['./subject-management.component.css'],
+  styleUrls: ['./subject-management.component.scss'],
 })
 export class SubjectManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
@@ -46,9 +46,12 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
 
   subjectModalData: SubjectModalData = {} as SubjectModalData;
   isAdmin: boolean = false;
+  searchQuery: string = '';
+  filteredSubjects$: BehaviorSubject<SubjectTransport[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private routeParametersService: RouteParametersService,
     private departmentService: DepartmentService,
     private subjectService: SubjectService,
@@ -61,10 +64,11 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     this.subjectForm = this.subjectFormBuilderService.subjectForm;
     this.subjects$ = new BehaviorSubject<SubjectTransport[]>([]);
     this.departmentSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
+    this.filteredSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
   }
 
   ngOnInit() {
-    this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
@@ -117,6 +121,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (subjectTransport: SubjectListTransport) => {
           this.subjects$.next(subjectTransport.subjects);
+          this.filteredSubjects$.next(subjectTransport.subjects);
         },
         error: (err) => console.error('Error fetching subjects', err),
       });
@@ -265,5 +270,12 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  onSearch(event: any) {
+    this.searchQuery = event.target.value;
+    this.filteredSubjects$.next(
+      this.subjects$.getValue().filter((subject) => subject.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
+    );
   }
 }
