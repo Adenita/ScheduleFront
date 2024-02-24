@@ -5,23 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { DepartmentModule } from './features/department/department.module';
 import { ScheduleModule } from './features/schedule/schedule.module';
 import { AuthModule } from './auth/auth.module';
 
-const routes: Routes = [{ path: '', component: HomeComponent }];
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'departments', loadChildren: () => import('./features/department/department.module').then((m) => m.DepartmentModule) },
+];
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot(routes),
-    DepartmentModule,
-    ScheduleModule,
-    AuthModule,
-  ],
+  imports: [BrowserModule, HttpClientModule, FormsModule, RouterModule.forRoot(routes), ScheduleModule, AuthModule],
   providers: [],
   bootstrap: [AppComponent],
   exports: [RouterModule],
