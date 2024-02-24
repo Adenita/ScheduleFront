@@ -1,25 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProfessorListTransport, ProfessorTransport, Rank } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorFormModalComponent } from '../../components/professor-form-modal/professor-form-modal.component';
 import { ProfessorModalData, ProfessorModalManagementService } from '../../services/professor-modal-management.service';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
 import { Role } from '../../../../../../shared/models/user';
 import { PermissionService } from '../../../../../../auth/services/permission.service';
+import { ProgramTransport } from '../../../../../../shared/models/program';
 
 @Component({
   selector: 'app-professors-management',
   templateUrl: './professor-management.component.html',
-  styleUrls: ['./professor-management.component.css'],
+  styleUrls: ['./professor-management.component.scss'],
 })
 export class ProfessorManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId: number = -1;
   professors$: BehaviorSubject<ProfessorTransport[]>;
+  filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
+  searchQuery: string = '';
+
   professorRoles: Rank[] = Object.values(Rank);
   route: string = '';
   professorForm: FormGroup;
@@ -29,6 +33,12 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   professorModalData: ProfessorModalData = {} as ProfessorModalData;
   roles: Role[] = Object.values(Role);
   isAdmin: boolean = false;
+  selectedProfessor$: BehaviorSubject<ProfessorTransport>;
+
+  @Input()
+  program!: ProgramTransport;
+
+  programId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,22 +46,39 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
+    private router: Router,
     private professorModalManagementService: ProfessorModalManagementService,
     private permissionService: PermissionService,
   ) {
     this.professorForm = this.buildFormGroup(formBuilder);
     this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
+    this.selectedProfessor$ = new BehaviorSubject<ProfessorTransport>({} as ProfessorTransport);
+    this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
   }
 
+  //Todo
+  //Add method to fetch program professors
   ngOnInit() {
-    this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
+      this.programId$.next(this.programId);
       this.route = this.routeParametersService.setRoute('professors');
       this.bindProfessorModalData();
       this.getDepartmentProfessors();
     });
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  onSearch(event: any) {
+    this.searchQuery = event.target.value;
+    this.filteredProfessors$.next(
+      this.professors$.getValue().filter((professor) => professor.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
+    );
+  }
+
+  selectProfessor(professor: ProfessorTransport) {
+    this.selectedProfessor$.next(professor);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -70,7 +97,11 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
 
   getDepartmentProfessors() {
     this.departmentService.getProfessorsPerDepartment(this.departmentId).subscribe({
-      next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
+      next: (professorListTransport: ProfessorListTransport) => {
+        this.professors$.next(professorListTransport.professorTransports);
+        this.filteredProfessors$.next(professorListTransport.professorTransports);
+        this.selectedProfessor$.next(professorListTransport.professorTransports[0]);
+      },
       error: (err) => console.error('Error fetching department professors', err),
     });
   }
