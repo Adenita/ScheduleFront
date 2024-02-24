@@ -11,7 +11,7 @@ import { Role } from '../../../../../../shared/models/user';
 @Component({
   selector: 'app-classroom-management',
   templateUrl: './classroom-management.component.html',
-  styleUrls: ['./classroom-management.component.css'],
+  styleUrls: ['./classroom-management.component.scss'],
 })
 export class ClassroomManagementComponent implements OnInit, OnDestroy {
   classrooms$: BehaviorSubject<Classroom[]>;
@@ -21,6 +21,8 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
   classroomModalData: ClassroomModalData = {} as ClassroomModalData;
   destroyed$: Subject<void> = new Subject<void>();
   isAdmin: boolean = false;
+  searchQuery: string = '';
+  filteredClassrooms$: BehaviorSubject<Classroom[]>;
 
   constructor(
     private classroomService: ClassroomService,
@@ -29,13 +31,22 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
   ) {
     this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
+    this.filteredClassrooms$ = new BehaviorSubject<Classroom[]>([]);
     this.classroomForm = this.buildFormGroup(formBuilder);
   }
 
   ngOnInit() {
+    console.log('inside classrooms on init');
     this.bindClassroomModalData();
     this.getClassrooms();
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  onSearch(event: any) {
+    this.searchQuery = event.target.value;
+    this.filteredClassrooms$.next(
+      this.classrooms$.getValue().filter((classroom) => classroom.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
+    );
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -48,7 +59,10 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
 
   getClassrooms(): void {
     this.classroomService.getAll().subscribe({
-      next: (classroomTransport) => this.classrooms$.next(classroomTransport.classrooms),
+      next: (classroomTransport) => {
+        this.classrooms$.next(classroomTransport.classrooms);
+        this.filteredClassrooms$.next(classroomTransport.classrooms);
+      },
       error: (err) => console.error('Error fetching classrooms', err),
     });
   }

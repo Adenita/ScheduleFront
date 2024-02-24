@@ -1,22 +1,26 @@
-<div class = "container mt-5">
+<div class="container mt-5">
   <div class="row justify-content-end align-items-center my-2">
     <div class="col">
-      <h5 class="mb-0">Classroom List</h5>
+      <h5 class="mb-0 lead fw-normal">Classroom List</h5>
+    </div>
+    <div class="searchbar me-2 ">
+      <input class="search_input " type="text" name="" (input)="onSearch($event)" placeholder="Search...">
+      <span class="search_icon"><i class="bi bi-search"></i></span>
     </div>
     <div *ngIf="isAdmin" class="col-lg-auto">
       <button class= "btn btn-sm btn-dark px-4" (click)="openClassroomFormModal()">Add</button>
     </div>
-  </div>
+</div>
 
-  <div class="row">
-    <div class="col-12">
-      <app-classroom-list
-        [classrooms$]="classrooms$"
-        [isAdmin] = "isAdmin"
-        (editEvent)="openClassroomFormModalInEditMode($event)"
-        (deleteEvent)="deleteClassroom($event)"
-      ></app-classroom-list>
-    </div>
+<div class="row">
+  <div class="col-12">
+    <app-classroom-list
+      [classrooms$]="filteredClassrooms$"
+      [isAdmin] = "isAdmin"
+      (editEvent)="openClassroomFormModalInEditMode($event)"
+      (deleteEvent)="deleteClassroom($event)"
+    ></app-classroom-list>
   </div>
+</div>
 </div>
 
