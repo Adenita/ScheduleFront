@@ -4,8 +4,35 @@ import { ProgramManagementComponent } from './pages/program-management/program-m
 import { ProgramDetailsComponent } from './pages/program-details/program-details.component';
 
 const routes: Routes = [
-  { path: 'departments/:id/programs', component: ProgramManagementComponent },
-  { path: 'departments/:id/programs/:pid', component: ProgramDetailsComponent },
+  {
+    path: '',
+    component: ProgramManagementComponent,
+    children: [
+      {
+        path: ':pid',
+        component: ProgramDetailsComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'professors',
+            pathMatch: 'full',
+          },
+          {
+            path: 'professors',
+            loadChildren: () => import('../professor/professor.module').then((m) => m.ProfessorModule),
+          },
+          {
+            path: 'subjects',
+            loadChildren: () => import('../subject/subject.module').then((m) => m.SubjectModule),
+          },
+          {
+            path: 'student-groups',
+            loadChildren: () => import('../student-group/student-group.module').then((m) => m.StudentGroupModule),
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
