@@ -5,7 +5,7 @@ import { ProgramTransport, ProgramDetailsTransport } from '../../../../../../sha
 @Component({
   selector: 'app-program-list',
   templateUrl: './program-list.component.html',
-  styleUrls: ['./program-list.component.css'],
+  styleUrls: ['./program-list.component.scss'],
 })
 export class ProgramListComponent {
   @Input()
