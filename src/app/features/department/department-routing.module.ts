@@ -27,7 +27,7 @@ const routes: Routes = [
         loadChildren: () => import('./features/classroom/classroom.module').then((m) => m.ClassroomModule),
       },
       {
-        path: 'users',
+        path: '',
         loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
       },
       {
@@ -35,11 +35,6 @@ const routes: Routes = [
         loadChildren: () => import('./features/student-group/student-group.module').then((m) => m.StudentGroupModule),
       },
     ],
-  },
-
-  {
-    path: 'profile',
-    component: UserDetailsComponent,
   },
 ];
 
