@@ -1,22 +1,38 @@
-<div class = "container mt-5">
-  <div class="row justify-content-end align-items-center my-2">
-    <div class="col">
-      <h5 class="mb-0">Program List</h5>
-    </div>
-    <div *ngIf="isAdmin" class="col-lg-auto">
-      <button class= "btn btn-sm btn-dark px-4" (click)="openProgramFormModal()">Add</button>
-    </div>
+<div class="pt-4 pb-3 ps-3 my-2 box-shadow1 rounded-3 d-flex justify-content-between align-items-center">
+  <div class="ps-2 flex-column align-items-center">
+    <h4 class="fw-bold mb-2 fs-4">Program Details</h4>
+    <h5 class="lead fw-normal"> Name | <span class="red-text">{{ selectedProgram$.getValue()?.name }} </span> </h5>
+    <h5 class="lead fw-normal"> Accreditation Year | <span class="red-text"> 2016 </span>  </h5>
+    <h6 class="fst-italic fw-light mt-3">View more program details down below </h6>
   </div>
+  <div *ngIf="isAdmin" class="col-lg-auto d-flex justify-content-end me-3">
+    <button class="btn btn-sm btn-outline-dark me-1" (click)="openProgramFormModalInEditMode(selectedProgram$.getValue().id)">Edit</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="deleteProgram(selectedProgram$.getValue().id)">Delete</button>
+  </div>
+</div>
 
-  <div class="row">
-    <div class="col-12">
-      <app-program-list
-        [programs$]="programs$"
-        [isAdmin]="isAdmin"
-        [route]="route"
-        (editEvent)="openProgramFormModalInEditMode($event)"
-        (deleteEvent)="deleteProgram($event)"
-      ></app-program-list>
+<div class="row">
+  <div class="col-md-10">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="col-md-2 mt-2">
+    <div class="card ">
+      <div class="card-header box-shadow pt-2 text-center rounded-3">
+        <h4>Programs</h4>
+      </div>
+      <div class="card-body p-1">
+        <div class="d-flex flex-column">
+          <button *ngFor="let program of programs$ | async"
+                  class="btn btn-outline-dark mb-2"
+                  [class.active]="selectedProgram$.getValue().id === program.id"
+                  (click)="selectProgram(program)">
+            {{program.name}}
+          </button>
+          <ng-container *ngIf="isAdmin">
+            <button class= "btn btn-danger me-1 px-4" (click)="openProgramFormModal()">Add</button>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ProgramListTransport, ProgramTransport } from '../../../../../../shared/models/program';
@@ -14,12 +14,13 @@ import { Role } from '../../../../../../shared/models/user';
 @Component({
   selector: 'app-program-management',
   templateUrl: './program-management.component.html',
-  styleUrls: ['./program-management.component.css'],
+  styleUrls: ['./program-management.component.scss'],
 })
 export class ProgramManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
+  programId: number = -1;
   programs$: BehaviorSubject<ProgramTransport[]>;
-  route: string = '';
+  selectedProgram$: BehaviorSubject<ProgramTransport>;
   programForm: FormGroup;
   isEditMode: boolean = false;
   programToBeEditedId: number = -1;
@@ -29,6 +30,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private routeParametersService: RouteParametersService,
     private programService: ProgramService,
     private departmentService: DepartmentService,
@@ -38,12 +40,14 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
+    this.selectedProgram$ = new BehaviorSubject<ProgramTransport>({} as ProgramTransport);
   }
 
   ngOnInit() {
-    this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
-      this.route = this.routeParametersService.setRoute('programs');
+      this.programId = this.routeParametersService.programId;
+
       this.bindProgramModalData();
       this.loadDepartmentPrograms(this.departmentId);
     });
@@ -58,10 +62,10 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   loadDepartmentPrograms(departmentId: number): void {
-    console.log('loading department programs: ');
     this.departmentService.getProgramsPerDepartment(departmentId).subscribe({
       next: (programsTransport: ProgramListTransport) => {
         this.programs$.next(programsTransport.programTransports);
+        this.selectedProgram$.next(programsTransport.programTransports[0]);
       },
       error: (err) => console.error('Error loading department programs', err),
     });
@@ -143,6 +147,37 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
       this.programs$,
     );
   }
+
+  selectProgram(program: ProgramTransport) {
+    this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
+      const url = this.routeParametersService.currentRoute;
+      const newUrl = this.replaceProgramIdInUrl(url, program.id);
+      this.selectedProgram$.next(program);
+      this.router.navigate([newUrl]);
+    });
+  }
+
+  private replaceProgramIdInUrl(url: string, newProgramId: number): string {
+    const parts = url.split('/');
+
+    const programsIndex = parts.indexOf('programs');
+
+    if (programsIndex === -1) {
+      return url;
+    }
+
+    const programIdIndex = programsIndex + 1;
+    if (programIdIndex < parts.length) {
+      const currentProgramId = parseInt(parts[programIdIndex], 10);
+
+      if (!isNaN(currentProgramId)) {
+        parts[programIdIndex] = String(newProgramId);
+      }
+    }
+
+    return parts.join('/');
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
