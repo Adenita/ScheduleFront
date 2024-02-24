@@ -1,5 +1,28 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import 'node_modules/bootstrap-icons/font/bootstrap-icons.scss';
+
+:root {
+ --bs-danger: #ce2a2d;
+}
+
 body {
   font-family: 'Poppins', 'sans-serif';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width : 1400px) {
+  .container { max-width: 1600px; }
+}
+
+main {
+  padding-bottom: 10em;
+}
+
+.modalCenter {
+  top: 30% !important;
+  transform: translateY(30%) !important;
 }
 
 .modal {
@@ -22,8 +45,13 @@ body {
   }
 }
 
+.table-bordered {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
 .thead-dark-red {
-  --bs-table-bg: #952323;
+  --bs-table-bg: #ce2a2d;
   --bs-table-color: white;
   color: #ffffff;
 }
@@ -59,4 +87,22 @@ body {
   &::-webkit-scrollbar-track {
     background-color: #f8f5f5;
   }
+}
+
+.red-text {
+  color: #ce2a2d;
+}
+
+.light-gradient {
+  background: linear-gradient(to right, white, lightgray);
+}
+
+.box-shadow {
+  color: rgba(0, 0, 0, 0.76);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.box-shadow1 {
+  color: rgba(0, 0, 0, 0.76);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
