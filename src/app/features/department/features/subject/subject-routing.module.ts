@@ -5,52 +5,14 @@ import { SubjectDetailsComponent } from './pages/subject-details/subject-details
 
 const routes: Routes = [
   {
-    path: 'departments/:id/subjects',
+    path: '',
     component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/subjects/:sid',
-    component: SubjectDetailsComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/subjects',
-    component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/subjects/:sid',
-    component: SubjectDetailsComponent,
-  },
-  {
-    path: 'departments/:id/professors/:ppid/subjects',
-    component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/professors/:ppid/subjects/:sid',
-    component: SubjectDetailsComponent,
-  },
-  {
-    path: 'departments/:id/student_groups/:ssid/subjects',
-    component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/student_groups/:ssid/subjects/:sid',
-    component: SubjectDetailsComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/professors/ppid/subjects',
-    component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/professors/ppid/subjects/:sid',
-    component: SubjectDetailsComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/student_groups/ssid/subjects',
-    component: SubjectManagementComponent,
-  },
-  {
-    path: 'departments/:id/programs/:pid/student_groups/ssid/subjects/:sid',
-    component: SubjectDetailsComponent,
+    children: [
+      {
+        path: ':sid',
+        component: SubjectDetailsComponent,
+      },
+    ],
   },
 ];
 
