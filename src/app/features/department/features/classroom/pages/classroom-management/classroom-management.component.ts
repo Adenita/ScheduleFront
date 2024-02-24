@@ -36,11 +36,13 @@ export class ClassroomManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('inside classrooms on init');
     this.bindClassroomModalData();
     this.getClassrooms();
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
+
+  //Todo
+  //Add get department classroom method
 
   onSearch(event: any) {
     this.searchQuery = event.target.value;
