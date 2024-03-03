@@ -12,32 +12,26 @@ import { ProfessorService } from '../../../../../../core/services/http/professor
   styleUrls: ['./professor-details.component.scss'],
 })
 export class ProfessorDetailsComponent implements OnInit, OnDestroy {
-  departmentId: number = -1;
-  programId: number = -1;
   professorId: number = -1;
-  numberToPreview: number = 3;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
   preferredDays$: BehaviorSubject<ProfessorPreferredDay[]>;
-  previewSubjects$: BehaviorSubject<SubjectTransport[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
   ) {
-    this.previewSubjects$ = new BehaviorSubject<SubjectTransport[]>([]);
     this.preferredDays$ = new BehaviorSubject<ProfessorPreferredDay[]>([]);
   }
 
   ngOnInit(): void {
-    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
-      this.departmentId = this.routeParametersService.departmentId;
-      this.programId = this.routeParametersService.programId;
+    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
+      this.currentRoute = this.routeParametersService.currentRoute;
       this.professorId = this.routeParametersService.professorId;
-      this.currentRoute = this.routeParametersService.setRoute('');
+      this.currentRoute = this.routeParametersService.currentRoute;
       this.getProfessor(this.professorId);
     });
   }
@@ -51,7 +45,6 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
           if (professorDetails) {
             this.professor = professorDetails;
             this.preferredDays$.next(professorDetails.preferredDays);
-            this.previewSubjects$.next(professorDetails.subjectTransportList.slice(0, this.numberToPreview));
           }
         },
       });
