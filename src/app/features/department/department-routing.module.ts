@@ -11,6 +11,11 @@ const routes: Routes = [
     component: DepartmentDetailsComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'programs',
+        pathMatch: 'full',
+      },
+      {
         path: 'programs',
         loadChildren: () => import('./features/program/program.module').then((m) => m.ProgramModule),
       },
@@ -27,12 +32,16 @@ const routes: Routes = [
         loadChildren: () => import('./features/classroom/classroom.module').then((m) => m.ClassroomModule),
       },
       {
-        path: '',
-        loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
-      },
-      {
         path: 'student-groups',
         loadChildren: () => import('./features/student-group/student-group.module').then((m) => m.StudentGroupModule),
+      },
+      {
+        path: 'schedules',
+        loadChildren: () => import('../schedule/schedule.module').then((m) => m.ScheduleModule),
+      },
+      {
+        path: '',
+        loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
       },
     ],
   },
