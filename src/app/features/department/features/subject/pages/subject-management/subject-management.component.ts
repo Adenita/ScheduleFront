@@ -68,11 +68,11 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
+    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
       this.professorId = this.routeParametersService.professorId;
-      this.route = this.routeParametersService.setRoute('subjects');
+      this.route = this.routeParametersService.currentRoute;
       this.bindSubjectModalData();
       if (this.professorId != -1) {
         this.getDepartmentSubjects();
@@ -134,6 +134,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (subjectTransport: SubjectListTransport) => {
           this.subjects$.next(subjectTransport.subjects);
+          this.filteredSubjects$.next(subjectTransport.subjects);
         },
         error: (err) => console.error('Error fetching subjects', err),
       });
@@ -146,6 +147,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (subjectTransport: SubjectListTransport) => {
           this.subjects$.next(subjectTransport.subjects);
+          this.filteredSubjects$.next(subjectTransport.subjects);
         },
         error: (err) => console.error('Error fetching subjects', err),
       });
