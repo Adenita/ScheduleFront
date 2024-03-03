@@ -11,6 +11,12 @@ const routes: Routes = [
       {
         path: ':ppid',
         component: ProfessorDetailsComponent,
+        children: [
+          {
+            path: 'subjects',
+            loadChildren: () => import('../subject/subject.module').then((m) => m.SubjectModule),
+          },
+        ],
       },
     ],
   },
