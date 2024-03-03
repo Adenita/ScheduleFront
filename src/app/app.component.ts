@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   username: string | null = '';
   loginForm: FormGroup;
   loginModalData: LoginModalData = {} as LoginModalData;
+  selectedDepartmentId: number | null = null;
 
   destroyed$: Subject<void> = new Subject<void>();
   departments: BehaviorSubject<DepartmentTransport[]>;
@@ -58,7 +59,12 @@ export class AppComponent implements OnInit {
   onScheduleChange(selectedSchedule: any) {
     if (selectedSchedule) {
       const value = selectedSchedule.target.value;
-      this.router.navigate([`departments/${value}/schedules`]);
+      this.selectedDepartmentId = value;
+      console.log('department id: ', this.selectedDepartmentId);
+      this.router.navigate([`departments/${value}/schedules`]).then(() => {
+        console.log('navigated to page: ', `departments/${value}/schedules`);
+        // window.location.reload();
+      });
     }
   }
 
