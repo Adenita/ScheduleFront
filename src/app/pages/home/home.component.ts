@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Generate } from '../../core/services/generate';
 import { DepartmentService } from '../../core/services/http/department.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { DepartmentTransport } from '../../shared/models/department';
@@ -8,14 +7,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   destroyed$: Subject<void> = new Subject<void>();
   departments: BehaviorSubject<DepartmentTransport[]>;
 
   constructor(
-    private generate: Generate,
     private departmentService: DepartmentService,
     private router: Router,
   ) {
@@ -37,11 +35,11 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  navigateToPage(path: string, id: number) {
-    this.router.navigate([path, id, 'schedules']);
-  }
-
-  openGenerateModal() {
-    this.generate.generate = true;
+  navigateToPage(id: number, path?: string) {
+    if (path) {
+      this.router.navigate(['departments', id, path]);
+    } else {
+      this.router.navigate(['departments', id]);
+    }
   }
 }

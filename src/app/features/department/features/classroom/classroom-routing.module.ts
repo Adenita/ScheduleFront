@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClassroomManagementComponent } from './pages/classroom-management/classroom-management.component';
 
-const routes: Routes = [{ path: 'departments/:id/classrooms', component: ClassroomManagementComponent }];
+const routes: Routes = [{ path: '', component: ClassroomManagementComponent }];
 
 @NgModule({
   declarations: [],

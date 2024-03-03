@@ -10,8 +10,14 @@ import { ProfessorPreferredDaysFromComponent } from './components/professor-pref
 import { ProfessorPreferredDaysFromModalComponent } from './components/professor-preferred-days-from-modal/professor-preferred-days-from-modal.component';
 
 @NgModule({
-  declarations: [ProfessorDetailsComponent, ProfessorManagementComponent, ProfessorFormModalComponent, ProfessorPreferredDaysFromComponent, ProfessorPreferredDaysFromModalComponent],
+  declarations: [
+    ProfessorDetailsComponent,
+    ProfessorManagementComponent,
+    ProfessorFormModalComponent,
+    ProfessorPreferredDaysFromComponent,
+    ProfessorPreferredDaysFromModalComponent,
+  ],
   imports: [CommonModule, ReactiveFormsModule, ProfessorRoutingModule, SharedModule],
-  exports: [],
+  exports: [ProfessorManagementComponent],
 })
 export class ProfessorModule {}

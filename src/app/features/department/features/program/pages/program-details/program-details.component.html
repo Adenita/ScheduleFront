@@ -1,57 +1,25 @@
-<div class="container">
-  <div class="row mt-4">
-    <div class="col text-center">
-      <h2><strong>Program Information</strong></h2>
-      <h3><strong>Name:</strong> {{program.name}}</h3>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Subjects Preview</h3>
-        <p class="mb-2"><strong>Subjects count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'subjects']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-subject-list [subjects$]="previewSubjects$"></app-subject-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Student Groups Preview</h3>
-        <p class="mb-2"><strong>Student Groups count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'student_groups']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-student-group-list [studentGroups$]="previewStudentGroups$"></app-student-group-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Professors Preview</h3>
-        <p class="mb-2"><strong>Student Groups count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'professors']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-professor-list [professors$]="previewProfessors$"></app-professor-list>
-      </div>
-    </div>
+<div  class="pt-4 pb-3 ps-3 my-2 box-shadow1 rounded-3 d-flex justify-content-between align-items-center">
+  <div class="ps-2 flex-column align-items-center">
+    <h4 class="fw-bold mb-2 fs-4">Program Details</h4>
+    <h5 class="lead fw-normal"> Name | <span class="red-text">{{ program.name }} </span> </h5>
+    <h5 class="lead fw-normal"> Accreditation Year | <span class="red-text"> 2016 </span>  </h5>
+    <h6 class="fst-italic fw-light mt-3">View more program details down below </h6>
   </div>
 </div>
 
-
-
+<div class="card mt-2">
+  <div class="card-header rounded-3 ps-1 box-shadow text-center">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link rounded-3" [routerLink]="['professors']" routerLinkActive="active" role="tab" data-bs-toggle="tab"  aria-controls="professors" aria-selected="true">Professors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link rounded-3" [routerLink]="['subjects']" routerLinkActive="active" role="tab" data-bs-toggle="tab"  aria-controls="subjects" aria-selected="false">Subjects</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body tab-content mt-2" id="myTabContent">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 

@@ -1,24 +1,26 @@
-<div class="row mt-5 text-center">
-  <h2 class="fw-semibold">{{professorName}}</h2>
-</div>
-<div class="row mt-3">
+<div class="row mt-5">
   <div class="col-md-10">
+    <div class="text-center">
+      <h2 class="fw-bold mb-1">{{selectedProfessor$.getValue().rank}} | <span class="red-text">{{selectedProfessor$.getValue().name}}</span></h2>
+      <h6 class="fst-italic fw-light">View the schedule offered in the professor grouped format</h6>
+    </div>
     <app-professor-schedule [professorSchedule$]="professorSchedule$"></app-professor-schedule>
   </div>
-  <div class="col-md-2 mt-3">
+  <div class="col-md-2" style="margin-top: 5em;">
     <div class="d-flex flex-column">
       <h4 class="fw-semibold">Professors</h4>
       <div class="mb-2">
-        <input type="text" class="form-control" placeholder="Kerko profesorin " (input)="onSearch($event)">
+        <input type="text" class="form-control" placeholder="Search professor " (input)="onSearch($event)">
       </div>
       <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
         <button *ngFor="let professor of filteredProfessors$ | async"
                 class="btn btn-outline-dark me-2 mb-2"
+                [class.active] = "selectedProfessor$.getValue().id === professor.id"
                 (click)="loadProfessorSchedule(professor)">
           {{professor.name}}
         </button>
       </div>
-      <button class="btn btn-danger me-2" (click)="goBack()"> Kthehu </button>
+      <button class="btn btn-danger me-2" (click)="goBack()"> Go Back </button>
     </div>
   </div>
 </div>

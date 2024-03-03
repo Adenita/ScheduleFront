@@ -1,19 +1,21 @@
-<div class="row mt-5 text-center">
-  <h2 class="fw-semibold">{{classroomName}}</h2>
-</div>
-<div class="row mt-3">
+<div class="row mt-5">
   <div class="col-md-10">
+    <div class="text-center">
+      <h2 class="fw-bold mb-1">Classroom | <span class="red-text">{{selectedClassroom$.getValue().name}}</span></h2>
+      <h6 class="fst-italic fw-light">View the schedule offered in the classroom grouped format</h6>
+    </div>
     <app-classroom-schedule [classroomSchedule$]="classroomSchedule$"></app-classroom-schedule>
   </div>
-  <div class="col-md-2 mt-3">
+  <div class="col-md-2" style="margin-top:5em;">
     <div class="d-flex flex-column">
       <h4 class="fw-semibold">Classrooms</h4>
       <button *ngFor="let classroom of classrooms"
                       class="btn btn-outline-dark me-2 mb-2"
+                      [class.active]="classroom.id === selectedClassroom$.getValue().id"
                       (click)="loadClassroomSchedule(classroom)">
                 {{classroom.name}}
       </button>
-      <button class="btn btn-danger me-2" (click)="goBack()"> Kthehu </button>
+      <button class="btn btn-danger me-2" (click)="goBack()"> Go Back </button>
     </div>
   </div>
 </div>

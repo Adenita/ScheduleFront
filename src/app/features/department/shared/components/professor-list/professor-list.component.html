@@ -1,5 +1,5 @@
 <div class = "table-responsive" *ngIf="professors$?.getValue() && professors$.getValue().length > 0; else noProfessorsFound">
-  <table class="table table-bordered table-striped table-hover">
+  <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden">
     <thead class="thead-dark-red">
     <tr>
       <th>Name</th>
@@ -9,11 +9,12 @@
         <th>Modification Date</th>
         <th>Actions</th>
       </ng-container>
+      <th class="text-center fst-italic lead fw-bold">i</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let professor of professors$ | async" >
-      <td [routerLink]="route ? route + '/' + professor.id : null">{{ professor.name }}</td>
+      <td >{{ professor.name }}</td>
       <td>{{ professor.rank }}</td>
       <ng-container *ngIf="isAdmin">
         <td>{{ professor.creationDate | date: dateFormat}}</td>
@@ -23,6 +24,11 @@
           <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(professor.id)">Delete</button>
         </td>
       </ng-container>
+      <td class="text-center" [routerLink]="route ? route + '/' + professor.id : null">
+        <span class="icon" >
+          <i class="bi bi-info-circle"></i>
+        </span>
+      </td>
     </tr>
     </tbody>
   </table>

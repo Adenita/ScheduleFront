@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="row justify-content-end align-items-center my-2">
     <div class="col">
-      <h5 class="mb-0">Department List</h5>
+      <h4 class="mb-0">Department List</h4>
     </div>
     <div *ngIf="isAdmin" class="col-lg-auto">
       <button class="btn btn-sm btn-dark px-4" (click)="openDepartmentFormModal()">Add</button>
@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-12">
       <div class="table-responsive" *ngIf="departments$.getValue().length > 0; else noDepartmentsFound">
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden">
           <thead class="thead-dark-red">
           <tr>
             <th>Name</th>

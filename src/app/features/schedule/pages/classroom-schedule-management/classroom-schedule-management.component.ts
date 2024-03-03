@@ -20,6 +20,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
 
   classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
   classrooms!: Classroom[];
+  selectedClassroom$: BehaviorSubject<Classroom> = new BehaviorSubject<Classroom>({} as Classroom);
   classroomName: string = '';
 
   currentRoute: string = '';
@@ -69,11 +70,11 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
       });
   }
   getRouteParameters() {
-    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
       this.scheduleId = this.routeParametersService.scheduleId;
       this.classroomId = this.routeParametersService.classroomId;
       this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.setRoute('');
+      this.currentRoute = this.routeParametersService.currentRoute;
     });
   }
 
@@ -82,6 +83,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
     const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.classroomName = classroom.name;
+    this.selectedClassroom$.next(classroom);
     this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
   }
 
@@ -91,6 +93,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (classroom: Classroom) => {
+          this.selectedClassroom$.next(classroom);
           this.classroomName = classroom.name;
         },
       });

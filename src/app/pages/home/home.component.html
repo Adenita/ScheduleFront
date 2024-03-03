@@ -1,42 +1,79 @@
-<div class="container py-5">
-    <div class="row">
-      <div class="col-12">
-        <div class="card text-center" style="background-color: #952323; color: #ffffff; min-width: 850px;">
-            <div class="card-body">
-              <h2>Welcome to Schedule Generator</h2>
+<div class="py-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="fw-bolder red-text mb-0">Welcome to ScheduleUP</h1>
+      <p class="lead">Your one-stop solution for managing university schedules</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center text-center">
+    <div class="col-md-6 text-center d-flex flex-column align-items-center">
+      <img class="picture" src="/assets/hat-logo-tr.png" alt="Logo">
+      <div class="text-center">
+        <h4>Unlock Efficiency | <span class="red-text">ScheduleUp Today</span></h4>
+        <div class="p-1">
+          <h5 class="mb-0 fst-italic"><strong class="red-text">ScheduleUP</strong> simplifies the process of viewing and managing schedules.</h5>
+          <h5 class="fst-italic">Explore various schedule formats tailored to meet your specific requirements.</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-5">
+    <div class="row d-flex align-items-stretch">
+      <!-- Schedule Column -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-2 box-shadow">
+          <div class="card-body text-center">
+            <h3 class="fw-bold card-title">View <span class="red-text">Schedules</span></h3>
+            <p class="lead ">ScheduleUP is designed to make the user experience easier, as it allows users to view published schedules on different forms.</p>
+            <p class="lead fst-italic fw-semibold ">View existing schedules for the university departments!</p>
+            <div class="d-flex justify-content-center">
+              <div>
+                <button *ngFor="let department of departments | async"
+                        class="btn btn-danger me-2 mb-2"
+                        (click)="navigateToPage(department.id, 'schedules')"
+                style="width: 130px;">
+                  {{ department.name }}
+                </button>
+              </div>
             </div>
-        </div>
-      </div>
-    </div>
-  <div class="row mt-2">
-    <div class="col-3">
-      <div class="card" style="height: 600px; min-height: 500px; min-width: 200px" >
-        <div class = "card-header text-center" style="background-color: #952323; color: #ffffff;">
-            <h4> FSHMN </h4>
-        </div>
-        <div class="card-body align-content-center" style="border: #952323 1px solid;">
-          <p>View existing schedules for the university departments.</p>
-          <h5 style="color:#952323">Departments</h5>
-          <div class="d-flex flex-column">
-            <button *ngFor="let department of departments | async"
-                    class="btn btn-outline-light me-2 mb-2"
-                    (click)="navigateToPage('departments', department.id)"
-                    style="border: #952323 1px solid; color: black;"
-            >
-              {{department.name}}
-            </button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-9">
-      <div class="card text-center" style="height: 600px; min-height: 500px; min-width: 600px">
-          <div class = "card-header text-center" style="background-color: #952323; color: #ffffff;">
-            <h4> University of Prishtina FSHMN </h4>
+
+      <!-- Data Column -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-2 box-shadow">
+          <div class="card-body text-center">
+            <h3 class="fw-bold card-title">View <span class="red-text">Data</span></h3>
+            <p class="lead ">ScheduleUP offers the user with the possibility of viewing university information in a simple and interactive web site.</p>
+            <p class="lead fst-italic fw-semibold">View department related data such as professors or subjects.</p>
+            <div class="d-flex justify-content-center">
+              <div>
+                <button *ngFor="let department of departments | async"
+                        class="btn btn-outline-dark me-2 mb-2"
+                        (click)="navigateToPage(department.id)"
+                  style="width: 130px;">
+                  {{ department.name }}
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="card-body" style="padding: 0; border: #952323 1px solid;">
-            <img src="/assets/universiteti-prishtines.jpg" alt="universiteti i prishtines" style="max-width: 100%; min-height: 100%;">
+        </div>
+      </div>
+
+      <!-- About Us Column -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-2 box-shadow">
+          <div class="card-body text-center">
+            <h3 class="fw-bold card-title">About <span class="red-text">Us</span></h3>
+            <p class="lead">ScheduleUp is an application designed to simplify the process of viewing and managing schedules </p>
+            <p class="lead">It has been designed having the user in mind and strives to offer a new and interactive web site which <span class="fw-semibold">...</span></p>
+
+            <a href="#" class="btn btn-dark"  style="width: 130px;">Read More</a>
           </div>
+        </div>
       </div>
     </div>
   </div>

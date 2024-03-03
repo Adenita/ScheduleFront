@@ -7,7 +7,7 @@ import { Role } from '../../../../shared/models/user';
 
 const routes: Routes = [
   {
-    path: 'departments/:id/users',
+    path: 'users',
     component: UserManagementComponent,
     canActivate: [AuthGuard],
     data: { role: [Role.ADMIN] },

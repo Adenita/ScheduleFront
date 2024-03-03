@@ -1,6 +1,6 @@
 <div class="mt-3" *ngIf="programSchedulePerSemesterMap">
   <ng-container *ngFor="let entry of programSchedulePerSemesterMap | keyvalue">
-    <h4 class="mt-2"><strong>Semester: </strong> {{ entry.key }}</h4>
+    <h4 class="mt-2 fw-semibold">Semester | <span class="red-text">{{ entry.key }}</span> </h4>
     <app-schedule [bestProgramSchedule]="entry.value"></app-schedule>
   </ng-container>
 </div>

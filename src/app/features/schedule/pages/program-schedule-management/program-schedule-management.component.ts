@@ -21,6 +21,7 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
   programSchedule$!: BehaviorSubject<ScheduleTransport>;
   programs!: ProgramTransport[];
   programName: string = '';
+  selectedProgram$: BehaviorSubject<ProgramTransport> = new BehaviorSubject({} as ProgramTransport);
 
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
@@ -75,16 +76,17 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (programTransport) => {
           this.programName = programTransport.name;
+          this.selectedProgram$.next(programTransport);
         },
       });
   }
 
   getRouteParameters() {
-    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
       this.scheduleId = this.routeParametersService.scheduleId;
       this.programId = this.routeParametersService.programId;
       this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.setRoute('');
+      this.currentRoute = this.routeParametersService.currentRoute;
     });
   }
 
@@ -93,6 +95,7 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
     const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
     const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.programName = program.name;
+    this.selectedProgram$.next(program);
     this.router.navigate([nextRoute, program.id]).then(() => this.getScheduleForProgram(this.scheduleId, program.id));
   }
 

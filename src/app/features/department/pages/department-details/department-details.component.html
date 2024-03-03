@@ -1,115 +1,42 @@
-<div class="container">
-  <div class="row mt-4">
-    <div class="col text-center">
-      <h2><strong>Department Information</strong></h2>
-      <h3><strong>Name:</strong> {{department.name}}</h3>
+<div *ngIf="!isSchedule" class="row align-items-start" style="margin-top: 2em;">
+  <div class="col">
+    <div style="margin-top: 10em;">
+      <h2 class="fw-bold">Department Information</h2>
+      <h3 class="fw-semibold mb-0">Name | <span class="red-text"> {{department$.getValue()?.name}} </span> </h3>
     </div>
   </div>
-  <div *ngIf="hasPermission" class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Schedules Preview</h3>
-        <p class="mb-2"><strong>Schedules count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'schedules']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-schedule-list [schedules$]="previewSchedules$"></app-schedule-list>
-      </div>
-    </div>
+  <div class="col-auto d-flex align-items-start me-5">
+    <div class="half-image-container"></div>
   </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Programs Preview</h3>
-        <p class="mb-2"><strong>Programs count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'programs']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-program-list [programs$]="previewPrograms"></app-program-list>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <div *ngIf="isAdmin" class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Users Preview</h3>
-        <p class="mb-2"><strong>Users count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'users']">View All</button>
-      </div>
+<div class="row mt-2">
+  <div class="card tab-card p-1">
+    <div *ngIf="!isSchedule;" class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link rounded-3 active" (click)="navigateToRoute('programs')" id="programs-tab" role="tab" data-bs-toggle="tab"  aria-controls="programs" aria-selected="true">Programs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('professors')"  id="professors-tab" role="tab"  data-bs-toggle="tab"  aria-controls="professors" aria-selected="false">Professors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3"  (click)="navigateToRoute('subjects')"  id="subjects-tab" data-bs-toggle="tab"  role="tab" aria-controls="subjects" aria-selected="false">Subjects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('classrooms')"  id="classrooms-tab"  data-bs-toggle="tab" role="tab" aria-controls="classrooms" aria-selected="false">Classrooms</a>
+        </li>
+        <li *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('student-groups')"  id="studentGroups-tab"  data-bs-toggle="tab"  role="tab" aria-controls="studentGroups" aria-selected="false">Student Groups</a>
+        </li>
+        <li *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link rounded-3" (click)="navigateToRoute('users')"  id="users-tab" data-bs-toggle="tab" role="tab" aria-controls="users" aria-selected="false">Users</a>
+        </li>
+      </ul>
     </div>
-    <div class="col-md-8">
-      <div>
-<!--        <app-user-list [users$]=""></app-user-list>-->
-      </div>
-    </div>
-  </div>
 
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Professors Preview</h3>
-        <p class="mb-2"><strong>Professors count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'professors']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-professor-list [professors$]="previewProfessors"></app-professor-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Subjects Preview</h3>
-        <p class="mb-2"><strong>Subjects count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'subjects']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-subject-list [subjects$]="previewSubjects"></app-subject-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Student Groups Preview</h3>
-        <p class="mb-2"><strong>Student group count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'student_groups']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-student-group-list [studentGroups$]="previewStudentGroups"></app-student-group-list>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4 border-bottom">
-    <div class="col-md-4">
-      <div class="description-box p-3">
-        <h3>Classrooms Preview</h3>
-        <p class="mb-2"><strong>Programs count:</strong> 10</p>
-        <p class="mb-2"><strong>Last updated:</strong> October 1, 2023</p>
-        <button class="btn btn-dark" [routerLink]="[currentRoute, 'classrooms']">View All</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div>
-        <app-classroom-list [classrooms$]="previewClassrooms"></app-classroom-list>
-      </div>
+    <div class="card-body tab-content" id="myTabContent">
+        <router-outlet></router-outlet>
     </div>
   </div>
 </div>

@@ -12,11 +12,12 @@ import { RouteParametersService } from '../../../../core/services/route-paramete
 import { ScheduleGenerationService } from '../../services/schedule-generation.service';
 import { PermissionService } from '../../../../auth/services/permission.service';
 import { Role } from '../../../../shared/models/user';
+import { ProfessorTransport } from '../../../../shared/models/professor';
 
 @Component({
   selector: 'app-schedule-management',
   templateUrl: './schedule-management.component.html',
-  styleUrls: ['./schedule-management.component.css'],
+  styleUrls: ['./schedule-management.component.scss'],
 })
 export class ScheduleManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
@@ -33,6 +34,9 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
   destroyed$: Subject<void> = new Subject<void>();
 
   isAdmin: boolean = false;
+  searchValue: string = '';
+
+  filteredProfessors$: BehaviorSubject<ProfessorTransport[]> = new BehaviorSubject<ProfessorTransport[]>([]);
 
   constructor(
     private router: Router,
@@ -51,16 +55,48 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRouteParameters()
-      .then(() => this.getDepartmentData())
-      .then((departmentData) => (this.departmentTransport = departmentData))
-      .then(() => this.getDepartmentScheduleDetails())
-      .then((departmentData) => (this.departmentScheduleDetailTransport = departmentData))
-      .then(() => {
-        if (this.departmentId == -1) this.getSchedules();
-        else this.getDepartmentSchedules(this.departmentId);
+    // this.routeParametersService.getRouteParameters(this.activatedRoute);
+    // this.routeParametersService.routeParams.subscribe((params) => {
+    //   console.log(params, '____');
+    //   this.departmentId = params['id'];
+    //   this.currentRoute = this.routeParametersService.setRoute('schedules');
+    //   this.getDepartmentData().then((departmentData) => (this.departmentTransport = departmentData));
+    //   this.getDepartmentScheduleDetails().then((departmentData) => (this.departmentScheduleDetailTransport = departmentData));
+    //   if (this.departmentId == -1) this.getSchedules();
+    //   else this.getDepartmentSchedules(this.departmentId);
+    // });
+    this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
+      this.departmentId = this.routeParametersService.departmentId;
+      this.currentRoute = this.routeParametersService.currentRoute;
+      console.log(this.currentRoute, this.departmentId);
+      this.getDepartmentData().then((departmentData) => {
+        this.departmentTransport = departmentData;
+        console.log(this.departmentTransport);
+        this.filteredProfessors$.next(this.departmentTransport.professorTransports);
       });
+      this.getDepartmentScheduleDetails().then((departmentData) => (this.departmentScheduleDetailTransport = departmentData));
+      if (this.departmentId == -1) this.getSchedules();
+      else this.getDepartmentSchedules(this.departmentId);
+    });
+    // this.getRouteParameters()
+    //   .then(() => this.getDepartmentData())
+    //   .then((departmentData) => (this.departmentTransport = departmentData))
+    //   .then(() => this.getDepartmentScheduleDetails())
+    //   .then((departmentData) => (this.departmentScheduleDetailTransport = departmentData))
+    //   .then(() => {
+    //     if (this.departmentId == -1) this.getSchedules();
+    //     else this.getDepartmentSchedules(this.departmentId);
+    //   });
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  onSearch(event: any) {
+    this.searchValue = event.target.value;
+    this.filteredProfessors$.next(
+      this.departmentTransport.professorTransports.filter((professor) =>
+        professor.name.toLowerCase().includes(this.searchValue.toLowerCase()),
+      ),
+    );
   }
 
   openGenerateScheduleModal() {
@@ -88,6 +124,7 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
     return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
       this.departmentId = this.routeParametersService.departmentId;
       this.currentRoute = this.routeParametersService.setRoute('schedules');
+      console.log('route parameters: ', this.departmentId);
     });
   }
 
@@ -96,6 +133,7 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   async getDepartmentData() {
+    console.log(this.departmentId);
     return await firstValueFrom(this.departmentService.getDepartmentDetails(this.departmentId));
   }
 
