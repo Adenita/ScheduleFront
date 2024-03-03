@@ -20,6 +20,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
 
   professorSchedule$!: BehaviorSubject<ScheduleTransport>;
   professors!: ProfessorTransport[];
+  selectedProfessor$: BehaviorSubject<ProfessorTransport> = new BehaviorSubject({} as ProfessorTransport);
   professorName: string = '';
 
   searchValue: string = '';
@@ -58,6 +59,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (professorListTransport) => {
           this.professors = professorListTransport.professorTransports;
+          // this.selectedProfessor$.next(this.professors[0]);
           this.filteredProfessors$.next(this.professors);
         },
       });
@@ -75,11 +77,11 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getRouteParameters() {
-    return this.routeParametersService.getRouteParams(this.activatedRoute).then(() => {
+    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
       this.scheduleId = this.routeParametersService.scheduleId;
       this.professorId = this.routeParametersService.professorId;
       this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.setRoute('');
+      this.currentRoute = this.routeParametersService.currentRoute;
     });
   }
 
@@ -87,6 +89,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
     const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
     const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
     const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
+    this.selectedProfessor$.next(professor);
     this.professorName = professor.name;
     this.router.navigate([nextRoute, professor.id]).then(() => this.getScheduleForProfessor(this.scheduleId, professor.id));
   }
@@ -98,6 +101,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (professorTransport) => {
           this.professorName = professorTransport.name;
+          this.selectedProfessor$.next(professorTransport);
         },
       });
   }

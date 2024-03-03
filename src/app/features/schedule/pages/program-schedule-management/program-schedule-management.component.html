@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-10">
     <div class="text-center">
-      <h2 class="fw-bold mb-1">Program | <span class="red-text">{{programName}}</span></h2>
+      <h2 class="fw-bold mb-1">Program | <span class="red-text">{{selectedProgram$.getValue().name}}</span></h2>
       <h6 class="fst-italic fw-light">View the schedule offered in the program grouped format</h6>
     </div>
     <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
@@ -11,6 +11,7 @@
       <h4 class="fw-semibold">Programs</h4>
       <button *ngFor="let program of programs"
               class="btn btn-outline-dark me-2 mb-2"
+              [class.active] = 'program.id == selectedProgram$.getValue().id'
               (click)="loadProgramSchedule(program)">
         {{program.name}}
       </button>

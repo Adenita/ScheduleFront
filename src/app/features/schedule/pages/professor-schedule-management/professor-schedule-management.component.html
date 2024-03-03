@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-10">
     <div class="text-center">
-      <h2 class="fw-bold mb-1">Professor | <span class="red-text">{{professorName}}</span></h2>
+      <h2 class="fw-bold mb-1">{{selectedProfessor$.getValue().rank}} | <span class="red-text">{{selectedProfessor$.getValue().name}}</span></h2>
       <h6 class="fst-italic fw-light">View the schedule offered in the professor grouped format</h6>
     </div>
     <app-professor-schedule [professorSchedule$]="professorSchedule$"></app-professor-schedule>
@@ -15,6 +15,7 @@
       <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
         <button *ngFor="let professor of filteredProfessors$ | async"
                 class="btn btn-outline-dark me-2 mb-2"
+                [class.active] = "selectedProfessor$.getValue().id === professor.id"
                 (click)="loadProfessorSchedule(professor)">
           {{professor.name}}
         </button>
