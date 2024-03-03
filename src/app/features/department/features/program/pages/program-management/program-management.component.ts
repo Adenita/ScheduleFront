@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
@@ -18,7 +18,7 @@ import { Role } from '../../../../../../shared/models/user';
 })
 export class ProgramManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
-  programId: number = -1;
+  programId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
   programs$: BehaviorSubject<ProgramTransport[]>;
   selectedProgram$: BehaviorSubject<ProgramTransport>;
   programForm: FormGroup;
@@ -27,16 +27,18 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   destroyed$: Subject<void> = new Subject<void>();
   programModalData: ProgramModalData = {} as ProgramModalData;
   isAdmin: boolean = false;
+  route: string = '';
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    formBuilder: FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private programService: ProgramService,
     private departmentService: DepartmentService,
-    private formBuilder: FormBuilder,
     private programModalManagementService: ProgramModalManagementService,
     private permissionService: PermissionService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
@@ -44,13 +46,17 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
+    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
+      this.route = this.routeParametersService.currentRoute;
       this.departmentId = this.routeParametersService.departmentId;
-      this.programId = this.routeParametersService.programId;
-
+      this.routeParametersService.currentRoute$.subscribe((route) => {
+        this.programId$.next(this.routeParametersService.programId);
+        this.cdr.detectChanges();
+      });
       this.bindProgramModalData();
       this.loadDepartmentPrograms(this.departmentId);
     });
+
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
@@ -149,12 +155,10 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   selectProgram(program: ProgramTransport) {
-    this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
-      const url = this.routeParametersService.currentRoute;
-      const newUrl = this.replaceProgramIdInUrl(url, program.id);
-      this.selectedProgram$.next(program);
-      this.router.navigate([newUrl]);
-    });
+    const url = this.routeParametersService.currentRoute;
+    const newUrl = this.replaceProgramIdInUrl(url, program.id);
+    this.selectedProgram$.next(program);
+    this.router.navigate([newUrl]);
   }
 
   private replaceProgramIdInUrl(url: string, newProgramId: number): string {
