@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ProfessorListTransport, ProfessorTransport, Rank } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorFormModalComponent } from '../../components/professor-form-modal/professor-form-modal.component';
@@ -10,7 +10,6 @@ import { ProfessorModalData, ProfessorModalManagementService } from '../../servi
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
 import { Role } from '../../../../../../shared/models/user';
 import { PermissionService } from '../../../../../../auth/services/permission.service';
-import { ProgramTransport } from '../../../../../../shared/models/program';
 
 @Component({
   selector: 'app-professors-management',
@@ -20,35 +19,36 @@ import { ProgramTransport } from '../../../../../../shared/models/program';
 export class ProfessorManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId: number = -1;
+  professorId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  route: string = '';
+
   professors$: BehaviorSubject<ProfessorTransport[]>;
+  selectedProfessor$: BehaviorSubject<ProfessorTransport>;
+
   filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
   searchQuery: string = '';
 
-  professorRoles: Rank[] = Object.values(Rank);
-  route: string = '';
   professorForm: FormGroup;
-  isEditMode: boolean = false;
   professorToBeEditedId: number = -1;
-  destroyed$: Subject<void> = new Subject<void>();
   professorModalData: ProfessorModalData = {} as ProfessorModalData;
+  professorRoles: Rank[] = Object.values(Rank);
   roles: Role[] = Object.values(Role);
+
+  isEditMode: boolean = false;
   isAdmin: boolean = false;
-  selectedProfessor$: BehaviorSubject<ProfessorTransport>;
 
-  @Input()
-  program!: ProgramTransport;
-
-  programId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
+    formBuilder: FormBuilder,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private routeParametersService: RouteParametersService,
     private departmentService: DepartmentService,
     private professorService: ProfessorService,
-    private formBuilder: FormBuilder,
-    private router: Router,
     private professorModalManagementService: ProfessorModalManagementService,
     private permissionService: PermissionService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.professorForm = this.buildFormGroup(formBuilder);
     this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
@@ -59,15 +59,23 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   //Todo
   //Add method to fetch program professors
   ngOnInit() {
-    this.routeParametersService.getNestedRouteParams(this.router).then(() => {
+    console.log('PROFESSOR MANAGEMENT');
+    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
+      this.route = this.routeParametersService.currentRoute;
       this.departmentId = this.routeParametersService.departmentId;
       this.programId = this.routeParametersService.programId;
-      this.programId$.next(this.programId);
-      this.route = this.routeParametersService.setRoute('professors');
+      this.routeParametersService.currentRoute$.subscribe((route) => {
+        this.professorId$.next(this.routeParametersService.professorId);
+        this.cdr.detectChanges();
+      });
       this.bindProfessorModalData();
       this.getDepartmentProfessors();
     });
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  showProfessorDetails(): boolean {
+    return this.programId == -1 && this.professorId$.getValue() != -1;
   }
 
   onSearch(event: any) {
@@ -78,7 +86,31 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   }
 
   selectProfessor(professor: ProfessorTransport) {
+    const url = this.routeParametersService.currentRoute;
+    const newUrl = this.replaceProfessorIdInUrl(url, professor.id);
     this.selectedProfessor$.next(professor);
+    this.router.navigate([newUrl]);
+  }
+
+  private replaceProfessorIdInUrl(url: string, newProfessorId: number): string {
+    const parts = url.split('/');
+
+    const professorIndex = parts.indexOf('professors');
+
+    if (professorIndex === -1) {
+      return url;
+    }
+
+    const professorIdIndex = professorIndex + 1;
+    if (professorIdIndex < parts.length) {
+      const currentProgramId = parseInt(parts[professorIdIndex], 10);
+
+      if (!isNaN(currentProgramId)) {
+        parts[professorIdIndex] = String(newProfessorId);
+      }
+    }
+
+    return parts.join('/');
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -100,7 +132,6 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
       next: (professorListTransport: ProfessorListTransport) => {
         this.professors$.next(professorListTransport.professorTransports);
         this.filteredProfessors$.next(professorListTransport.professorTransports);
-        this.selectedProfessor$.next(professorListTransport.professorTransports[0]);
       },
       error: (err) => console.error('Error fetching department professors', err),
     });
