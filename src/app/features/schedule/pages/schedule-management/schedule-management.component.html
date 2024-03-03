@@ -102,7 +102,7 @@
           <li class="btn btn-outline-dark mb-1" *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">
             {{ schedule.creationDate | date: 'MMM d yyyy HH:mm'}}
           </li>
-          <div class="mb-2">
+          <div class="mb-2 mx-3">
             <button class="btn btn-danger" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
           </div>
         </ul>
