@@ -71,12 +71,13 @@
                   <p class="lead">View latest professor schedules.</p>
                 </div>
                 <div class="searchbar mb-3">
-                  <input class="search_input" type="text" name="" placeholder="Search...">
+                  <input class="search_input" type="text" name="" placeholder="Search..."  (input)="onSearch($event)">
                   <span class="search_icon"><i class="bi bi-search"></i></span>
                 </div>
+
               </div>
               <div *ngIf="departmentTransport.professorTransports && departmentTransport.professorTransports.length > 0; else noProfessorSchedules">
-                <button *ngFor="let professor of departmentTransport.professorTransports"
+                <button *ngFor="let professor of filteredProfessors$ | async"
                         class="btn btn-outline-dark me-2 mb-2"
                         (click)="navigateToPage('professors', professor.id)"
                         style="width: 280px;">
@@ -92,7 +93,7 @@
       </div>
 
     </div>
-    <div *ngIf="isAdmin" class="col-md-2">
+    <div  class="col-md-2">
       <div class="mt-5 border-bottom border-1">
         <div class="border-bottom border-black mb-2">
           <h3>All Schedules</h3>
