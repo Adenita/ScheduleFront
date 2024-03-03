@@ -18,6 +18,7 @@ export class DepartmentDetailsComponent implements OnInit, OnDestroy {
   isAdmin: boolean = false;
   hasPermission: boolean = false;
   destroyed$: Subject<void> = new Subject();
+  isSchedule: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,28 +31,17 @@ export class DepartmentDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigateToRoute(subRoute: string) {
-    const firstId = this.getFirstId(subRoute);
-    if (firstId == -1) {
-      this.router.navigate([subRoute], { relativeTo: this.activatedRoute });
-    } else {
-      this.router.navigate([subRoute, firstId], { relativeTo: this.activatedRoute });
-    }
-  }
-
-  getFirstId(route: string): number {
-    const department = this.department$.getValue();
-    if (route === 'programs') return department.programTransports[0].id;
-    else if (route === 'professors') return department.professorTransports[0].id;
-    else if (route === 'subjects') return department.subjectTransports[0].id;
-    else if (route === 'student-groups') return department.studentGroupTransports[0].id;
-    return -1;
+    this.router.navigate([subRoute], { relativeTo: this.activatedRoute });
   }
 
   ngOnInit(): void {
     this.routeParametersService
-      .getRouteParams(this.activatedRoute)
+      .getCurrentRoute(this.activatedRoute)
       .then(() => {
         this.departmentId = this.routeParametersService.departmentId;
+        if (this.routeParametersService.currentRoute.includes('schedules')) {
+          this.isSchedule = true;
+        }
       })
       .then(() => this.getDepartment(this.departmentId));
 
