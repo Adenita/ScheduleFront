@@ -8,11 +8,12 @@
         <th>Modification Date</th>
         <th>Actions</th>
       </ng-container>
+      <th class="text-center fst-italic lead fw-bold">i</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let program of programs$ | async" >
-      <td [routerLink]="route ? route + '/' + program.id : null" >{{ program.name }}</td>
+      <td>{{ program.name }}</td>
        <ng-container *ngIf="isAdmin">
          <td>{{program.creationDate | date: dateFormat}}</td>
          <td>{{program.modificationDate | date: dateFormat}}</td>
@@ -21,6 +22,11 @@
            <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
          </td>
        </ng-container>
+      <td class="text-center" [routerLink]="route ? route + '/' + program.id : null">
+        <span class="icon" >
+          <i class="bi bi-info-circle"></i>
+        </span>
+      </td>
     </tr>
     </tbody>
   </table>
