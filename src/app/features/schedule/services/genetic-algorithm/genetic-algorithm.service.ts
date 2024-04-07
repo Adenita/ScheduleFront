@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Population } from '../../shared/models/population';
 import { Schedule } from '../../shared/models/schedule';
-import { ScheduleService } from './schedule.service';
 import { PopulationService } from './population.service';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import _ from 'lodash';
+import { FitnessService } from './fitness.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneticAlgorithmService {
-  mutationRate: number = 0.1;
-  crossoverRate: number = 0.9;
+  mutationRate: number = 0.2;
+  crossoverRate: number = 0.75;
   eliteSchedules: number = 5;
 
   constructor(
-    private scheduleService: ScheduleService,
     private populationService: PopulationService,
+    private fitnessService: FitnessService,
   ) {}
 
   evolve(population: Population, timeslots: Timeslot[]): Population {
@@ -26,7 +26,7 @@ export class GeneticAlgorithmService {
       : this.mutatePopulation(crossoverPopulation, timeslots);
   }
 
-  crossoverPopulation(population: Population): Population {
+  private crossoverPopulation(population: Population): Population {
     const populationSize: number = population.schedules.length;
     let crossoverPopulation: Population = new Population();
     const selectedPopulation: Population = this.selectPopulation(population);
@@ -66,7 +66,7 @@ export class GeneticAlgorithmService {
     return population;
   }
 
-  crossoverSchedule(schedule1: Schedule, schedule2: Schedule): Schedule {
+  private crossoverSchedule(schedule1: Schedule, schedule2: Schedule): Schedule {
     const schedulesInOrder = this.getSchedulesByFitness(schedule1, schedule2);
     let bestSchedule: Schedule = schedulesInOrder.bestSchedule;
     let secondBestSchedule: Schedule = schedulesInOrder.secondBestSchedule;
@@ -78,11 +78,11 @@ export class GeneticAlgorithmService {
       }
     }
 
-    bestSchedule.fitness = this.scheduleService.calculateFitness(bestSchedule);
+    bestSchedule.fitness = this.fitnessService.calculateFitness(bestSchedule);
     return bestSchedule;
   }
 
-  getSchedulesByFitness(schedule1: Schedule, schedule2: Schedule) {
+  private getSchedulesByFitness(schedule1: Schedule, schedule2: Schedule) {
     let bestSchedule: Schedule;
     let secondBestSchedule: Schedule;
 
@@ -95,8 +95,9 @@ export class GeneticAlgorithmService {
     }
     return { bestSchedule, secondBestSchedule };
   }
-  selectPopulation(population: Population): Population {
-    let selectedPopulation: Population = this.populationService.rouletteWheelSelection(population);
+
+  private selectPopulation(population: Population): Population {
+    let selectedPopulation: Population = this.rouletteWheelSelection(population);
 
     const difference: number = population.schedules.length - selectedPopulation.schedules.length;
     if (difference > 0) {
@@ -108,7 +109,7 @@ export class GeneticAlgorithmService {
     return selectedPopulation;
   }
 
-  mutatePopulation(population: Population, timeSlots: Timeslot[]): Population {
+  private mutatePopulation(population: Population, timeSlots: Timeslot[]): Population {
     const eliteSchedules: Schedule[] = [];
 
     for (let i = 0; i < this.eliteSchedules; i++) {
@@ -133,15 +134,46 @@ export class GeneticAlgorithmService {
     return population;
   }
 
-  mutateSchedule(schedule: Schedule, timeSlots: Timeslot[]): Schedule {
+  private mutateSchedule(schedule: Schedule, timeSlots: Timeslot[]): Schedule {
     const eventsLength = schedule.events.length;
     for (let x = 0; x < eventsLength; x++) {
       if (this.mutationRate > Math.random() && schedule.events[x].conflict) {
         schedule.events[x].timeslot = timeSlots[this.getRandomIndex(timeSlots.length)];
       }
     }
-    schedule.fitness = this.scheduleService.calculateFitness(schedule);
+    schedule.fitness = this.fitnessService.calculateFitness(schedule);
     return schedule;
+  }
+
+  private rouletteWheelSelection(population: Population): Population {
+    const totalFitness: number = this.calculateTotalFitness(population.schedules);
+    const selectedPopulation: Population = new Population();
+    const schedulesLength: number = population.schedules.length;
+
+    for (let i: number = 0; i < schedulesLength; i++) {
+      const randomNumber: number = Math.random() * totalFitness;
+      let sumFitness = 0;
+
+      for (const schedule of population.schedules) {
+        const selectionProbability: number = schedule.fitness / totalFitness;
+        sumFitness += selectionProbability;
+
+        if (sumFitness >= randomNumber) {
+          selectedPopulation.schedules.push(schedule);
+          break;
+        }
+      }
+    }
+
+    return this.populationService.sortByFitness(selectedPopulation);
+  }
+
+  private calculateTotalFitness(schedules: Schedule[]): number {
+    let totalFitness = 0;
+    for (const schedule of schedules) {
+      totalFitness += schedule.fitness;
+    }
+    return totalFitness;
   }
 
   getRandomIndex(size: number): number {
