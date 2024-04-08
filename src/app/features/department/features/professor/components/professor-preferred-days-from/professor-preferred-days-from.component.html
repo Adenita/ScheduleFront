@@ -1,15 +1,16 @@
-<div class="row mb-3 border-bottom">
-  <div class="col-md-8">
-    <h4 class="lead fw-normal fs-4">Professor Preferred Days</h4>
+<div class="container mt-4">
+  <div class="row mb-3 border-bottom">
+    <div class="col-md-8">
+      <h4 class="lead fw-normal fs-5">Professor Preferred Days</h4>
+    </div>
+    <div class="col-md-4 mb-3 d-flex justify-content-end">
+      <button type="button" class="btn btn-sm btn-dark rounded-3" (click)="openModal()">Add</button>
+    </div>
   </div>
-  <div class="col-md-4 mb-3 d-flex justify-content-end">
-    <button type="button" class="btn btn-sm btn-dark rounded-3" (click)="openModal()">Add</button>
-  </div>
-</div>
-<form>
-  <div class="form-group">
-    <ng-container *ngFor="let preferredDay of professorPreferredDays$ | async">
-      <div class="row g-1 mb-1 align-items-center">
+  <form>
+    <div class="form-group">
+      <ng-container *ngFor="let preferredDay of professorPreferredDays$ | async">
+        <div class="row g-1 mb-1 align-items-center">
           <div class="col-md-2 separator me-2">
             <label class="fw-normal red-text lead fs-5 fst-italic">{{ preferredDay.day }}:</label>
           </div>
@@ -34,7 +35,7 @@
                    [value]="preferredDay.preferredEndHour"
                    min="9" max="20" required disabled>
           </div>
-           <div class="col-md-1  separator text-center">
+          <div class="col-md-1  separator text-center">
             <span>:</span>
           </div>
           <div class="col-md-1">
@@ -42,12 +43,14 @@
                    [value]="preferredDay.preferredEndMinute"
                    min="0" max="45" step="15" required disabled>
           </div>
-        <div class="col-auto d-flex justify-content-end ms-2">
-          <button type="button" class="btn btn btn-outline-dark me-1" (click)="openEditModal(preferredDay.day)">Edit</button>
-          <button type="button" class="btn btn btn-danger" (click)="deleteProfessorPreferredDay(professorId, preferredDay.day)">Delete</button>
+          <div class="col-auto d-flex justify-content-end ms-2">
+            <button type="button" class="btn btn btn-outline-dark me-1" (click)="openEditModal(preferredDay.day)">Edit</button>
+            <button type="button" class="btn btn btn-danger" (click)="deleteProfessorPreferredDay(professorId, preferredDay.day)">Delete</button>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
-  </div>
-</form>
+    </div>
+  </form>
+
+</div>
