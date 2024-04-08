@@ -23,7 +23,6 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   route: string = '';
 
   professors$: BehaviorSubject<ProfessorTransport[]>;
-  selectedProfessor$: BehaviorSubject<ProfessorTransport>;
 
   filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
   searchQuery: string = '';
@@ -52,7 +51,6 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   ) {
     this.professorForm = this.buildFormGroup(formBuilder);
     this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
-    this.selectedProfessor$ = new BehaviorSubject<ProfessorTransport>({} as ProfessorTransport);
     this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
   }
 
@@ -101,7 +99,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   selectProfessor(professor: ProfessorTransport) {
     const url = this.routeParametersService.currentRoute;
     const newUrl = this.replaceProfessorIdInUrl(url, professor.id);
-    this.selectedProfessor$.next(professor);
+    this.professorId$.next(professor.id);
     this.router.navigate([newUrl]);
   }
 
