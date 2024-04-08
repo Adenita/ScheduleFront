@@ -21,17 +21,13 @@ export class DepartmentDetailsComponent implements OnInit, OnDestroy {
   isSchedule: boolean = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute,
     private router: Router,
     private routeParametersService: RouteParametersService,
     private departmentService: DepartmentService,
     private permissionService: PermissionService,
   ) {
     this.department$ = new BehaviorSubject<DepartmentDetailTransport>({} as DepartmentDetailTransport);
-  }
-
-  navigateToRoute(subRoute: string) {
-    this.router.navigate([subRoute], { relativeTo: this.activatedRoute });
   }
 
   ngOnInit(): void {
