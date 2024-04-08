@@ -20,7 +20,6 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
   programs$: BehaviorSubject<ProgramTransport[]>;
-  selectedProgram$: BehaviorSubject<ProgramTransport>;
   programForm: FormGroup;
   isEditMode: boolean = false;
   programToBeEditedId: number = -1;
@@ -42,7 +41,6 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
-    this.selectedProgram$ = new BehaviorSubject<ProgramTransport>({} as ProgramTransport);
   }
 
   ngOnInit() {
@@ -84,7 +82,6 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     this.departmentService.getProgramsPerDepartment(departmentId).subscribe({
       next: (programsTransport: ProgramListTransport) => {
         this.programs$.next(programsTransport.programTransports);
-        this.selectedProgram$.next(programsTransport.programTransports[0]);
       },
       error: (err) => console.error('Error loading department programs', err),
     });
@@ -170,7 +167,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   selectProgram(program: ProgramTransport) {
     const url = this.routeParametersService.currentRoute;
     const newUrl = this.replaceProgramIdInUrl(url, program.id);
-    this.selectedProgram$.next(program);
+    this.programId$.next(program.id);
     this.router.navigate([newUrl]);
   }
 
