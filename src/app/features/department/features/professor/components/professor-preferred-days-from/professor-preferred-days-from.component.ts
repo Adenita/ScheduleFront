@@ -1,11 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DAY } from '../../../../../../shared/models/timeslots';
-import { ProfessorPreferredDay } from '../../../../../../shared/models/professor';
+import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
 import { ProfessorPreferredDaysFromModalComponent } from '../professor-preferred-days-from-modal/professor-preferred-days-from-modal.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PreferredDayModalData, PreferredDayModalManagementService } from '../../services/preferred-day-modal-management.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
+import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 
 @Component({
   selector: 'app-professor-preferred-days-from',
@@ -21,16 +22,15 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
   selectedDay!: DAY;
   destroyed$: Subject<void> = new Subject();
 
-  @Input()
   professorId!: number;
 
-  @Input()
   professorPreferredDays$!: BehaviorSubject<ProfessorPreferredDay[]>;
 
   constructor(
     private preferredDayModalManagementService: PreferredDayModalManagementService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
+    private routeParametersService: RouteParametersService,
   ) {
     this.preferredDayModalData = {} as PreferredDayModalData;
     this.form = this.formBuilder.group({
@@ -40,6 +40,7 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
       preferredEndHour: new FormControl(0, Validators.required),
       preferredEndMinute: new FormControl(0, Validators.required),
     });
+    this.professorPreferredDays$ = new BehaviorSubject<ProfessorPreferredDay[]>([]);
   }
 
   ngOnInit() {
@@ -52,6 +53,23 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
       this.selectedDay,
     );
     this.professorPreferredDays$.next(this.sortPreferredDays(this.professorPreferredDays$.getValue()));
+    this.routeParametersService.currentRoute$.subscribe(() => {
+      this.professorId = this.routeParametersService.professorId;
+      this.getProfessor(this.professorId);
+    });
+  }
+
+  getProfessor(professorId: number) {
+    this.professorService
+      .getProfessorDetails(professorId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (professorDetails: ProfessorDetailsTransport) => {
+          if (professorDetails) {
+            this.professorPreferredDays$.next(professorDetails.preferredDays);
+          }
+        },
+      });
   }
 
   addPreferredDayToProfessor() {

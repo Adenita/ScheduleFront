@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
-import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
+import { ProfessorDetailsTransport } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
 
 @Component({
@@ -12,16 +12,13 @@ import { ProfessorService } from '../../../../../../core/services/http/professor
 export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   professorId: number = -1;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
-  preferredDays$: BehaviorSubject<ProfessorPreferredDay[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
-  ) {
-    this.preferredDays$ = new BehaviorSubject<ProfessorPreferredDay[]>([]);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.routeParametersService.currentRoute$.subscribe(() => {
@@ -38,7 +35,6 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
         next: (professorDetails: ProfessorDetailsTransport) => {
           if (professorDetails) {
             this.professor = professorDetails;
-            this.preferredDays$.next(professorDetails.preferredDays);
           }
         },
       });
