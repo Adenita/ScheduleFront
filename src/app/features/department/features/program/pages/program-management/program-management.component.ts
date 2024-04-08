@@ -46,18 +46,31 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.route = this.routeParametersService.currentRoute;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.routeParametersService.currentRoute$.subscribe((route) => {
-        this.programId$.next(this.routeParametersService.programId);
-        this.cdr.detectChanges();
-      });
-      this.bindProgramModalData();
-      this.loadDepartmentPrograms(this.departmentId);
+    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+      next: () => {
+        this.initializeComponent(
+          this.routeParametersService.departmentId,
+          this.routeParametersService.currentRoute,
+          this.routeParametersService.currentRoute$,
+        );
+      },
     });
 
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  initializeComponent(departmentId: number, currentRoute: string, currentRoute$: BehaviorSubject<string>) {
+    this.route = currentRoute;
+    this.departmentId = departmentId;
+    this.routeParametersService.called = false;
+
+    currentRoute$.subscribe((route) => {
+      this.programId$.next(this.routeParametersService.programId);
+      this.cdr.detectChanges();
+    });
+
+    this.bindProgramModalData();
+    this.loadDepartmentPrograms(this.departmentId);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
