@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { SubjectTransport } from '../../../../../../shared/models/subject';
-import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
 import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
@@ -19,8 +17,6 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
   ) {
@@ -28,10 +24,8 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.currentRoute = this.routeParametersService.currentRoute;
+    this.routeParametersService.currentRoute$.subscribe(() => {
       this.professorId = this.routeParametersService.professorId;
-      this.currentRoute = this.routeParametersService.currentRoute;
       this.getProfessor(this.professorId);
     });
   }
