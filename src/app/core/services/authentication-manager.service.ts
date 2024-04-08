@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from './http/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { TokenTransport } from '../../shared/models/authentication';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class AuthenticationManagerService {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
+    private storageService: StorageService,
   ) {}
 
   login(loginForm: FormGroup) {
@@ -21,8 +23,9 @@ export class AuthenticationManagerService {
         .subscribe({
           next: (tokenTransport: TokenTransport) => {
             this.router.navigate(['/']).then(() => {
-              localStorage.setItem('user_id', JSON.stringify({ username: tokenTransport.username, roles: tokenTransport.roles }));
-              localStorage.setItem('user_token', tokenTransport.token);
+              const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
+              this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
+              this.storageService.storedUser$.next(loggedUser);
             });
           },
         });
@@ -31,17 +34,12 @@ export class AuthenticationManagerService {
 
   logout() {
     this.router.navigate(['/']).then(() => {
-      localStorage.removeItem('user_token');
-      localStorage.removeItem('user_id');
+      this.storageService.removeUserAndTokenFromStorage();
+      this.storageService.storedUser$.next(null);
     });
   }
 
-  getToken() {
-    return localStorage.getItem('user_token');
-  }
-
-  getUser() {
-    const user = localStorage.getItem('user_id');
-    return JSON.parse(user || '""');
+  isLoggedIn() {
+    return !!this.storageService.getAccessToken();
   }
 }
