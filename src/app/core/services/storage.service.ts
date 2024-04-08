@@ -32,7 +32,7 @@ export class StorageService {
   }
 
   setUser(user: UserAuthTransport) {
-    JSON.stringify({ username: user.username, roles: user.roles });
+    localStorage.setItem('user', JSON.stringify({ username: user.username, roles: user.roles }));
   }
 
   getAccessToken() {
@@ -46,7 +46,7 @@ export class StorageService {
     localStorage.removeItem(TokenType.ACCESS);
   }
 
-  removeUsername() {
+  removeUser() {
     localStorage.removeItem('user');
   }
 
@@ -56,7 +56,7 @@ export class StorageService {
   }
 
   removeUserAndTokenFromStorage() {
-    this.removeUsername();
+    this.removeUser();
     this.removeAccessToken();
   }
 
