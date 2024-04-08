@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Role } from '../../shared/models/user';
-import { AuthenticationManagerService } from '../../core/services/authentication-manager.service';
+import { StorageService } from '../../core/services/storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionService {
-  constructor(private authenticationManagerService: AuthenticationManagerService) {}
+  constructor(private storageService: StorageService) {}
   hasRole(role: Role): boolean {
-    const user = this.authenticationManagerService.getUser();
-    if (user.roles) {
+    const user = this.storageService.getUser();
+    if (user && user.roles) {
       return !!user.roles.includes(role);
     }
     return false;
   }
 
   hasAnyRole(roles: Role[]): boolean {
-    const user = this.authenticationManagerService.getUser();
-    if (user.roles) {
+    const user = this.storageService.getUser();
+    if (user && user.roles) {
       return !!user.roles.some((role: Role) => roles.includes(role));
     }
     return false;

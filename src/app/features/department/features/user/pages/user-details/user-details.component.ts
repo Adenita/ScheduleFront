@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserTransport } from '../../../../../../shared/models/user';
 import { UserService } from '../../../../../../core/services/http/user.service';
-import { AuthenticationManagerService } from '../../../../../../core/services/authentication-manager.service';
+import { StorageService } from '../../../../../../core/services/storage.service';
 
 @Component({
   selector: 'app-user-details',
@@ -12,11 +12,11 @@ export class UserDetailsComponent implements OnInit {
   user: UserTransport = {} as UserTransport;
   constructor(
     private userService: UserService,
-    private authenticationManagerService: AuthenticationManagerService,
+    private storageService: StorageService,
   ) {}
 
   ngOnInit(): void {
-    const user = this.authenticationManagerService.getUser();
+    const user = this.storageService.getUser();
     if (user) {
       this.getUser(user.username);
     }

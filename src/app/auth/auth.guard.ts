@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, Router } from '@angular/router';
-import { AuthenticationManagerService } from '../core/services/authentication-manager.service';
 import { Role } from '../shared/models/user';
+import { StorageService } from '../core/services/storage.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authenticationManagerService: AuthenticationManagerService,
+    private storageService: StorageService,
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let user = this.authenticationManagerService.getUser();
+    let user = this.storageService.getUser();
 
     if (user && user.roles) {
       const { roles } = route.data;

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { DepartmentService } from './core/services/http/department.service';
 import { DepartmentTransport } from './shared/models/department';
+import { StorageService } from './core/services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +25,11 @@ export class AppComponent implements OnInit {
   departments: BehaviorSubject<DepartmentTransport[]>;
 
   constructor(
-    private authenticationManagerService: AuthenticationManagerService,
-    private formBuilder: FormBuilder,
+    formBuilder: FormBuilder,
     private router: Router,
+    private authenticationManagerService: AuthenticationManagerService,
     private loginModalManagementService: LoginModalManagementService,
+    private storageService: StorageService,
     private departmentService: DepartmentService,
   ) {
     this.loginForm = this.buildLoginFormGroup(formBuilder);
@@ -37,11 +39,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getDepartments();
     this.bindLoginModalData();
-    const user = this.authenticationManagerService.getUser();
-    if (user) {
-      this.username = user.username;
-    }
-    this.isLoggedIn = !!this.username;
+    this.storageService.storedUser$.subscribe({
+      next: (storedUser) => {
+        if (storedUser) {
+          this.username = storedUser.username;
+        }
+        this.isLoggedIn = !!storedUser;
+        console.log(storedUser, this.isLoggedIn);
+      },
+    });
   }
 
   getDepartments() {

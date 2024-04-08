@@ -1,20 +1,28 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { StorageService } from '../../core/services/storage.service';
 import { AuthenticationManagerService } from '../../core/services/authentication-manager.service';
 
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
-  constructor(private authService: AuthenticationManagerService) {}
+  constructor(
+    private storageService: StorageService,
+    private authService: AuthenticationManagerService,
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = this.authService.getToken();
+    const token = this.storageService.getAccessToken();
     if (token) {
-      req = req.clone({
-        url: req.url,
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      if (this.storageService.isTokenExpired(token)) {
+        this.authService.logout();
+      } else {
+        req = req.clone({
+          url: req.url,
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
     }
     return next.handle(req);
   }
