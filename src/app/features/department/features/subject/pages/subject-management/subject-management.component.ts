@@ -68,19 +68,33 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.departmentId = this.routeParametersService.departmentId;
-      this.programId = this.routeParametersService.programId;
-      this.professorId = this.routeParametersService.professorId;
-      this.route = this.routeParametersService.currentRoute;
-      this.bindSubjectModalData();
-      if (this.professorId != -1) {
-        this.getDepartmentSubjects();
-      }
-      this.getSubjectByContext();
+    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+      next: () => {
+        this.initializeComponent(
+          this.routeParametersService.departmentId,
+          this.routeParametersService.programId,
+          this.routeParametersService.professorId,
+        );
+      },
     });
+
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
+
+  initializeComponent(departmentId: number, programId: number, professorId: number) {
+    this.departmentId = departmentId;
+    this.programId = programId;
+    this.professorId = professorId;
+
+    this.route = this.routeParametersService.currentRoute;
+
+    this.bindSubjectModalData();
+    if (this.professorId != -1) {
+      this.getDepartmentSubjects();
+    }
+    this.getSubjectByContext();
+  }
+
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();
     else if (this.professorId != -1) this.getProfessorSubjects();
@@ -88,9 +102,13 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   }
 
   postSubjectToContext() {
-    if (this.programId != -1) this.postSubjectToProgram();
-    else if (this.professorId != -1) this.postSubjectToProfessor();
-    else this.postSubject();
+    if (this.programId != -1) {
+      this.postSubjectToProgram();
+    } else if (this.professorId != -1) {
+      this.postSubjectToProfessor();
+    } else {
+      this.postSubject();
+    }
   }
 
   removeSubjectByContext(subjectId: number) {
