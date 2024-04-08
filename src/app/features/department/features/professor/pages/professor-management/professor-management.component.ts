@@ -58,20 +58,33 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
 
   //Todo
   //Add method to fetch program professors
+
   ngOnInit() {
-    console.log('PROFESSOR MANAGEMENT');
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.route = this.routeParametersService.currentRoute;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.programId = this.routeParametersService.programId;
-      this.routeParametersService.currentRoute$.subscribe((route) => {
-        this.professorId$.next(this.routeParametersService.professorId);
-        this.cdr.detectChanges();
-      });
-      this.bindProfessorModalData();
-      this.getDepartmentProfessors();
+    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+      next: () => {
+        this.initializeComponent(
+          this.routeParametersService.departmentId,
+          this.routeParametersService.programId,
+          this.routeParametersService.currentRoute,
+          this.routeParametersService.currentRoute$,
+        );
+      },
     });
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  initializeComponent(departmentId: number, programId: number, currentRoute: string, currentRoute$: BehaviorSubject<string>) {
+    this.route = currentRoute;
+    this.departmentId = departmentId;
+    this.programId = programId;
+
+    currentRoute$.subscribe((route) => {
+      this.professorId$.next(this.routeParametersService.professorId);
+      this.cdr.detectChanges();
+    });
+
+    this.bindProfessorModalData();
+    this.getDepartmentProfessors();
   }
 
   showProfessorDetails(): boolean {
@@ -116,7 +129,7 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       name: new FormControl('', Validators.required),
-      role: new FormControl(Rank.PROFESSOR),
+      rank: new FormControl(Rank.PROFESSOR),
     });
   }
 
