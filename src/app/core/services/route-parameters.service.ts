@@ -13,6 +13,7 @@ export class RouteParametersService {
   private _studentGroupId: number | null = null;
   private _classroomId: number | null = null;
   private _scheduleId: number | null = null;
+  private _departmentSchedulesId: number | null = null;
   called: boolean = false;
 
   currentRoute: string = '';
@@ -67,6 +68,7 @@ export class RouteParametersService {
     const classroomsIndex = parts.indexOf('classrooms');
     const schedulesIndex = parts.indexOf('schedules');
     const studentGroupsIndex = parts.indexOf('student-groups');
+    const departmentSchedulesIndex = parts.indexOf('generate');
 
     this._departmentId = +parts[departmentsIndex + 1] || null;
     this._programId = +parts[programsIndex + 1] || null;
@@ -75,6 +77,7 @@ export class RouteParametersService {
     this._scheduleId = +parts[schedulesIndex + 1] || null;
     this._classroomId = +parts[classroomsIndex + 1] || null;
     this._studentGroupId = +parts[studentGroupsIndex + 1] || null;
+    this._departmentSchedulesId = +parts[departmentSchedulesIndex + 1] || null;
   }
 
   getRouteParams(activatedRoute: ActivatedRoute): Promise<void> {
@@ -153,5 +156,9 @@ export class RouteParametersService {
 
   get classroomId(): number {
     return this._classroomId ?? -1;
+  }
+
+  get departmentSchedulesId(): number {
+    return this._departmentSchedulesId ?? -1;
   }
 }
