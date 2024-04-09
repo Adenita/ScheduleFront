@@ -21,7 +21,7 @@
           <li class="nav-item">
             <a class="nav-link fs-5" routerLink="/aboutus" routerLinkActive="active-link">About Us</a>
           </li>
-          <li *ngIf="isLoggedIn" class="nav-item">
+          <li *ngIf="isAdmin" class="nav-item">
             <a class="nav-link  fs-5" routerLink="/schedules/generate" routerLinkActive="active-link">Generate Schedule</a>
           </li>
           <div class="nav-item mt-1" *ngIf="!isLoggedIn; else LoggedIn" >

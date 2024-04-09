@@ -8,6 +8,8 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { DepartmentService } from './core/services/http/department.service';
 import { DepartmentTransport } from './shared/models/department';
 import { StorageService } from './core/services/storage.service';
+import { PermissionService } from './auth/services/permission.service';
+import { Role } from './shared/models/user';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ import { StorageService } from './core/services/storage.service';
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
+  isAdmin: boolean = false;
   username: string | null = '';
   loginForm: FormGroup;
   loginModalData: LoginModalData = {} as LoginModalData;
@@ -31,6 +34,7 @@ export class AppComponent implements OnInit {
     private loginModalManagementService: LoginModalManagementService,
     private storageService: StorageService,
     private departmentService: DepartmentService,
+    private permissionService: PermissionService,
   ) {
     this.loginForm = this.buildLoginFormGroup(formBuilder);
     this.departments = new BehaviorSubject<DepartmentTransport[]>([]);
@@ -45,7 +49,7 @@ export class AppComponent implements OnInit {
           this.username = storedUser.username;
         }
         this.isLoggedIn = !!storedUser;
-        console.log(storedUser, this.isLoggedIn);
+        this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
       },
     });
   }
