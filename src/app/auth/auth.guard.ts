@@ -14,11 +14,11 @@ export class AuthGuard implements CanActivate {
     let user = this.storageService.getUser();
 
     if (user && user.roles) {
-      const { roles } = route.data;
+      const { role } = route.data;
       let hasPermission = false;
 
-      if (roles) {
-        hasPermission = user.roles.some((role: Role) => roles.includes(role));
+      if (role) {
+        hasPermission = user.roles.some((r: Role) => role.includes(r));
       }
 
       return hasPermission;
