@@ -10,8 +10,9 @@ import { ClassroomScheduleManagementComponent } from './pages/classroom-schedule
 import { ProgramScheduleManagementComponent } from './pages/program-schedule-management/program-schedule-management.component';
 import { ProfessorScheduleManagementComponent } from './pages/professor-schedule-management/professor-schedule-management.component';
 import { ProfessorScheduleComponent } from './components/professor-schedule/professor-schedule.component';
-import { ScheduleGeneratorComponent } from './pages/schedule-generator/schedule-generator.component';
+import { ScheduleGeneratorComponent } from './components/schedule-generator/schedule-generator.component';
 import { ScheduleCalendarComponent } from './components/schedule-calendar/schedule-calendar.component';
+import { ScheduleGeneratorManagementComponent } from './pages/schedule-generator-management/schedule-generator-management.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ScheduleCalendarComponent } from './components/schedule-calendar/schedu
     ProfessorScheduleComponent,
     ScheduleGeneratorComponent,
     ScheduleCalendarComponent,
+    ScheduleGeneratorManagementComponent,
   ],
   imports: [CommonModule, ScheduleRoutingModule],
   exports: [ScheduleManagementComponent],
