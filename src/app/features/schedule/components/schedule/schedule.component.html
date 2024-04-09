@@ -1,4 +1,4 @@
-<div class="table-responsive" *ngIf="(bestScheduleEvents$?.getValue() && bestScheduleEvents$.getValue().length > 0) || bestProgramSchedule.events">
+<div class="table-responsive" *ngIf="(bestScheduleEvents$?.getValue() && bestScheduleEvents$.getValue().length > 0) || (bestProgramSchedule && bestProgramSchedule.events && bestProgramSchedule.events)">
   <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden ">
     <thead class="thead-dark-red">
     <tr>

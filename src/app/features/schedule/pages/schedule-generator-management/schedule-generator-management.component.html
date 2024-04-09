@@ -1,0 +1,16 @@
+<div class="row mt-2">
+  <div class="card tab-card p-1" *ngIf="departments && departments.length > 0">
+    <div class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item" *ngFor="let department of departments">
+          <a class="nav-link rounded-3" [routerLink]="[department.id]" [relativeTo]="activatedRoute" routerLinkActive="nav-link-active">
+            {{ department.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body tab-content" id="myTabContent">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { SubjectTransport } from '../../../../../../shared/models/subject';
-import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
-import { ProfessorDetailsTransport, ProfessorPreferredDay } from '../../../../../../shared/models/professor';
+import { ProfessorDetailsTransport } from '../../../../../../shared/models/professor';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
+import { Role } from '../../../../../../shared/models/user';
+import { PermissionService } from '../../../../../../auth/services/permission.service';
 
 @Component({
   selector: 'app-professor-details',
@@ -14,26 +14,22 @@ import { ProfessorService } from '../../../../../../core/services/http/professor
 export class ProfessorDetailsComponent implements OnInit, OnDestroy {
   professorId: number = -1;
   professor: ProfessorDetailsTransport = {} as ProfessorDetailsTransport;
-  preferredDays$: BehaviorSubject<ProfessorPreferredDay[]>;
   currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
+  hasPermission: boolean = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private routeParametersService: RouteParametersService,
     private professorService: ProfessorService,
-  ) {
-    this.preferredDays$ = new BehaviorSubject<ProfessorPreferredDay[]>([]);
-  }
+    private permissionService: PermissionService,
+  ) {}
 
   ngOnInit(): void {
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.currentRoute = this.routeParametersService.currentRoute;
+    this.routeParametersService.currentRoute$.subscribe(() => {
       this.professorId = this.routeParametersService.professorId;
-      this.currentRoute = this.routeParametersService.currentRoute;
       this.getProfessor(this.professorId);
     });
+    this.hasPermission = this.permissionService.hasAnyRole([Role.ADMIN, Role.PROFESSOR]);
   }
 
   getProfessor(professorId: number) {
@@ -44,7 +40,6 @@ export class ProfessorDetailsComponent implements OnInit, OnDestroy {
         next: (professorDetails: ProfessorDetailsTransport) => {
           if (professorDetails) {
             this.professor = professorDetails;
-            this.preferredDays$.next(professorDetails.preferredDays);
           }
         },
       });

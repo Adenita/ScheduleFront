@@ -1,0 +1,29 @@
+<div class="row mt-5">
+  <div class="col-md-10">
+    <ng-container *ngIf="bestScheduleEvents$ && bestScheduleEvents$.getValue().length > 0; else noSchedule">
+      <app-schedule [bestScheduleEvents$]="bestScheduleEvents$"></app-schedule>
+    </ng-container>
+    <ng-template #noSchedule>
+       <h4>No Generated Schedules Found </h4>
+    </ng-template>
+  </div>
+  <div class="col-md-2">
+    <div class="border-bottom border-1">
+      <div class="border-bottom border-black mb-2">
+        <h3>All Schedules</h3>
+      </div>
+      <ul class="list-group">
+        <li class="btn btn-outline-dark mb-1"
+            [class.active]="currentBestSchedule.id === schedule.id"
+            *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">
+          {{ schedule.creationDate | date: 'MMM d yyyy HH:mm'}}
+        </li>
+        <div class="mb-2 mx-3">
+          <button class="btn btn-danger" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+
+

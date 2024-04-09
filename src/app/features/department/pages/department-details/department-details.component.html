@@ -15,22 +15,22 @@
     <div *ngIf="!isSchedule;" class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link rounded-3 active" (click)="navigateToRoute('programs')" id="programs-tab" role="tab" data-bs-toggle="tab"  aria-controls="programs" aria-selected="true">Programs</a>
+          <a class="nav-link rounded-3" routerLink="programs" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Programs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link rounded-3" (click)="navigateToRoute('professors')"  id="professors-tab" role="tab"  data-bs-toggle="tab"  aria-controls="professors" aria-selected="false">Professors</a>
+          <a class="nav-link rounded-3" routerLink="professors" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Professors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link rounded-3"  (click)="navigateToRoute('subjects')"  id="subjects-tab" data-bs-toggle="tab"  role="tab" aria-controls="subjects" aria-selected="false">Subjects</a>
+          <a class="nav-link rounded-3"  routerLink="subjects" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Subjects</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link rounded-3" (click)="navigateToRoute('classrooms')"  id="classrooms-tab"  data-bs-toggle="tab" role="tab" aria-controls="classrooms" aria-selected="false">Classrooms</a>
+          <a class="nav-link rounded-3" routerLink="classrooms" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Classrooms</a>
         </li>
         <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link rounded-3" (click)="navigateToRoute('student-groups')"  id="studentGroups-tab"  data-bs-toggle="tab"  role="tab" aria-controls="studentGroups" aria-selected="false">Student Groups</a>
+          <a class="nav-link rounded-3" routerLink="student-groups" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Student Groups</a>
         </li>
         <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link rounded-3" (click)="navigateToRoute('users')"  id="users-tab" data-bs-toggle="tab" role="tab" aria-controls="users" aria-selected="false">Users</a>
+          <a class="nav-link rounded-3" routerLink="users" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Users</a>
         </li>
       </ul>
     </div>

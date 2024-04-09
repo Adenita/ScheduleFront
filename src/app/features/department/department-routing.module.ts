@@ -40,7 +40,7 @@ const routes: Routes = [
         loadChildren: () => import('../schedule/schedule.module').then((m) => m.ScheduleModule),
       },
       {
-        path: '',
+        path: 'users',
         loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
       },
     ],

@@ -20,7 +20,6 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
   programId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
   programs$: BehaviorSubject<ProgramTransport[]>;
-  selectedProgram$: BehaviorSubject<ProgramTransport>;
   programForm: FormGroup;
   isEditMode: boolean = false;
   programToBeEditedId: number = -1;
@@ -42,22 +41,34 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
-    this.selectedProgram$ = new BehaviorSubject<ProgramTransport>({} as ProgramTransport);
   }
 
   ngOnInit() {
-    this.routeParametersService.getNavigationEndParams(this.router, this.activatedRoute, this.destroyed$).then(() => {
-      this.route = this.routeParametersService.currentRoute;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.routeParametersService.currentRoute$.subscribe((route) => {
-        this.programId$.next(this.routeParametersService.programId);
-        this.cdr.detectChanges();
-      });
-      this.bindProgramModalData();
-      this.loadDepartmentPrograms(this.departmentId);
+    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+      next: () => {
+        this.initializeComponent(
+          this.routeParametersService.departmentId,
+          this.routeParametersService.currentRoute,
+          this.routeParametersService.currentRoute$,
+        );
+      },
     });
 
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+  }
+
+  initializeComponent(departmentId: number, currentRoute: string, currentRoute$: BehaviorSubject<string>) {
+    this.route = currentRoute;
+    this.departmentId = departmentId;
+    this.routeParametersService.called = false;
+
+    currentRoute$.subscribe((route) => {
+      this.programId$.next(this.routeParametersService.programId);
+      this.cdr.detectChanges();
+    });
+
+    this.bindProgramModalData();
+    this.loadDepartmentPrograms(this.departmentId);
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -71,7 +82,6 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     this.departmentService.getProgramsPerDepartment(departmentId).subscribe({
       next: (programsTransport: ProgramListTransport) => {
         this.programs$.next(programsTransport.programTransports);
-        this.selectedProgram$.next(programsTransport.programTransports[0]);
       },
       error: (err) => console.error('Error loading department programs', err),
     });
@@ -157,7 +167,7 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   selectProgram(program: ProgramTransport) {
     const url = this.routeParametersService.currentRoute;
     const newUrl = this.replaceProgramIdInUrl(url, program.id);
-    this.selectedProgram$.next(program);
+    this.programId$.next(program.id);
     this.router.navigate([newUrl]);
   }
 

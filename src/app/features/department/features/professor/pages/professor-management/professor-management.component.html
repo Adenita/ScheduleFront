@@ -15,7 +15,7 @@
           <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
             <button *ngFor="let professor of filteredProfessors$ | async"
                     class="btn btn-outline-dark me-2 mb-2"
-                    [class.active]="selectedProfessor$.getValue().id === professor.id"
+                    [class.active]="professorId$.getValue() === professor.id"
                     (click)="selectProfessor(professor)">
               {{professor.name}}
             </button>

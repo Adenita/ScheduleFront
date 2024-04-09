@@ -13,11 +13,6 @@ const routes: Routes = [
         component: ProgramDetailsComponent,
         children: [
           {
-            path: '',
-            redirectTo: 'professors',
-            pathMatch: 'full',
-          },
-          {
             path: 'professors',
             loadChildren: () => import('../professor/professor.module').then((m) => m.ProfessorModule),
           },
