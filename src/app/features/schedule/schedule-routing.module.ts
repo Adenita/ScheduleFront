@@ -4,14 +4,16 @@ import { ScheduleManagementComponent } from './pages/schedule-management/schedul
 import { ClassroomScheduleManagementComponent } from './pages/classroom-schedule-management/classroom-schedule-management.component';
 import { ProgramScheduleManagementComponent } from './pages/program-schedule-management/program-schedule-management.component';
 import { ProfessorScheduleManagementComponent } from './pages/professor-schedule-management/professor-schedule-management.component';
-// import { ScheduleGeneratorComponent } from './pages/schedule-generator/schedule-generator.component';
+import { ScheduleGeneratorComponent } from './pages/schedule-generator/schedule-generator.component';
+import { AuthGuard } from '../../auth/auth.guard';
+import { Role } from '../../shared/models/user';
 
 const routes: Routes = [
   { path: '', component: ScheduleManagementComponent },
   { path: ':scid/classrooms/:cid', component: ClassroomScheduleManagementComponent },
   { path: ':scid/programs/:pid', component: ProgramScheduleManagementComponent },
   { path: ':scid/professors/:ppid', component: ProfessorScheduleManagementComponent },
-  // { path: 'generate', component: ScheduleGeneratorComponent },
+  { path: 'generate', component: ScheduleGeneratorComponent, canActivate: [AuthGuard], data: { role: [Role.ADMIN] } },
 ];
 
 @NgModule({

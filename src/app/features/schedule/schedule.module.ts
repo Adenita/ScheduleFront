@@ -10,9 +10,24 @@ import { ClassroomScheduleManagementComponent } from './pages/classroom-schedule
 import { ProgramScheduleManagementComponent } from './pages/program-schedule-management/program-schedule-management.component';
 import { ProfessorScheduleManagementComponent } from './pages/professor-schedule-management/professor-schedule-management.component';
 import { ProfessorScheduleComponent } from './components/professor-schedule/professor-schedule.component';
+import { ScheduleGeneratorComponent } from './pages/schedule-generator/schedule-generator.component';
+import { ScheduleCalendarComponent } from './components/schedule-calendar/schedule-calendar.component';
 
 @NgModule({
-  declarations: [ScheduleComponent, ScheduleGenerationModalComponent, ProgramScheduleComponent, ScheduleManagementComponent, ClassroomScheduleComponent, ClassroomScheduleManagementComponent, ProgramScheduleManagementComponent, ProfessorScheduleManagementComponent, ProfessorScheduleComponent],
+  declarations: [
+    ScheduleComponent,
+    ScheduleGenerationModalComponent,
+    ProgramScheduleComponent,
+    ScheduleManagementComponent,
+    ClassroomScheduleComponent,
+    ClassroomScheduleManagementComponent,
+    ProgramScheduleManagementComponent,
+    ProfessorScheduleManagementComponent,
+    ProfessorScheduleComponent,
+    ScheduleGeneratorComponent,
+    ScheduleCalendarComponent,
+  ],
   imports: [CommonModule, ScheduleRoutingModule],
+  exports: [ScheduleManagementComponent],
 })
 export class ScheduleModule {}
