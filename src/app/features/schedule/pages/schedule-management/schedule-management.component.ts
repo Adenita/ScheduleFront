@@ -5,11 +5,8 @@ import { DepartmentService } from '../../../../core/services/http/department.ser
 import { DepartmentDetailTransport, DepartmentScheduleDetailTransport } from '../../../../shared/models/department';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { EventTransport } from '../../shared/models/event';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ScheduleGenerationModalComponent } from '../../components/schedule-generation-modal/schedule-generation-modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteParametersService } from '../../../../core/services/route-parameters.service';
-import { ScheduleGenerationService } from '../../services/schedule-generation.service';
 import { PermissionService } from '../../../../auth/services/permission.service';
 import { Role } from '../../../../shared/models/user';
 import { ProfessorTransport } from '../../../../shared/models/professor';
@@ -28,8 +25,6 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
 
   currentRoute: string = '';
 
-  populationSize: number = 200;
-  generation: number = 1;
   bestScheduleEvents$: BehaviorSubject<EventTransport[]>;
   schedules$: BehaviorSubject<ScheduleTransport[]>;
   destroyed$: Subject<void> = new Subject<void>();
@@ -40,12 +35,10 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
     private departmentService: DepartmentService,
     private scheduleDataService: ScheduleDataService,
     private routeParametersService: RouteParametersService,
-    private generateBestScheduleService: ScheduleGenerationService,
     private permissionService: PermissionService,
     private searchService: SearchService,
   ) {
@@ -76,25 +69,8 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
     this.searchService.onSearch(event, this.filteredProfessors$, this.departmentTransport.professorTransports);
   }
 
-  openGenerateScheduleModal() {
-    const modalRef = this.modalService.open(ScheduleGenerationModalComponent);
-    modalRef.componentInstance.bestScheduleEvents$ = this.bestScheduleEvents$;
-    modalRef.componentInstance.schedules$ = this.schedules$;
-    modalRef.componentInstance.departmentId = this.departmentId;
-    this.generateBestScheduleService.generateBestSchedule(
-      this.generation,
-      this.populationSize,
-      this.departmentScheduleDetailTransport,
-      this.bestScheduleEvents$,
-    );
-  }
-
   navigateToPage(path: string, id: number) {
     this.router.navigate([this.currentRoute, this.currentBestSchedule.id, path, id]);
-  }
-
-  selectSchedule(schedule: ScheduleTransport) {
-    this.currentBestSchedule = schedule;
   }
 
   async getDepartmentScheduleDetails() {
