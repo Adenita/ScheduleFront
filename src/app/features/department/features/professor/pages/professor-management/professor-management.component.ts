@@ -13,6 +13,7 @@ import { PermissionService } from '../../../../../../auth/services/permission.se
 
 @Component({
   selector: 'app-professors-management',
+  standalone: false,
   templateUrl: './professor-management.component.html',
   styleUrls: ['./professor-management.component.scss'],
 })

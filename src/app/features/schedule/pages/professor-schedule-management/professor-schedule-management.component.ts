@@ -10,6 +10,7 @@ import { ProfessorService } from '../../../../core/services/http/professor.servi
 
 @Component({
   selector: 'app-professor-schedule-management',
+  standalone: false,
   templateUrl: './professor-schedule-management.component.html',
   styleUrls: ['./professor-schedule-management.component.scss'],
 })

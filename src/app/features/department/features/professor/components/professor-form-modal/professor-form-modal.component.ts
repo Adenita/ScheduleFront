@@ -5,6 +5,7 @@ import { ProfessorModalData } from '../../services/professor-modal-management.se
 
 @Component({
   selector: 'app-professor-form-modal',
+  standalone: false,
   templateUrl: './professor-form-modal.component.html',
   styleUrls: ['./professor-form-modal.component.css'],
 })

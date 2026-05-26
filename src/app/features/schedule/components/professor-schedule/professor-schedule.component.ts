@@ -6,6 +6,7 @@ import { ScheduleGroupingService } from '../../services/schedule-grouping.servic
 
 @Component({
   selector: 'app-professor-schedule',
+  standalone: false,
   templateUrl: './professor-schedule.component.html',
   styleUrls: ['./professor-schedule.component.css'],
 })

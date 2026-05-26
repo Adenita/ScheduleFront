@@ -7,6 +7,7 @@ import { DepartmentService } from '../../../../core/services/http/department.ser
 
 @Component({
   selector: 'app-schedule-generator-management',
+  standalone: false,
   templateUrl: './schedule-generator-management.component.html',
   styleUrls: ['./schedule-generator-management.component.scss'],
 })

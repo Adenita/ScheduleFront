@@ -5,6 +5,7 @@ import { SubjectModalData } from '../../services/subject-modal-management.servic
 
 @Component({
   selector: 'app-subject-form-modal',
+  standalone: false,
   templateUrl: './subject-form-modal.component.html',
   styleUrls: ['./subject-form-modal.component.css'],
 })

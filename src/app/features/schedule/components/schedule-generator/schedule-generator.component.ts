@@ -13,6 +13,7 @@ import { ScheduleGenerationModalComponent } from '../schedule-generation-modal/s
 
 @Component({
   selector: 'app-schedule-generator',
+  standalone: false,
   templateUrl: './schedule-generator.component.html',
   styleUrls: ['./schedule-generator.component.scss'],
 })
@@ -43,17 +44,13 @@ export class ScheduleGeneratorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('ON INIT');
-    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
-      next: (e) => {
-        this.departmentId = this.routeParametersService.departmentSchedulesId;
-        console.log(this.departmentId);
-        this.getDepartmentScheduleDetails()
-          .then((departmentData) => {
-            this.departmentScheduleDetailTransport = departmentData;
-          })
-          .then(() => this.getDepartmentSchedules(this.departmentId));
-      },
+    this.routeParametersService.getCurrentRoute(this.activatedRoute).then((e) => {
+      this.departmentId = this.routeParametersService.departmentSchedulesId;
+      this.getDepartmentScheduleDetails()
+        .then((departmentData) => {
+          this.departmentScheduleDetailTransport = departmentData;
+        })
+        .then(() => this.getDepartmentSchedules(this.departmentId));
     });
   }
 

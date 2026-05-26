@@ -5,6 +5,7 @@ import { LoginModalData } from '../../services/login-modal-management.service';
 
 @Component({
   selector: 'app-login-form-modal',
+  standalone: false,
   templateUrl: './login-form-modal.component.html',
   styleUrls: ['./login-form-modal.component.scss'],
 })

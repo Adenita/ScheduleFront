@@ -8,6 +8,7 @@ import { PermissionService } from '../../../../../../auth/services/permission.se
 
 @Component({
   selector: 'app-professor-details',
+  standalone: false,
   templateUrl: './professor-details.component.html',
   styleUrls: ['./professor-details.component.scss'],
 })

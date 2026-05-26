@@ -13,6 +13,7 @@ import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-program-management',
+  standalone: false,
   templateUrl: './program-management.component.html',
   styleUrls: ['./program-management.component.scss'],
 })

@@ -4,6 +4,7 @@ import { StudentGroupTransport } from '../../../../../../shared/models/student-g
 
 @Component({
   selector: 'app-student-group-list',
+  standalone: false,
   templateUrl: './student-group-list.component.html',
   styleUrls: ['./student-group-list.component.css'],
 })

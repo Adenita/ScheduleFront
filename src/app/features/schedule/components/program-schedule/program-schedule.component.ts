@@ -12,6 +12,7 @@ interface A {
 
 @Component({
   selector: 'app-program-schedule',
+  standalone: false,
   templateUrl: './program-schedule.component.html',
   styleUrls: ['./program-schedule.component.css'],
 })

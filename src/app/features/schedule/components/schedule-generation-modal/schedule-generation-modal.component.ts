@@ -7,6 +7,7 @@ import { ScheduleDataService } from '../../../../core/services/http/schedule-dat
 
 @Component({
   selector: 'app-generate-schedule-modal',
+  standalone: false,
   templateUrl: './schedule-generation-modal.component.html',
   styleUrls: ['./schedule-generation-modal.component.css'],
 })

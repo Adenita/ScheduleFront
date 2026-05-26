@@ -6,6 +6,7 @@ import { RouteParametersService } from '../../../../../../core/services/route-pa
 
 @Component({
   selector: 'app-program-details',
+  standalone: false,
   templateUrl: './program-details.component.html',
   styleUrls: ['./program-details.component.scss'],
 })

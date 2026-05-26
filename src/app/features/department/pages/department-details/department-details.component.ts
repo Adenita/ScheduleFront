@@ -9,6 +9,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-department-details',
+  standalone: false,
   templateUrl: './department-details.component.html',
   styleUrls: ['./department-details.component.scss'],
 })
@@ -31,15 +32,15 @@ export class DepartmentDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeParametersService
-      .getCurrentRoute(this.activatedRoute)
-      .then(() => {
+    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+      next: () => {
         this.departmentId = this.routeParametersService.departmentId;
         if (this.routeParametersService.currentRoute.includes('schedules')) {
           this.isSchedule = true;
         }
-      })
-      .then(() => this.getDepartment(this.departmentId));
+        this.getDepartment(this.departmentId);
+      },
+    });
 
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
     this.hasPermission = this.permissionService.hasAnyRole([Role.ADMIN, Role.PROFESSOR]);

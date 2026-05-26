@@ -5,6 +5,7 @@ import { StorageService } from '../../../../../../core/services/storage.service'
 
 @Component({
   selector: 'app-user-details',
+  standalone: false,
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
 })

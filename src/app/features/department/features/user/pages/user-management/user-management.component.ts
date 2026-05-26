@@ -9,9 +9,13 @@ import { DepartmentService } from '../../../../../../core/services/http/departme
 import { UserService } from '../../../../../../core/services/http/user.service';
 import { UserFormModalComponent } from '../../components/user-form-modal/user-form-modal.component';
 import { UserTransport } from '../../../../../../shared/models/user';
+import { AuthenticationService } from '../../../../../../core/services/http/authentication.service';
+import { RegisterTransport } from '../../../../../../shared/models/authentication';
+import { DepartmentTransport } from '../../../../../../shared/models/department';
 
 @Component({
   selector: 'app-user-management',
+  standalone: false,
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css'],
 })
@@ -32,6 +36,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private userService: UserService,
     private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     private userModalManagementService: UserModalManagementService,
   ) {
     this.userForm = this.buildUserFormGroup(formBuilder);
@@ -67,10 +72,12 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   addUser() {
     if (this.userForm.valid) {
-      const user = this.userForm.value;
-      this.userService.post(user).subscribe({
-        next: (userTransport: UserTransport) => {
-          this.users$.next([...this.users$.getValue(), userTransport]);
+      const user = this.userForm.value as RegisterTransport;
+      user.department = { id: 1, name: 'Matematike' } as DepartmentTransport;
+      this.authService.register(user).subscribe({
+        next: (userTransport: RegisterTransport) => {
+          // const us = userTransport as UserTransport
+          // this.users$.next([...this.users$.getValue(), userTransport]);
         },
         error: (err) => console.error('Error adding user:', err),
       });

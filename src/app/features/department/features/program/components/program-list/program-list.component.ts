@@ -4,6 +4,7 @@ import { ProgramTransport, ProgramDetailsTransport } from '../../../../../../sha
 
 @Component({
   selector: 'app-program-list',
+  standalone: false,
   templateUrl: './program-list.component.html',
   styleUrls: ['./program-list.component.scss'],
 })

@@ -10,6 +10,7 @@ import { ProgramService } from '../../../../core/services/http/program.service';
 
 @Component({
   selector: 'app-program-schedule-management',
+  standalone: false,
   templateUrl: './program-schedule-management.component.html',
   styleUrls: ['./program-schedule-management.component.css'],
 })

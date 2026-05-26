@@ -13,6 +13,7 @@ import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-student-groups-list',
+  standalone: false,
   templateUrl: './student-group-management.component.html',
   styleUrls: ['./student-group-management.component.css'],
 })

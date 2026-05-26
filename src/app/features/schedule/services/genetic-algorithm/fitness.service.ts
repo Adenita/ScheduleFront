@@ -1,6 +1,6 @@
-import { Schedule } from '../../shared/models/schedule';
+import { Schedule, ScheduleTransport } from '../../shared/models/schedule';
 import { EventTransport } from '../../shared/models/event';
-import { ProfessorPreferredDay } from '../../../../shared/models/professor';
+import { ProfessorPreferredDay, ProfessorTransport } from '../../../../shared/models/professor';
 import { GroupType, StudentGroupTransport } from '../../../../shared/models/student-group';
 import { Timeslot } from '../../../../shared/models/timeslots';
 import { Injectable } from '@angular/core';
@@ -11,13 +11,15 @@ import { Injectable } from '@angular/core';
 export class FitnessService {
   numberOfConflicts: number = 0;
 
+  getFreeSlots(professor: ProfessorTransport, schedule: ScheduleTransport) {}
+
   calculateFitness(schedule: Schedule): number {
     schedule.conflicts = [];
     this.numberOfConflicts = 0;
     for (let i = 0; i < schedule.events.length; i++) {
       const event: EventTransport = schedule.events[i];
       event.conflict = false;
-      if (event.professorTransport.preferredDays.length > 0) {
+      if (event.professorTransport.preferredDays && event.professorTransport.preferredDays.length > 0) {
         const matchedPreferredDay: ProfessorPreferredDay | undefined = this.findMatchedEventProfessorPreferredDays(event);
         if (!matchedPreferredDay) {
           event.conflict = true;
@@ -32,7 +34,7 @@ export class FitnessService {
 
       for (let j = i + 1; j < schedule.events.length; j++) {
         const nextEvent: EventTransport = schedule.events[j];
-        if (this.hasOverlap(event.timeslot, nextEvent.timeslot)) {
+        if (this.hasOverlap(event.timeslot, nextEvent.timeslot, 5)) {
           if (event.classroom.id === nextEvent.classroom.id) {
             this.numberOfConflicts++;
             event.conflict = true;
@@ -87,7 +89,7 @@ export class FitnessService {
     );
   }
 
-  private hasOverlap(firstTimeslot: Timeslot, secondTimeslot: Timeslot): boolean {
+  private hasOverlap(firstTimeslot: Timeslot, secondTimeslot: Timeslot, breakBetween: number): boolean {
     if (firstTimeslot.day === secondTimeslot.day) {
       const firstTimeslotStart: number = firstTimeslot.startHour * 60 + firstTimeslot.startMinute;
       const secondTimeslotStart: number = secondTimeslot.startHour * 60 + secondTimeslot.startMinute;
@@ -95,10 +97,10 @@ export class FitnessService {
       const secondTimeslotEnd: number = secondTimeslot.endHour * 60 + secondTimeslot.endMinute;
 
       if (firstTimeslotStart > secondTimeslotStart) {
-        return secondTimeslotEnd >= firstTimeslotStart;
+        return secondTimeslotEnd >= firstTimeslotStart + breakBetween;
       }
 
-      return firstTimeslotEnd >= secondTimeslotStart;
+      return firstTimeslotEnd + breakBetween >= secondTimeslotStart;
     }
     return false;
   }

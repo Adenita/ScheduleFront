@@ -9,6 +9,7 @@ import { SubjectService } from '../../../../../../core/services/http/subjects.se
 
 @Component({
   selector: 'app-subject-details',
+  standalone: false,
   templateUrl: './subject-details.component.html',
   styleUrls: ['./subject-details.component.css'],
 })

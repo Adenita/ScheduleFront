@@ -5,6 +5,7 @@ import { ModalEventsService } from '../../../../shared/services/modal-events.ser
 
 @Component({
   selector: 'app-user-form-modal',
+  standalone: false,
   templateUrl: './user-form-modal.component.html',
   styleUrls: ['./user-form-modal.component.css'],
 })

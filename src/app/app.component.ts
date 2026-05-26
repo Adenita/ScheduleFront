@@ -13,6 +13,7 @@ import { Role } from './shared/models/user';
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

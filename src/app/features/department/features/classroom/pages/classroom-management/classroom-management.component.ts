@@ -10,6 +10,7 @@ import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-classroom-management',
+  standalone: false,
   templateUrl: './classroom-management.component.html',
   styleUrls: ['./classroom-management.component.scss'],
 })

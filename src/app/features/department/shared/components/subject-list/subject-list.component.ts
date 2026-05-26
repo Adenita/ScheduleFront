@@ -4,6 +4,7 @@ import { SubjectTransport } from '../../../../../shared/models/subject';
 
 @Component({
   selector: 'app-subject-list',
+  standalone: false,
   templateUrl: './subject-list.component.html',
   styleUrls: ['./subject-list.component.css'],
 })

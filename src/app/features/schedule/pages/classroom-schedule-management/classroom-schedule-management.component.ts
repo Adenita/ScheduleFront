@@ -10,6 +10,7 @@ import { ClassroomService } from '../../../../core/services/http/classroom.servi
 
 @Component({
   selector: 'app-classroom-schedule-management',
+  standalone: false,
   templateUrl: './classroom-schedule-management.component.html',
   styleUrls: ['./classroom-schedule-management.component.css'],
 })

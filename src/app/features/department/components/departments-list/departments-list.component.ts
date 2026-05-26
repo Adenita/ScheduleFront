@@ -10,6 +10,7 @@ import { DepartmentFormModalComponent } from '../department-form-modal/departmen
 
 @Component({
   selector: 'app-departments-list',
+  standalone: false,
   templateUrl: './departments-list.component.html',
   styleUrls: ['./departments-list.component.css'],
 })

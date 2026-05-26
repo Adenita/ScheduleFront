@@ -14,6 +14,7 @@ import { SearchService } from '../../../../core/services/search.service';
 
 @Component({
   selector: 'app-schedule-management',
+  standalone: false,
   templateUrl: './schedule-management.component.html',
   styleUrls: ['./schedule-management.component.scss'],
 })

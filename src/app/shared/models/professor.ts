@@ -35,6 +35,7 @@ export enum Rank {
   PROFESSOR = 'PROFESSOR',
   ASSISTANT = 'ASSISTANT',
   PROFESSOR_ASSISTANT = 'PROFESSOR_ASSISTANT',
+  NO_RANK = 'NO_RANK',
 }
 
 export interface ProfessorListTransport {

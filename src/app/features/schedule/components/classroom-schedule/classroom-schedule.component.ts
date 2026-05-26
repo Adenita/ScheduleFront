@@ -6,6 +6,7 @@ import { ScheduleGroupingService } from '../../services/schedule-grouping.servic
 
 @Component({
   selector: 'app-classroom-schedule',
+  standalone: false,
   templateUrl: './classroom-schedule.component.html',
   styleUrls: ['./classroom-schedule.component.css'],
 })

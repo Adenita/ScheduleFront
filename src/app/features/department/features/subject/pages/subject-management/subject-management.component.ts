@@ -22,6 +22,7 @@ import { Role } from '../../../../../../shared/models/user';
 
 @Component({
   selector: 'app-subject-management',
+  standalone: false,
   templateUrl: './subject-management.component.html',
   styleUrls: ['./subject-management.component.scss'],
 })

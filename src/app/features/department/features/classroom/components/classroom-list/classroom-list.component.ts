@@ -4,6 +4,7 @@ import { Classroom } from '../../../../../../shared/models/classroom';
 
 @Component({
   selector: 'app-classroom-list',
+  standalone: false,
   templateUrl: './classroom-list.component.html',
   styleUrls: ['./classroom-list.component.css'],
 })

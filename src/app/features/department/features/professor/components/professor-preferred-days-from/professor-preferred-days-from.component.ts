@@ -10,6 +10,7 @@ import { RouteParametersService } from '../../../../../../core/services/route-pa
 
 @Component({
   selector: 'app-professor-preferred-days-from',
+  standalone: false,
   templateUrl: './professor-preferred-days-from.component.html',
   styleUrls: ['./professor-preferred-days-from.component.css'],
 })
