@@ -3,7 +3,6 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ScheduleTransport } from '../../shared/models/schedule';
 import { ProfessorTransport } from '../../../../shared/models/professor';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { ProfessorService } from '../../../../core/services/http/professor.service';
@@ -18,6 +17,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   scheduleId: number = -1;
   professorId: number = -1;
   departmentId: number = -1;
+  loadedProfessorsDepartmentId: number = -1;
 
   professorSchedule$!: BehaviorSubject<ScheduleTransport>;
   professors!: ProfessorTransport[];
@@ -27,13 +27,11 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   searchValue: string = '';
   filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
 
-  currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private routeParametersService: RouteParametersService,
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
     private professorService: ProfessorService,
@@ -43,11 +41,16 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRouteParameters().then(() => {
+    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
+      this.scheduleId = Number(params.get('scid')) || -1;
+      this.professorId = Number(params.get('ppid')) || -1;
+      this.departmentId = this.getDepartmentIdFromRoute();
+
       this.getInitialProfessor(this.professorId);
       this.getScheduleForProfessor(this.scheduleId, this.professorId);
 
-      if (this.departmentId !== -1) {
+      if (this.departmentId !== -1 && this.departmentId !== this.loadedProfessorsDepartmentId) {
+        this.loadedProfessorsDepartmentId = this.departmentId;
         this.getDepartmentProfessors(this.departmentId);
       }
     });
@@ -86,22 +89,23 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  getRouteParameters() {
-    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
-      this.scheduleId = this.routeParametersService.scheduleId;
-      this.professorId = this.routeParametersService.professorId;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.currentRoute;
-    });
+  getDepartmentIdFromRoute(): number {
+    const departmentRoute = this.activatedRoute.pathFromRoot.find((route) => route.snapshot.paramMap.has('id'));
+    return Number(departmentRoute?.snapshot.paramMap.get('id')) || -1;
   }
 
   loadProfessorSchedule(professor: ProfessorTransport) {
-    const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
-    const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
-    const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.selectedProfessor$.next(professor);
     this.professorName = professor.name;
-    this.router.navigate([nextRoute, professor.id]).then(() => this.getScheduleForProfessor(this.scheduleId, professor.id));
+    this.router.navigate(this.getProfessorScheduleRoute(professor.id));
+  }
+
+  getProfessorScheduleRoute(professorId: number): unknown[] {
+    if (this.departmentId !== -1) {
+      return ['departments', this.departmentId, 'schedules', this.scheduleId, 'professors', professorId];
+    }
+
+    return ['schedules', this.scheduleId, 'professors', professorId];
   }
 
   getInitialProfessor(professorId: number) {
@@ -124,7 +128,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if (this.departmentId != -1) {
+    if (this.departmentId !== -1) {
       this.router.navigate(['departments', this.departmentId, 'schedules']);
     } else {
       this.router.navigate(['schedules']);

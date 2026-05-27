@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Classroom } from '../../../../shared/models/classroom';
 import { ScheduleTransport } from '../../shared/models/schedule';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
@@ -18,19 +17,18 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   scheduleId: number = -1;
   classroomId: number = -1;
   departmentId: number = -1;
+  loadedClassroomsDepartmentId: number = -1;
 
   classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
   classrooms!: Classroom[];
   selectedClassroom$: BehaviorSubject<Classroom> = new BehaviorSubject<Classroom>({} as Classroom);
   classroomName: string = '';
 
-  currentRoute: string = '';
   destroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private routeParametersService: RouteParametersService,
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
     private classroomService: ClassroomService,
@@ -39,11 +37,16 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRouteParameters().then(() => {
+    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
+      this.scheduleId = Number(params.get('scid')) || -1;
+      this.classroomId = Number(params.get('cid')) || -1;
+      this.departmentId = this.getDepartmentIdFromRoute();
+
       this.getInitialClassroom(this.classroomId);
       this.getScheduleForClassroom(this.scheduleId, this.classroomId);
 
-      if (this.departmentId !== -1) {
+      if (this.departmentId !== -1 && this.departmentId !== this.loadedClassroomsDepartmentId) {
+        this.loadedClassroomsDepartmentId = this.departmentId;
         this.getDepartmentClassrooms(this.departmentId);
       }
     });
@@ -79,22 +82,23 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
         },
       });
   }
-  getRouteParameters() {
-    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
-      this.scheduleId = this.routeParametersService.scheduleId;
-      this.classroomId = this.routeParametersService.classroomId;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.currentRoute;
-    });
+  getDepartmentIdFromRoute(): number {
+    const departmentRoute = this.activatedRoute.pathFromRoot.find((route) => route.snapshot.paramMap.has('id'));
+    return Number(departmentRoute?.snapshot.paramMap.get('id')) || -1;
   }
 
   loadClassroomSchedule(classroom: Classroom) {
-    const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
-    const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
-    const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
     this.classroomName = classroom.name;
     this.selectedClassroom$.next(classroom);
-    this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
+    this.router.navigate(this.getClassroomScheduleRoute(classroom.id));
+  }
+
+  getClassroomScheduleRoute(classroomId: number): unknown[] {
+    if (this.departmentId !== -1) {
+      return ['departments', this.departmentId, 'schedules', this.scheduleId, 'classrooms', classroomId];
+    }
+
+    return ['schedules', this.scheduleId, 'classrooms', classroomId];
   }
 
   getInitialClassroom(classroomId: number) {
@@ -117,7 +121,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if (this.departmentId != -1) {
+    if (this.departmentId !== -1) {
       this.router.navigate(['departments', this.departmentId, 'schedules']);
     } else {
       this.router.navigate(['schedules']);
