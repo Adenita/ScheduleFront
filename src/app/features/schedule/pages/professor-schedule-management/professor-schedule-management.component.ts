@@ -43,14 +43,14 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRouteParameters()
-      .then(() => this.getInitialProfessor(this.professorId))
-      .then(() => this.getScheduleForProfessor(this.scheduleId, this.professorId))
-      .then(() => {
-        if (this.departmentId != -1) {
-          this.getDepartmentProfessors(this.departmentId);
-        }
-      });
+    this.getRouteParameters().then(() => {
+      this.getInitialProfessor(this.professorId);
+      this.getScheduleForProfessor(this.scheduleId, this.professorId);
+
+      if (this.departmentId !== -1) {
+        this.getDepartmentProfessors(this.departmentId);
+      }
+    });
   }
 
   getDepartmentProfessors(departmentId: number) {
@@ -67,6 +67,15 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getScheduleForProfessor(scheduleId: number, professorId: number) {
+    if (scheduleId === -1 || professorId === -1) {
+      console.warn('Cannot load professor schedule because route ids are invalid', {
+        scheduleId,
+        professorId,
+        departmentId: this.departmentId,
+      });
+      return;
+    }
+
     this.scheduleDataService
       .getScheduleForProfessor(scheduleId, professorId)
       .pipe(takeUntil(this.destroyed$))
@@ -96,6 +105,13 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getInitialProfessor(professorId: number) {
+    if (professorId === -1) {
+      console.warn('Cannot load initial professor because professorId is invalid', {
+        professorId,
+      });
+      return;
+    }
+
     this.professorService
       .get(professorId)
       .pipe(takeUntil(this.destroyed$))

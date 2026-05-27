@@ -20,7 +20,7 @@ export class ProgramScheduleComponent implements OnInit, OnDestroy {
   @Input()
   programSchedule$!: BehaviorSubject<ScheduleTransport>;
 
-  programSchedulePerSemesterMap!: Map<number, ScheduleTransport>;
+  programSchedulePerSemesterMap$: BehaviorSubject<Map<number, ScheduleTransport>>;
   emptyScheduleTransport: ScheduleTransport;
 
   days: DAY[] = Object.values(DAY);
@@ -36,13 +36,19 @@ export class ProgramScheduleComponent implements OnInit, OnDestroy {
   constructor(private scheduleGroupingService: ScheduleGroupingService) {
     this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
     this.programSchedulePerDayArray = [];
+    this.programSchedulePerSemesterMap$ = new BehaviorSubject<Map<number, ScheduleTransport>>(new Map());
   }
 
   ngOnInit(): void {
     this.programSchedule$.pipe(takeUntil(this.destroyed$)).subscribe((schedule: ScheduleTransport) => {
-      if (schedule.events) {
-        this.setProgramSchedulePerSemesterMap(schedule);
-        this.setSchedulePerDay(this.programSchedulePerSemesterMap);
+      console.log('Program schedule received:', schedule);
+      if (schedule && schedule.events && schedule.events.length > 0) {
+        const semesterMap = this.setProgramSchedulePerSemesterMap(schedule);
+        this.programSchedulePerSemesterMap$.next(semesterMap);
+        this.setSchedulePerDay(semesterMap);
+      } else {
+        console.warn('No events in program schedule or schedule is empty');
+        this.programSchedulePerSemesterMap$.next(new Map());
       }
     });
   }
@@ -54,11 +60,10 @@ export class ProgramScheduleComponent implements OnInit, OnDestroy {
         schedulePerDay: this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(key),
       });
     });
-
-    // this.programSchedulePerDayArray = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
   }
-  setProgramSchedulePerSemesterMap(schedule: ScheduleTransport) {
-    this.programSchedulePerSemesterMap = schedule.events.reduce((acc: Map<number, ScheduleTransport>, event: EventTransport) => {
+
+  setProgramSchedulePerSemesterMap(schedule: ScheduleTransport): Map<number, ScheduleTransport> {
+    return schedule.events.reduce((acc: Map<number, ScheduleTransport>, event: EventTransport) => {
       const { semester } = event.subjectTransport;
       if (!acc.has(semester)) {
         acc.set(semester, { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() });

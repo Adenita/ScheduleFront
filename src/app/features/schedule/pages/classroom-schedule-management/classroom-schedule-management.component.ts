@@ -39,14 +39,14 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRouteParameters()
-      .then(() => this.getInitialClassroom(this.classroomId))
-      .then(() => this.getScheduleForClassroom(this.scheduleId, this.classroomId))
-      .then(() => {
-        if (this.departmentId != -1) {
-          this.getDepartmentClassrooms(this.departmentId);
-        }
-      });
+    this.getRouteParameters().then(() => {
+      this.getInitialClassroom(this.classroomId);
+      this.getScheduleForClassroom(this.scheduleId, this.classroomId);
+
+      if (this.departmentId !== -1) {
+        this.getDepartmentClassrooms(this.departmentId);
+      }
+    });
   }
 
   getDepartmentClassrooms(departmentId: number) {
@@ -61,6 +61,15 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getScheduleForClassroom(scheduleId: number, classroomId: number) {
+    if (scheduleId === -1 || classroomId === -1) {
+      console.warn('Cannot load classroom schedule because route ids are invalid', {
+        scheduleId,
+        classroomId,
+        departmentId: this.departmentId,
+      });
+      return;
+    }
+
     this.scheduleDataService
       .getScheduleForClassroom(scheduleId, classroomId)
       .pipe(takeUntil(this.destroyed$))
@@ -88,9 +97,16 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
   }
 
-  getInitialClassroom(professorId: number) {
+  getInitialClassroom(classroomId: number) {
+    if (classroomId === -1) {
+      console.warn('Cannot load initial classroom because classroomId is invalid', {
+        classroomId,
+      });
+      return;
+    }
+
     this.classroomService
-      .get(professorId)
+      .get(classroomId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (classroom: Classroom) => {

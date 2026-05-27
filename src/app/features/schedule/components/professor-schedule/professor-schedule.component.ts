@@ -13,20 +13,27 @@ import { ScheduleGroupingService } from '../../services/schedule-grouping.servic
 export class ProfessorScheduleComponent implements OnInit, OnDestroy {
   @Input()
   professorSchedule$!: BehaviorSubject<ScheduleTransport>;
-  professorSchedulePerDayMap!: Map<DAY, ScheduleTransport>;
+
+  professorSchedulePerDayMap$: BehaviorSubject<Map<DAY, ScheduleTransport>>;
   destroyed$: Subject<void> = new Subject<void>();
   emptyScheduleTransport: ScheduleTransport;
   days: DAY[] = Object.values(DAY);
 
   constructor(private scheduleGroupingService: ScheduleGroupingService) {
     this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
+    this.professorSchedulePerDayMap$ = new BehaviorSubject<Map<DAY, ScheduleTransport>>(new Map());
   }
 
   ngOnInit(): void {
     this.professorSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
       next: (schedule: ScheduleTransport) => {
-        if (schedule.events) {
-          this.professorSchedulePerDayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
+        console.log('Professor schedule received:', schedule);
+        if (schedule && schedule.events && schedule.events.length > 0) {
+          const dayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
+          this.professorSchedulePerDayMap$.next(dayMap);
+        } else {
+          console.warn('No events in professor schedule or schedule is empty');
+          this.professorSchedulePerDayMap$.next(new Map());
         }
       },
     });

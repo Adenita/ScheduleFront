@@ -14,20 +14,26 @@ export class ClassroomScheduleComponent implements OnInit, OnDestroy {
   @Input()
   classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
 
-  classroomSchedulePerDayMap!: Map<DAY, ScheduleTransport>;
+  classroomSchedulePerDayMap$: BehaviorSubject<Map<DAY, ScheduleTransport>>;
   destroyed$: Subject<void> = new Subject<void>();
   emptyScheduleTransport: ScheduleTransport;
   days: DAY[] = Object.values(DAY);
 
   constructor(private scheduleGroupingService: ScheduleGroupingService) {
     this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
+    this.classroomSchedulePerDayMap$ = new BehaviorSubject<Map<DAY, ScheduleTransport>>(new Map());
   }
 
   ngOnInit(): void {
     this.classroomSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
       next: (schedule: ScheduleTransport) => {
-        if (schedule.events) {
-          this.classroomSchedulePerDayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
+        console.log('Classroom schedule received:', schedule);
+        if (schedule && schedule.events && schedule.events.length > 0) {
+          const dayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
+          this.classroomSchedulePerDayMap$.next(dayMap);
+        } else {
+          console.warn('No events in classroom schedule or schedule is empty');
+          this.classroomSchedulePerDayMap$.next(new Map());
         }
       },
     });

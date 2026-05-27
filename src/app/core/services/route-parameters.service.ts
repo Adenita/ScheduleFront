@@ -20,31 +20,35 @@ export class RouteParametersService {
   currentRoute$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   getNavigationEvent(router: Router, activatedRoute: ActivatedRoute, destroyed$: Subject<void>): Observable<void> {
-    const activatedRoute$ = activatedRoute.params.pipe(
-      startWith(activatedRoute.snapshot.params),
-      takeUntil(destroyed$),
-    );
+    return new Observable<void>((observer) => {
+      // Immediately extract from current route
+      this.currentRoute = router.url;
+      this.setIdsFromRoute(this.currentRoute);
+      this.currentRoute$.next(this.currentRoute);
+      observer.next();
 
-    const navigationEndEvent$ = router.events.pipe(
-      filter((routerEvent): boolean => routerEvent instanceof NavigationEnd || routerEvent instanceof Scroll),
-      startWith(null),
-      takeUntil(destroyed$),
-    );
+      // Subscribe to future navigation events
+      const subscription = router.events
+        .pipe(
+          filter((routerEvent) => routerEvent instanceof NavigationEnd || routerEvent instanceof Scroll),
+          takeUntil(destroyed$),
+        )
+        .subscribe((event) => {
+          const eventUrl = event && 'url' in event ? event.url : null;
 
-    return combineLatest([activatedRoute$, navigationEndEvent$]).pipe(
-      map(([params, event]) => {
-        const eventUrl = event && 'url' in event ? event.url : null;
+          if (eventUrl) {
+            this.currentRoute = eventUrl;
+          } else {
+            this.currentRoute = router.url;
+          }
 
-        if (eventUrl) {
-          this.currentRoute = eventUrl;
-        } else {
-          this.currentRoute = router.url;
-        }
+          this.setIdsFromRoute(this.currentRoute);
+          this.currentRoute$.next(this.currentRoute);
+          observer.next();
+        });
 
-        this.setIdsFromRoute(this.currentRoute);
-        this.currentRoute$.next(this.currentRoute);
-      }),
-    );
+      return () => subscription.unsubscribe();
+    });
   }
 
   getCurrentRoute(activatedRoute: ActivatedRoute) {

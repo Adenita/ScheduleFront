@@ -20,9 +20,9 @@ import { SearchService } from '../../../../core/services/search.service';
 })
 export class ScheduleManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
-  currentBestSchedule!: ScheduleTransport;
+  currentBestSchedule$: BehaviorSubject<ScheduleTransport | null>;
   departmentScheduleDetailTransport: DepartmentScheduleDetailTransport;
-  departmentTransport: DepartmentDetailTransport;
+  departmentTransport$: BehaviorSubject<DepartmentDetailTransport>;
 
   currentRoute: string = '';
 
@@ -43,35 +43,54 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private searchService: SearchService,
   ) {
-    this.departmentTransport = {} as DepartmentDetailTransport;
+    this.departmentTransport$ = new BehaviorSubject<DepartmentDetailTransport>({} as DepartmentDetailTransport);
     this.departmentScheduleDetailTransport = {} as DepartmentScheduleDetailTransport;
     this.bestScheduleEvents$ = new BehaviorSubject<EventTransport[]>([]);
     this.schedules$ = new BehaviorSubject<ScheduleTransport[]>([]);
+    this.currentBestSchedule$ = new BehaviorSubject<ScheduleTransport | null>(null);
   }
 
   ngOnInit() {
-    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
-      next: (e) => {
-        this.departmentId = this.routeParametersService.departmentId;
-        this.currentRoute = this.routeParametersService.currentRoute;
-        this.getDepartmentData().then((departmentData) => {
-          this.departmentTransport = departmentData;
-          this.filteredProfessors$.next(this.departmentTransport.professorTransports);
-        });
-        this.getDepartmentScheduleDetails().then((departmentData) => (this.departmentScheduleDetailTransport = departmentData));
-        if (this.departmentId == -1) this.getSchedules();
-        else this.getDepartmentSchedules(this.departmentId);
-      },
-    });
+    this.routeParametersService
+      .getNavigationEvent(this.router, this.activatedRoute, this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.departmentId = this.routeParametersService.departmentId;
+          this.currentRoute = this.routeParametersService.currentRoute;
+
+          this.getDepartmentData().then((departmentData) => {
+            console.log('department data: ', departmentData);
+            console.log('current best schedule: ', this.currentBestSchedule$.getValue());
+            this.departmentTransport$.next(departmentData);
+            this.filteredProfessors$.next(departmentData.professorTransports);
+          });
+
+          this.getDepartmentScheduleDetails().then((departmentData) => (this.departmentScheduleDetailTransport = departmentData));
+
+          if (this.departmentId === -1) {
+            this.getSchedules();
+          } else {
+            this.getDepartmentSchedules(this.departmentId);
+          }
+        },
+      });
+
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
 
   onSearch(event: any) {
-    this.searchService.onSearch(event, this.filteredProfessors$, this.departmentTransport.professorTransports);
+    const departmentData = this.departmentTransport$.getValue();
+    this.searchService.onSearch(event, this.filteredProfessors$, departmentData.professorTransports);
   }
 
   navigateToPage(path: string, id: number) {
-    this.router.navigate([this.currentRoute, this.currentBestSchedule.id, path, id]);
+    const currentSchedule = this.currentBestSchedule$.getValue();
+    if (currentSchedule) {
+      this.router.navigate([this.currentRoute, currentSchedule.id, path, id]);
+    } else {
+      console.warn('No schedule available to navigate');
+    }
   }
 
   async getDepartmentScheduleDetails() {
@@ -90,13 +109,16 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
         next: (scheduleListTransport: ScheduleListTransport) => {
           const schedules = scheduleListTransport.scheduleTransports;
           this.schedules$.next(schedules);
-          this.currentBestSchedule = schedules[schedules.length - 1];
+          const latestSchedule = schedules.length > 0 ? schedules[schedules.length - 1] : null;
+          this.currentBestSchedule$.next(latestSchedule);
+          console.log('All schedules loaded:', schedules, 'Latest:', latestSchedule);
         },
         error: (err) => console.error('Error fetching schedules', err),
       });
   }
 
   getDepartmentSchedules(departmentId: number) {
+    console.log('Loading schedules for department:', departmentId);
     this.scheduleDataService
       .getDepartmentSchedules(departmentId)
       .pipe(takeUntil(this.destroyed$))
@@ -104,9 +126,11 @@ export class ScheduleManagementComponent implements OnInit, OnDestroy {
         next: (scheduleListTransport: ScheduleListTransport) => {
           const schedules = scheduleListTransport.scheduleTransports;
           this.schedules$.next(schedules);
-          this.currentBestSchedule = schedules[schedules.length - 1];
+          const latestSchedule = schedules.length > 0 ? schedules[schedules.length - 1] : null;
+          this.currentBestSchedule$.next(latestSchedule);
+          console.log('Department schedules loaded:', schedules, 'Latest:', latestSchedule);
         },
-        error: (err) => console.error('Error fetching schedules', err),
+        error: (err) => console.error('Error fetching department schedules', err),
       });
   }
 
