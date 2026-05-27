@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { ClassroomService } from '../../../../core/services/http/classroom.service';
+import { ScheduleRouteService } from '../../services/schedule-route.service';
 
 @Component({
   selector: 'app-classroom-schedule-management',
@@ -32,6 +33,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
     private classroomService: ClassroomService,
+    private scheduleRouteService: ScheduleRouteService,
   ) {
     this.classroomSchedule$ = new BehaviorSubject({} as ScheduleTransport);
   }
@@ -40,7 +42,7 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       this.scheduleId = Number(params.get('scid')) || -1;
       this.classroomId = Number(params.get('cid')) || -1;
-      this.departmentId = this.getDepartmentIdFromRoute();
+      this.departmentId = this.scheduleRouteService.getDepartmentId(this.activatedRoute);
 
       this.getInitialClassroom(this.classroomId);
       this.getScheduleForClassroom(this.scheduleId, this.classroomId);
@@ -82,23 +84,10 @@ export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
         },
       });
   }
-  getDepartmentIdFromRoute(): number {
-    const departmentRoute = this.activatedRoute.pathFromRoot.find((route) => route.snapshot.paramMap.has('id'));
-    return Number(departmentRoute?.snapshot.paramMap.get('id')) || -1;
-  }
-
   loadClassroomSchedule(classroom: Classroom) {
     this.classroomName = classroom.name;
     this.selectedClassroom$.next(classroom);
-    this.router.navigate(this.getClassroomScheduleRoute(classroom.id));
-  }
-
-  getClassroomScheduleRoute(classroomId: number): unknown[] {
-    if (this.departmentId !== -1) {
-      return ['departments', this.departmentId, 'schedules', this.scheduleId, 'classrooms', classroomId];
-    }
-
-    return ['schedules', this.scheduleId, 'classrooms', classroomId];
+    this.router.navigate(this.scheduleRouteService.getScheduleEntityRoute(this.departmentId, this.scheduleId, 'classrooms', classroom.id));
   }
 
   getInitialClassroom(classroomId: number) {

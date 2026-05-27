@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { ProfessorService } from '../../../../core/services/http/professor.service';
+import { ScheduleRouteService } from '../../services/schedule-route.service';
 
 @Component({
   selector: 'app-professor-schedule-management',
@@ -35,6 +36,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
     private professorService: ProfessorService,
+    private scheduleRouteService: ScheduleRouteService,
   ) {
     this.professorSchedule$ = new BehaviorSubject({} as ScheduleTransport);
     this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
@@ -44,7 +46,7 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       this.scheduleId = Number(params.get('scid')) || -1;
       this.professorId = Number(params.get('ppid')) || -1;
-      this.departmentId = this.getDepartmentIdFromRoute();
+      this.departmentId = this.scheduleRouteService.getDepartmentId(this.activatedRoute);
 
       this.getInitialProfessor(this.professorId);
       this.getScheduleForProfessor(this.scheduleId, this.professorId);
@@ -89,23 +91,10 @@ export class ProfessorScheduleManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  getDepartmentIdFromRoute(): number {
-    const departmentRoute = this.activatedRoute.pathFromRoot.find((route) => route.snapshot.paramMap.has('id'));
-    return Number(departmentRoute?.snapshot.paramMap.get('id')) || -1;
-  }
-
   loadProfessorSchedule(professor: ProfessorTransport) {
     this.selectedProfessor$.next(professor);
     this.professorName = professor.name;
-    this.router.navigate(this.getProfessorScheduleRoute(professor.id));
-  }
-
-  getProfessorScheduleRoute(professorId: number): unknown[] {
-    if (this.departmentId !== -1) {
-      return ['departments', this.departmentId, 'schedules', this.scheduleId, 'professors', professorId];
-    }
-
-    return ['schedules', this.scheduleId, 'professors', professorId];
+    this.router.navigate(this.scheduleRouteService.getScheduleEntityRoute(this.departmentId, this.scheduleId, 'professors', professor.id));
   }
 
   getInitialProfessor(professorId: number) {

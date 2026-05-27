@@ -6,6 +6,7 @@ import { ScheduleDataService } from '../../../../core/services/http/schedule-dat
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { ProgramTransport } from '../../../../shared/models/program';
 import { ProgramService } from '../../../../core/services/http/program.service';
+import { ScheduleRouteService } from '../../services/schedule-route.service';
 
 @Component({
   selector: 'app-program-schedule-management',
@@ -32,6 +33,7 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
     private scheduleDataService: ScheduleDataService,
     private departmentService: DepartmentService,
     private programService: ProgramService,
+    private scheduleRouteService: ScheduleRouteService,
   ) {
     this.programSchedule$ = new BehaviorSubject({} as ScheduleTransport);
   }
@@ -39,7 +41,7 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       this.scheduleId = Number(params.get('scid')) || -1;
       this.programId = Number(params.get('pid')) || -1;
-      this.departmentId = this.getDepartmentIdFromRoute();
+      this.departmentId = this.scheduleRouteService.getDepartmentId(this.activatedRoute);
 
       this.getInitialProgram(this.programId);
       this.getScheduleForProgram(this.scheduleId, this.programId);
@@ -101,23 +103,10 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  getDepartmentIdFromRoute(): number {
-    const departmentRoute = this.activatedRoute.pathFromRoot.find((route) => route.snapshot.paramMap.has('id'));
-    return Number(departmentRoute?.snapshot.paramMap.get('id')) || -1;
-  }
-
   loadProgramSchedule(program: ProgramTransport) {
     this.programName = program.name;
     this.selectedProgram$.next(program);
-    this.router.navigate(this.getProgramScheduleRoute(program.id));
-  }
-
-  getProgramScheduleRoute(programId: number): unknown[] {
-    if (this.departmentId !== -1) {
-      return ['departments', this.departmentId, 'schedules', this.scheduleId, 'programs', programId];
-    }
-
-    return ['schedules', this.scheduleId, 'programs', programId];
+    this.router.navigate(this.scheduleRouteService.getScheduleEntityRoute(this.departmentId, this.scheduleId, 'programs', program.id));
   }
 
   goBack() {

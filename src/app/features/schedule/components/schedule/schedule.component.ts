@@ -11,8 +11,8 @@ import { ScheduleTransport } from '../../shared/models/schedule';
 })
 export class ScheduleComponent {
   @Input()
-  bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
+  bestScheduleEvents$?: BehaviorSubject<EventTransport[]>;
 
   @Input()
-  bestProgramSchedule!: ScheduleTransport;
+  bestProgramSchedule?: ScheduleTransport;
 }
