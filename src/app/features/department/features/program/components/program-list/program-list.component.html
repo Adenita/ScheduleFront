@@ -1,36 +1,39 @@
-<div class = "table-responsive" *ngIf="programs$?.getValue() && programs$.getValue().length > 0; else noProgramsFound">
-  <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden">
-    <thead class="thead-dark-red">
-    <tr>
-      <th>Name</th>
-      <ng-container *ngIf="isAdmin">
-        <th>Creation Date</th>
-        <th>Modification Date</th>
-        <th>Actions</th>
-      </ng-container>
-      <th class="text-center fst-italic lead fw-bold">i</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let program of programs$ | async" >
-      <td>{{ program.name }}</td>
-       <ng-container *ngIf="isAdmin">
-         <td>{{program.creationDate | date: dateFormat}}</td>
-         <td>{{program.modificationDate | date: dateFormat}}</td>
-         <td class="d-flex justify-content-center">
-           <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(program.id)">Edit</button>
-           <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
-         </td>
-       </ng-container>
-      <td class="text-center" [routerLink]="route ? route + '/' + program.id : null">
-        <span class="icon" >
-          <i class="bi bi-info-circle"></i>
-        </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<ng-container *ngIf="programs$ | async as programs">
+  <div class="table-responsive" *ngIf="programs.length > 0; else noProgramsFound">
+    <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden">
+      <thead class="thead-dark-red">
+      <tr>
+        <th>Name</th>
+        <ng-container *ngIf="isAdmin">
+          <th>Creation Date</th>
+          <th>Modification Date</th>
+          <th>Actions</th>
+        </ng-container>
+        <th class="text-center fst-italic lead fw-bold">i</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let program of programs">
+        <td>{{ program.name }}</td>
+        <ng-container *ngIf="isAdmin">
+          <td>{{ program.creationDate | date: dateFormat }}</td>
+          <td>{{ program.modificationDate | date: dateFormat }}</td>
+          <td class="d-flex justify-content-center">
+            <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(program.id)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
+          </td>
+        </ng-container>
+        <td class="text-center" [routerLink]="route ? route + '/' + program.id : null">
+          <span class="icon">
+            <i class="bi bi-info-circle"></i>
+          </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
 <ng-template #noProgramsFound>
   <p>No Programs Found.</p>
 </ng-template>

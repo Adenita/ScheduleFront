@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, Scroll } from '@angular/router';
-import { BehaviorSubject, combineLatest, filter, Observable, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, startWith, Subject, take, takeUntil } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,30 +20,31 @@ export class RouteParametersService {
   currentRoute$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   getNavigationEvent(router: Router, activatedRoute: ActivatedRoute, destroyed$: Subject<void>): Observable<void> {
-    const activatedRoute$ = activatedRoute.params.pipe(takeUntil(destroyed$));
-    const navigationEndEvent$ = router.events.pipe(
+    const activatedRoute$ = activatedRoute.params.pipe(
+      startWith(activatedRoute.snapshot.params),
       takeUntil(destroyed$),
-      filter((routerEvent): boolean => routerEvent instanceof NavigationEnd || routerEvent instanceof Scroll),
     );
 
-    return new Observable<void>((observer) => {
-      combineLatest([activatedRoute$, navigationEndEvent$]).subscribe({
-        next: ([params, event_2]) => {
-          // @ts-ignore
-          const eventUrl = event_2['url'];
-          if (eventUrl) {
-            this.currentRoute = eventUrl;
-          } else {
-            // @ts-ignore
-            this.currentRoute = activatedRoute.snapshot['_routerState'].url;
-          }
+    const navigationEndEvent$ = router.events.pipe(
+      filter((routerEvent): boolean => routerEvent instanceof NavigationEnd || routerEvent instanceof Scroll),
+      startWith(null),
+      takeUntil(destroyed$),
+    );
 
-          this.setIdsFromRoute(this.currentRoute);
-          this.currentRoute$.next(this.currentRoute);
-          observer.next();
-        },
-      });
-    });
+    return combineLatest([activatedRoute$, navigationEndEvent$]).pipe(
+      map(([params, event]) => {
+        const eventUrl = event && 'url' in event ? event.url : null;
+
+        if (eventUrl) {
+          this.currentRoute = eventUrl;
+        } else {
+          this.currentRoute = router.url;
+        }
+
+        this.setIdsFromRoute(this.currentRoute);
+        this.currentRoute$.next(this.currentRoute);
+      }),
+    );
   }
 
   getCurrentRoute(activatedRoute: ActivatedRoute) {

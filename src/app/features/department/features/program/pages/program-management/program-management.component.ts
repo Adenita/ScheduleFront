@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProgramService } from '../../../../../../core/services/http/program.service';
 import { DepartmentService } from '../../../../../../core/services/http/department.service';
@@ -38,22 +38,24 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private programModalManagementService: ProgramModalManagementService,
     private permissionService: PermissionService,
-    private cdr: ChangeDetectorRef,
   ) {
     this.programForm = this.buildFormGroup(formBuilder);
     this.programs$ = new BehaviorSubject<ProgramTransport[]>([]);
   }
 
   ngOnInit() {
-    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
-      next: () => {
-        this.initializeComponent(
-          this.routeParametersService.departmentId,
-          this.routeParametersService.currentRoute,
-          this.routeParametersService.currentRoute$,
-        );
-      },
-    });
+    this.routeParametersService
+      .getNavigationEvent(this.router, this.activatedRoute, this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.initializeComponent(
+            this.routeParametersService.departmentId,
+            this.routeParametersService.currentRoute,
+            this.routeParametersService.currentRoute$,
+          );
+        },
+      });
 
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
   }
@@ -63,13 +65,13 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
     this.departmentId = departmentId;
     this.routeParametersService.called = false;
 
-    currentRoute$.subscribe((route) => {
-      this.programId$.next(this.routeParametersService.programId);
-      this.cdr.detectChanges();
-    });
+    this.programId$.next(this.routeParametersService.programId);
 
     this.bindProgramModalData();
-    this.loadDepartmentPrograms(this.departmentId);
+
+    if (this.departmentId !== -1) {
+      this.loadDepartmentPrograms(this.departmentId);
+    }
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {

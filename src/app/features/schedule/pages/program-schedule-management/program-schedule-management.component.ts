@@ -38,14 +38,14 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
     this.programSchedule$ = new BehaviorSubject({} as ScheduleTransport);
   }
   ngOnInit() {
-    this.getRouteParameters()
-      .then(() => this.getInitialProgram(this.programId))
-      .then(() => this.getScheduleForProgram(this.scheduleId, this.programId))
-      .then(() => {
-        if (this.departmentId != -1) {
-          this.getDepartmentPrograms(this.departmentId);
-        }
-      });
+    this.getRouteParameters().then(() => {
+      this.getInitialProgram(this.programId);
+      this.getScheduleForProgram(this.scheduleId, this.programId);
+
+      if (this.departmentId !== -1) {
+        this.getDepartmentPrograms(this.departmentId);
+      }
+    });
   }
 
   getDepartmentPrograms(departmentId: number) {
@@ -60,6 +60,15 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getScheduleForProgram(scheduleId: number, programId: number) {
+    if (scheduleId === -1 || programId === -1) {
+      console.warn('Cannot load program schedule because route ids are invalid', {
+        scheduleId,
+        programId,
+        departmentId: this.departmentId,
+      });
+      return;
+    }
+
     this.scheduleDataService
       .getScheduleForProgram(scheduleId, programId)
       .pipe(takeUntil(this.destroyed$))
@@ -71,6 +80,13 @@ export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
   }
 
   getInitialProgram(programId: number) {
+    if (programId === -1) {
+      console.warn('Cannot load initial program because programId is invalid', {
+        programId,
+      });
+      return;
+    }
+
     this.programService
       .get(programId)
       .pipe(takeUntil(this.destroyed$))
