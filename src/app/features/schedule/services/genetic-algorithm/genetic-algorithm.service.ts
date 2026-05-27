@@ -3,8 +3,8 @@ import { Population } from '../../shared/models/population';
 import { Schedule } from '../../shared/models/schedule';
 import { PopulationService } from './population.service';
 import { Timeslot } from '../../../../shared/models/timeslots';
-import _ from 'lodash';
 import { FitnessService } from './fitness.service';
+import { EventTransport } from '../../shared/models/event';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +74,7 @@ export class GeneticAlgorithmService {
     const eventsLength: number = bestSchedule.events.length;
     for (let i = 0; i < eventsLength; i++) {
       if (bestSchedule.events[i].conflict) {
-        bestSchedule.events[i] = _.cloneDeep(secondBestSchedule.events[i]);
+        bestSchedule.events[i] = this.cloneEvent(secondBestSchedule.events[i]);
       }
     }
 
@@ -87,10 +87,10 @@ export class GeneticAlgorithmService {
     let secondBestSchedule: Schedule;
 
     if (schedule1.fitness > schedule2.fitness) {
-      bestSchedule = _.cloneDeep(schedule1);
+      bestSchedule = this.cloneSchedule(schedule1);
       secondBestSchedule = schedule2;
     } else {
-      bestSchedule = _.cloneDeep(schedule2);
+      bestSchedule = this.cloneSchedule(schedule2);
       secondBestSchedule = schedule1;
     }
     return { bestSchedule, secondBestSchedule };
@@ -113,7 +113,7 @@ export class GeneticAlgorithmService {
     const eliteSchedules: Schedule[] = [];
 
     for (let i = 0; i < this.eliteSchedules; i++) {
-      let eliteSchedule = _.cloneDeep(population.schedules[i]);
+      let eliteSchedule = this.cloneSchedule(population.schedules[i]);
       eliteSchedules.push(eliteSchedule);
     }
 
@@ -178,5 +178,22 @@ export class GeneticAlgorithmService {
 
   getRandomIndex(size: number): number {
     return Math.floor(Math.random() * size);
+  }
+
+  private cloneSchedule(schedule: Schedule): Schedule {
+    const clone = new Schedule();
+    clone.id = schedule.id;
+    clone.fitness = schedule.fitness;
+    clone.events = schedule.events.map((event) => this.cloneEvent(event));
+    clone.conflicts = schedule.conflicts.map((conflict) => ({
+      ...conflict,
+      event: this.cloneEvent(conflict.event),
+      nextEvent: this.cloneEvent(conflict.nextEvent),
+    }));
+    return clone;
+  }
+
+  private cloneEvent(event: EventTransport): EventTransport {
+    return structuredClone(event);
   }
 }
