@@ -15,7 +15,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 })
 export class DepartmentDetailsComponent implements OnInit, OnDestroy {
   departmentId: number = -1;
-  department$: BehaviorSubject<DepartmentDetailTransport>;
+  department$: BehaviorSubject<DepartmentDetailTransport | undefined>;
   isAdmin: boolean = false;
   hasPermission: boolean = false;
   destroyed$: Subject<void> = new Subject();
@@ -28,7 +28,7 @@ export class DepartmentDetailsComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private permissionService: PermissionService,
   ) {
-    this.department$ = new BehaviorSubject<DepartmentDetailTransport>({} as DepartmentDetailTransport);
+    this.department$ = new BehaviorSubject<DepartmentDetailTransport | undefined>(undefined);
   }
 
   ngOnInit(): void {

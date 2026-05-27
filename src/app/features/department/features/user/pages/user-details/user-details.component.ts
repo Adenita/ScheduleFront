@@ -10,7 +10,7 @@ import { StorageService } from '../../../../../../core/services/storage.service'
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent implements OnInit {
-  user: UserTransport = {} as UserTransport;
+  user?: UserTransport;
   constructor(
     private userService: UserService,
     private storageService: StorageService,

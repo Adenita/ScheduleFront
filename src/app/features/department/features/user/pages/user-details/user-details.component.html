@@ -1,4 +1,4 @@
-<div class="container justify-content-center" style="margin-top: 5em;" >
+<div class="container justify-content-center" style="margin-top: 5em;" *ngIf="user">
   <div class="card user-card-full">
     <div class="row mx-0">
       <div class="col-5 red-bg user-profile">
@@ -7,7 +7,7 @@
             <img src="/assets/hat-logo-inverse-mb-0.png" class="img-radius" alt="User-Profile-Image" style="width: 18em; height: 18em;">
           </div>
           <div style="color:white;">
-            <h4 class="f-w-600">USER | {{ user.name}}</h4>
+            <h4 class="f-w-600">USER | {{ user.name }}</h4>
             <h5 class="lead"> role | {{ user.role }}</h5>
           </div>
         </div>
@@ -49,7 +49,7 @@
           <div class="row mt-4">
             <div class="col-sm-6">
               <p class="mb-2 f-w-600">Department</p>
-              <h6 class="text-muted f-w-400">{{ user?.departmentTransport?.name }}</h6>
+              <h6 class="text-muted f-w-400">{{ user.departmentTransport.name }}</h6>
             </div>
             <div class="col-sm-6">
               <p class="mb-2 f-w-600">Username</p>
