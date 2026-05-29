@@ -1,12 +1,12 @@
-<div class="row mt-5">
-  <div class="col-md-10">
+<div class="schedule-detail-page">
+  <div class="schedule-main-panel">
     <div class="text-center">
       <h2 class="fw-bold mb-1">Program | <span class="red-text">{{selectedProgram$.getValue().name}}</span></h2>
       <h6 class="fst-italic fw-light">View the schedule offered in the program grouped format</h6>
     </div>
     <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
   </div>
-  <div class="col-md-2" style="margin-top:5em;">
+  <div class="schedule-side-panel">
     <div class="d-flex flex-column">
       <h4 class="fw-semibold">Programs</h4>
       <button *ngFor="let program of programs"
@@ -19,4 +19,3 @@
     </div>
   </div>
 </div>
-

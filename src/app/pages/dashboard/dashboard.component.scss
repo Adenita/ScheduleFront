@@ -1,0 +1,135 @@
+.dashboard-page {
+  padding: 2rem;
+}
+
+.welcome-banner {
+  background: var(--app-blue-soft);
+  border: 1px solid color-mix(in srgb, var(--app-blue) 22%, white);
+  border-radius: 8px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
+
+p,
+.stat-card span,
+.focus-item span {
+  color: var(--app-muted);
+}
+
+.section-label {
+  color: var(--app-red);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.banner-action {
+  background: var(--app-red);
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  white-space: nowrap;
+}
+
+.stats-grid,
+.action-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-block: 1.5rem;
+}
+
+.action-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.two-by-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.action-section + .action-section {
+  margin-top: 1rem;
+}
+
+.admin-layout {
+  align-items: start;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.primary-panel,
+.side-panel,
+.stat-card,
+.action-card {
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.stat-card,
+.action-card {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.tone-blue {
+  background: var(--app-blue-soft);
+}
+
+.tone-yellow {
+  background: var(--app-yellow-soft);
+}
+
+.tone-green {
+  background: var(--app-green-soft);
+}
+
+.tone-red {
+  background: color-mix(in srgb, var(--app-red) 10%, white);
+}
+
+.stat-card {
+  padding: 1rem;
+}
+
+.stat-card strong {
+  color: var(--app-ink);
+  font-size: 1.6rem;
+}
+
+.action-card {
+  min-height: 190px;
+  text-align: left;
+}
+
+.action-card i,
+.stat-card i {
+  font-size: 1.45rem;
+}
+
+.action-label {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  justify-self: start;
+  padding: 0.25rem 0.6rem;
+}
+
+.focus-item {
+  display: flex;
+  gap: 0.75rem;
+}

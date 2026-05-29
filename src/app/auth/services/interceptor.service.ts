@@ -11,6 +11,10 @@ export class InterceptorService implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    if (this.isAuthRequest(req)) {
+      return next.handle(req);
+    }
+
     const token = this.storageService.getAccessToken();
     if (token) {
       if (this.storageService.isTokenExpired(token)) {
@@ -25,5 +29,9 @@ export class InterceptorService implements HttpInterceptor {
       }
     }
     return next.handle(req);
+  }
+
+  private isAuthRequest(req: HttpRequest<any>): boolean {
+    return req.url.endsWith('/login') || req.url.endsWith('/register');
   }
 }

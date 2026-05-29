@@ -1,0 +1,86 @@
+<div class="dashboard-page">
+  <section class="welcome-banner">
+    <div>
+      <p class="section-label">Admin Workspace</p>
+      <h1>Welcome back<span *ngIf="username">, {{ username }}</span></h1>
+      <p class="lead mb-0">Manage academic data, prepare schedules, and keep role-based access organized.</p>
+    </div>
+    <button type="button" class="banner-action" *ngIf="isAdmin" (click)="router.navigate(['schedule-center'])">
+      <i class="bi bi-calendar-plus"></i>
+      Open Schedule Center
+    </button>
+  </section>
+
+  <section class="stats-grid" *ngIf="isAdmin">
+    <div class="stat-card" *ngFor="let stat of stats" [class]="'stat-card tone-' + stat.tone">
+      <i class="bi" [ngClass]="stat.icon"></i>
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+    </div>
+  </section>
+
+  <section class="admin-layout">
+    <div class="primary-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="section-label">Quick Actions</p>
+          <h2>What do you want to work on?</h2>
+        </div>
+      </div>
+
+      <div class="action-section">
+        <h3>Schedule Management</h3>
+        <div class="action-grid two-by-two">
+          <button
+            type="button"
+            class="action-card"
+            *ngFor="let action of scheduleActions"
+            [class]="'action-card tone-' + action.tone"
+            (click)="navigate(action)">
+            <span class="action-label">{{ action.label }}</span>
+            <i class="bi" [ngClass]="action.icon"></i>
+            <h4>{{ action.title }}</h4>
+            <p>{{ action.description }}</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="action-section" *ngIf="dataActions.length">
+        <h3>Data Management</h3>
+        <div class="action-grid two-by-two">
+          <button
+            type="button"
+            class="action-card"
+            *ngFor="let action of dataActions"
+            [class]="'action-card tone-' + action.tone"
+            (click)="navigate(action)">
+            <span class="action-label">{{ action.label }}</span>
+            <i class="bi" [ngClass]="action.icon"></i>
+            <h4>{{ action.title }}</h4>
+            <p>{{ action.description }}</p>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="side-panel" *ngIf="isAdmin">
+      <p class="section-label">Focus Areas</p>
+      <h2>Admin control map</h2>
+      <div class="focus-list">
+        <div class="focus-item">
+          <i class="bi bi-database"></i>
+          <span>Keep department records accurate before schedule generation.</span>
+        </div>
+        <div class="focus-item">
+          <i class="bi bi-shuffle"></i>
+          <span>Generate schedules after academic data and availability are updated.</span>
+        </div>
+        <div class="focus-item">
+          <i class="bi bi-person-check"></i>
+          <span>Review user roles as professors and students are added.</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+</div>

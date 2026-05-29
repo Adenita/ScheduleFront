@@ -71,6 +71,8 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
 
     if (this.departmentId !== -1) {
       this.loadDepartmentPrograms(this.departmentId);
+    } else {
+      this.loadPrograms();
     }
   }
 
@@ -88,6 +90,18 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
       },
       error: (err) => console.error('Error loading department programs', err),
     });
+  }
+
+  loadPrograms(): void {
+    this.programService
+      .getAll()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (programsTransport: ProgramListTransport) => {
+          this.programs$.next(programsTransport.programTransports);
+        },
+        error: (err) => console.error('Error loading programs', err),
+      });
   }
 
   postProgram() {
@@ -154,7 +168,8 @@ export class ProgramManagementComponent implements OnInit, OnDestroy {
   }
 
   openProgramFormModal() {
-    this.programModalManagementService.post = this.postProgramToDepartment.bind(this);
+    this.programModalManagementService.post =
+      this.departmentId !== -1 ? this.postProgramToDepartment.bind(this) : this.postProgram.bind(this);
     this.programModalManagementService.openFormModal(ProgramFormModalComponent, this.programModalData);
   }
 

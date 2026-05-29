@@ -1,0 +1,26 @@
+.schedule-detail-page {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  max-width: 100%;
+  padding: 3rem 1.5rem;
+}
+
+.schedule-main-panel {
+  min-width: 0;
+}
+
+.schedule-side-panel {
+  margin-top: 5rem;
+  min-width: 0;
+}
+
+@media (max-width: 992px) {
+  .schedule-detail-page {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-side-panel {
+    margin-top: 0;
+  }
+}

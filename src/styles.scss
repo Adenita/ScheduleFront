@@ -2,7 +2,19 @@
 @import 'node_modules/bootstrap-icons/font/bootstrap-icons.scss';
 
 :root {
- --bs-danger: #ce2a2d;
+  --app-red: #ce2a2d;
+  --app-ink: #111827;
+  --app-muted: #6b7280;
+  --app-border: #e5e7eb;
+  --app-surface: #ffffff;
+  --app-shell: #f8f9fa;
+  --app-blue: #2563eb;
+  --app-blue-soft: #dbeafe;
+  --app-yellow: #f59e0b;
+  --app-yellow-soft: #fef3c7;
+  --app-green: #16a34a;
+  --app-green-soft: #dcfce7;
+  --bs-danger: var(--app-red);
 }
 
 body {
@@ -51,7 +63,7 @@ main {
 }
 
 .thead-dark-red {
-  --bs-table-bg: #ce2a2d;
+  --bs-table-bg: var(--app-red);
   --bs-table-color: white;
   color: #ffffff;
 }
@@ -90,7 +102,7 @@ main {
 }
 
 .red-text {
-  color: #ce2a2d;
+  color: var(--app-red);
 }
 
 .light-gradient {

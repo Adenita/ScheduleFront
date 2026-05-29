@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, Type } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 import { ModalEventsService } from './modal-events.service';
 import { FormGroup } from '@angular/forms';
 
@@ -38,6 +38,10 @@ export class ModalManagementService<T, K extends GeneralModalData> implements On
     }
   }
   openFormModal(modalComponent: Type<T>, modalData: K) {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     const modalRef: NgbModalRef = this.modalService.open(modalComponent);
     this.updateModalComponentData(modalRef, modalData);
     this.handlePostEvent(modalRef, modalData, this.post);
@@ -51,19 +55,19 @@ export class ModalManagementService<T, K extends GeneralModalData> implements On
   }
 
   handleSelectEvent(modalRef: NgbModalRef, modalData: K) {
-    this.modalEventsService.selectEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+    this.modalEventsService.selectEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
       modalData.selectedId = id;
     });
   }
 
   handleCloseModalEvent(modalRef: NgbModalRef, modalData: K) {
-    this.modalEventsService.closeEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+    this.modalEventsService.closeEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
       this.resetSubjectFormState(modalData);
     });
   }
 
   handleUpdateEvent(modalRef: NgbModalRef, modalData: K, update: (id: number) => void) {
-    this.modalEventsService.updateEvent.pipe(takeUntil(this.destroyed$)).subscribe((id: number) => {
+    this.modalEventsService.updateEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
       update(id);
       this.resetSubjectFormState(modalData);
       modalRef.close();
@@ -71,7 +75,7 @@ export class ModalManagementService<T, K extends GeneralModalData> implements On
   }
 
   handlePostEvent(modalRef: NgbModalRef, modalData: K, post: () => void) {
-    this.modalEventsService.postEvent.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+    this.modalEventsService.postEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
       post();
       this.resetSubjectFormState(modalData);
       modalRef.close();

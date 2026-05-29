@@ -17,16 +17,22 @@ export class AuthenticationManagerService {
 
   login(loginForm: FormGroup) {
     if (loginForm.valid) {
+      const credentials = { ...loginForm.getRawValue() };
+
       this.authenticationService
-        .login(loginForm.value)
+        .login(credentials)
         .pipe()
         .subscribe({
           next: (tokenTransport: TokenTransport) => {
-            this.router.navigate(['/']).then(() => {
-              const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
-              this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
-              this.storageService.storedUser$.next(loggedUser);
-            });
+            const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
+            this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
+            this.storageService.storedUser$.next(loggedUser);
+            this.router.navigate(['/dashboard']);
+          },
+          error: (err) => {
+            console.error('Login failed', err);
+            this.storageService.removeUserAndTokenFromStorage();
+            this.storageService.storedUser$.next(null);
           },
         });
     }

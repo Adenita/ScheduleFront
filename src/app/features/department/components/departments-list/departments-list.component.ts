@@ -7,6 +7,9 @@ import { PermissionService } from '../../../../auth/services/permission.service'
 import { Role } from '../../../../shared/models/user';
 import { DepartmentModalData, DepartmentModalManagementService } from '../../services/department-modal-management.service';
 import { DepartmentFormModalComponent } from '../department-form-modal/department-form-modal.component';
+import { StorageService } from '../../../../core/services/storage.service';
+import { UserService } from '../../../../core/services/http/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-departments-list',
@@ -30,14 +33,41 @@ export class DepartmentsListComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private permissionService: PermissionService,
     private departmentModalManagementService: DepartmentModalManagementService,
+    private storageService: StorageService,
+    private userService: UserService,
+    private router: Router,
   ) {
     this.departmentForm = this.buildFormGroup(formBuilder);
     this.departments$ = new BehaviorSubject<DepartmentTransport[]>([]);
   }
 
   ngOnInit() {
-    this.loadDepartments();
     this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+    if (this.isAdmin) {
+      this.loadDepartments();
+    } else {
+      this.redirectToLinkedDepartment();
+    }
+  }
+
+  redirectToLinkedDepartment() {
+    const storedUser = this.storageService.getUser();
+    if (!storedUser?.username) {
+      return;
+    }
+
+    this.userService
+      .getUserByUsername(storedUser.username)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (user) => {
+          const departmentId = user.departmentTransport?.id;
+          if (departmentId) {
+            this.router.navigate(['/departments', departmentId]);
+          }
+        },
+        error: (err) => console.error('Error loading linked department', err),
+      });
   }
 
   buildFormGroup(formBuilder: FormBuilder): FormGroup {

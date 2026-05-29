@@ -90,7 +90,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
     this.route = this.routeParametersService.currentRoute;
 
     this.bindSubjectModalData();
-    if (this.professorId != -1) {
+    if (this.professorId != -1 && this.departmentId != -1) {
       this.getDepartmentSubjects();
     }
     this.getSubjectByContext();
@@ -99,6 +99,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
   getSubjectByContext() {
     if (this.programId != -1) this.getProgramSubjects();
     else if (this.professorId != -1) this.getProfessorSubjects();
+    else if (this.departmentId == -1) this.getSubjects();
     else this.getDepartmentSubjects();
   }
 
@@ -127,6 +128,7 @@ export class SubjectManagementComponent implements OnInit, OnDestroy {
             this.departmentSubjects$.next(subjectTransport.subjects);
           } else {
             this.subjects$.next(subjectTransport.subjects);
+            this.filteredSubjects$.next(subjectTransport.subjects);
           }
         },
         error: (err) => console.error('Error fetching subjects', err),

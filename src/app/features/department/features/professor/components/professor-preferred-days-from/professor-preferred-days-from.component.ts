@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { PreferredDayModalData, PreferredDayModalManagementService } from '../../services/preferred-day-modal-management.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ProfessorService } from '../../../../../../core/services/http/professor.service';
-import { RouteParametersService } from '../../../../../../core/services/route-parameters.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-professor-preferred-days-from',
@@ -31,7 +31,7 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
     private preferredDayModalManagementService: PreferredDayModalManagementService,
     private professorService: ProfessorService,
     private formBuilder: FormBuilder,
-    private routeParametersService: RouteParametersService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.preferredDayModalData = {} as PreferredDayModalData;
     this.form = this.formBuilder.group({
@@ -54,9 +54,11 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
       this.selectedDay,
     );
     this.professorPreferredDays$.next(this.sortPreferredDays(this.professorPreferredDays$.getValue()));
-    this.routeParametersService.currentRoute$.subscribe(() => {
-      this.professorId = this.routeParametersService.professorId;
-      this.getProfessor(this.professorId);
+    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.professorId = this.getProfessorIdFromRoute();
+      if (this.professorId !== -1) {
+        this.getProfessor(this.professorId);
+      }
     });
   }
 
@@ -103,6 +105,11 @@ export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
 
   sortPreferredDays(preferredDays: ProfessorPreferredDay[]): ProfessorPreferredDay[] {
     return preferredDays.sort((a, b) => this.days.indexOf(a.day) - this.days.indexOf(b.day));
+  }
+
+  private getProfessorIdFromRoute(): number {
+    const route = this.activatedRoute.pathFromRoot.find((routePart) => routePart.snapshot.paramMap.has('ppid'));
+    return Number(route?.snapshot.paramMap.get('ppid')) || -1;
   }
 
   updateProfessorPreferredDay(professorId: number) {

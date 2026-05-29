@@ -69,6 +69,7 @@ export class RouteParametersService {
     const departmentsIndex = parts.indexOf('departments');
     const programsIndex = parts.indexOf('programs');
     const professorsIndex = parts.indexOf('professors');
+    const selfIndex = parts.indexOf('self');
     const subjectsIndex = parts.indexOf('subjects');
     const classroomsIndex = parts.indexOf('classrooms');
     const schedulesIndex = parts.indexOf('schedules');
@@ -77,7 +78,7 @@ export class RouteParametersService {
 
     this._departmentId = +parts[departmentsIndex + 1] || null;
     this._programId = +parts[programsIndex + 1] || null;
-    this._professorId = +parts[professorsIndex + 1] || null;
+    this._professorId = +parts[professorsIndex + 1] || +parts[selfIndex + 1] || null;
     this._subjectId = +parts[subjectsIndex + 1] || null;
     this._scheduleId = +parts[schedulesIndex + 1] || null;
     this._classroomId = +parts[classroomsIndex + 1] || null;

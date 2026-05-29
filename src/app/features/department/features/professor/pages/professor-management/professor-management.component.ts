@@ -83,7 +83,11 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
     });
 
     this.bindProfessorModalData();
-    this.getDepartmentProfessors();
+    if (this.departmentId !== -1) {
+      this.getDepartmentProfessors();
+    } else {
+      this.getProfessors();
+    }
   }
 
   showProfessorDetails(): boolean {
@@ -134,7 +138,10 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
 
   getProfessors(): void {
     this.professorService.getAll().subscribe({
-      next: (professorListTransport: ProfessorListTransport) => this.professors$.next(professorListTransport.professorTransports),
+      next: (professorListTransport: ProfessorListTransport) => {
+        this.professors$.next(professorListTransport.professorTransports);
+        this.filteredProfessors$.next(professorListTransport.professorTransports);
+      },
       error: (err) => console.error('Error fetching professors', err),
     });
   }
@@ -213,7 +220,8 @@ export class ProfessorManagementComponent implements OnInit, OnDestroy {
   }
 
   openProfessorFormModal() {
-    this.professorModalManagementService.post = this.postProfessorToDepartment.bind(this);
+    this.professorModalManagementService.post =
+      this.departmentId !== -1 ? this.postProfessorToDepartment.bind(this) : this.postProfessor.bind(this);
     this.professorModalManagementService.openFormModal(ProfessorFormModalComponent, this.professorModalData);
   }
 

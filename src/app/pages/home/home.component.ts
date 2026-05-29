@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DepartmentService } from '../../core/services/http/department.service';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { DepartmentTransport } from '../../shared/models/department';
-import { Router } from '@angular/router';
+import { LoginFormModalComponent } from '../../auth/components/login-form-modal/login-form-modal.component';
+import { LoginModalData, LoginModalManagementService } from '../../auth/services/login-modal-management.service';
+import { AuthenticationManagerService } from '../../core/services/authentication-manager.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -11,36 +11,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  destroyed$: Subject<void> = new Subject<void>();
-  departments: BehaviorSubject<DepartmentTransport[]>;
+  loginForm: FormGroup;
+  loginModalData: LoginModalData = {} as LoginModalData;
 
   constructor(
-    private departmentService: DepartmentService,
-    private router: Router,
+    formBuilder: FormBuilder,
+    private authenticationManagerService: AuthenticationManagerService,
+    private loginModalManagementService: LoginModalManagementService,
   ) {
-    this.departments = new BehaviorSubject<DepartmentTransport[]>([]);
+    this.loginForm = formBuilder.group({
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    });
   }
 
   ngOnInit() {
-    this.getDepartments();
-  }
-  getDepartments() {
-    this.departmentService
-      .getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (departments) => {
-          this.departments.next(departments.departmentTransportList);
-        },
-        error: (err) => console.error('Error fetching departments', err),
-      });
+    this.loginModalData = this.loginModalManagementService.bindLoginModalData(this.loginForm);
   }
 
-  navigateToPage(id: number, path?: string) {
-    if (path) {
-      this.router.navigate(['departments', id, path]);
-    } else {
-      this.router.navigate(['departments', id]);
-    }
+  login() {
+    this.authenticationManagerService.login(this.loginForm);
+  }
+
+  openLogin() {
+    this.loginModalManagementService.post = this.login.bind(this);
+    this.loginModalManagementService.openFormModal(LoginFormModalComponent, this.loginModalData);
   }
 }

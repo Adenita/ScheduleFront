@@ -14,6 +14,7 @@ export interface UserTransport {
 export enum Role {
   ADMIN = 'ADMIN',
   PROFESSOR = 'PROFESSOR',
+  STUDENT = 'STUDENT',
 }
 
 export interface UserListTransport {
