@@ -65,22 +65,21 @@
     </div>
 
     <aside class="side-panel" *ngIf="isAdmin">
-      <p class="section-label">Focus Areas</p>
-      <h2>Admin control map</h2>
-      <div class="focus-list">
-        <div class="focus-item">
-          <i class="bi bi-database"></i>
-          <span>Keep department records accurate before schedule generation.</span>
-        </div>
-        <div class="focus-item">
-          <i class="bi bi-shuffle"></i>
-          <span>Generate schedules after academic data and availability are updated.</span>
-        </div>
-        <div class="focus-item">
-          <i class="bi bi-person-check"></i>
-          <span>Review user roles as professors and students are added.</span>
+      <p class="section-label">Notifications</p>
+      <h2>Latest activity</h2>
+      <div class="notification-list">
+        <div class="notification-item" *ngFor="let item of notifications" [class]="'notification-item tone-' + item.tone">
+          <i class="bi" [ngClass]="item.icon"></i>
+          <div>
+            <div class="notification-title">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.time }}</span>
+            </div>
+            <p>{{ item.description }}</p>
+          </div>
         </div>
       </div>
+      <small class="notification-note">Connect this panel to audit events when schedule generation and professor availability changes are persisted.</small>
     </aside>
   </section>
 </div>

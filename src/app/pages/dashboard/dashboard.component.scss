@@ -21,7 +21,7 @@ h4 {
 
 p,
 .stat-card span,
-.focus-item span {
+.notification-note {
   color: var(--app-muted);
 }
 
@@ -129,7 +129,30 @@ p,
   padding: 0.25rem 0.6rem;
 }
 
-.focus-item {
+.notification-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.notification-item {
+  border-radius: 8px;
   display: flex;
   gap: 0.75rem;
+  padding: 0.85rem;
+}
+
+.notification-title {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.notification-title span,
+.notification-note {
+  font-size: 0.78rem;
+}
+
+.notification-note {
+  display: block;
+  margin-top: 1rem;
 }

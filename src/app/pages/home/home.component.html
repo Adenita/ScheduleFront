@@ -1,59 +1,254 @@
-<section class="public-hero">
-  <div class="hero-copy">
-    <p class="section-label">University scheduling made clearer</p>
-    <h1>ScheduleUp</h1>
-    <p class="hero-text">
-      ScheduleUp helps departments build, review, and publish class schedules without burying students,
-      professors, and administrators in disconnected spreadsheets.
+<div class="logged-out-home">
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="hero-badge">
+        <i class="bi bi-stars"></i>
+        Smart university scheduling platform
+      </span>
+
+      <h1 class="hero-title">
+        Welcome to <span>ScheduleUP</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Your one-stop solution for managing university schedules
+      </p>
+
+      <p class="hero-description">
+        Generate optimized schedules, reduce conflicts, and help students and professors
+        find their weekly timetable with a clean and interactive interface.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/login" class="btn btn-danger btn-lg">
+          Get Started
+        </a>
+
+        <a routerLink="/about" class="btn btn-outline-dark btn-lg">
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <!-- MOCK APP PREVIEW -->
+    <div class="hero-preview">
+      <div class="preview-card main-preview-card">
+        <div class="preview-header">
+          <div>
+            <h5>Generated Schedule</h5>
+            <p>Computer Science · Semester 4</p>
+          </div>
+          <span class="status-pill">Optimized</span>
+        </div>
+
+        <div class="schedule-preview-row red">
+          <div>
+            <strong>Algorithms</strong>
+            <p>Prof. Arta Krasniqi</p>
+          </div>
+          <span>09:00</span>
+        </div>
+
+        <div class="schedule-preview-row blue">
+          <div>
+            <strong>Databases</strong>
+            <p>Lab 204</p>
+          </div>
+          <span>11:00</span>
+        </div>
+
+        <div class="schedule-preview-row yellow">
+          <div>
+            <strong>Software Engineering</strong>
+            <p>Room B12</p>
+          </div>
+          <span>13:30</span>
+        </div>
+      </div>
+
+      <div class="floating-card conflicts-card">
+        <i class="bi bi-shield-check"></i>
+        <div>
+          <strong>Conflict check</strong>
+          <p>Rooms, professors, and groups validated</p>
+        </div>
+      </div>
+
+      <div class="floating-card calendar-card">
+        <i class="bi bi-calendar-event"></i>
+        <div>
+          <strong>Google Calendar</strong>
+          <p>Integration coming soon</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="section-heading text-center">
+      <h2>What ScheduleUP does</h2>
+      <p>
+        A lighter way to generate, manage, and publish university schedules.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon red-bg">
+            <i class="bi bi-cpu"></i>
+          </div>
+          <h4>Genetic Algorithm Scheduling</h4>
+          <p>
+            Generate schedules automatically using optimization logic that helps reduce conflicts.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon blue-bg">
+            <i class="bi bi-search"></i>
+          </div>
+          <h4>Easy Schedule Lookup</h4>
+          <p>
+            Students and professors can quickly find their own timetable without browsing private data.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon yellow-bg">
+            <i class="bi bi-database-lock"></i>
+          </div>
+          <h4>Secure Data Management</h4>
+          <p>
+            Department data stays protected and is only available to authenticated users.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT PREVIEW -->
+  <section class="section product-section">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="section-tag">Product preview</span>
+        <h2>Designed for universities, departments, and academic staff.</h2>
+
+        <p>
+          ScheduleUP brings professors, subjects, rooms, groups, and generated schedules
+          into one organized platform.
+        </p>
+
+        <div class="check-list">
+          <div>
+            <i class="bi bi-check-circle-fill"></i>
+            Automatic schedule generation
+          </div>
+          <div>
+            <i class="bi bi-check-circle-fill"></i>
+            Room and professor conflict reduction
+          </div>
+          <div>
+            <i class="bi bi-check-circle-fill"></i>
+            Clean schedule views for end users
+          </div>
+          <div>
+            <i class="bi bi-check-circle-fill"></i>
+            Future Google Calendar synchronization
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="dashboard-mockup">
+          <div class="mockup-topbar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="mockup-grid">
+            <div class="mockup-sidebar">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <div class="mockup-content">
+              <div class="mockup-stat">
+                <strong>94%</strong>
+                <span>Schedule fit</span>
+              </div>
+
+              <div class="mockup-stat">
+                <strong>12</strong>
+                <span>Conflicts solved</span>
+              </div>
+
+              <div class="mockup-table">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="section-heading text-center">
+      <h2>How it works</h2>
+      <p>Simple flow. Powerful scheduling engine.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step-card">
+        <span>01</span>
+        <h4>Add university data</h4>
+        <p>Professors, subjects, rooms, groups, and constraints are added securely.</p>
+      </div>
+
+      <div class="step-card">
+        <span>02</span>
+        <h4>Generate schedules</h4>
+        <p>The system uses genetic algorithms to search for better schedule combinations.</p>
+      </div>
+
+      <div class="step-card">
+        <span>03</span>
+        <h4>Publish and view</h4>
+        <p>Users can access clean schedule views without exposing private management data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to simplify university scheduling?</h2>
+    <p>
+      Sign in to access your workspace, manage data, and generate schedules.
     </p>
-    <div class="hero-actions">
-      <button type="button" class="btn btn-danger" (click)="openLogin()">Login</button>
-      <a class="btn btn-outline-dark" routerLink="/aboutus">About Us</a>
-    </div>
-  </div>
-  <div class="hero-panel">
-    <img src="/assets/hat-logo-tr.png" alt="ScheduleUp logo">
-  </div>
-</section>
 
-<section class="content-band">
-  <div class="section-heading">
-    <p class="section-label">What we solve</p>
-    <h2>One reliable place for schedule planning</h2>
-  </div>
-  <div class="feature-grid">
-    <article>
-      <h3>Reduce manual conflicts</h3>
-      <p>Keep professors, classrooms, timeslots, programs, and student groups connected while schedules are generated and reviewed.</p>
-    </article>
-    <article>
-      <h3>Serve every role</h3>
-      <p>Admins manage the data, professors focus on teaching commitments, and students get clearer schedule access.</p>
-    </article>
-    <article>
-      <h3>Prepare for calendar sync</h3>
-      <p>The product is moving toward Google Calendar and email-linked schedules so published timeslots reach the people who need them.</p>
-    </article>
-  </div>
-</section>
+    <div>
+      <a routerLink="/login" class="btn btn-danger btn-lg me-2">
+        Sign In
+      </a>
 
-<section class="content-band muted">
-  <div class="section-heading">
-    <p class="section-label">What we offer</p>
-    <h2>Tools for the full scheduling workflow</h2>
-  </div>
-  <div class="offer-list">
-    <div>
-      <strong>Schedule generation</strong>
-      <span>Generate schedules and inspect conflicts before publishing.</span>
+      <a routerLink="/contact" class="btn btn-light btn-lg">
+        Contact Us
+      </a>
     </div>
-    <div>
-      <strong>Role-focused views</strong>
-      <span>View schedules by program, professor, and classroom.</span>
-    </div>
-    <div>
-      <strong>Department data management</strong>
-      <span>Maintain subjects, users, classrooms, professors, and student groups in one system.</span>
-    </div>
-  </div>
-</section>
+  </section>
+
+</div>

@@ -24,6 +24,14 @@ type DashboardStat = {
   tone: 'red' | 'blue' | 'yellow' | 'green';
 };
 
+type DashboardNotification = {
+  title: string;
+  description: string;
+  time: string;
+  icon: string;
+  tone: 'red' | 'blue' | 'yellow' | 'green';
+};
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -38,6 +46,29 @@ export class DashboardComponent implements OnInit {
     { label: 'Users', value: 0, icon: 'bi-people', tone: 'green' },
     { label: 'Schedule tools', value: 2, icon: 'bi-calendar-check', tone: 'yellow' },
     { label: 'Data areas', value: 6, icon: 'bi-diagram-3', tone: 'red' },
+  ];
+  notifications: DashboardNotification[] = [
+    {
+      title: 'Schedule generated',
+      description: 'Computer Science department schedule was prepared for review.',
+      time: 'Latest',
+      icon: 'bi-calendar-check',
+      tone: 'blue',
+    },
+    {
+      title: 'Preferred timeslot updated',
+      description: 'A professor changed availability for Monday morning.',
+      time: 'Recent',
+      icon: 'bi-clock-history',
+      tone: 'yellow',
+    },
+    {
+      title: 'Department data changed',
+      description: 'Subject and classroom data should be reviewed before the next generation.',
+      time: 'Today',
+      icon: 'bi-database',
+      tone: 'green',
+    },
   ];
 
   actions: DashboardAction[] = [
