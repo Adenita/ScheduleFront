@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isLoggedIn; else appShell">
-  <app-header-bar (loginClick)="openLoginModalData()"></app-header-bar>
+  <app-header-bar></app-header-bar>
 
   <main class="container public-main">
     <router-outlet></router-outlet>

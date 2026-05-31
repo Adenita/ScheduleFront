@@ -1,38 +1,101 @@
 <aside class="app-sidebar" (click)="toggleSidebar.emit()">
   <div class="sidebar-top">
-    <a class="sidebar-brand" routerLink="/dashboard" title="ScheduleUp" (click)="$event.stopPropagation()">
+    <a
+      class="sidebar-brand"
+      routerLink="/dashboard"
+      title="ScheduleUp"
+      (click)="$event.stopPropagation()"
+    >
       <img class="logo" src="/assets/logo.png" alt="logo">
-      <span *ngIf="!collapsed">ScheduleUp</span>
+
+      @if (!collapsed) {
+        <span>ScheduleUp</span>
+      }
     </a>
   </div>
 
   <nav class="sidebar-nav">
-    <a routerLink="/dashboard" routerLinkActive="active-link" title="Dashboard" (click)="$event.stopPropagation()">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active-link"
+      title="Dashboard"
+      (click)="$event.stopPropagation()"
+    >
       <i class="bi bi-speedometer2"></i>
-      <span *ngIf="!collapsed">Dashboard</span>
+
+      @if (!collapsed) {
+        <span>Dashboard</span>
+      }
     </a>
-    <a routerLink="/manage-data" routerLinkActive="active-link" title="Manage Data" (click)="$event.stopPropagation()">
+
+    <a
+      routerLink="/manage-data"
+      routerLinkActive="active-link"
+      title="Manage Data"
+      (click)="$event.stopPropagation()"
+    >
       <i class="bi bi-folder2-open"></i>
-      <span *ngIf="!collapsed">Manage Data</span>
+
+      @if (!collapsed) {
+        <span>Manage Data</span>
+      }
     </a>
-    <a routerLink="/schedule-center" routerLinkActive="active-link" title="Schedules" (click)="$event.stopPropagation()">
+
+    <a
+      routerLink="/schedule-center"
+      routerLinkActive="active-link"
+      title="Schedules"
+      (click)="$event.stopPropagation()"
+    >
       <i class="bi bi-calendar3"></i>
-      <span *ngIf="!collapsed">Schedules</span>
+
+      @if (!collapsed) {
+        <span>Schedules</span>
+      }
     </a>
-    <a *ngIf="isProfessor && currentUser" [routerLink]="['/me', 'self', currentUser.id, 'preferred']" routerLinkActive="active-link" title="My Workspace" (click)="$event.stopPropagation()">
-      <i class="bi bi-clock-history"></i>
-      <span *ngIf="!collapsed">My Workspace</span>
-    </a>
+
+    @if (isProfessor && currentUser) {
+      <a
+        [routerLink]="['/me', 'self', currentUser.id, 'preferred']"
+        routerLinkActive="active-link"
+        title="My Workspace"
+        (click)="$event.stopPropagation()"
+      >
+        <i class="bi bi-clock-history"></i>
+
+        @if (!collapsed) {
+          <span>My Workspace</span>
+        }
+      </a>
+    }
   </nav>
 
   <div class="sidebar-user">
-    <button type="button" class="profile-link" [routerLink]="['/users/profile']" title="Profile" (click)="$event.stopPropagation()">
+    <button
+      type="button"
+      class="profile-link"
+      [routerLink]="['/users/profile']"
+      title="Profile"
+      (click)="$event.stopPropagation()"
+    >
       <i class="bi bi-person-circle"></i>
-      <span *ngIf="!collapsed">{{ username }}</span>
+
+      @if (!collapsed) {
+        <span>{{ username }}</span>
+      }
     </button>
-    <button type="button" class="btn btn-sm logout-button" (click)="$event.stopPropagation(); logoutClick.emit()" title="Logout">
+
+    <button
+      type="button"
+      class="btn btn-sm logout-button"
+      (click)="$event.stopPropagation(); logoutClick.emit()"
+      title="Logout"
+    >
       <i class="bi bi-box-arrow-right"></i>
-      <span *ngIf="!collapsed">Logout</span>
+
+      @if (!collapsed) {
+        <span>Logout</span>
+      }
     </button>
   </div>
 </aside>

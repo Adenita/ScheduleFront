@@ -4,6 +4,7 @@ import { AuthenticationService } from './http/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { TokenTransport } from '../../shared/models/authentication';
 import { StorageService } from './storage.service';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,27 +16,30 @@ export class AuthenticationManagerService {
     private storageService: StorageService,
   ) {}
 
-  login(loginForm: FormGroup) {
+  login(loginForm: FormGroup): Observable<boolean> {
     if (loginForm.valid) {
       const credentials = { ...loginForm.getRawValue() };
 
-      this.authenticationService
+      return this.authenticationService
         .login(credentials)
-        .pipe()
-        .subscribe({
-          next: (tokenTransport: TokenTransport) => {
+        .pipe(
+          tap((tokenTransport: TokenTransport) => {
             const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
             this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
             this.storageService.storedUser$.next(loggedUser);
             this.router.navigate(['/dashboard']);
-          },
-          error: (err) => {
+          }),
+          map(() => true),
+          catchError((err) => {
             console.error('Login failed', err);
             this.storageService.removeUserAndTokenFromStorage();
             this.storageService.storedUser$.next(null);
-          },
-        });
+            return of(false);
+          }),
+        );
     }
+
+    return of(false);
   }
 
   logout() {

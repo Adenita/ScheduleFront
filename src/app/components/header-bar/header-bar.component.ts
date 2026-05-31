@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-header-bar',
@@ -7,6 +7,4 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./header-bar.component.scss'],
 })
 export class HeaderBarComponent {
-  @Output()
-  loginClick: EventEmitter<void> = new EventEmitter<void>();
 }

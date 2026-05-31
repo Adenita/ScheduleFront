@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthModule } from './auth/auth.module';
+import { LoginPageComponent } from './auth/components/login-page/login-page.component';
 import { CustomRouterLinkActiveDirective } from './directives/custom-router-link-active.directive';
 import { AboutusComponent } from './pages/aboutus/aboutus.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'aboutus',
     component: AboutusComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
   },
   {
     path: 'dashboard',
