@@ -1,24 +1,36 @@
 <div class="w-full overflow-x-auto" *ngIf="schedules$?.getValue() && schedules$.getValue().length > 0; else noClassroomsFound">
-  <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 overflow-scroll">
-    <thead class="bg-[var(--app-red)] text-white">
-    <tr>
-      <th>Semester</th>
-      <th>Creation Date</th>
-      <th *ngIf="isAdmin">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let schedule of schedules$ | async">
-      <td>{{ schedule.semester }}</td>
-      <td>{{ schedule.creationDate | date: dateFormat}}</td>
-      <td *ngIf="isAdmin" class="flex justify-center">
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1" (click)="onEditClick(schedule.id)">Edit</button>
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white" (click)="onDeleteClick(schedule.id)">Delete</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <table
+        class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 overflow-scroll"
+    >
+        <thead class="bg-[var(--app-red)] text-white">
+            <tr>
+                <th>Semester</th>
+                <th>Creation Date</th>
+                <th *ngIf="isAdmin">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let schedule of schedules$ | async">
+                <td>{{ schedule.semester }}</td>
+                <td>{{ schedule.creationDate | date: dateFormat }}</td>
+                <td *ngIf="isAdmin" class="flex justify-center">
+                    <button
+                        class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1"
+                        (click)="onEditClick(schedule.id)"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white"
+                        (click)="onDeleteClick(schedule.id)"
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <ng-template #noClassroomsFound>
-  <p>No Schedules Found.</p>
+    <p>No Schedules Found.</p>
 </ng-template>

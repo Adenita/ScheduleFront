@@ -1,97 +1,137 @@
 <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 py-4 mt-12">
-  <ng-container *ngIf="departmentTransport$ | async as departmentTransport">
-      <div class="flex flex-wrap">
-        <div>
-          <div class="flex flex-wrap">
-            <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 text-center">
-              <h2 class="font-extrabold">Department | <span class="red-text">{{departmentTransport.name}}</span></h2>
-              <h6 class="italic mb-4">Explore various schedule formats tailored to meet your specific requirements.</h6>
-            </div>
-          </div>
-          <ng-container *ngIf="currentBestSchedule$ | async as currentBestSchedule">
-          <div class="flex flex-wrap">
-            <div  class="md:w-1/2 mb-4">
-              <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
-                <div class="p-4">
-                  <div class="flex justify-between items-center">
-                    <div>
-                      <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">Programs <span class="red-text">Schedules</span></h3>
-                      <p class="text-xl leading-relaxed">View latest program schedules.</p>
+    <ng-container *ngIf="departmentTransport$ | async as departmentTransport">
+        <div class="flex flex-wrap">
+            <div>
+                <div class="flex flex-wrap">
+                    <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 text-center">
+                        <h2 class="font-extrabold">
+                            Department | <span class="red-text">{{ departmentTransport.name }}</span>
+                        </h2>
+                        <h6 class="italic mb-4">Explore various schedule formats tailored to meet your specific requirements.</h6>
                     </div>
-                    <div class="searchbar mb-3">
-                      <input class="search_input" type="text" name="" placeholder="Search...">
-                      <span class="search_icon"><i class="bi bi-search"></i></span>
-                    </div>
-                  </div>
-                  <div *ngIf="currentBestSchedule && departmentTransport.programTransports && departmentTransport.programTransports.length > 0; else noProgramSchedules">
-                    <button *ngFor="let program of departmentTransport.programTransports"
-                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-program"
-                            (click)="navigateToPage('programs', program.id)">
-                      {{program.name}}
-                    </button>
-                  </div>
-                  <ng-template #noProgramSchedules>
-                    <p class="italic text-xl leading-relaxed">No program schedules found!</p>
-                  </ng-template>
                 </div>
-              </div>
+                <ng-container *ngIf="currentBestSchedule$ | async as currentBestSchedule">
+                    <div class="flex flex-wrap">
+                        <div class="md:w-1/2 mb-4">
+                            <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
+                                <div class="p-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">
+                                                Programs <span class="red-text">Schedules</span>
+                                            </h3>
+                                            <p class="text-xl leading-relaxed">View latest program schedules.</p>
+                                        </div>
+                                        <div class="searchbar mb-3">
+                                            <input class="search_input" type="text" name="" placeholder="Search..." />
+                                            <span class="search_icon"><i class="bi bi-search"></i></span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            currentBestSchedule &&
+                                                departmentTransport.programTransports &&
+                                                departmentTransport.programTransports.length > 0;
+                                            else noProgramSchedules
+                                        "
+                                    >
+                                        <button
+                                            *ngFor="let program of departmentTransport.programTransports"
+                                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-program"
+                                            (click)="navigateToPage('programs', program.id)"
+                                        >
+                                            {{ program.name }}
+                                        </button>
+                                    </div>
+                                    <ng-template #noProgramSchedules>
+                                        <p class="italic text-xl leading-relaxed">No program schedules found!</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 mb-4">
+                            <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
+                                <div class="p-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">
+                                                Classrooms <span class="red-text">Schedule</span>
+                                            </h3>
+                                            <p class="text-xl leading-relaxed">View latest classroom schedules.</p>
+                                        </div>
+                                        <div class="searchbar mb-3">
+                                            <input class="search_input" type="text" name="" placeholder="Search..." />
+                                            <span class="search_icon"><i class="bi bi-search"></i></span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            currentBestSchedule &&
+                                                departmentTransport.classrooms &&
+                                                departmentTransport.classrooms.length > 0;
+                                            else noClassroomSchedules
+                                        "
+                                    >
+                                        <button
+                                            *ngFor="let classroom of departmentTransport.classrooms"
+                                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-classroom"
+                                            (click)="navigateToPage('classrooms', classroom.id)"
+                                        >
+                                            {{ classroom.name }}
+                                        </button>
+                                    </div>
+                                    <ng-template #noClassroomSchedules>
+                                        <p class="italic text-xl leading-relaxed">No classroom schedules found!</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-full mb-4">
+                            <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
+                                <div class="p-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">
+                                                Professors <span class="red-text">Schedule</span>
+                                            </h3>
+                                            <p class="text-xl leading-relaxed">View latest professor schedules.</p>
+                                        </div>
+                                        <div class="searchbar mb-3">
+                                            <input
+                                                class="search_input"
+                                                type="text"
+                                                name=""
+                                                placeholder="Search..."
+                                                (input)="onSearch($event)"
+                                            />
+                                            <span class="search_icon"><i class="bi bi-search"></i></span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            currentBestSchedule &&
+                                                departmentTransport.professorTransports &&
+                                                departmentTransport.professorTransports.length > 0;
+                                            else noProfessorSchedules
+                                        "
+                                    >
+                                        <button
+                                            *ngFor="let professor of filteredProfessors$ | async"
+                                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-professor"
+                                            (click)="navigateToPage('professors', professor.id)"
+                                        >
+                                            {{ professor.name }}
+                                        </button>
+                                    </div>
+                                    <ng-template #noProfessorSchedules>
+                                        <p class="italic text-xl leading-relaxed">No professor schedules found!</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
-            <div  class="md:w-1/2 mb-4">
-              <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
-                <div class="p-4">
-                  <div class="flex justify-between items-center">
-                    <div>
-                      <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">Classrooms <span class="red-text">Schedule</span></h3>
-                      <p class="text-xl leading-relaxed">View latest classroom schedules.</p>
-                    </div>
-                    <div class="searchbar mb-3">
-                      <input class="search_input" type="text" name="" placeholder="Search...">
-                      <span class="search_icon"><i class="bi bi-search"></i></span>
-                    </div>
-                  </div>
-                  <div *ngIf="currentBestSchedule && departmentTransport.classrooms && departmentTransport.classrooms.length > 0; else noClassroomSchedules">
-                    <button *ngFor="let classroom of departmentTransport.classrooms"
-                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-classroom"
-                            (click)="navigateToPage('classrooms', classroom.id)">
-                      {{classroom.name}}
-                    </button>
-                  </div>
-                  <ng-template #noClassroomSchedules>
-                    <p class="italic text-xl leading-relaxed">No classroom schedules found!</p>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-            <div class="md:w-full mb-4">
-              <div class="rounded-lg border border-slate-200 bg-white h-full py-2 px-3 shadow-sm">
-                <div class="p-4">
-                  <div class="flex justify-between items-center">
-                    <div>
-                      <h3 class="font-bold mb-2 text-lg font-semibold text-slate-950 mb-0">Professors <span class="red-text">Schedule</span></h3>
-                      <p class="text-xl leading-relaxed">View latest professor schedules.</p>
-                    </div>
-                    <div class="searchbar mb-3">
-                      <input class="search_input" type="text" name="" placeholder="Search..."  (input)="onSearch($event)">
-                      <span class="search_icon"><i class="bi bi-search"></i></span>
-                    </div>
-
-                  </div>
-                  <div *ngIf="currentBestSchedule && departmentTransport.professorTransports && departmentTransport.professorTransports.length > 0; else noProfessorSchedules">
-                    <button *ngFor="let professor of filteredProfessors$ | async"
-                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2 schedule-link-button schedule-link-button-professor"
-                            (click)="navigateToPage('professors', professor.id)">
-                      {{professor.name}}
-                    </button>
-                  </div>
-                  <ng-template #noProfessorSchedules>
-                    <p class="italic text-xl leading-relaxed">No professor schedules found!</p>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-          </div>
-          </ng-container>
         </div>
-</div>
     </ng-container>
 </div>

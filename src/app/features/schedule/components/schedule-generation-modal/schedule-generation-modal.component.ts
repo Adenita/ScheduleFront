@@ -6,38 +6,38 @@ import { ScheduleTransport } from '../../shared/models/schedule';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 
 @Component({
-  selector: 'app-generate-schedule-modal',
-  standalone: false,
-  templateUrl: './schedule-generation-modal.component.html',
+    selector: 'app-generate-schedule-modal',
+    standalone: false,
+    templateUrl: './schedule-generation-modal.component.html',
 })
 export class ScheduleGenerationModalComponent {
-  @Input()
-  bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
+    @Input()
+    bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
 
-  @Input()
-  schedules$!: BehaviorSubject<ScheduleTransport[]>;
+    @Input()
+    schedules$!: BehaviorSubject<ScheduleTransport[]>;
 
-  @Input()
-  departmentId!: number;
+    @Input()
+    departmentId!: number;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    public scheduleDataService: ScheduleDataService,
-  ) {}
-  closeModal() {
-    this.activeModal.close();
-  }
+    constructor(
+        public activeModal: NgbActiveModal,
+        public scheduleDataService: ScheduleDataService,
+    ) {}
+    closeModal() {
+        this.activeModal.close();
+    }
 
-  saveSchedule() {
-    const scheduleTransport: ScheduleTransport = {
-      events: this.bestScheduleEvents$.getValue(),
-      fitness: 1,
-    } as ScheduleTransport;
-    this.scheduleDataService.addScheduleToDepartment(scheduleTransport, this.departmentId).subscribe({
-      next: (scheduleTransport: ScheduleTransport) => {
-        this.schedules$.next([...this.schedules$.getValue(), scheduleTransport]);
-        this.closeModal();
-      },
-    });
-  }
+    saveSchedule() {
+        const scheduleTransport: ScheduleTransport = {
+            events: this.bestScheduleEvents$.getValue(),
+            fitness: 1,
+        } as ScheduleTransport;
+        this.scheduleDataService.addScheduleToDepartment(scheduleTransport, this.departmentId).subscribe({
+            next: (scheduleTransport: ScheduleTransport) => {
+                this.schedules$.next([...this.schedules$.getValue(), scheduleTransport]);
+                this.closeModal();
+            },
+        });
+    }
 }

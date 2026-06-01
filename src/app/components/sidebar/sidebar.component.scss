@@ -1,114 +1,114 @@
 .app-sidebar {
-  background: #f8f9fa;
-  border-right: 1px solid #e5e7eb;
-  color: #212529;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 1.25rem;
+    background: #f8f9fa;
+    border-right: 1px solid #e5e7eb;
+    color: #212529;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 1.25rem;
 }
 
 .logo {
-  height: 2em;
-  width: 3.5em;
+    height: 2em;
+    width: 3.5em;
 }
 
 .sidebar-top {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .sidebar-brand {
-  align-items: center;
-  color: #ce2a2d;
-  display: flex;
-  font-size: 1.1rem;
-  font-weight: 700;
-  gap: 0.75rem;
-  text-decoration: none;
+    align-items: center;
+    color: #ce2a2d;
+    display: flex;
+    font-size: 1.1rem;
+    font-weight: 700;
+    gap: 0.75rem;
+    text-decoration: none;
 }
 
 .sidebar-nav {
-  display: grid;
-  gap: 0.35rem;
+    display: grid;
+    gap: 0.35rem;
 }
 
 .sidebar-nav a,
 .profile-link {
-  align-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 6px;
-  color: #4b5563;
-  cursor: pointer;
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: 1.25rem minmax(0, 1fr);
-  padding: 0.65rem 0.75rem;
-  text-align: left;
-  text-decoration: none;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: #4b5563;
+    cursor: pointer;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    text-decoration: none;
 }
 
 .sidebar-nav a i,
 .profile-link i {
-  justify-self: center;
+    justify-self: center;
 }
 
 .sidebar-nav a:hover,
 .profile-link:hover {
-  background: #fff;
-  color: #ce2a2d;
+    background: #fff;
+    color: #ce2a2d;
 }
 
 .sidebar-nav .active-link {
-  background: #ce2a2d;
-  color: #fff;
+    background: #ce2a2d;
+    color: #fff;
 }
 
 .sidebar-user {
-  border-top: 1px solid #e5e7eb;
-  display: grid;
-  gap: 0.75rem;
-  margin-top: auto;
-  padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1rem;
 }
 
 .logout-button {
-  align-items: center;
-  background: #e5e7eb;
-  border: 1px solid #d1d5db;
-  color: #374151;
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: 1.25rem minmax(0, 1fr);
-  justify-content: center;
+    align-items: center;
+    background: #e5e7eb;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    justify-content: center;
 }
 
 .logout-button:hover {
-  background: #d1d5db;
-  border-color: #c4c9d2;
-  color: #111827;
+    background: #d1d5db;
+    border-color: #c4c9d2;
+    color: #111827;
 }
 
 .logout-button i {
-  justify-self: center;
+    justify-self: center;
 }
 
 :host-context(.sidebar-collapsed) .app-sidebar {
-  padding-inline: 1rem;
+    padding-inline: 1rem;
 }
 
 :host-context(.sidebar-collapsed) .sidebar-brand,
 :host-context(.sidebar-collapsed) .sidebar-nav a,
 :host-context(.sidebar-collapsed) .profile-link {
-  grid-template-columns: 1.25rem;
-  justify-content: center;
-  padding-inline: 0;
+    grid-template-columns: 1.25rem;
+    justify-content: center;
+    padding-inline: 0;
 }
 
 :host-context(.sidebar-collapsed) .logout-button {
-  grid-template-columns: 1.25rem;
+    grid-template-columns: 1.25rem;
 }

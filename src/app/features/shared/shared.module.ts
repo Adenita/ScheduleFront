@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ScheduleListComponent } from './components/schedule-list/schedule-list.component';
 @NgModule({
-  declarations: [ScheduleListComponent],
-  imports: [CommonModule, FormsModule],
-  exports: [RouterModule, ScheduleListComponent],
+    declarations: [ScheduleListComponent],
+    imports: [CommonModule, FormsModule],
+    exports: [RouterModule, ScheduleListComponent],
 })
 export class FeatureSharedModule {}

@@ -1,117 +1,117 @@
 /* Shared layout container */
 .app-container {
-  width: 100%;
-  max-width: 90%;
-  margin: 0 auto;
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
 }
 
 .public-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
 
-  border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
 }
 
 /* Navbar */
 .public-navbar {
-  height: 72px;
+    height: 72px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Brand */
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .brand-logo {
-  height: 40px;
-  width: auto;
+    height: 40px;
+    width: auto;
 }
 
 .brand-name {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #ce2a2d;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ce2a2d;
 }
 
 /* Right side */
 .nav-section {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 .nav-item {
-  color: #4b5563;
-  text-decoration: none;
-  font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 500;
 
-  transition: color 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 .nav-item:hover {
-  color: #ce2a2d;
+    color: #ce2a2d;
 }
 
 .active-link {
-  color: #ce2a2d;
-  font-weight: 700;
+    color: #ce2a2d;
+    font-weight: 700;
 }
 
 /* Login button */
 .login-btn {
-  border: 1px solid #ce2a2d;
-  background: transparent;
-  color: #ce2a2d;
+    border: 1px solid #ce2a2d;
+    background: transparent;
+    color: #ce2a2d;
 
-  padding: 0.55rem 1.2rem;
-  border-radius: 12px;
+    padding: 0.55rem 1.2rem;
+    border-radius: 12px;
 
-  font-weight: 600;
+    font-weight: 600;
 
-  transition: all 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .login-btn:hover {
-  background: #ce2a2d;
-  color: white;
+    background: #ce2a2d;
+    color: white;
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .app-container {
-    max-width: 100%;
-    padding: 0 1rem;
-  }
+    .app-container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
 
-  .public-navbar {
-    height: 64px;
-  }
+    .public-navbar {
+        height: 64px;
+    }
 
-  .brand-name {
-    display: none;
-  }
+    .brand-name {
+        display: none;
+    }
 
-  .nav-section {
-    gap: 1rem;
-  }
+    .nav-section {
+        gap: 1rem;
+    }
 
-  .nav-item {
-    font-size: 0.9rem;
-  }
+    .nav-item {
+        font-size: 0.9rem;
+    }
 
-  .login-btn {
-    padding: 0.45rem 1rem;
-  }
+    .login-btn {
+        padding: 0.45rem 1rem;
+    }
 }

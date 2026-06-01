@@ -1,56 +1,56 @@
 .manage-page {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .page-heading {
-  border-bottom: 1px solid var(--app-border);
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+    border-bottom: 1px solid var(--app-border);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
 }
 
 h2,
 .option-card span {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .page-heading p,
 .option-card small {
-  color: var(--app-muted);
+    color: var(--app-muted);
 }
 
 .option-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .option-card {
-  border: 1px solid var(--app-border);
-  border-radius: 8px;
-  color: var(--app-ink);
-  display: grid;
-  gap: 0.45rem;
-  min-height: 150px;
-  padding: 1.25rem;
-  text-decoration: none;
+    border: 1px solid var(--app-border);
+    border-radius: 8px;
+    color: var(--app-ink);
+    display: grid;
+    gap: 0.45rem;
+    min-height: 150px;
+    padding: 1.25rem;
+    text-decoration: none;
 }
 
 .option-card i {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .tone-blue {
-  background: var(--app-blue-soft);
+    background: var(--app-blue-soft);
 }
 
 .tone-yellow {
-  background: var(--app-yellow-soft);
+    background: var(--app-yellow-soft);
 }
 
 .tone-green {
-  background: var(--app-green-soft);
+    background: var(--app-green-soft);
 }
 
 .tone-red {
-  background: color-mix(in srgb, var(--app-red) 10%, white);
+    background: color-mix(in srgb, var(--app-red) 10%, white);
 }

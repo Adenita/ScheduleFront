@@ -3,42 +3,42 @@ import { BehaviorSubject } from 'rxjs';
 import { SubjectTransport } from '../../../../../shared/models/subject';
 
 @Component({
-  selector: 'app-subject-list',
-  standalone: false,
-  templateUrl: './subject-list.component.html',
+    selector: 'app-subject-list',
+    standalone: false,
+    templateUrl: './subject-list.component.html',
 })
 export class SubjectListComponent {
-  @Input()
-  subjects$!: BehaviorSubject<SubjectTransport[]>;
+    @Input()
+    subjects$!: BehaviorSubject<SubjectTransport[]>;
 
-  @Input()
-  isAdmin!: boolean;
+    @Input()
+    isAdmin!: boolean;
 
-  @Input()
-  route!: string;
+    @Input()
+    route!: string;
 
-  @Output()
-  editEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output()
+    editEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  @Output()
-  selectEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output()
+    selectEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  @Output()
-  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
-  dateFormat: string = 'MMM d yyyy HH:mm';
+    @Output()
+    deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+    dateFormat: string = 'MMM d yyyy HH:mm';
 
-  onEditClick(event: any, id: number) {
-    event.stopPropagation();
-    this.editEvent.emit(id);
-  }
+    onEditClick(event: any, id: number) {
+        event.stopPropagation();
+        this.editEvent.emit(id);
+    }
 
-  onDeleteClick(event: any, id: number) {
-    event.stopPropagation();
-    this.deleteEvent.emit(id);
-  }
+    onDeleteClick(event: any, id: number) {
+        event.stopPropagation();
+        this.deleteEvent.emit(id);
+    }
 
-  onSelectClick(event: any, id: number) {
-    event.stopPropagation();
-    this.selectEvent.emit(id);
-  }
+    onSelectClick(event: any, id: number) {
+        event.stopPropagation();
+        this.selectEvent.emit(id);
+    }
 }

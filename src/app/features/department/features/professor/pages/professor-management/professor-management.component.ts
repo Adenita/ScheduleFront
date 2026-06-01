@@ -12,230 +12,234 @@ import { Role } from '../../../../../../shared/models/user';
 import { PermissionService } from '../../../../../../auth/services/permission.service';
 
 @Component({
-  selector: 'app-professors-management',
-  standalone: false,
-  templateUrl: './professor-management.component.html',
-  styleUrls: ['./professor-management.component.scss'],
+    selector: 'app-professors-management',
+    standalone: false,
+    templateUrl: './professor-management.component.html',
+    styleUrls: ['./professor-management.component.scss'],
 })
 export class ProfessorManagementComponent implements OnInit, OnDestroy {
-  departmentId: number = -1;
-  programId: number = -1;
-  professorId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
-  route: string = '';
+    departmentId: number = -1;
+    programId: number = -1;
+    professorId$: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+    route: string = '';
 
-  professors$: BehaviorSubject<ProfessorTransport[]>;
+    professors$: BehaviorSubject<ProfessorTransport[]>;
 
-  filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
-  searchQuery: string = '';
+    filteredProfessors$: BehaviorSubject<ProfessorTransport[]>;
+    searchQuery: string = '';
 
-  professorForm: FormGroup;
-  professorToBeEditedId: number = -1;
-  professorModalData: ProfessorModalData = {} as ProfessorModalData;
-  professorRoles: Rank[] = Object.values(Rank);
-  roles: Role[] = Object.values(Role);
+    professorForm: FormGroup;
+    professorToBeEditedId: number = -1;
+    professorModalData: ProfessorModalData = {} as ProfessorModalData;
+    professorRoles: Rank[] = Object.values(Rank);
+    roles: Role[] = Object.values(Role);
 
-  isEditMode: boolean = false;
-  isAdmin: boolean = false;
+    isEditMode: boolean = false;
+    isAdmin: boolean = false;
 
-  destroyed$: Subject<void> = new Subject<void>();
+    destroyed$: Subject<void> = new Subject<void>();
 
-  constructor(
-    formBuilder: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private routeParametersService: RouteParametersService,
-    private departmentService: DepartmentService,
-    private professorService: ProfessorService,
-    private professorModalManagementService: ProfessorModalManagementService,
-    private permissionService: PermissionService,
-    private cdr: ChangeDetectorRef,
-  ) {
-    this.professorForm = this.buildFormGroup(formBuilder);
-    this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
-    this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
-  }
+    constructor(
+        formBuilder: FormBuilder,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private routeParametersService: RouteParametersService,
+        private departmentService: DepartmentService,
+        private professorService: ProfessorService,
+        private professorModalManagementService: ProfessorModalManagementService,
+        private permissionService: PermissionService,
+        private cdr: ChangeDetectorRef,
+    ) {
+        this.professorForm = this.buildFormGroup(formBuilder);
+        this.professors$ = new BehaviorSubject<ProfessorTransport[]>([]);
+        this.filteredProfessors$ = new BehaviorSubject<ProfessorTransport[]>([]);
+    }
 
-  //Todo
-  //Add method to fetch program professors
+    //Todo
+    //Add method to fetch program professors
 
-  ngOnInit() {
-    this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
-      next: () => {
-        this.initializeComponent(
-          this.routeParametersService.departmentId,
-          this.routeParametersService.programId,
-          this.routeParametersService.currentRoute,
-          this.routeParametersService.currentRoute$,
+    ngOnInit() {
+        this.routeParametersService.getNavigationEvent(this.router, this.activatedRoute, this.destroyed$).subscribe({
+            next: () => {
+                this.initializeComponent(
+                    this.routeParametersService.departmentId,
+                    this.routeParametersService.programId,
+                    this.routeParametersService.currentRoute,
+                    this.routeParametersService.currentRoute$,
+                );
+            },
+        });
+        this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+    }
+
+    initializeComponent(departmentId: number, programId: number, currentRoute: string, currentRoute$: BehaviorSubject<string>) {
+        this.route = currentRoute;
+        this.departmentId = departmentId;
+        this.programId = programId;
+
+        currentRoute$.subscribe((route) => {
+            this.professorId$.next(this.routeParametersService.professorId);
+            this.cdr.detectChanges();
+        });
+
+        this.bindProfessorModalData();
+        if (this.departmentId !== -1) {
+            this.getDepartmentProfessors();
+        } else {
+            this.getProfessors();
+        }
+    }
+
+    showProfessorDetails(): boolean {
+        return this.programId == -1 && this.professorId$.getValue() != -1;
+    }
+
+    onSearch(event: any) {
+        this.searchQuery = event.target.value;
+        this.filteredProfessors$.next(
+            this.professors$
+                .getValue()
+                .filter((professor) => professor.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
         );
-      },
-    });
-    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
-  }
-
-  initializeComponent(departmentId: number, programId: number, currentRoute: string, currentRoute$: BehaviorSubject<string>) {
-    this.route = currentRoute;
-    this.departmentId = departmentId;
-    this.programId = programId;
-
-    currentRoute$.subscribe((route) => {
-      this.professorId$.next(this.routeParametersService.professorId);
-      this.cdr.detectChanges();
-    });
-
-    this.bindProfessorModalData();
-    if (this.departmentId !== -1) {
-      this.getDepartmentProfessors();
-    } else {
-      this.getProfessors();
-    }
-  }
-
-  showProfessorDetails(): boolean {
-    return this.programId == -1 && this.professorId$.getValue() != -1;
-  }
-
-  onSearch(event: any) {
-    this.searchQuery = event.target.value;
-    this.filteredProfessors$.next(
-      this.professors$.getValue().filter((professor) => professor.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
-    );
-  }
-
-  selectProfessor(professor: ProfessorTransport) {
-    const url = this.routeParametersService.currentRoute;
-    const newUrl = this.replaceProfessorIdInUrl(url, professor.id);
-    this.professorId$.next(professor.id);
-    this.router.navigate([newUrl]);
-  }
-
-  private replaceProfessorIdInUrl(url: string, newProfessorId: number): string {
-    const parts = url.split('/');
-
-    const professorIndex = parts.indexOf('professors');
-
-    if (professorIndex === -1) {
-      return url;
     }
 
-    const professorIdIndex = professorIndex + 1;
-    if (professorIdIndex < parts.length) {
-      const currentProgramId = parseInt(parts[professorIdIndex], 10);
-
-      if (!isNaN(currentProgramId)) {
-        parts[professorIdIndex] = String(newProfessorId);
-      }
+    selectProfessor(professor: ProfessorTransport) {
+        const url = this.routeParametersService.currentRoute;
+        const newUrl = this.replaceProfessorIdInUrl(url, professor.id);
+        this.professorId$.next(professor.id);
+        this.router.navigate([newUrl]);
     }
 
-    return parts.join('/');
-  }
+    private replaceProfessorIdInUrl(url: string, newProfessorId: number): string {
+        const parts = url.split('/');
 
-  buildFormGroup(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
-      name: new FormControl('', Validators.required),
-      rank: new FormControl(Rank.PROFESSOR),
-    });
-  }
+        const professorIndex = parts.indexOf('professors');
 
-  getProfessors(): void {
-    this.professorService.getAll().subscribe({
-      next: (professorListTransport: ProfessorListTransport) => {
-        this.professors$.next(professorListTransport.professorTransports);
-        this.filteredProfessors$.next(professorListTransport.professorTransports);
-      },
-      error: (err) => console.error('Error fetching professors', err),
-    });
-  }
+        if (professorIndex === -1) {
+            return url;
+        }
 
-  getDepartmentProfessors() {
-    this.departmentService.getProfessorsPerDepartment(this.departmentId).subscribe({
-      next: (professorListTransport: ProfessorListTransport) => {
-        this.professors$.next(professorListTransport.professorTransports);
-        this.filteredProfessors$.next(professorListTransport.professorTransports);
-      },
-      error: (err) => console.error('Error fetching department professors', err),
-    });
-  }
+        const professorIdIndex = professorIndex + 1;
+        if (professorIdIndex < parts.length) {
+            const currentProgramId = parseInt(parts[professorIdIndex], 10);
 
-  postProfessor() {
-    if (this.professorForm.valid) {
-      const professor = this.professorForm.value;
-      this.professorService.post(professor).subscribe({
-        next: (postedProfessorTransport: ProfessorTransport) => {
-          this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
-        },
-        error: (err) => console.error('Error posting professor:', err),
-      });
+            if (!isNaN(currentProgramId)) {
+                parts[professorIdIndex] = String(newProfessorId);
+            }
+        }
+
+        return parts.join('/');
     }
-  }
 
-  postProfessorToDepartment() {
-    if (this.professorForm.valid) {
-      this.departmentService.postProfessorToDepartment(this.departmentId, this.professorForm.value).subscribe({
-        next: (postedProfessorTransport: ProfessorTransport) => {
-          this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
-        },
-        error: (err) => console.error('Error posting professor:', err),
-      });
-    }
-  }
-
-  deleteProfessor(professorId: number) {
-    this.professorService
-      .delete(professorId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: () => {
-          const currentProfessors: ProfessorTransport[] = this.professors$.getValue();
-          const updatedProfessors: ProfessorTransport[] = currentProfessors.filter((professor) => professor.id !== professorId);
-          this.professors$.next(updatedProfessors);
-        },
-        error: (err) => console.error('Error deleting professor:', err),
-      });
-  }
-
-  updateProfessor(professorId: number) {
-    if (this.professorForm.valid) {
-      this.professorService
-        .update(professorId, this.professorForm.value)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe({
-          next: (updatedProfessor: ProfessorTransport) => {
-            const currentProfessors: ProfessorTransport[] = this.professors$.getValue();
-            const updatedProfessors: ProfessorTransport[] = currentProfessors.map((professor) => {
-              if (professor.id === professorId) {
-                return updatedProfessor;
-              }
-              return professor;
-            });
-            this.professors$.next(updatedProfessors);
-          },
-          error: (err) => console.error('Error updating professor:', err),
+    buildFormGroup(formBuilder: FormBuilder): FormGroup {
+        return formBuilder.group({
+            name: new FormControl('', Validators.required),
+            rank: new FormControl(Rank.PROFESSOR),
         });
     }
-  }
 
-  openProfessorFormModalInEditMode(id: number) {
-    this.professorModalManagementService.update = this.updateProfessor.bind(this);
-    this.professorModalManagementService.openFormModalInEditMode(ProfessorFormModalComponent, id, this.professorModalData);
-  }
+    getProfessors(): void {
+        this.professorService.getAll().subscribe({
+            next: (professorListTransport: ProfessorListTransport) => {
+                this.professors$.next(professorListTransport.professorTransports);
+                this.filteredProfessors$.next(professorListTransport.professorTransports);
+            },
+            error: (err) => console.error('Error fetching professors', err),
+        });
+    }
 
-  openProfessorFormModal() {
-    this.professorModalManagementService.post =
-      this.departmentId !== -1 ? this.postProfessorToDepartment.bind(this) : this.postProfessor.bind(this);
-    this.professorModalManagementService.openFormModal(ProfessorFormModalComponent, this.professorModalData);
-  }
+    getDepartmentProfessors() {
+        this.departmentService.getProfessorsPerDepartment(this.departmentId).subscribe({
+            next: (professorListTransport: ProfessorListTransport) => {
+                this.professors$.next(professorListTransport.professorTransports);
+                this.filteredProfessors$.next(professorListTransport.professorTransports);
+            },
+            error: (err) => console.error('Error fetching department professors', err),
+        });
+    }
 
-  bindProfessorModalData() {
-    this.professorModalData = this.professorModalManagementService.bindProfessorModalData(
-      this.professorToBeEditedId,
-      this.professorForm,
-      this.isEditMode,
-      this.professors$,
-      this.professorRoles,
-    );
-  }
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    postProfessor() {
+        if (this.professorForm.valid) {
+            const professor = this.professorForm.value;
+            this.professorService.post(professor).subscribe({
+                next: (postedProfessorTransport: ProfessorTransport) => {
+                    this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
+                },
+                error: (err) => console.error('Error posting professor:', err),
+            });
+        }
+    }
+
+    postProfessorToDepartment() {
+        if (this.professorForm.valid) {
+            this.departmentService.postProfessorToDepartment(this.departmentId, this.professorForm.value).subscribe({
+                next: (postedProfessorTransport: ProfessorTransport) => {
+                    this.professors$.next([...this.professors$.getValue(), postedProfessorTransport]);
+                },
+                error: (err) => console.error('Error posting professor:', err),
+            });
+        }
+    }
+
+    deleteProfessor(professorId: number) {
+        this.professorService
+            .delete(professorId)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: () => {
+                    const currentProfessors: ProfessorTransport[] = this.professors$.getValue();
+                    const updatedProfessors: ProfessorTransport[] = currentProfessors.filter(
+                        (professor) => professor.id !== professorId,
+                    );
+                    this.professors$.next(updatedProfessors);
+                },
+                error: (err) => console.error('Error deleting professor:', err),
+            });
+    }
+
+    updateProfessor(professorId: number) {
+        if (this.professorForm.valid) {
+            this.professorService
+                .update(professorId, this.professorForm.value)
+                .pipe(takeUntil(this.destroyed$))
+                .subscribe({
+                    next: (updatedProfessor: ProfessorTransport) => {
+                        const currentProfessors: ProfessorTransport[] = this.professors$.getValue();
+                        const updatedProfessors: ProfessorTransport[] = currentProfessors.map((professor) => {
+                            if (professor.id === professorId) {
+                                return updatedProfessor;
+                            }
+                            return professor;
+                        });
+                        this.professors$.next(updatedProfessors);
+                    },
+                    error: (err) => console.error('Error updating professor:', err),
+                });
+        }
+    }
+
+    openProfessorFormModalInEditMode(id: number) {
+        this.professorModalManagementService.update = this.updateProfessor.bind(this);
+        this.professorModalManagementService.openFormModalInEditMode(ProfessorFormModalComponent, id, this.professorModalData);
+    }
+
+    openProfessorFormModal() {
+        this.professorModalManagementService.post =
+            this.departmentId !== -1 ? this.postProfessorToDepartment.bind(this) : this.postProfessor.bind(this);
+        this.professorModalManagementService.openFormModal(ProfessorFormModalComponent, this.professorModalData);
+    }
+
+    bindProfessorModalData() {
+        this.professorModalData = this.professorModalManagementService.bindProfessorModalData(
+            this.professorToBeEditedId,
+            this.professorForm,
+            this.isEditMode,
+            this.professors$,
+            this.professorRoles,
+        );
+    }
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

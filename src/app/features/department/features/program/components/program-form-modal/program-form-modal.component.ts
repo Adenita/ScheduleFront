@@ -4,29 +4,29 @@ import { ProgramModalData } from '../../services/program-modal-management.servic
 import { ModalEventsService } from '../../../../shared/services/modal-events.service';
 
 @Component({
-  selector: 'app-program-form-modal',
-  standalone: false,
-  templateUrl: './program-form-modal.component.html',
+    selector: 'app-program-form-modal',
+    standalone: false,
+    templateUrl: './program-form-modal.component.html',
 })
 export class ProgramFormModalComponent {
-  @Input()
-  modalData!: ProgramModalData;
+    @Input()
+    modalData!: ProgramModalData;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalEventsService: ModalEventsService,
-  ) {}
+    constructor(
+        public activeModal: NgbActiveModal,
+        private modalEventsService: ModalEventsService,
+    ) {}
 
-  closeModal() {
-    this.modalEventsService.emitCloseEvent();
-    this.activeModal.close();
-  }
+    closeModal() {
+        this.modalEventsService.emitCloseEvent();
+        this.activeModal.close();
+    }
 
-  onUpdateClick(id: number) {
-    this.modalEventsService.emitUpdateEvent(id);
-  }
+    onUpdateClick(id: number) {
+        this.modalEventsService.emitUpdateEvent(id);
+    }
 
-  onPostClick() {
-    this.modalEventsService.emitPostEvent();
-  }
+    onPostClick() {
+        this.modalEventsService.emitPostEvent();
+    }
 }

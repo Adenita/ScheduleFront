@@ -5,19 +5,19 @@ import { DataService } from '../data.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ClassroomService extends DataService<Classroom, ClassroomTransport> {
-  constructor(private httpClient: HttpClient) {
-    super(httpClient);
-    this.apiUrl = 'classrooms';
-  }
+    constructor(private httpClient: HttpClient) {
+        super(httpClient);
+        this.apiUrl = 'classrooms';
+    }
 
-  getLabClassrooms(): Observable<ClassroomTransport> {
-    return this.httpClient.get<ClassroomTransport>(`${this.url}/${this.apiUrl}/lab`);
-  }
+    getLabClassrooms(): Observable<ClassroomTransport> {
+        return this.httpClient.get<ClassroomTransport>(`${this.url}/${this.apiUrl}/lab`);
+    }
 
-  getLectureClassrooms(): Observable<ClassroomTransport> {
-    return this.httpClient.get<ClassroomTransport>(`${this.url}/${this.apiUrl}/lecture`);
-  }
+    getLectureClassrooms(): Observable<ClassroomTransport> {
+        return this.httpClient.get<ClassroomTransport>(`${this.url}/${this.apiUrl}/lecture`);
+    }
 }

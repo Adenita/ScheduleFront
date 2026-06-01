@@ -1,133 +1,132 @@
 .section {
-  padding: 5rem 1rem;
+    padding: 5rem 1rem;
 }
 
 .product-section {
-  background: radial-gradient(circle at top left, rgba(220, 53, 69, 0.12), transparent 35%),
-  #f8fafc;
-  border-radius: 36px;
+    background: radial-gradient(circle at top left, rgba(220, 53, 69, 0.12), transparent 35%), #f8fafc;
+    border-radius: 36px;
 }
 
 .product-section h2 {
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.8rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.8rem;
 }
 
 .product-section p {
-  color: #6b7280;
-  font-size: 1.08rem;
-  line-height: 1.7;
+    color: #6b7280;
+    font-size: 1.08rem;
+    line-height: 1.7;
 }
 
 .section-tag {
-  display: inline-block;
-  color: #dc3545;
-  background: #fff1f2;
-  border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+    display: inline-block;
+    color: #dc3545;
+    background: #fff1f2;
+    border-radius: 999px;
+    padding: 0.4rem 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
 .check-list {
-  margin-top: 1.5rem;
-  display: grid;
-  gap: 0.9rem;
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 0.9rem;
 }
 
 .check-list div {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-weight: 600;
 }
 
 .check-list i {
-  color: #16a34a;
+    color: #16a34a;
 }
 
 .dashboard-mockup {
-  padding: 1.2rem;
-  background: #ffffff;
-  border: 1px solid #eef0f4;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
-  border-radius: 28px;
+    padding: 1.2rem;
+    background: #ffffff;
+    border: 1px solid #eef0f4;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    border-radius: 28px;
 }
 
 .mockup-topbar {
-  display: flex;
-  gap: 0.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eef0f4;
+    display: flex;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eef0f4;
 }
 
 .mockup-topbar span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #d1d5db;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d1d5db;
 }
 
 .mockup-grid {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 1rem;
-  padding-top: 1rem;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    padding-top: 1rem;
 }
 
 .mockup-sidebar {
-  display: grid;
-  gap: 0.8rem;
-  align-content: start;
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
 }
 
 .mockup-sidebar div {
-  height: 38px;
-  border-radius: 12px;
-  background: #f1f5f9;
+    height: 38px;
+    border-radius: 12px;
+    background: #f1f5f9;
 }
 
 .mockup-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 .mockup-stat {
-  background: #f8fafc;
-  border-radius: 18px;
-  padding: 1rem;
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 1rem;
 }
 
 .mockup-stat strong {
-  display: block;
-  font-size: 1.8rem;
+    display: block;
+    font-size: 1.8rem;
 }
 
 .mockup-stat span {
-  color: #6b7280;
+    color: #6b7280;
 }
 
 .mockup-table {
-  grid-column: 1 / -1;
-  display: grid;
-  gap: 0.8rem;
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.8rem;
 }
 
 .mockup-table div {
-  height: 42px;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #fff1f2, #eff6ff);
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #fff1f2, #eff6ff);
 }
 
 @media (max-width: 576px) {
-  .mockup-grid,
-  .mockup-content {
-    grid-template-columns: 1fr;
-  }
+    .mockup-grid,
+    .mockup-content {
+        grid-template-columns: 1fr;
+    }
 
-  .mockup-sidebar {
-    display: none;
-  }
+    .mockup-sidebar {
+        display: none;
+    }
 }

@@ -3,28 +3,28 @@ import { BehaviorSubject } from 'rxjs';
 import { ScheduleTransport } from '../../../schedule/shared/models/schedule';
 
 @Component({
-  selector: 'app-schedule-list',
-  templateUrl: './schedule-list.component.html',
+    selector: 'app-schedule-list',
+    templateUrl: './schedule-list.component.html',
 })
 export class ScheduleListComponent {
-  @Input()
-  schedules$!: BehaviorSubject<ScheduleTransport[]>;
+    @Input()
+    schedules$!: BehaviorSubject<ScheduleTransport[]>;
 
-  @Input()
-  isAdmin!: boolean;
+    @Input()
+    isAdmin!: boolean;
 
-  @Output()
-  editEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output()
+    editEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  @Output()
-  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
-  dateFormat: string = 'MMM d yyyy';
+    @Output()
+    deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+    dateFormat: string = 'MMM d yyyy';
 
-  onEditClick(id: number) {
-    this.editEvent.emit(id);
-  }
+    onEditClick(id: number) {
+        this.editEvent.emit(id);
+    }
 
-  onDeleteClick(id: number) {
-    this.deleteEvent.emit(id);
-  }
+    onDeleteClick(id: number) {
+        this.deleteEvent.emit(id);
+    }
 }

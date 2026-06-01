@@ -1,29 +1,35 @@
 <div class="flex flex-wrap mt-12">
-  <div class="md:w-5/6">
-    <ng-container *ngIf="bestScheduleEvents$ && bestScheduleEvents$.getValue().length > 0; else noSchedule">
-      <app-schedule [bestScheduleEvents$]="bestScheduleEvents$"></app-schedule>
-    </ng-container>
-    <ng-template #noSchedule>
-       <h4>No Generated Schedules Found </h4>
-    </ng-template>
-  </div>
-  <div class="md:w-1/6">
-    <div class="border-b border-slate-200 border">
-      <div class="border-b border-slate-200 border-black mb-2">
-        <h3>All Schedules</h3>
-      </div>
-      <ul class="flex flex-col gap-2">
-        <li class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mb-1"
-            [class.active]="currentBestSchedule.id === schedule.id"
-            *ngFor="let schedule of schedules$ | async" (click)="selectSchedule(schedule)">
-          {{ schedule.creationDate | date: 'MMM d yyyy HH:mm'}}
-        </li>
-        <div class="mb-2 mx-3">
-          <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700" (click)="openGenerateScheduleModal()">Generate New Schedule</button>
-        </div>
-      </ul>
+    <div class="md:w-5/6">
+        <ng-container *ngIf="bestScheduleEvents$ && bestScheduleEvents$.getValue().length > 0; else noSchedule">
+            <app-schedule [bestScheduleEvents$]="bestScheduleEvents$"></app-schedule>
+        </ng-container>
+        <ng-template #noSchedule>
+            <h4>No Generated Schedules Found</h4>
+        </ng-template>
     </div>
-  </div>
+    <div class="md:w-1/6">
+        <div class="border-b border-slate-200 border">
+            <div class="border-b border-slate-200 border-black mb-2">
+                <h3>All Schedules</h3>
+            </div>
+            <ul class="flex flex-col gap-2">
+                <li
+                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mb-1"
+                    [class.active]="currentBestSchedule.id === schedule.id"
+                    *ngFor="let schedule of schedules$ | async"
+                    (click)="selectSchedule(schedule)"
+                >
+                    {{ schedule.creationDate | date: "MMM d yyyy HH:mm" }}
+                </li>
+                <div class="mb-2 mx-3">
+                    <button
+                        class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700"
+                        (click)="openGenerateScheduleModal()"
+                    >
+                        Generate New Schedule
+                    </button>
+                </div>
+            </ul>
+        </div>
+    </div>
 </div>
-
-

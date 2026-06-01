@@ -1,29 +1,28 @@
 <div class="flex flex-wrap mt-2">
-  <div class="rounded-lg border border-slate-200 bg-white tab-card p-1">
-
-    <div class="border-b border-slate-200 bg-white rounded-lg shadow-sm pb-4 pt-3 text-center">
-
-      <ul class="flex list-none flex-wrap items-center gap-2 p-0 border-b border-slate-200 -mb-px" id="myTab" role="tablist">
-        @for (department of departments; track department.id) {
-          <li class="list-none">
-            <a
-              class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg"
-              [routerLink]="[department.id]"
-              [relativeTo]="activatedRoute"
-              routerLinkActive="nav-link-active"
+    <div class="rounded-lg border border-slate-200 bg-white tab-card p-1">
+        <div class="border-b border-slate-200 bg-white rounded-lg shadow-sm pb-4 pt-3 text-center">
+            <ul
+                class="flex list-none flex-wrap items-center gap-2 p-0 border-b border-slate-200 -mb-px"
+                id="myTab"
+                role="tablist"
             >
-              {{ department.name }}
-            </a>
-          </li>
-        }
+                @for (department of departments; track department.id) {
+                    <li class="list-none">
+                        <a
+                            class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg"
+                            [routerLink]="[department.id]"
+                            [relativeTo]="activatedRoute"
+                            routerLinkActive="nav-link-active"
+                        >
+                            {{ department.name }}
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
 
-      </ul>
-
+        <div class="p-4 w-full" id="myTabContent">
+            <router-outlet></router-outlet>
+        </div>
     </div>
-
-    <div class="p-4 w-full" id="myTabContent">
-      <router-outlet></router-outlet>
-    </div>
-
-  </div>
 </div>

@@ -1,45 +1,61 @@
 <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 mt-12">
-  <div class="flex flex-wrap justify-end items-center my-2">
-    <div class="flex-1 basis-0">
-      <h4 class="mb-0">Department List</h4>
+    <div class="flex flex-wrap justify-end items-center my-2">
+        <div class="flex-1 basis-0">
+            <h4 class="mb-0">Department List</h4>
+        </div>
+        <div *ngIf="isAdmin" class="lg:w-auto">
+            <button
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs bg-slate-950 text-white hover:bg-slate-800"
+                (click)="openDepartmentFormModal()"
+            >
+                Add
+            </button>
+        </div>
     </div>
-    <div *ngIf="isAdmin" class="lg:w-auto">
-      <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs bg-slate-950 text-white hover:bg-slate-800" (click)="openDepartmentFormModal()">Add</button>
+    <div class="flex flex-wrap">
+        <div class="w-full">
+            <div class="w-full overflow-x-auto" *ngIf="departments$.getValue().length > 0; else noDepartmentsFound">
+                <table
+                    class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden"
+                >
+                    <thead class="bg-[var(--app-red)] text-white">
+                        <tr>
+                            <th>Name</th>
+                            <ng-container *ngIf="isAdmin">
+                                <th>Creation Date</th>
+                                <th>Modification Date</th>
+                                <th>Actions</th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let department of departments$ | async">
+                            <td class="pr-12" [routerLink]="['/departments', department.id]">{{ department.name }}</td>
+                            <ng-container *ngIf="isAdmin">
+                                <td>{{ department.creationDate | date: dateFormat }}</td>
+                                <td>{{ department.modificationDate | date: dateFormat }}</td>
+                                <td class="flex justify-center">
+                                    <button
+                                        class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1"
+                                        (click)="openDepartmentFormModalInEditMode(department.id)"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white"
+                                        (click)="deleteDepartment(department.id)"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ng-template #noDepartmentsFound>
+                <p>No Departments Found.</p>
+            </ng-template>
+        </div>
     </div>
-  </div>
-  <div class="flex flex-wrap">
-    <div class="w-full">
-      <div class="w-full overflow-x-auto" *ngIf="departments$.getValue().length > 0; else noDepartmentsFound">
-        <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden">
-          <thead class="bg-[var(--app-red)] text-white">
-          <tr>
-            <th>Name</th>
-            <ng-container *ngIf="isAdmin">
-              <th>Creation Date</th>
-              <th>Modification Date</th>
-              <th>Actions</th>
-            </ng-container>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let department of departments$ | async">
-            <td class="pr-12" [routerLink]="['/departments', department.id]">{{ department.name }} </td>
-            <ng-container *ngIf="isAdmin">
-              <td>{{ department.creationDate | date:dateFormat }}</td>
-              <td>{{ department.modificationDate | date:dateFormat }}</td>
-              <td class="flex justify-center">
-                <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1" (click)="openDepartmentFormModalInEditMode(department.id)">Edit</button>
-                <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white" (click)="deleteDepartment(department.id)">Delete</button>
-              </td>
-            </ng-container>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <ng-template #noDepartmentsFound>
-        <p>No Departments Found.</p>
-      </ng-template>
-    </div>
-  </div>
 </div>
-

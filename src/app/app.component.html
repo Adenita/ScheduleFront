@@ -1,34 +1,47 @@
 <ng-container *ngIf="!isLoggedIn; else appShell">
-  <app-header-bar></app-header-bar>
+    <app-header-bar></app-header-bar>
 
-  <main class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 public-main">
-    <router-outlet></router-outlet>
-  </main>
+    <main class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 public-main">
+        <router-outlet></router-outlet>
+    </main>
 
-  <footer class="bg-slate-950 py-4">
-    <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 flex justify-center">
-      <ul class="flex list-none flex-wrap items-center gap-2 p-0">
-        <li class="list-none"><a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white" routerLink="/aboutus">About Us</a></li>
-        <li class="list-none"><a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white">Contact</a></li>
-        <li class="list-none"><a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white">Privacy Policy</a></li>
-      </ul>
-    </div>
-  </footer>
+    <footer class="bg-slate-950 py-4">
+        <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 flex justify-center">
+            <ul class="flex list-none flex-wrap items-center gap-2 p-0">
+                <li class="list-none">
+                    <a
+                        class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white"
+                        routerLink="/aboutus"
+                        >About Us</a
+                    >
+                </li>
+                <li class="list-none">
+                    <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white">Contact</a>
+                </li>
+                <li class="list-none">
+                    <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white"
+                        >Privacy Policy</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </footer>
 </ng-container>
 
 <ng-template #appShell>
-  <div class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed">
-    <app-sidebar
-      [collapsed]="isSidebarCollapsed"
-      [isAdmin]="isAdmin"
-      [isProfessor]="isProfessor"
-      [username]="username"
-      [currentUser]="currentUser"
-      (toggleSidebar)="toggleSidebar()"
-      (logoutClick)="logout()"></app-sidebar>
+    <div class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed">
+        <app-sidebar
+            [collapsed]="isSidebarCollapsed"
+            [isAdmin]="isAdmin"
+            [isProfessor]="isProfessor"
+            [username]="username"
+            [currentUser]="currentUser"
+            (toggleSidebar)="toggleSidebar()"
+            (logoutClick)="logout()"
+        ></app-sidebar>
 
-    <main class="app-main">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+        <main class="app-main">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
 </ng-template>

@@ -6,25 +6,25 @@ import { UserFormModalComponent } from '../components/user-form-modal/user-form-
 import { Role, UserTransport } from '../../../../../shared/models/user';
 
 export interface UserModalData extends GeneralModalData {
-  roles: Role[];
+    roles: Role[];
 }
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class UserModalManagementService extends ModalManagementService<UserFormModalComponent, UserModalData> {
-  bindUserModalData(
-    selectedUserId: number,
-    userForm: FormGroup,
-    isEditMode: boolean,
-    users$: BehaviorSubject<UserTransport[]>,
-    roles: Role[],
-  ): UserModalData {
-    return {
-      selectedId: selectedUserId,
-      form: userForm,
-      data$: users$,
-      isEditMode: isEditMode,
-      roles,
-    };
-  }
+    bindUserModalData(
+        selectedUserId: number,
+        userForm: FormGroup,
+        isEditMode: boolean,
+        users$: BehaviorSubject<UserTransport[]>,
+        roles: Role[],
+    ): UserModalData {
+        return {
+            selectedId: selectedUserId,
+            form: userForm,
+            data$: users$,
+            isEditMode: isEditMode,
+            roles,
+        };
+    }
 }

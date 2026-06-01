@@ -6,19 +6,19 @@ import { Observable } from 'rxjs';
 import { LoginTransport, RegisterTransport, TokenTransport } from '../../../shared/models/authentication';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class AuthenticationService extends DataService<UserTransport, UserListTransport> {
-  constructor(private httpClient: HttpClient) {
-    super(httpClient);
-    this.apiUrl = '';
-  }
+    constructor(private httpClient: HttpClient) {
+        super(httpClient);
+        this.apiUrl = '';
+    }
 
-  register(registerTransport: RegisterTransport): Observable<RegisterTransport> {
-    return this.httpClient.post<RegisterTransport>(`${this.url}/register`, registerTransport);
-  }
+    register(registerTransport: RegisterTransport): Observable<RegisterTransport> {
+        return this.httpClient.post<RegisterTransport>(`${this.url}/register`, registerTransport);
+    }
 
-  login(loginTransport: LoginTransport): Observable<TokenTransport> {
-    return this.httpClient.post<TokenTransport>(`${this.url}/login`, loginTransport);
-  }
+    login(loginTransport: LoginTransport): Observable<TokenTransport> {
+        return this.httpClient.post<TokenTransport>(`${this.url}/login`, loginTransport);
+    }
 }

@@ -5,91 +5,91 @@ import { ModalEventsService } from './modal-events.service';
 import { FormGroup } from '@angular/forms';
 
 export interface GeneralModalData {
-  selectedId: number;
-  form: FormGroup;
-  data$: BehaviorSubject<any>;
-  isEditMode: boolean;
+    selectedId: number;
+    form: FormGroup;
+    data$: BehaviorSubject<any>;
+    isEditMode: boolean;
 }
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ModalManagementService<T, K extends GeneralModalData> implements OnDestroy {
-  private destroyed$: Subject<void> = new Subject();
-  post!: () => void;
-  update!: (id: number) => void;
+    private destroyed$: Subject<void> = new Subject();
+    post!: () => void;
+    update!: (id: number) => void;
 
-  constructor(
-    private modalService: NgbModal,
-    private modalEventsService: ModalEventsService,
-  ) {}
+    constructor(
+        private modalService: NgbModal,
+        private modalEventsService: ModalEventsService,
+    ) {}
 
-  openFormModalInEditMode(modalComponent: Type<T>, subjectId: number, modalData: K) {
-    modalData.isEditMode = true;
-    modalData.selectedId = subjectId;
-    this.fillFormWithSelectedData(subjectId, modalData);
-    this.openFormModal(modalComponent, modalData);
-  }
-
-  fillFormWithSelectedData(id: number, modalData: K) {
-    const currentData = modalData.data$.getValue();
-    const selectedData = currentData.find((s: any) => s.id === id);
-    if (selectedData) {
-      modalData.form.patchValue(selectedData);
-    }
-  }
-  openFormModal(modalComponent: Type<T>, modalData: K) {
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
+    openFormModalInEditMode(modalComponent: Type<T>, subjectId: number, modalData: K) {
+        modalData.isEditMode = true;
+        modalData.selectedId = subjectId;
+        this.fillFormWithSelectedData(subjectId, modalData);
+        this.openFormModal(modalComponent, modalData);
     }
 
-    const modalRef: NgbModalRef = this.modalService.open(modalComponent);
-    this.updateModalComponentData(modalRef, modalData);
-    this.handlePostEvent(modalRef, modalData, this.post);
-    this.handleUpdateEvent(modalRef, modalData, this.update);
-    this.handleCloseModalEvent(modalRef, modalData);
-    this.handleSelectEvent(modalRef, modalData);
-  }
+    fillFormWithSelectedData(id: number, modalData: K) {
+        const currentData = modalData.data$.getValue();
+        const selectedData = currentData.find((s: any) => s.id === id);
+        if (selectedData) {
+            modalData.form.patchValue(selectedData);
+        }
+    }
+    openFormModal(modalComponent: Type<T>, modalData: K) {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
 
-  updateModalComponentData(modalRef: NgbModalRef, modalData: K) {
-    modalRef.componentInstance.modalData = modalData;
-  }
+        const modalRef: NgbModalRef = this.modalService.open(modalComponent);
+        this.updateModalComponentData(modalRef, modalData);
+        this.handlePostEvent(modalRef, modalData, this.post);
+        this.handleUpdateEvent(modalRef, modalData, this.update);
+        this.handleCloseModalEvent(modalRef, modalData);
+        this.handleSelectEvent(modalRef, modalData);
+    }
 
-  handleSelectEvent(modalRef: NgbModalRef, modalData: K) {
-    this.modalEventsService.selectEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
-      modalData.selectedId = id;
-    });
-  }
+    updateModalComponentData(modalRef: NgbModalRef, modalData: K) {
+        modalRef.componentInstance.modalData = modalData;
+    }
 
-  handleCloseModalEvent(modalRef: NgbModalRef, modalData: K) {
-    this.modalEventsService.closeEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
-      this.resetSubjectFormState(modalData);
-    });
-  }
+    handleSelectEvent(modalRef: NgbModalRef, modalData: K) {
+        this.modalEventsService.selectEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
+            modalData.selectedId = id;
+        });
+    }
 
-  handleUpdateEvent(modalRef: NgbModalRef, modalData: K, update: (id: number) => void) {
-    this.modalEventsService.updateEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
-      update(id);
-      this.resetSubjectFormState(modalData);
-      modalRef.close();
-    });
-  }
+    handleCloseModalEvent(modalRef: NgbModalRef, modalData: K) {
+        this.modalEventsService.closeEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
+            this.resetSubjectFormState(modalData);
+        });
+    }
 
-  handlePostEvent(modalRef: NgbModalRef, modalData: K, post: () => void) {
-    this.modalEventsService.postEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
-      post();
-      this.resetSubjectFormState(modalData);
-      modalRef.close();
-    });
-  }
+    handleUpdateEvent(modalRef: NgbModalRef, modalData: K, update: (id: number) => void) {
+        this.modalEventsService.updateEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe((id: number) => {
+            update(id);
+            this.resetSubjectFormState(modalData);
+            modalRef.close();
+        });
+    }
 
-  resetSubjectFormState(modalData: K) {
-    modalData.isEditMode = false;
-    modalData.selectedId = -1;
-    modalData.form.reset();
-  }
+    handlePostEvent(modalRef: NgbModalRef, modalData: K, post: () => void) {
+        this.modalEventsService.postEvent.pipe(take(1), takeUntil(this.destroyed$)).subscribe(() => {
+            post();
+            this.resetSubjectFormState(modalData);
+            modalRef.close();
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    resetSubjectFormState(modalData: K) {
+        modalData.isEditMode = false;
+        modalData.selectedId = -1;
+        modalData.form.reset();
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

@@ -1,35 +1,41 @@
-<ng-container *ngIf="((bestScheduleEvents$ | async) || bestProgramSchedule?.events) as events">
-  <div class="w-full overflow-x-auto" *ngIf="events.length > 0">
-    <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden">
-      <thead class="bg-[var(--app-red)] text-white">
-      <tr>
-        <th>Subject</th>
-        <th>M/O</th>
-        <th>Hours</th>
-        <th>Ects</th>
-        <th>L/E</th>
-        <th>Professor</th>
-        <th>Day</th>
-        <th>Timeslot </th>
-        <th>Class</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let event of events" [ngClass]="{'table-danger': event.conflict}">
-        <td>{{ event.subjectTransport.name}}</td>
-        <td>{{ event.subjectTransport.requirementType[0]}}</td>
-        <td>{{ event.subjectTransport.hours}}</td>
-        <td>{{ event.subjectTransport.etcs}}</td>
-        <td>{{ event.studentGroupTransport.groupType}}</td>
-        <td>{{ event.professorTransport.name}}</td>
-        <td>{{ event.timeslot.day.slice(0,3)}}</td>
-        <td>
-          {{ event.timeslot.startHour.toString().padStart(2, '0') }}:{{ event.timeslot.startMinute.toString().padStart(2, '0') }}
-          -{{ event.timeslot.endHour.toString().padStart(2, '0') }}:{{ event.timeslot.endMinute.toString().padStart(2, '0') }}
-        </td>
-        <td>{{ event.classroom.name}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<ng-container *ngIf="(bestScheduleEvents$ | async) || bestProgramSchedule?.events as events">
+    <div class="w-full overflow-x-auto" *ngIf="events.length > 0">
+        <table
+            class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden"
+        >
+            <thead class="bg-[var(--app-red)] text-white">
+                <tr>
+                    <th>Subject</th>
+                    <th>M/O</th>
+                    <th>Hours</th>
+                    <th>Ects</th>
+                    <th>L/E</th>
+                    <th>Professor</th>
+                    <th>Day</th>
+                    <th>Timeslot</th>
+                    <th>Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let event of events" [ngClass]="{ 'table-danger': event.conflict }">
+                    <td>{{ event.subjectTransport.name }}</td>
+                    <td>{{ event.subjectTransport.requirementType[0] }}</td>
+                    <td>{{ event.subjectTransport.hours }}</td>
+                    <td>{{ event.subjectTransport.etcs }}</td>
+                    <td>{{ event.studentGroupTransport.groupType }}</td>
+                    <td>{{ event.professorTransport.name }}</td>
+                    <td>{{ event.timeslot.day.slice(0, 3) }}</td>
+                    <td>
+                        {{ event.timeslot.startHour.toString().padStart(2, "0") }}:{{
+                            event.timeslot.startMinute.toString().padStart(2, "0")
+                        }}
+                        -{{ event.timeslot.endHour.toString().padStart(2, "0") }}:{{
+                            event.timeslot.endMinute.toString().padStart(2, "0")
+                        }}
+                    </td>
+                    <td>{{ event.classroom.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </ng-container>

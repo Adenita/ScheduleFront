@@ -9,8 +9,8 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [UserListComponent, UserManagementComponent, UserFormModalComponent, UserDetailsComponent],
-  imports: [CommonModule, ReactiveFormsModule, UserRoutingModule, SharedModule],
-  exports: [UserListComponent],
+    declarations: [UserListComponent, UserManagementComponent, UserFormModalComponent, UserDetailsComponent],
+    imports: [CommonModule, ReactiveFormsModule, UserRoutingModule, SharedModule],
+    exports: [UserListComponent],
 })
 export class UserModule {}

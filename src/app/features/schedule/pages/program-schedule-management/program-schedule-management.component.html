@@ -1,21 +1,30 @@
 <div class="schedule-detail-page">
-  <div class="schedule-main-panel">
-    <div class="text-center">
-      <h2 class="font-bold mb-1">Program | <span class="red-text">{{selectedProgram$.getValue().name}}</span></h2>
-      <h6 class="italic font-light">View the schedule offered in the program grouped format</h6>
+    <div class="schedule-main-panel">
+        <div class="text-center">
+            <h2 class="font-bold mb-1">
+                Program | <span class="red-text">{{ selectedProgram$.getValue().name }}</span>
+            </h2>
+            <h6 class="italic font-light">View the schedule offered in the program grouped format</h6>
+        </div>
+        <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
     </div>
-    <app-program-schedule [programSchedule$]="programSchedule$"></app-program-schedule>
-  </div>
-  <div class="schedule-side-panel">
-    <div class="flex flex-col">
-      <h4 class="font-semibold">Programs</h4>
-      <button *ngFor="let program of programs"
-              class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2"
-              [class.active] = 'program.id == selectedProgram$.getValue().id'
-              (click)="loadProgramSchedule(program)">
-        {{program.name}}
-      </button>
-      <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700 mr-2" (click)="goBack()"> Go Back </button>
+    <div class="schedule-side-panel">
+        <div class="flex flex-col">
+            <h4 class="font-semibold">Programs</h4>
+            <button
+                *ngFor="let program of programs"
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2"
+                [class.active]="program.id == selectedProgram$.getValue().id"
+                (click)="loadProgramSchedule(program)"
+            >
+                {{ program.name }}
+            </button>
+            <button
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700 mr-2"
+                (click)="goBack()"
+            >
+                Go Back
+            </button>
+        </div>
     </div>
-  </div>
 </div>

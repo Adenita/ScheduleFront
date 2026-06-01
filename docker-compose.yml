@@ -1,12 +1,12 @@
 services:
-  angular-app:
-    container_name: angular-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - scheduleapp_default
+    angular-app:
+        container_name: angular-app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - scheduleapp_default
 
 networks:
-  my-network:
-    external: true
+    my-network:
+        external: true

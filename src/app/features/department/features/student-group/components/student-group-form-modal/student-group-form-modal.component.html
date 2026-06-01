@@ -1,37 +1,75 @@
 <div class="mx-auto my-6 max-w-max flex min-h-[calc(100%_-_3rem)] items-center">
-  <div class="h-full rounded-lg border border-slate-200 bg-white shadow-xl">
-    <div class="flex items-center justify-between border-b border-slate-200 bg-white p-4">
-      <h4 class="text-lg font-semibold text-slate-950 text-center">Student Group Form</h4>
-      <button type="button" class="grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 before:content-['x']" (click)="closeModal()" aria-label="Close"></button>
+    <div class="h-full rounded-lg border border-slate-200 bg-white shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-200 bg-white p-4">
+            <h4 class="text-lg font-semibold text-slate-950 text-center">Student Group Form</h4>
+            <button
+                type="button"
+                class="grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 before:content-['x']"
+                (click)="closeModal()"
+                aria-label="Close"
+            ></button>
+        </div>
+        <div class="bg-white p-4 overflow-y-scroll modal-body-scroll">
+            <div class="form-container mt-1 px-5">
+                <form [formGroup]="modalData.form">
+                    <div class="form-group">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700" for="name">Name</label>
+                        <input
+                            class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            type="text"
+                            id="name"
+                            formControlName="name"
+                            placeholder="StudentGroup Name"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700" for="numberOfStudents"
+                            >Number Of Students</label
+                        >
+                        <input
+                            class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            type="number"
+                            id="numberOfStudents"
+                            formControlName="numberOfStudents"
+                            placeholder="Number of students"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700" for="groupType">Group Type: </label>
+                        <select
+                            class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            id="groupType"
+                            formControlName="groupType"
+                        >
+                            <option *ngFor="let groupType of modalData.groupTypes" [ngValue]="groupType">{{ groupType }}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="border-t border-slate-200 bg-white p-4 flex justify-between">
+            <button
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white"
+                (click)="closeModal()"
+            >
+                Close
+            </button>
+            <div *ngIf="modalData.isEditMode; else postingStudentGroup">
+                <button
+                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="onUpdateClick(modalData.selectedId)"
+                >
+                    Edit Student Group
+                </button>
+            </div>
+            <ng-template #postingStudentGroup>
+                <button
+                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="onPostClick()"
+                >
+                    Add Student Group
+                </button>
+            </ng-template>
+        </div>
     </div>
-    <div class="bg-white p-4 overflow-y-scroll modal-body-scroll">
-      <div class="form-container mt-1 px-5">
-        <form [formGroup]="modalData.form">
-          <div class="form-group">
-            <label class="mb-2 block text-sm font-semibold text-slate-700" for="name">Name</label>
-            <input class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200" type="text" id="name" formControlName="name" placeholder="StudentGroup Name" >
-          </div>
-          <div class="form-group">
-            <label class="mb-2 block text-sm font-semibold text-slate-700" for="numberOfStudents">Number Of Students</label>
-            <input class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200" type="number" id="numberOfStudents" formControlName="numberOfStudents" placeholder="Number of students" >
-          </div>
-          <div class="form-group">
-            <label class="mb-2 block text-sm font-semibold text-slate-700" for="groupType">Group Type: </label>
-            <select class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-200" id="groupType" formControlName="groupType">
-              <option *ngFor="let groupType of modalData.groupTypes" [ngValue]="groupType">{{ groupType }}</option>
-            </select>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="border-t border-slate-200 bg-white p-4 flex justify-between" >
-      <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white" (click)="closeModal()">Close</button>
-      <div *ngIf="modalData.isEditMode; else postingStudentGroup">
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700" (click)="onUpdateClick(modalData.selectedId)">Edit Student Group</button>
-      </div>
-      <ng-template #postingStudentGroup>
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700" (click)="onPostClick()">Add Student Group</button>
-      </ng-template>
-    </div>
-  </div>
 </div>

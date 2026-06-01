@@ -9,135 +9,137 @@ import { PermissionService } from '../../../../../../auth/services/permission.se
 import { Role } from '../../../../../../shared/models/user';
 
 @Component({
-  selector: 'app-classroom-management',
-  standalone: false,
-  templateUrl: './classroom-management.component.html',
-  styleUrls: ['./classroom-management.component.scss'],
+    selector: 'app-classroom-management',
+    standalone: false,
+    templateUrl: './classroom-management.component.html',
+    styleUrls: ['./classroom-management.component.scss'],
 })
 export class ClassroomManagementComponent implements OnInit, OnDestroy {
-  classrooms$: BehaviorSubject<Classroom[]>;
-  classroomForm: FormGroup;
-  isEditMode: boolean = false;
-  classroomToBeEditedId: number = -1;
-  classroomModalData: ClassroomModalData = {} as ClassroomModalData;
-  destroyed$: Subject<void> = new Subject<void>();
-  isAdmin: boolean = false;
-  searchQuery: string = '';
-  filteredClassrooms$: BehaviorSubject<Classroom[]>;
+    classrooms$: BehaviorSubject<Classroom[]>;
+    classroomForm: FormGroup;
+    isEditMode: boolean = false;
+    classroomToBeEditedId: number = -1;
+    classroomModalData: ClassroomModalData = {} as ClassroomModalData;
+    destroyed$: Subject<void> = new Subject<void>();
+    isAdmin: boolean = false;
+    searchQuery: string = '';
+    filteredClassrooms$: BehaviorSubject<Classroom[]>;
 
-  constructor(
-    private classroomService: ClassroomService,
-    private formBuilder: FormBuilder,
-    private classroomModalManagementService: ClassroomModalManagementService,
-    private permissionService: PermissionService,
-  ) {
-    this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
-    this.filteredClassrooms$ = new BehaviorSubject<Classroom[]>([]);
-    this.classroomForm = this.buildFormGroup(formBuilder);
-  }
-
-  ngOnInit() {
-    this.bindClassroomModalData();
-    this.getClassrooms();
-    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
-  }
-
-  //Todo
-  //Add get department classroom method
-
-  onSearch(event: any) {
-    this.searchQuery = event.target.value;
-    this.filteredClassrooms$.next(
-      this.classrooms$.getValue().filter((classroom) => classroom.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
-    );
-  }
-
-  buildFormGroup(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
-      name: new FormControl('', Validators.required),
-      numberOfSeats: new FormControl(Validators.required, Validators.min(10)),
-      hasComputers: new FormControl(false, Validators.required),
-    });
-  }
-
-  getClassrooms(): void {
-    this.classroomService.getAll().subscribe({
-      next: (classroomTransport) => {
-        this.classrooms$.next(classroomTransport.classrooms);
-        this.filteredClassrooms$.next(classroomTransport.classrooms);
-      },
-      error: (err) => console.error('Error fetching classrooms', err),
-    });
-  }
-
-  postClassroom() {
-    if (this.classroomForm.valid) {
-      const classroom = this.classroomForm.value;
-      this.classroomService.post(classroom).subscribe({
-        next: (postedClassroom: Classroom) => {
-          this.classrooms$.next([...this.classrooms$.getValue(), postedClassroom]);
-        },
-        error: (err) => console.error('Error posting classroom:', err),
-      });
+    constructor(
+        private classroomService: ClassroomService,
+        private formBuilder: FormBuilder,
+        private classroomModalManagementService: ClassroomModalManagementService,
+        private permissionService: PermissionService,
+    ) {
+        this.classrooms$ = new BehaviorSubject<Classroom[]>([]);
+        this.filteredClassrooms$ = new BehaviorSubject<Classroom[]>([]);
+        this.classroomForm = this.buildFormGroup(formBuilder);
     }
-  }
 
-  deleteClassroom(classroomId: number) {
-    this.classroomService
-      .delete(classroomId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: () => {
-          const currentClassrooms: Classroom[] = this.classrooms$.getValue();
-          const updatedClassrooms: Classroom[] = currentClassrooms.filter((classroom) => classroom.id !== classroomId);
-          this.classrooms$.next(updatedClassrooms);
-        },
-        error: (err) => console.error('Error deleting classroom:', err),
-      });
-  }
+    ngOnInit() {
+        this.bindClassroomModalData();
+        this.getClassrooms();
+        this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+    }
 
-  updateClassroom(classroomId: number) {
-    if (this.classroomForm.valid) {
-      this.classroomService
-        .update(classroomId, this.classroomForm.value)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe({
-          next: (updatedClassroom: Classroom) => {
-            const currentClassrooms: Classroom[] = this.classrooms$.getValue();
-            const updatedClassrooms: Classroom[] = currentClassrooms.map((classroom) => {
-              if (classroom.id === classroomId) {
-                return updatedClassroom;
-              }
-              return classroom;
-            });
-            this.classrooms$.next(updatedClassrooms);
-          },
-          error: (err) => console.error('Error updating classroom:', err),
+    //Todo
+    //Add get department classroom method
+
+    onSearch(event: any) {
+        this.searchQuery = event.target.value;
+        this.filteredClassrooms$.next(
+            this.classrooms$
+                .getValue()
+                .filter((classroom) => classroom.name.toLowerCase().includes(this.searchQuery.toLowerCase())),
+        );
+    }
+
+    buildFormGroup(formBuilder: FormBuilder): FormGroup {
+        return formBuilder.group({
+            name: new FormControl('', Validators.required),
+            numberOfSeats: new FormControl(Validators.required, Validators.min(10)),
+            hasComputers: new FormControl(false, Validators.required),
         });
     }
-  }
 
-  openClassroomFormModalInEditMode(id: number) {
-    this.classroomModalManagementService.update = this.updateClassroom.bind(this);
-    this.classroomModalManagementService.openFormModalInEditMode(ClassroomFormModalComponent, id, this.classroomModalData);
-  }
+    getClassrooms(): void {
+        this.classroomService.getAll().subscribe({
+            next: (classroomTransport) => {
+                this.classrooms$.next(classroomTransport.classrooms);
+                this.filteredClassrooms$.next(classroomTransport.classrooms);
+            },
+            error: (err) => console.error('Error fetching classrooms', err),
+        });
+    }
 
-  openClassroomFormModal() {
-    this.classroomModalManagementService.post = this.postClassroom.bind(this);
-    this.classroomModalManagementService.openFormModal(ClassroomFormModalComponent, this.classroomModalData);
-  }
+    postClassroom() {
+        if (this.classroomForm.valid) {
+            const classroom = this.classroomForm.value;
+            this.classroomService.post(classroom).subscribe({
+                next: (postedClassroom: Classroom) => {
+                    this.classrooms$.next([...this.classrooms$.getValue(), postedClassroom]);
+                },
+                error: (err) => console.error('Error posting classroom:', err),
+            });
+        }
+    }
 
-  bindClassroomModalData() {
-    this.classroomModalData = this.classroomModalManagementService.bindClassroomModalData(
-      this.classroomToBeEditedId,
-      this.classroomForm,
-      this.isEditMode,
-      this.classrooms$,
-    );
-  }
+    deleteClassroom(classroomId: number) {
+        this.classroomService
+            .delete(classroomId)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: () => {
+                    const currentClassrooms: Classroom[] = this.classrooms$.getValue();
+                    const updatedClassrooms: Classroom[] = currentClassrooms.filter((classroom) => classroom.id !== classroomId);
+                    this.classrooms$.next(updatedClassrooms);
+                },
+                error: (err) => console.error('Error deleting classroom:', err),
+            });
+    }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    updateClassroom(classroomId: number) {
+        if (this.classroomForm.valid) {
+            this.classroomService
+                .update(classroomId, this.classroomForm.value)
+                .pipe(takeUntil(this.destroyed$))
+                .subscribe({
+                    next: (updatedClassroom: Classroom) => {
+                        const currentClassrooms: Classroom[] = this.classrooms$.getValue();
+                        const updatedClassrooms: Classroom[] = currentClassrooms.map((classroom) => {
+                            if (classroom.id === classroomId) {
+                                return updatedClassroom;
+                            }
+                            return classroom;
+                        });
+                        this.classrooms$.next(updatedClassrooms);
+                    },
+                    error: (err) => console.error('Error updating classroom:', err),
+                });
+        }
+    }
+
+    openClassroomFormModalInEditMode(id: number) {
+        this.classroomModalManagementService.update = this.updateClassroom.bind(this);
+        this.classroomModalManagementService.openFormModalInEditMode(ClassroomFormModalComponent, id, this.classroomModalData);
+    }
+
+    openClassroomFormModal() {
+        this.classroomModalManagementService.post = this.postClassroom.bind(this);
+        this.classroomModalManagementService.openFormModal(ClassroomFormModalComponent, this.classroomModalData);
+    }
+
+    bindClassroomModalData() {
+        this.classroomModalData = this.classroomModalManagementService.bindClassroomModalData(
+            this.classroomToBeEditedId,
+            this.classroomForm,
+            this.isEditMode,
+            this.classrooms$,
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

@@ -1,20 +1,21 @@
 <section class="manage-page">
-  <div class="page-heading">
-    <div>
-      <h2>Manage Data</h2>
-      <p>Choose a data area directly, or use Departments when you want the full nested context.</p>
+    <div class="page-heading">
+        <div>
+            <h2>Manage Data</h2>
+            <p>Choose a data area directly, or use Departments when you want the full nested context.</p>
+        </div>
     </div>
-  </div>
 
-  <div class="option-grid">
-    <a
-      class="option-card"
-      *ngFor="let option of options"
-      [class]="'option-card tone-' + option.tone"
-      [routerLink]="option.route">
-      <i class="bi" [ngClass]="option.icon"></i>
-      <span>{{ option.title }}</span>
-      <small>{{ option.description }}</small>
-    </a>
-  </div>
+    <div class="option-grid">
+        <a
+            class="option-card"
+            *ngFor="let option of options"
+            [class]="'option-card tone-' + option.tone"
+            [routerLink]="option.route"
+        >
+            <i class="bi" [ngClass]="option.icon"></i>
+            <span>{{ option.title }}</span>
+            <small>{{ option.description }}</small>
+        </a>
+    </div>
 </section>

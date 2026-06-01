@@ -1,92 +1,92 @@
 .schedule-hub {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .page-heading {
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
 }
 
 .page-heading h2 {
-  font-weight: 700;
-  margin: 0 0 0.35rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
 }
 
 .page-heading p,
 .department-card p,
 .empty-state p {
-  color: #6b7280;
-  margin: 0;
+    color: #6b7280;
+    margin: 0;
 }
 
 .department-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .department-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  display: grid;
-  gap: 1rem;
-  padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    display: grid;
+    gap: 1rem;
+    padding: 1.25rem;
 }
 
 .card-icon {
-  align-items: center;
-  background: #f8f9fa;
-  border-radius: 8px;
-  color: #ce2a2d;
-  display: flex;
-  height: 44px;
-  justify-content: center;
-  width: 44px;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #ce2a2d;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    width: 44px;
 }
 
 .department-card h3,
 .empty-state h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0 0 0.25rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
 }
 
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .actions a {
-  align-items: center;
-  background: #ce2a2d;
-  border: 1px solid #ce2a2d;
-  border-radius: 6px;
-  color: #fff;
-  display: inline-flex;
-  gap: 0.45rem;
-  padding: 0.55rem 0.8rem;
-  text-decoration: none;
+    align-items: center;
+    background: #ce2a2d;
+    border: 1px solid #ce2a2d;
+    border-radius: 6px;
+    color: #fff;
+    display: inline-flex;
+    gap: 0.45rem;
+    padding: 0.55rem 0.8rem;
+    text-decoration: none;
 }
 
 .actions a.secondary {
-  background: #fff;
-  color: #ce2a2d;
+    background: #fff;
+    color: #ce2a2d;
 }
 
 .empty-state {
-  align-items: center;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  display: grid;
-  justify-items: center;
-  padding: 2rem;
-  text-align: center;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    display: grid;
+    justify-items: center;
+    padding: 2rem;
+    text-align: center;
 }
 
 .empty-state i {
-  color: #ce2a2d;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+    color: #ce2a2d;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }

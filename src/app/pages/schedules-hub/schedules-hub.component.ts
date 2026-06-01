@@ -8,71 +8,71 @@ import { StorageService } from '../../core/services/storage.service';
 import { UserService } from '../../core/services/http/user.service';
 
 @Component({
-  selector: 'app-schedules-hub',
-  standalone: false,
-  templateUrl: './schedules-hub.component.html',
-  styleUrls: ['./schedules-hub.component.scss'],
+    selector: 'app-schedules-hub',
+    standalone: false,
+    templateUrl: './schedules-hub.component.html',
+    styleUrls: ['./schedules-hub.component.scss'],
 })
 export class SchedulesHubComponent implements OnInit, OnDestroy {
-  departments$: BehaviorSubject<DepartmentTransport[]> = new BehaviorSubject<DepartmentTransport[]>([]);
-  currentUser?: UserTransport;
-  isAdmin: boolean = false;
-  destroyed$: Subject<void> = new Subject<void>();
+    departments$: BehaviorSubject<DepartmentTransport[]> = new BehaviorSubject<DepartmentTransport[]>([]);
+    currentUser?: UserTransport;
+    isAdmin: boolean = false;
+    destroyed$: Subject<void> = new Subject<void>();
 
-  constructor(
-    private departmentService: DepartmentService,
-    private permissionService: PermissionService,
-    private storageService: StorageService,
-    private userService: UserService,
-  ) {}
+    constructor(
+        private departmentService: DepartmentService,
+        private permissionService: PermissionService,
+        private storageService: StorageService,
+        private userService: UserService,
+    ) {}
 
-  ngOnInit(): void {
-    this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
-    this.loadCurrentUser();
-    this.loadDepartments();
-  }
-
-  get visibleDepartments(): DepartmentTransport[] {
-    const departments = this.departments$.getValue();
-    if (this.isAdmin) {
-      return departments;
+    ngOnInit(): void {
+        this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+        this.loadCurrentUser();
+        this.loadDepartments();
     }
 
-    const departmentId = this.currentUser?.departmentTransport?.id;
-    return departments.filter((department) => department.id === departmentId);
-  }
+    get visibleDepartments(): DepartmentTransport[] {
+        const departments = this.departments$.getValue();
+        if (this.isAdmin) {
+            return departments;
+        }
 
-  private loadCurrentUser() {
-    const storedUser = this.storageService.getUser();
-    if (!storedUser?.username) {
-      return;
+        const departmentId = this.currentUser?.departmentTransport?.id;
+        return departments.filter((department) => department.id === departmentId);
     }
 
-    this.userService
-      .getUserByUsername(storedUser.username)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (user) => {
-          this.currentUser = user;
-        },
-        error: (err) => console.error('Error fetching current user', err),
-      });
-  }
+    private loadCurrentUser() {
+        const storedUser = this.storageService.getUser();
+        if (!storedUser?.username) {
+            return;
+        }
 
-  private loadDepartments() {
-    this.departmentService
-      .getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (departments) => {
-          this.departments$.next(departments.departmentTransportList);
-        },
-        error: (err) => console.error('Error fetching departments', err),
-      });
-  }
+        this.userService
+            .getUserByUsername(storedUser.username)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: (user) => {
+                    this.currentUser = user;
+                },
+                error: (err) => console.error('Error fetching current user', err),
+            });
+    }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    private loadDepartments() {
+        this.departmentService
+            .getAll()
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: (departments) => {
+                    this.departments$.next(departments.departmentTransportList);
+                },
+                error: (err) => console.error('Error fetching departments', err),
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

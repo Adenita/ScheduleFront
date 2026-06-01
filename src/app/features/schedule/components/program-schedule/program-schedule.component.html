@@ -1,7 +1,8 @@
 <div class="mt-3" *ngIf="programSchedulePerSemesterMap$ | async as programSchedulePerSemesterMap">
-  <ng-container *ngFor="let entry of programSchedulePerSemesterMap | keyvalue">
-    <h4 class="mt-2 font-semibold">Semester | <span class="red-text">{{ entry.key }}</span> </h4>
-    <app-schedule [bestProgramSchedule]="entry.value"></app-schedule>
-  </ng-container>
+    <ng-container *ngFor="let entry of programSchedulePerSemesterMap | keyvalue">
+        <h4 class="mt-2 font-semibold">
+            Semester | <span class="red-text">{{ entry.key }}</span>
+        </h4>
+        <app-schedule [bestProgramSchedule]="entry.value"></app-schedule>
+    </ng-container>
 </div>
-

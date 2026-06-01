@@ -6,9 +6,9 @@ import { InterceptorService } from './services/interceptor.service';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 
 @NgModule({
-  declarations: [LoginPageComponent],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
-  imports: [CommonModule, ReactiveFormsModule],
-  exports: [LoginPageComponent],
+    declarations: [LoginPageComponent],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
+    imports: [CommonModule, ReactiveFormsModule],
+    exports: [LoginPageComponent],
 })
 export class AuthModule {}

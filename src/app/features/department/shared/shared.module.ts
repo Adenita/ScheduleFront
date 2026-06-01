@@ -5,8 +5,8 @@ import { SubjectListComponent } from './components/subject-list/subject-list.com
 import { ProfessorListComponent } from './components/professor-list/professor-list.component';
 
 @NgModule({
-  declarations: [SubjectListComponent, ProfessorListComponent],
-  imports: [CommonModule, RouterLink],
-  exports: [SubjectListComponent, ProfessorListComponent],
+    declarations: [SubjectListComponent, ProfessorListComponent],
+    imports: [CommonModule, RouterLink],
+    exports: [SubjectListComponent, ProfessorListComponent],
 })
 export class SharedModule {}

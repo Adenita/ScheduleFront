@@ -1,38 +1,50 @@
 <div class="w-full overflow-x-auto" *ngIf="professors$.getValue() && professors$.getValue().length > 0; else noProfessorsFound">
-  <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden">
-    <thead class="bg-[var(--app-red)] text-white">
-    <tr>
-      <th>Name</th>
-      <th>Rank</th>
-      <ng-container *ngIf="isAdmin">
-        <th>Creation Date</th>
-        <th>Modification Date</th>
-        <th>Actions</th>
-      </ng-container>
-      <th class="text-center italic text-xl leading-relaxed font-bold">i</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let professor of professors$ | async" >
-      <td >{{ professor.name }}</td>
-      <td>{{ professor.rank }}</td>
-      <ng-container *ngIf="isAdmin">
-        <td>{{ professor.creationDate | date: dateFormat}}</td>
-        <td>{{ professor.modificationDate | date: dateFormat}}</td>
-        <td class="flex justify-center">
-          <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1" (click)="onEditClick(professor.id)">Edit</button>
-          <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white" (click)="onDeleteClick(professor.id)">Delete</button>
-        </td>
-      </ng-container>
-      <td class="text-center" [routerLink]="route ? route + '/' + professor.id : null">
-        <span class="icon" >
-          <i class="bi bi-info-circle"></i>
-        </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <table
+        class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden"
+    >
+        <thead class="bg-[var(--app-red)] text-white">
+            <tr>
+                <th>Name</th>
+                <th>Rank</th>
+                <ng-container *ngIf="isAdmin">
+                    <th>Creation Date</th>
+                    <th>Modification Date</th>
+                    <th>Actions</th>
+                </ng-container>
+                <th class="text-center italic text-xl leading-relaxed font-bold">i</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let professor of professors$ | async">
+                <td>{{ professor.name }}</td>
+                <td>{{ professor.rank }}</td>
+                <ng-container *ngIf="isAdmin">
+                    <td>{{ professor.creationDate | date: dateFormat }}</td>
+                    <td>{{ professor.modificationDate | date: dateFormat }}</td>
+                    <td class="flex justify-center">
+                        <button
+                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1"
+                            (click)="onEditClick(professor.id)"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white"
+                            (click)="onDeleteClick(professor.id)"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                </ng-container>
+                <td class="text-center" [routerLink]="route ? route + '/' + professor.id : null">
+                    <span class="icon">
+                        <i class="bi bi-info-circle"></i>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <ng-template #noProfessorsFound>
-  <p>No Professors Found.</p>
+    <p>No Professors Found.</p>
 </ng-template>

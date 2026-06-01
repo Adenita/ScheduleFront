@@ -7,20 +7,20 @@ import { GeneralModalData, ModalManagementService } from '../shared/services/mod
 
 export interface DepartmentModalData extends GeneralModalData {}
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class DepartmentModalManagementService extends ModalManagementService<DepartmentFormModalComponent, DepartmentModalData> {
-  bindDepartmentModalData(
-    selectedDepartmentId: number,
-    departmentForm: FormGroup,
-    isEditMode: boolean,
-    departments$: BehaviorSubject<DepartmentTransport[]>,
-  ): DepartmentModalData {
-    return {
-      selectedId: selectedDepartmentId,
-      form: departmentForm,
-      data$: departments$,
-      isEditMode: isEditMode,
-    };
-  }
+    bindDepartmentModalData(
+        selectedDepartmentId: number,
+        departmentForm: FormGroup,
+        isEditMode: boolean,
+        departments$: BehaviorSubject<DepartmentTransport[]>,
+    ): DepartmentModalData {
+        return {
+            selectedId: selectedDepartmentId,
+            form: departmentForm,
+            data$: departments$,
+            isEditMode: isEditMode,
+        };
+    }
 }

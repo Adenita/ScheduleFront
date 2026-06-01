@@ -1,85 +1,93 @@
 <div class="dashboard-page">
-  <section class="welcome-banner">
-    <div>
-      <p class="section-label">Admin Workspace</p>
-      <h1>Welcome back<span *ngIf="username">, {{ username }}</span></h1>
-      <p class="text-xl leading-relaxed mb-0">Manage academic data, prepare schedules, and keep role-based access organized.</p>
-    </div>
-    <button type="button" class="banner-action" *ngIf="isAdmin" (click)="router.navigate(['schedule-center'])">
-      <i class="bi bi-calendar-plus"></i>
-      Open Schedule Center
-    </button>
-  </section>
-
-  <section class="stats-grid" *ngIf="isAdmin">
-    <div class="stat-card" *ngFor="let stat of stats" [class]="'stat-card tone-' + stat.tone">
-      <i class="bi" [ngClass]="stat.icon"></i>
-      <span>{{ stat.label }}</span>
-      <strong>{{ stat.value }}</strong>
-    </div>
-  </section>
-
-  <section class="admin-layout">
-    <div class="primary-panel">
-      <div class="panel-heading">
+    <section class="welcome-banner">
         <div>
-          <p class="section-label">Quick Actions</p>
-          <h2>What do you want to work on?</h2>
+            <p class="section-label">Admin Workspace</p>
+            <h1>
+                Welcome back<span *ngIf="username">, {{ username }}</span>
+            </h1>
+            <p class="text-xl leading-relaxed mb-0">
+                Manage academic data, prepare schedules, and keep role-based access organized.
+            </p>
         </div>
-      </div>
+        <button type="button" class="banner-action" *ngIf="isAdmin" (click)="router.navigate(['schedule-center'])">
+            <i class="bi bi-calendar-plus"></i>
+            Open Schedule Center
+        </button>
+    </section>
 
-      <div class="action-section">
-        <h3>Schedule Management</h3>
-        <div class="action-grid two-by-two">
-          <button
-            type="button"
-            class="action-card"
-            *ngFor="let action of scheduleActions"
-            [class]="'action-card tone-' + action.tone"
-            (click)="navigate(action)">
-            <span class="action-label">{{ action.label }}</span>
-            <i class="bi" [ngClass]="action.icon"></i>
-            <h4>{{ action.title }}</h4>
-            <p>{{ action.description }}</p>
-          </button>
+    <section class="stats-grid" *ngIf="isAdmin">
+        <div class="stat-card" *ngFor="let stat of stats" [class]="'stat-card tone-' + stat.tone">
+            <i class="bi" [ngClass]="stat.icon"></i>
+            <span>{{ stat.label }}</span>
+            <strong>{{ stat.value }}</strong>
         </div>
-      </div>
+    </section>
 
-      <div class="action-section" *ngIf="dataActions.length">
-        <h3>Data Management</h3>
-        <div class="action-grid two-by-two">
-          <button
-            type="button"
-            class="action-card"
-            *ngFor="let action of dataActions"
-            [class]="'action-card tone-' + action.tone"
-            (click)="navigate(action)">
-            <span class="action-label">{{ action.label }}</span>
-            <i class="bi" [ngClass]="action.icon"></i>
-            <h4>{{ action.title }}</h4>
-            <p>{{ action.description }}</p>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <aside class="side-panel" *ngIf="isAdmin">
-      <p class="section-label">Notifications</p>
-      <h2>Latest activity</h2>
-      <div class="notification-list">
-        <div class="notification-item" *ngFor="let item of notifications" [class]="'notification-item tone-' + item.tone">
-          <i class="bi" [ngClass]="item.icon"></i>
-          <div>
-            <div class="notification-title">
-              <strong>{{ item.title }}</strong>
-              <span>{{ item.time }}</span>
+    <section class="admin-layout">
+        <div class="primary-panel">
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label">Quick Actions</p>
+                    <h2>What do you want to work on?</h2>
+                </div>
             </div>
-            <p>{{ item.description }}</p>
-          </div>
+
+            <div class="action-section">
+                <h3>Schedule Management</h3>
+                <div class="action-grid two-by-two">
+                    <button
+                        type="button"
+                        class="action-card"
+                        *ngFor="let action of scheduleActions"
+                        [class]="'action-card tone-' + action.tone"
+                        (click)="navigate(action)"
+                    >
+                        <span class="action-label">{{ action.label }}</span>
+                        <i class="bi" [ngClass]="action.icon"></i>
+                        <h4>{{ action.title }}</h4>
+                        <p>{{ action.description }}</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-section" *ngIf="dataActions.length">
+                <h3>Data Management</h3>
+                <div class="action-grid two-by-two">
+                    <button
+                        type="button"
+                        class="action-card"
+                        *ngFor="let action of dataActions"
+                        [class]="'action-card tone-' + action.tone"
+                        (click)="navigate(action)"
+                    >
+                        <span class="action-label">{{ action.label }}</span>
+                        <i class="bi" [ngClass]="action.icon"></i>
+                        <h4>{{ action.title }}</h4>
+                        <p>{{ action.description }}</p>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-      <small class="notification-note">Connect this panel to audit events when schedule generation and professor availability changes are persisted.</small>
-    </aside>
-  </section>
+
+        <aside class="side-panel" *ngIf="isAdmin">
+            <p class="section-label">Notifications</p>
+            <h2>Latest activity</h2>
+            <div class="notification-list">
+                <div class="notification-item" *ngFor="let item of notifications" [class]="'notification-item tone-' + item.tone">
+                    <i class="bi" [ngClass]="item.icon"></i>
+                    <div>
+                        <div class="notification-title">
+                            <strong>{{ item.title }}</strong>
+                            <span>{{ item.time }}</span>
+                        </div>
+                        <p>{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <small class="notification-note"
+                >Connect this panel to audit events when schedule generation and professor availability changes are
+                persisted.</small
+            >
+        </aside>
+    </section>
 </div>

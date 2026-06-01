@@ -10,9 +10,9 @@ import { ProgramFormModalComponent } from './components/program-form-modal/progr
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent, ProgramFormModalComponent],
-  imports: [CommonModule, ReactiveFormsModule, ProgramRoutingModule, SharedModule],
-  exports: [ProgramListComponent],
-  providers: [NgbActiveModal],
+    declarations: [ProgramListComponent, ProgramDetailsComponent, ProgramManagementComponent, ProgramFormModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, ProgramRoutingModule, SharedModule],
+    exports: [ProgramListComponent],
+    providers: [NgbActiveModal],
 })
 export class ProgramModule {}

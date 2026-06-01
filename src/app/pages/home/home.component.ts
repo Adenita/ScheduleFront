@@ -6,15 +6,9 @@ import { HowItWorksComponent } from './components/how-it-works/how-it-works.comp
 import { CtaComponent } from './components/cta/cta.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    HeroComponent,
-    FeaturesComponent,
-    ProductPreviewComponent,
-    HowItWorksComponent,
-    CtaComponent,
-  ],
-  templateUrl: './home.component.html',
+    selector: 'app-home',
+    standalone: true,
+    imports: [HeroComponent, FeaturesComponent, ProductPreviewComponent, HowItWorksComponent, CtaComponent],
+    templateUrl: './home.component.html',
 })
 export class HomeComponent {}

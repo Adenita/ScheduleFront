@@ -1,60 +1,118 @@
 <div class="mx-auto my-6 max-w-max flex min-h-[calc(100%_-_3rem)] items-center">
-  <div class="h-full rounded-lg border border-slate-200 bg-white shadow-xl">
-    <div class="flex items-center justify-between border-b border-slate-200 bg-white p-4">
-      <h4 class="text-lg font-semibold text-slate-950 text-center">Preferred Day Form</h4>
-      <button type="button" class="grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 before:content-['x']" (click)="closeModal()" aria-label="Close"></button>
-    </div>
-    <div class="bg-white p-4 overflow-y-scroll modal-body-scroll">
-      <div class="form-container mt-1 px-5">
-        <form [formGroup]="modalData.form">
-          <!-- First Row: Inputs and Selects -->
-          <div class="flex flex-wrap gap-3">
-            <div class="md:w-1/4">
-              <label for="day" class="mb-2 block text-sm font-semibold text-slate-700 font-bold">Day</label>
-            </div>
-            <div class="md:w-1/3 text-center">
-              <label for="startHour" class="mb-2 block text-sm font-semibold text-slate-700 font-bold">Start Hour</label>
-            </div>
-            <div class="md:w-1/3 text-center">
-              <label for="endHour" class="mb-2 block text-sm font-semibold text-slate-700 font-bold">End Hour</label>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <div class="md:w-1/4">
-              <select id="day" formControlName="day" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-200">
-                <option *ngFor="let day of modalData.days" [value]="day">{{ day }}</option>
-              </select>
-            </div>
+    <div class="h-full rounded-lg border border-slate-200 bg-white shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-200 bg-white p-4">
+            <h4 class="text-lg font-semibold text-slate-950 text-center">Preferred Day Form</h4>
+            <button
+                type="button"
+                class="grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 before:content-['x']"
+                (click)="closeModal()"
+                aria-label="Close"
+            ></button>
+        </div>
+        <div class="bg-white p-4 overflow-y-scroll modal-body-scroll">
+            <div class="form-container mt-1 px-5">
+                <form [formGroup]="modalData.form">
+                    <!-- First Row: Inputs and Selects -->
+                    <div class="flex flex-wrap gap-3">
+                        <div class="md:w-1/4">
+                            <label for="day" class="mb-2 block text-sm font-semibold text-slate-700 font-bold">Day</label>
+                        </div>
+                        <div class="md:w-1/3 text-center">
+                            <label for="startHour" class="mb-2 block text-sm font-semibold text-slate-700 font-bold"
+                                >Start Hour</label
+                            >
+                        </div>
+                        <div class="md:w-1/3 text-center">
+                            <label for="endHour" class="mb-2 block text-sm font-semibold text-slate-700 font-bold"
+                                >End Hour</label
+                            >
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="md:w-1/4">
+                            <select
+                                id="day"
+                                formControlName="day"
+                                class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            >
+                                <option *ngFor="let day of modalData.days" [value]="day">{{ day }}</option>
+                            </select>
+                        </div>
 
-            <div class="md:w-1/6">
-              <input type="number" id="startHour" formControlName="preferredStartHour" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
-                     min="8" max="19" required>
-            </div>
-            <div class="md:w-1/6" >
-              <input type="number" id="startMinute" formControlName="preferredStartMinute" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
-                     min="0" max="45" step="15" required>
-            </div>
+                        <div class="md:w-1/6">
+                            <input
+                                type="number"
+                                id="startHour"
+                                formControlName="preferredStartHour"
+                                class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                                min="8"
+                                max="19"
+                                required
+                            />
+                        </div>
+                        <div class="md:w-1/6">
+                            <input
+                                type="number"
+                                id="startMinute"
+                                formControlName="preferredStartMinute"
+                                class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                                min="0"
+                                max="45"
+                                step="15"
+                                required
+                            />
+                        </div>
 
-            <div class="md:w-1/6">
-              <input type="number" id="endHour" formControlName="preferredEndHour" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
-                     min="8" max="19" required>
+                        <div class="md:w-1/6">
+                            <input
+                                type="number"
+                                id="endHour"
+                                formControlName="preferredEndHour"
+                                class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                                min="8"
+                                max="19"
+                                required
+                            />
+                        </div>
+                        <div class="md:w-1/6">
+                            <input
+                                type="number"
+                                id="endMinute"
+                                formControlName="preferredEndMinute"
+                                class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                                min="0"
+                                max="45"
+                                step="15"
+                                required
+                            />
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="md:w-1/6">
-              <input type="number" id="endMinute" formControlName="preferredEndMinute" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
-                     min="0" max="45" step="15" required>
+        </div>
+        <div class="border-t border-slate-200 bg-white p-4 flex justify-between">
+            <button
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white"
+                (click)="closeModal()"
+            >
+                Close
+            </button>
+            <div *ngIf="modalData.isEditMode; else postingPreferredDay">
+                <button
+                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="onUpdateClick(modalData.selectedId)"
+                >
+                    Edit Day
+                </button>
             </div>
-          </div>
-        </form>
-      </div>
+            <ng-template #postingPreferredDay>
+                <button
+                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="onPostClick()"
+                >
+                    Add Day
+                </button>
+            </ng-template>
+        </div>
     </div>
-    <div class="border-t border-slate-200 bg-white p-4 flex justify-between" >
-      <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white" (click)="closeModal()">Close</button>
-      <div *ngIf="modalData.isEditMode; else postingPreferredDay">
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700" (click)="onUpdateClick(modalData.selectedId)">Edit Day</button>
-      </div>
-      <ng-template #postingPreferredDay>
-        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-blue-600 text-white hover:bg-blue-700" (click)="onPostClick()">Add Day</button>
-      </ng-template>
-    </div>
-  </div>
 </div>

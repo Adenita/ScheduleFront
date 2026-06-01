@@ -3,38 +3,38 @@ import { SubjectDetailsTransport, SubjectScheduleTransport, SubjectTransport } f
 import { ProfessorTransport } from './professor';
 
 export interface ProgramTransport {
-  id: number;
-  name: string;
-  creationDate: Date;
-  modificationDate: Date;
+    id: number;
+    name: string;
+    creationDate: Date;
+    modificationDate: Date;
 }
 
 export interface ProgramSubjectDetailsTransport {
-  id: number;
-  name: string;
-  subjectsTransport: SubjectDetailsTransport[];
+    id: number;
+    name: string;
+    subjectsTransport: SubjectDetailsTransport[];
 }
 
 export interface ProgramScheduleTransport {
-  id: number;
-  name: string;
-  subjectsTransport: SubjectScheduleTransport[];
+    id: number;
+    name: string;
+    subjectsTransport: SubjectScheduleTransport[];
 }
 
 export interface ProgramDetailsTransport {
-  id: number;
-  name: string;
-  creationDate: Date;
-  modificationDate: Date;
-  subjectTransports: SubjectTransport[];
-  studentGroupTransports: StudentGroupTransport[];
-  professorTransports: ProfessorTransport[];
+    id: number;
+    name: string;
+    creationDate: Date;
+    modificationDate: Date;
+    subjectTransports: SubjectTransport[];
+    studentGroupTransports: StudentGroupTransport[];
+    professorTransports: ProfessorTransport[];
 }
 
 export interface ProgramListTransport {
-  programTransports: ProgramTransport[];
+    programTransports: ProgramTransport[];
 }
 
 export interface ProgramsDetailsListTransport {
-  programsDetails: ProgramDetailsTransport[];
+    programsDetails: ProgramDetailsTransport[];
 }
