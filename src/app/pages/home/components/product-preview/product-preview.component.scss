@@ -3,8 +3,21 @@
 }
 
 .product-section {
-    background: radial-gradient(circle at top left, rgba(220, 53, 69, 0.12), transparent 35%), #f8fafc;
+    background: radial-gradient(circle at top left, color-mix(in srgb, var(--color-brand-red) 12%, transparent), transparent 35%),
+        var(--color-app-shell);
     border-radius: 36px;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3rem;
+}
+
+.product-copy,
+.product-mockup-column {
+    flex: 1 1 420px;
 }
 
 .product-section h2 {
@@ -14,15 +27,15 @@
 }
 
 .product-section p {
-    color: #6b7280;
+    color: var(--color-app-muted);
     font-size: 1.08rem;
     line-height: 1.7;
 }
 
 .section-tag {
     display: inline-block;
-    color: #dc3545;
-    background: #fff1f2;
+    color: var(--color-brand-red);
+    background: var(--color-brand-red-soft);
     border-radius: 999px;
     padding: 0.4rem 0.8rem;
     font-weight: 700;
@@ -43,13 +56,13 @@
 }
 
 .check-list i {
-    color: #16a34a;
+    color: var(--color-brand-green);
 }
 
 .dashboard-mockup {
     padding: 1.2rem;
-    background: #ffffff;
-    border: 1px solid #eef0f4;
+    background: white;
+    border: 1px solid var(--color-app-border);
     box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
     border-radius: 28px;
 }
@@ -58,7 +71,7 @@
     display: flex;
     gap: 0.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #eef0f4;
+    border-bottom: 1px solid var(--color-app-border);
 }
 
 .mockup-topbar span {
@@ -94,7 +107,7 @@
 }
 
 .mockup-stat {
-    background: #f8fafc;
+    background: var(--color-app-shell);
     border-radius: 18px;
     padding: 1rem;
 }
@@ -105,7 +118,7 @@
 }
 
 .mockup-stat span {
-    color: #6b7280;
+    color: var(--color-app-muted);
 }
 
 .mockup-table {
@@ -117,7 +130,7 @@
 .mockup-table div {
     height: 42px;
     border-radius: 14px;
-    background: linear-gradient(90deg, #fff1f2, #eff6ff);
+    background: linear-gradient(90deg, var(--color-brand-red-soft), var(--color-brand-blue-soft));
 }
 
 @media (max-width: 576px) {

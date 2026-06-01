@@ -10,5 +10,6 @@ import { CtaComponent } from './components/cta/cta.component';
     standalone: true,
     imports: [HeroComponent, FeaturesComponent, ProductPreviewComponent, HowItWorksComponent, CtaComponent],
     templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {}

@@ -1,20 +1,22 @@
 <header class="public-header">
     <div class="app-container">
-        <nav class="public-navbar">
+        <nav class="public-navbar flex justify-between items-center">
             <a class="brand" routerLink="/">
                 <img class="brand-logo" src="/assets/logo.png" alt="ScheduleUP" />
-                <span class="brand-name">ScheduleUP</span>
+                <span class="brand-name ">Schedule<span class="text-[var(--app-red)]">UP</span></span>
             </a>
 
             <div class="nav-section">
-                <a class="list-none" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="list-none nav-item" routerLink="/" routerLinkActive="active-link"
+                   [routerLinkActiveOptions]="{ exact: true }">
                     Home
                 </a>
 
-                <a class="list-none" routerLink="/aboutus" routerLinkActive="active-link"> About Us </a>
+                <a class="list-none nav-item" routerLink="/aboutus" routerLinkActive="active-link"> About Us </a>
 
-                <a class="login-btn" routerLink="/login"> Login </a>
             </div>
+
+            <a class="login-btn" routerLink="/login"> Login </a>
         </nav>
     </div>
 </header>

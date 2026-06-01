@@ -4,9 +4,9 @@
         <p>A lighter way to generate, manage, and publish university schedules.</p>
     </div>
 
-    <div class="flex flex-wrap gap-4">
+    <div class="feature-grid">
         @for (feature of features; track feature.title) {
-            <div class="md:w-1/3">
+            <div class="feature-column">
                 <div class="feature-card">
                     <div class="feature-icon {{ feature.iconClass }}">
                         <i class="bi {{ feature.icon }}"></i>

@@ -3,19 +3,22 @@
 }
 
 .schedule-link-button {
-    @apply justify-start truncate;
+    justify-content: flex-start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .schedule-link-button-program {
-    @apply w-[270px];
+    width: 270px;
 }
 
 .schedule-link-button-classroom {
-    @apply w-[100px];
+    width: 100px;
 }
 
 .schedule-link-button-professor {
-    @apply w-[280px];
+    width: 280px;
 }
 
 .searchbar {

@@ -15,9 +15,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: #fff1f2;
-    color: #dc3545;
-    border: 1px solid #ffd5dc;
+    background: var(--color-brand-red-soft);
+    color: var(--color-brand-red);
+    border: 1px solid var(--color-brand-red-border);
     padding: 0.5rem 0.9rem;
     border-radius: 999px;
     font-weight: 600;
@@ -32,9 +32,8 @@
     margin-bottom: 1rem;
 }
 
-.hero-title span,
-.red-text {
-    color: #dc3545;
+.hero-title span {
+    color: var(--color-brand-red);
 }
 
 .hero-subtitle {
@@ -46,7 +45,7 @@
 
 .hero-description {
     max-width: 620px;
-    color: #6b7280;
+    color: var(--color-app-muted);
     font-size: 1.1rem;
     line-height: 1.8;
 }
@@ -56,6 +55,42 @@
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 2rem;
+}
+
+.hero-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.hero-action-primary {
+    background: var(--color-brand-red);
+    color: white;
+}
+
+.hero-action-primary:hover {
+    background: var(--color-brand-red-dark);
+}
+
+.hero-action-secondary {
+    border-color: #111827;
+    color: #020617;
+}
+
+.hero-action-secondary:hover {
+    background: #020617;
+    color: white;
 }
 
 @keyframes fadeUp {
