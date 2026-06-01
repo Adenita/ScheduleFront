@@ -2,6 +2,22 @@
   height: 100vh;
 }
 
+.schedule-link-button {
+  @apply justify-start truncate;
+}
+
+.schedule-link-button-program {
+  @apply w-[270px];
+}
+
+.schedule-link-button-classroom {
+  @apply w-[100px];
+}
+
+.schedule-link-button-professor {
+  @apply w-[280px];
+}
+
 .searchbar {
   height: 40px;
   background-color: #ce2a2d;
@@ -42,5 +58,4 @@
   color: white;
   text-decoration: none;
 }
-
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="((bestScheduleEvents$ | async) || bestProgramSchedule?.events) as events">
-  <div class="table-responsive" *ngIf="events.length > 0">
-    <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden ">
-      <thead class="thead-dark-red">
+  <div class="w-full overflow-x-auto" *ngIf="events.length > 0">
+    <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden">
+      <thead class="bg-[var(--app-red)] text-white">
       <tr>
         <th>Subject</th>
         <th>M/O</th>

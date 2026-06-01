@@ -6,7 +6,6 @@ import { UserTransport } from '../../../../../../shared/models/user';
   selector: 'app-user-list',
   standalone: false,
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
 })
 export class UserListComponent {
   @Input()

@@ -1,24 +1,24 @@
 <ng-container *ngIf="programId$ | async as programId">
   <ng-container *ngIf="programId !== -1; else showList">
-    <div class="row mt-2">
-      <div class="col-md-10">
+    <div class="flex flex-wrap mt-2">
+      <div class="md:w-5/6">
         <router-outlet></router-outlet>
       </div>
-      <div class="col-md-2 mt-2">
-        <div class="card">
-          <div class="card-header box-shadow pt-3 text-center rounded-3" style="background: #ce2a2d; color: white;">
+      <div class="md:w-1/6 mt-2">
+        <div class="rounded-lg border border-slate-200 bg-white">
+          <div class="border-b border-slate-200 bg-white shadow-sm pt-3 text-center rounded-lg red-panel-header">
             <h4>Programs</h4>
           </div>
-          <div class="card-body p-1 mt-2">
-            <div class="d-flex flex-column">
+          <div class="p-4 p-1 mt-2">
+            <div class="flex flex-col">
               <button *ngFor="let program of programs$ | async"
-                      class="btn btn-outline-dark mb-2"
+                      class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mb-2"
                       [class.active]="programId === program.id"
                       (click)="selectProgram(program)">
                 {{ program.name }}
               </button>
               <ng-container *ngIf="isAdmin">
-                <button class="btn btn-danger me-1 px-4" (click)="openProgramFormModal()">Add</button>
+                <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700 mr-1" (click)="openProgramFormModal()">Add</button>
               </ng-container>
             </div>
           </div>
@@ -29,18 +29,18 @@
 </ng-container>
 
 <ng-template #showList>
-  <div class="container mt-5">
-    <div class="row justify-content-end align-items-center my-2">
-      <div class="col">
-        <h5 class="mb-0 lead fw-normal">Programs List</h5>
+  <div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 mt-12">
+    <div class="flex flex-wrap justify-end items-center my-2">
+      <div class="flex-1 basis-0">
+        <h5 class="mb-0 text-xl leading-relaxed font-normal">Programs List</h5>
       </div>
-      <div *ngIf="isAdmin" class="col-lg-auto">
-        <button class="btn btn-sm btn-dark px-4" (click)="openProgramFormModal()">Add</button>
+      <div *ngIf="isAdmin" class="lg:w-auto">
+        <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs bg-slate-950 text-white hover:bg-slate-800" (click)="openProgramFormModal()">Add</button>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12">
+    <div class="flex flex-wrap">
+      <div class="w-full">
         <app-program-list
           [programs$]="programs$"
           [isAdmin]="isAdmin"

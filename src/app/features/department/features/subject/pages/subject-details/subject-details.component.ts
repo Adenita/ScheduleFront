@@ -11,7 +11,6 @@ import { SubjectService } from '../../../../../../core/services/http/subjects.se
   selector: 'app-subject-details',
   standalone: false,
   templateUrl: './subject-details.component.html',
-  styleUrls: ['./subject-details.component.css'],
 })
 export class SubjectDetailsComponent implements OnInit, OnDestroy {
   departmentId: number = -1;

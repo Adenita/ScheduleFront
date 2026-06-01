@@ -17,7 +17,6 @@ import { DepartmentTransport } from '../../../../../../shared/models/department'
   selector: 'app-user-management',
   standalone: false,
   templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.css'],
 })
 export class UserManagementComponent implements OnInit, OnDestroy {
   departmentId: number = -1;

@@ -7,7 +7,6 @@ import { DepartmentModalData } from '../../services/department-modal-management.
   selector: 'app-department-form-modal',
   standalone: false,
   templateUrl: './department-form-modal.component.html',
-  styleUrls: ['./department-form-modal.component.css'],
 })
 export class DepartmentFormModalComponent {
   @Input()

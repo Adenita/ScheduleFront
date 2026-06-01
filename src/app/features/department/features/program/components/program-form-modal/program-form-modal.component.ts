@@ -7,7 +7,6 @@ import { ModalEventsService } from '../../../../shared/services/modal-events.ser
   selector: 'app-program-form-modal',
   standalone: false,
   templateUrl: './program-form-modal.component.html',
-  styleUrls: ['./program-form-modal.component.css'],
 })
 export class ProgramFormModalComponent {
   @Input()

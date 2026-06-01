@@ -6,7 +6,6 @@ import { ProfessorTransport } from '../../../../../shared/models/professor';
   selector: 'app-professor-list',
   standalone: false,
   templateUrl: './professor-list.component.html',
-  styleUrls: ['./professor-list.component.css'],
 })
 export class ProfessorListComponent {
   @Input()

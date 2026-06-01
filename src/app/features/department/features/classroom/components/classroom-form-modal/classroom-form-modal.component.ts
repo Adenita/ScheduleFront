@@ -7,7 +7,6 @@ import { ClassroomModalData } from '../../services/classroom-modal-management.se
   selector: 'app-classroom-form-modal',
   standalone: false,
   templateUrl: './classroom-form-modal.component.html',
-  styleUrls: ['./classroom-form-modal.component.css'],
 })
 export class ClassroomFormModalComponent {
   @Input()

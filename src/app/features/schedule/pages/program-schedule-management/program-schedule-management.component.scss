@@ -1,18 +1,14 @@
 .schedule-detail-page {
-  display: grid;
-  gap: 1.5rem;
+  @apply grid max-w-full gap-6 px-6 py-12;
   grid-template-columns: minmax(0, 1fr) 220px;
-  max-width: 100%;
-  padding: 3rem 1.5rem;
 }
 
 .schedule-main-panel {
-  min-width: 0;
+  @apply min-w-0;
 }
 
 .schedule-side-panel {
-  margin-top: 5rem;
-  min-width: 0;
+  @apply mt-20 min-w-0;
 }
 
 @media (max-width: 992px) {
@@ -21,6 +17,6 @@
   }
 
   .schedule-side-panel {
-    margin-top: 0;
+    @apply mt-0;
   }
 }

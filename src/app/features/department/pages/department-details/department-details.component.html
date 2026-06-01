@@ -1,41 +1,41 @@
-<div *ngIf="!isSchedule" class="row align-items-start" style="margin-top: 2em;">
-  <div class="col">
-    <div style="margin-top: 10em;">
-      <h2 class="fw-bold">Department Information</h2>
-      <h3 class="fw-semibold mb-0">Name | <span class="red-text"> {{department$.getValue()?.name}} </span> </h3>
+<div *ngIf="!isSchedule" class="department-hero flex flex-wrap items-start">
+  <div class="flex-1 basis-0">
+    <div class="department-hero-copy">
+      <h2 class="font-bold">Department Information</h2>
+      <h3 class="font-semibold mb-0">Name | <span class="red-text"> {{department$.getValue()?.name}} </span> </h3>
     </div>
   </div>
-  <div class="col-auto d-flex align-items-start me-5">
+  <div class="w-auto flex items-start mr-12">
     <div class="half-image-container"></div>
   </div>
 </div>
 
-<div class="row mt-2">
-  <div class="card tab-card p-1">
-    <div *ngIf="!isSchedule;" class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
-      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link rounded-3" routerLink="programs" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Programs</a>
+<div class="flex flex-wrap mt-2">
+  <div class="rounded-lg border border-slate-200 bg-white tab-card p-1">
+    <div *ngIf="!isSchedule;" class="border-b border-slate-200 bg-white rounded-lg shadow-sm pb-4 pt-3 text-center">
+      <ul class="flex list-none flex-wrap items-center gap-2 p-0 border-b border-slate-200 -mb-px" id="myTab" role="tablist">
+        <li class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg" routerLink="programs" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Programs</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link rounded-3" routerLink="professors" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Professors</a>
+        <li class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg" routerLink="professors" [relativeTo]=activatedRoute routerLinkActive="nav-link-active">Professors</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link rounded-3"  routerLink="subjects" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Subjects</a>
+        <li class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg"  routerLink="subjects" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Subjects</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link rounded-3" routerLink="classrooms" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Classrooms</a>
+        <li class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg" routerLink="classrooms" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Classrooms</a>
         </li>
-        <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link rounded-3" routerLink="student-groups" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Student Groups</a>
+        <li *ngIf="isAdmin" class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg" routerLink="student-groups" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Student Groups</a>
         </li>
-        <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link rounded-3" routerLink="users" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Users</a>
+        <li *ngIf="isAdmin" class="list-none">
+          <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg" routerLink="users" [relativeTo]=activatedRoute  routerLinkActive="nav-link-active">Users</a>
         </li>
       </ul>
     </div>
 
-    <div class="card-body tab-content" id="myTabContent">
+    <div class="p-4 w-full" id="myTabContent">
         <router-outlet></router-outlet>
     </div>
   </div>

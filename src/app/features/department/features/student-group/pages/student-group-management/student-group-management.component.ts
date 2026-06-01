@@ -15,7 +15,6 @@ import { Role } from '../../../../../../shared/models/user';
   selector: 'app-student-groups-list',
   standalone: false,
   templateUrl: './student-group-management.component.html',
-  styleUrls: ['./student-group-management.component.css'],
 })
 export class StudentGroupManagementComponent implements OnInit, OnDestroy {
   programId: number = -1;

@@ -1,13 +1,13 @@
-<div class="row mt-2">
-  <div class="card tab-card p-1">
+<div class="flex flex-wrap mt-2">
+  <div class="rounded-lg border border-slate-200 bg-white tab-card p-1">
 
-    <div class="card-header rounded-3 box-shadow pb-4 pt-3 text-center">
+    <div class="border-b border-slate-200 bg-white rounded-lg shadow-sm pb-4 pt-3 text-center">
 
-      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+      <ul class="flex list-none flex-wrap items-center gap-2 p-0 border-b border-slate-200 -mb-px" id="myTab" role="tablist">
         @for (department of departments; track department.id) {
-          <li class="nav-item">
+          <li class="list-none">
             <a
-              class="nav-link rounded-3"
+              class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition rounded-lg"
               [routerLink]="[department.id]"
               [relativeTo]="activatedRoute"
               routerLinkActive="nav-link-active"
@@ -21,7 +21,7 @@
 
     </div>
 
-    <div class="card-body tab-content" id="myTabContent">
+    <div class="p-4 w-full" id="myTabContent">
       <router-outlet></router-outlet>
     </div>
 

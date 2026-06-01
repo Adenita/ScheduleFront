@@ -8,7 +8,6 @@ import { ScheduleGroupingService } from '../../services/schedule-grouping.servic
   selector: 'app-classroom-schedule',
   standalone: false,
   templateUrl: './classroom-schedule.component.html',
-  styleUrls: ['./classroom-schedule.component.css'],
 })
 export class ClassroomScheduleComponent implements OnInit, OnDestroy {
   @Input()

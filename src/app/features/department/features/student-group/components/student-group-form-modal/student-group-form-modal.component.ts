@@ -7,7 +7,6 @@ import { StudentGroupModalData } from '../../services/student-group-modal-manage
   selector: 'app-student-group-form-modal',
   standalone: false,
   templateUrl: './student-group-form-modal.component.html',
-  styleUrls: ['./student-group-form-modal.component.css'],
 })
 export class StudentGroupFormModalComponent {
   @Input()

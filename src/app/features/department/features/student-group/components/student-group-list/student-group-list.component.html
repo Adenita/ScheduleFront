@@ -1,6 +1,6 @@
-<div class = "table-responsive" *ngIf="studentGroups$.getValue() && studentGroups$.getValue().length > 0; else noStudentGroupsFound">
-  <table class="table table-bordered table-striped table-hover overflow-scroll">
-    <thead class="thead-dark-red">
+<div class="w-full overflow-x-auto" *ngIf="studentGroups$.getValue() && studentGroups$.getValue().length > 0; else noStudentGroupsFound">
+  <table class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 overflow-scroll">
+    <thead class="bg-[var(--app-red)] text-white">
     <tr>
       <th>Name</th>
       <th>Number of Students</th>
@@ -22,9 +22,9 @@
       <ng-container *ngIf="isAdmin">
         <td>{{ studentGroup.creationDate | date: dateFormat}}</td>
         <td>{{ studentGroup.modificationDate | date: dateFormat}}</td>
-        <td class="d-flex justify-content-center">
-          <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(studentGroup.id)">Edit</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(studentGroup.id)">Delete</button>
+        <td class="flex justify-center">
+          <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1" (click)="onEditClick(studentGroup.id)">Edit</button>
+          <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white" (click)="onDeleteClick(studentGroup.id)">Delete</button>
         </td>
       </ng-container>
     </tr>

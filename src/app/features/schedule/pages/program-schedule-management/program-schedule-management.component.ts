@@ -12,7 +12,7 @@ import { ScheduleRouteService } from '../../services/schedule-route.service';
   selector: 'app-program-schedule-management',
   standalone: false,
   templateUrl: './program-schedule-management.component.html',
-  styleUrls: ['./program-schedule-management.component.css'],
+  styleUrls: ['./program-schedule-management.component.scss'],
 })
 export class ProgramScheduleManagementComponent implements OnInit, OnDestroy {
   scheduleId: number = -1;

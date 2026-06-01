@@ -7,7 +7,6 @@ import { PreferredDayModalData } from '../../services/preferred-day-modal-manage
   selector: 'app-professor-preferred-days-from-modal',
   standalone: false,
   templateUrl: './professor-preferred-days-from-modal.component.html',
-  styleUrls: ['./professor-preferred-days-from-modal.component.css'],
 })
 export class ProfessorPreferredDaysFromModalComponent {
   @Input()

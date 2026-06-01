@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
   selector: 'app-departments-list',
   standalone: false,
   templateUrl: './departments-list.component.html',
-  styleUrls: ['./departments-list.component.css'],
 })
 export class DepartmentsListComponent implements OnInit, OnDestroy {
   departments$: BehaviorSubject<DepartmentTransport[]>;

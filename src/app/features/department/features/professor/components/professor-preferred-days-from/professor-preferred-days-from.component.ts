@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-professor-preferred-days-from',
   standalone: false,
   templateUrl: './professor-preferred-days-from.component.html',
-  styleUrls: ['./professor-preferred-days-from.component.css'],
+  styleUrls: ['./professor-preferred-days-from.component.scss'],
 })
 export class ProfessorPreferredDaysFromComponent implements OnInit, OnDestroy {
   days: DAY[] = Object.values(DAY);

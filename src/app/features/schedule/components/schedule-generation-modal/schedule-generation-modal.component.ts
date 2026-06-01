@@ -9,7 +9,6 @@ import { ScheduleDataService } from '../../../../core/services/http/schedule-dat
   selector: 'app-generate-schedule-modal',
   standalone: false,
   templateUrl: './schedule-generation-modal.component.html',
-  styleUrls: ['./schedule-generation-modal.component.css'],
 })
 export class ScheduleGenerationModalComponent {
   @Input()

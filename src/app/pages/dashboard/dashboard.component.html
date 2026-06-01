@@ -3,7 +3,7 @@
     <div>
       <p class="section-label">Admin Workspace</p>
       <h1>Welcome back<span *ngIf="username">, {{ username }}</span></h1>
-      <p class="lead mb-0">Manage academic data, prepare schedules, and keep role-based access organized.</p>
+      <p class="text-xl leading-relaxed mb-0">Manage academic data, prepare schedules, and keep role-based access organized.</p>
     </div>
     <button type="button" class="banner-action" *ngIf="isAdmin" (click)="router.navigate(['schedule-center'])">
       <i class="bi bi-calendar-plus"></i>

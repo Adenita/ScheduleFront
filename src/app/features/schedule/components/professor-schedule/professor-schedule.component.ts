@@ -8,7 +8,6 @@ import { ScheduleGroupingService } from '../../services/schedule-grouping.servic
   selector: 'app-professor-schedule',
   standalone: false,
   templateUrl: './professor-schedule.component.html',
-  styleUrls: ['./professor-schedule.component.css'],
 })
 export class ProfessorScheduleComponent implements OnInit, OnDestroy {
   @Input()

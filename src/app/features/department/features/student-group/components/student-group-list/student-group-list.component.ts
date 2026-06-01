@@ -6,7 +6,6 @@ import { StudentGroupTransport } from '../../../../../../shared/models/student-g
   selector: 'app-student-group-list',
   standalone: false,
   templateUrl: './student-group-list.component.html',
-  styleUrls: ['./student-group-list.component.css'],
 })
 export class StudentGroupListComponent {
   @Input()

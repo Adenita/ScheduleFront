@@ -7,7 +7,6 @@ import { ScheduleTransport } from '../../shared/models/schedule';
   selector: 'app-schedule',
   standalone: false,
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent {
   @Input()

@@ -1,69 +1,69 @@
-<div class="container justify-content-center" style="margin-top: 5em;" *ngIf="user">
-  <div class="card user-card-full">
-    <div class="row mx-0">
-      <div class="col-5 red-bg user-profile">
-        <div class="card-block text-center text-white">
-          <div class="mb-5">
-            <img src="/assets/hat-logo-inverse-mb-0.png" class="img-radius" alt="User-Profile-Image" style="width: 18em; height: 18em;">
+<div class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 justify-center user-details-page" *ngIf="user">
+  <div class="rounded-lg border border-slate-200 bg-white user-card-full">
+    <div class="flex flex-wrap mx-0">
+      <div class="w-5/12 red-bg user-profile">
+        <div class="p-4 text-center text-white">
+          <div class="mb-12">
+            <img src="/assets/hat-logo-inverse-mb-0.png" class="img-radius profile-image" alt="User-Profile-Image">
           </div>
-          <div style="color:white;">
+          <div class="text-white">
             <h4 class="f-w-600">USER | {{ user.name }}</h4>
-            <h5 class="lead"> role | {{ user.role }}</h5>
+            <h5 class="text-xl leading-relaxed"> role | {{ user.role }}</h5>
           </div>
         </div>
       </div>
-      <div class="col-6 ms-5">
-        <div class="card-block">
+      <div class="w-1/2 ml-12">
+        <div class="p-4">
           <h4 class="my-4 pb3 b-b-default f-w-600">Personal Information</h4>
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="flex flex-wrap">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">FirstName</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
-            <div class="col-sm-6">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">LastName</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
           </div>
-          <div class="row mt-3">
-            <div class="col-sm-6">
+          <div class="flex flex-wrap mt-3">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Email</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
-            <div class="col-sm-6">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Phone</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
           </div>
-          <div class="row mt-3">
-            <div class="col-sm-6">
+          <div class="flex flex-wrap mt-3">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Birthday</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
-            <div class="col-sm-6">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Address</p>
-              <h6 class="text-muted f-w-400">Not added yet</h6>
+              <h6 class="text-slate-500 f-w-400">Not added yet</h6>
             </div>
           </div>
-          <h4 class="mt-5 b-b-default f-w-600 mt-3">Staff Information</h4>
-          <div class="row mt-4">
-            <div class="col-sm-6">
+          <h4 class="mt-12 b-b-default f-w-600 mt-3">Staff Information</h4>
+          <div class="flex flex-wrap mt-4">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Department</p>
-              <h6 class="text-muted f-w-400">{{ user.departmentTransport.name }}</h6>
+              <h6 class="text-slate-500 f-w-400">{{ user.departmentTransport.name }}</h6>
             </div>
-            <div class="col-sm-6">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Username</p>
-              <h6 class="text-muted f-w-400">{{ user.username }}</h6>
+              <h6 class="text-slate-500 f-w-400">{{ user.username }}</h6>
             </div>
           </div>
-          <div class="row mt-3 mb-4">
-            <div class="col-sm-6">
+          <div class="flex flex-wrap mt-3 mb-4">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Role</p>
-              <h6 class="text-muted f-w-400">{{ user.role }}</h6>
+              <h6 class="text-slate-500 f-w-400">{{ user.role }}</h6>
             </div>
-            <div class="col-sm-6">
+            <div class="sm:w-1/2">
               <p class="mb-2 f-w-600">Rank</p>
-              <h6 class="text-muted f-w-400"> Not added yet </h6>
+              <h6 class="text-slate-500 f-w-400"> Not added yet </h6>
             </div>
           </div>
         </div>

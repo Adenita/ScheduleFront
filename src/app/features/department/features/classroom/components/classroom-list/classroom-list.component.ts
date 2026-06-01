@@ -6,7 +6,6 @@ import { Classroom } from '../../../../../../shared/models/classroom';
   selector: 'app-classroom-list',
   standalone: false,
   templateUrl: './classroom-list.component.html',
-  styleUrls: ['./classroom-list.component.css'],
 })
 export class ClassroomListComponent {
   @Input()

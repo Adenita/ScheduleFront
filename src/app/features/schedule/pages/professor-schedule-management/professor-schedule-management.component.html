@@ -1,26 +1,26 @@
 <div class="schedule-detail-page">
   <div class="schedule-main-panel">
     <div class="text-center">
-      <h2 class="fw-bold mb-1">{{selectedProfessor$.getValue().rank}} | <span class="red-text">{{selectedProfessor$.getValue().name}}</span></h2>
-      <h6 class="fst-italic fw-light">View the schedule offered in the professor grouped format</h6>
+      <h2 class="font-bold mb-1">{{selectedProfessor$.getValue().rank}} | <span class="red-text">{{selectedProfessor$.getValue().name}}</span></h2>
+      <h6 class="italic font-light">View the schedule offered in the professor grouped format</h6>
     </div>
     <app-professor-schedule [professorSchedule$]="professorSchedule$"></app-professor-schedule>
   </div>
   <div class="schedule-side-panel">
-    <div class="d-flex flex-column">
-      <h4 class="fw-semibold">Professors</h4>
+    <div class="flex flex-col">
+      <h4 class="font-semibold">Professors</h4>
       <div class="mb-2">
-        <input type="text" class="form-control" placeholder="Search professor " (input)="onSearch($event)">
+        <input type="text" class="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200" placeholder="Search professor " (input)="onSearch($event)">
       </div>
-      <div class="d-flex flex-column overflow-y-scroll my-2 border-bottom border-top custom-scroll">
+      <div class="flex flex-col overflow-y-scroll my-2 border-b border-slate-200 border-t custom-scroll">
         <button *ngFor="let professor of filteredProfessors$ | async"
-                class="btn btn-outline-dark me-2 mb-2"
+                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-2 mb-2"
                 [class.active] = "selectedProfessor$.getValue().id === professor.id"
                 (click)="loadProfessorSchedule(professor)">
           {{professor.name}}
         </button>
       </div>
-      <button class="btn btn-danger me-2" (click)="goBack()"> Go Back </button>
+      <button class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-[var(--app-red)] text-white hover:bg-red-700 mr-2" (click)="goBack()"> Go Back </button>
     </div>
   </div>
 </div>
