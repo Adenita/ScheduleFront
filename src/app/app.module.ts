@@ -107,7 +107,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     AboutusComponent,
     DashboardComponent,
     HeaderBarComponent,
@@ -122,6 +121,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     AuthModule,
     CustomRouterLinkActiveDirective,
+    HomeComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,39 @@
+<div class="hero-preview">
+  <div class="preview-card main-preview-card">
+    <div class="preview-header">
+      <div>
+        <h5>Generated Schedule</h5>
+        <p>Computer Science · Semester 4</p>
+      </div>
+
+      <span class="status-pill">Optimized</span>
+    </div>
+
+    @for (row of schedulePreviewRows; track row.title) {
+      <div class="schedule-preview-row {{ row.accent }}">
+        <div>
+          <strong>{{ row.title }}</strong>
+          <p>{{ row.details }}</p>
+        </div>
+
+        <span>{{ row.time }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="floating-card conflicts-card">
+    <i class="bi bi-shield-check"></i>
+    <div>
+      <strong>Conflict check</strong>
+      <p>Rooms, professors, and groups validated</p>
+    </div>
+  </div>
+
+  <div class="floating-card calendar-card">
+    <i class="bi bi-calendar-event"></i>
+    <div>
+      <strong>Google Calendar</strong>
+      <p>Integration coming soon</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<section class="section">
+<div class="section-heading text-center">
+  <h2>How it works</h2>
+<p>Simple flow. Powerful scheduling engine.</p>
+</div>
+
+<div class="steps">
+  @for (step of steps; track step.number) {
+  <div class="step-card">
+    <span>{{ step.number }}</span>
+  <h4>{{ step.title }}</h4>
+  <p>{{ step.description }}</p>
+  </div>
+}
+</div>
+</section>
