@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class FeaturesComponent {
     readonly features = [
         {
-            icon: 'bi-cpu',
+            icon: 'bi-magic',
             badge: 'Generator',
             title: 'Genetic Algorithm Scheduling',
             description: 'Generate schedules automatically using optimization logic that helps reduce conflicts.',

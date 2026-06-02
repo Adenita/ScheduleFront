@@ -1,153 +1,133 @@
 <div class="flex items-center justify-center">
-    <section class="w-full px-2 py-10 md:w-[90%] md:py-20">
+    <section class="w-full px-2 py-10 md:w-[90%] md:py-20 mx-auto">
+        <div class="mx-auto mb-6 max-w-3xl text-center">
+            <h2 class="mb-4 text-3xl font-black text-slate-950 md:text-4xl">
+                From data to timetable
+            </h2>
 
-        <div class="mx-auto w-full max-w-7xl">
+            <p class="text-lg font-medium leading-7 text-slate-500">
+                A focused workflow that turns university resources into a publishable schedule.
+            </p>
+        </div>
 
-            <div class="mx-auto mb-16 max-w-3xl text-center">
-        <span
-            class="mb-4 inline-flex rounded-full bg-[#1E3A5F]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#1E3A5F]">
-          Process
-        </span>
-
-                <h2 class="mb-4 text-3xl font-black text-slate-950 md:text-5xl">
-                    From data to timetable
-                </h2>
-
-                <p class="text-lg font-medium leading-7 text-slate-500">
-                    A focused workflow that turns university resources into a publishable schedule.
-                </p>
+        <div class="relative hidden min-h-[440px] md:block">
+            <!-- timeline -->
+            <div
+                class="absolute left-[10%] right-[10%] top-1/2 h-1 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#B02A37] via-[#7C2D50] to-[#1E3A5F]">
             </div>
 
-            <div class="relative hidden min-h-[440px] md:block">
+            <div class="grid h-full grid-cols-5 gap-6">
+                @for (step of steps; track step.number; let i = $index) {
+                    <div class="group relative flex min-h-[440px] flex-col items-center justify-center">
+                        <!-- top cards -->
+                        @if (i % 2 === 0) {
+                            <div class="absolute bottom-[calc(50%+2.75rem)] w-full">
+                                <div
+                                    class="relative flex h-[130px] flex-col rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#B02A37]/30 group-hover:shadow-[0_22px_55px_rgba(176,42,55,0.12)]">
 
-                <!-- timeline -->
-                <div
-                    class="absolute left-[10%] right-[10%] top-1/2 h-1 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#B02A37] via-[#7C2D50] to-[#1E3A5F]">
-                </div>
+                                    <!-- Icon -->
+                                    @if (step.key === 'generate') {
+                                        <div
+                                            class="mx-auto mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#B02A37]/10 text-[#B02A37]">
+                                            <i class="bi {{ step.icon }} text-base"></i>
+                                        </div>
+                                    } @else {
+                                        <div
+                                            class="mx-auto mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-colors duration-300 group-hover:bg-slate-200">
+                                            <i class="bi {{ step.icon }} text-base"></i>
+                                        </div>
+                                    }
 
-                <div class="grid h-full grid-cols-5 gap-6">
+                                    <h4 class="mb-2 text-sm font-bold leading-5 text-slate-950">
+                                        {{ step.title }}
+                                    </h4>
 
-                    @for (step of steps; track step.number; let i = $index) {
-
-                        <div class="group relative flex min-h-[440px] flex-col items-center justify-center">
-
-                            <!-- top cards -->
-                            @if (i % 2 === 0) {
-
-                                <div class="absolute bottom-[calc(50%+2.75rem)] w-full">
+                                    <p class="text-xs font-medium leading-5 text-slate-500">
+                                        {{ step.description }}
+                                    </p>
 
                                     <div
-                                        class="relative flex h-[150px] flex-col rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#B02A37]/30">
-
-                                        @if (step.key === 'generate') {
-                                            <div
-                                                class="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#B02A37]/10 text-[#B02A37]">
-                                                <i class="bi bi-magic"></i>
-                                            </div>
-                                        }
-
-                                        <h4 class="mb-2 text-base font-bold leading-5 text-slate-950">
-                                            {{ step.title }}
-                                        </h4>
-
-                                        <p class="text-xs font-medium leading-5 text-slate-500">
-                                            {{ step.description }}
-                                        </p>
-
-                                        <div
-                                            class="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-b border-r border-slate-200 bg-white">
-                                        </div>
-
+                                        class="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-b border-r border-slate-200 bg-white">
                                     </div>
                                 </div>
-                            }
+                            </div>
+                        }
 
-                            <!-- number circle -->
+                        <!-- number circle -->
+                        @if (step.key === 'generate') {
+                            <div
+                                class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-gradient-to-t from-[#1E3A5F] to-[#B02A37] text-sm font-black text-white shadow-[0_0_30px_rgba(176,42,55,0.35)] ring-4 ring-slate-100 transition duration-300 group-hover:scale-110">
+                                {{ step.number }}
+                            </div>
+                        } @else {
+                            <div
+                                class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-[#1E3A5F] text-sm font-black text-white shadow-xl ring-4 ring-slate-100 transition duration-300 group-hover:scale-110">
+                                {{ step.number }}
+                            </div>
 
-                            @if (step.key === 'generate') {
+                        }
 
+                        <!-- bottom cards -->
+                        @if (i % 2 !== 0) {
+                            <div class="absolute top-[calc(50%+2.75rem)] w-full">
                                 <div
-                                    class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-gradient-to-br from-[#B02A37] to-[#1E3A5F] text-sm font-black text-white shadow-[0_0_30px_rgba(176,42,55,0.35)] ring-4 ring-slate-100 transition duration-300 group-hover:scale-110">
-                                    {{ step.number }}
-                                </div>
+                                    class="relative flex h-[130px] flex-col rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#B02A37]/30 group-hover:shadow-[0_22px_55px_rgba(176,42,55,0.12)]">
 
-                            } @else {
+                                    <!-- Icon -->
+                                    @if (step.key === 'generate') {
+                                        <div
+                                            class="mx-auto mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#B02A37]/10 text-[#B02A37]">
+                                            <i class="bi {{ step.icon }} text-base"></i>
+                                        </div>
 
-                                <div
-                                    class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 border-white bg-[#1E3A5F] text-sm font-black text-white shadow-xl ring-4 ring-slate-100 transition duration-300 group-hover:scale-110">
-                                    {{ step.number }}
-                                </div>
+                                    } @else {
+                                        <div
+                                            class="mx-auto mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-colors duration-300 group-hover:bg-slate-200">
+                                            <i class="bi {{ step.icon }} text-base"></i>
+                                        </div>
 
-                            }
+                                    }
 
-                            <!-- bottom cards -->
+                                    <h4 class="mb-2 text-sm font-bold leading-5 text-slate-950">
+                                        {{ step.title }}
+                                    </h4>
 
-                            @if (i % 2 !== 0) {
-
-                                <div class="absolute top-[calc(50%+2.75rem)] w-full">
-
+                                    <p class="text-xs font-medium leading-5 text-slate-500">
+                                        {{ step.description }}
+                                    </p>
                                     <div
-                                        class="relative flex h-[150px] flex-col rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#B02A37]/30">
-
-                                        @if (step.key === 'generate') {
-                                            <div
-                                                class="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#B02A37]/10 text-[#B02A37]">
-                                                <i class="bi bi-magic"></i>
-                                            </div>
-                                        }
-
-                                        <h4 class="mb-2 text-base font-bold leading-5 text-slate-950">
-                                            {{ step.title }}
-                                        </h4>
-
-                                        <p class="text-xs font-medium leading-5 text-slate-500">
-                                            {{ step.description }}
-                                        </p>
-
-                                        <div
-                                            class="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white">
-                                        </div>
-
+                                        class="absolute -top-2 left-1/2 h-5 w-5 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white">
                                     </div>
                                 </div>
-                            }
 
-                        </div>
-
-                    }
-
-                </div>
-
-            </div>
-
-            <!-- Mobile -->
-
-            <div class="space-y-4 md:hidden">
-
-                @for (step of steps; track step.number) {
-
-                    <div
-                        class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-
-                        <div
-                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E3A5F] text-xs font-black text-white">
-                            {{ step.number }}
-                        </div>
-
-                        <div>
-                            <h4 class="mb-1 text-base font-bold text-slate-950">
-                                {{ step.title }}
-                            </h4>
-
-                            <p class="text-sm leading-6 text-slate-500">
-                                {{ step.description }}
-                            </p>
-                        </div>
-
+                            </div>
+                        }
                     </div>
-
                 }
             </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="space-y-4 md:hidden">
+            @for (step of steps; track step.number) {
+                <div class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E3A5F] text-xs font-black text-white">
+                        {{ step.number }}
+                    </div>
+
+                    <div>
+                        <h4 class="mb-1 text-base font-bold text-slate-950">
+                            {{ step.title }}
+                        </h4>
+
+                        <p class="text-sm leading-6 text-slate-500">
+                            {{ step.description }}
+                        </p>
+                    </div>
+                </div>
+
+            }
         </div>
     </section>
 </div>
