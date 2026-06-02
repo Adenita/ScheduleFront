@@ -1,53 +1,64 @@
-<section class="section product-section">
-    <div class="product-grid">
-        <div class="product-copy">
-            <span class="section-tag">Product preview</span>
+<section class="bg-app-shell px-4 py-10 md:py-20 mt-10">
+    <div class="mx-auto flex w-full flex-wrap items-center gap-12 w-full md:w-[90%]">
+        <div class="flex-1 basis-[420px]">
+            <span class="mb-4 inline-flex rounded-full bg-primary-light px-3 py-1.5 text-sm font-bold text-primary">
+                Product preview
+            </span>
 
-            <h2>Designed for universities, departments, and academic staff.</h2>
+            <h2 class="mb-3 text-3xl font-black leading-tight text-app-ink md:text-4xl">
+                Designed for universities, departments, and academic staff.
+            </h2>
 
-            <p>ScheduleUP brings professors, subjects, rooms, groups, and generated schedules into one organized platform.</p>
+            <p class="text-base leading-7 text-app-muted md:text-lg">
+                ScheduleUP brings professors, subjects, rooms, groups, and generated schedules into one organized
+                platform.
+            </p>
 
-            <div class="check-list">
+            <div class="mt-6 grid gap-4">
                 @for (item of checkListItems; track item) {
-                    <div>
-                        <i class="bi bi-check-circle-fill"></i>
-                        {{ item }}
+                    <div class="flex items-center gap-3 font-semibold text-app-ink">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span>{{ item }}</span>
                     </div>
                 }
             </div>
         </div>
 
-        <div class="product-mockup-column">
-            <div class="dashboard-mockup">
-                <div class="mockup-topbar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <div class="flex-1 basis-[420px]">
+            <div class="rounded-[28px] border border-app-border bg-white p-5 shadow-xl">
+                <div class="flex gap-2 border-b border-app-border pb-4">
+                    <span class="h-3 w-3 rounded-full bg-primary-light"></span>
+                    <span class="h-3 w-3 rounded-full bg-warning"></span>
+                    <span class="h-3 w-3 rounded-full bg-success"></span>
                 </div>
 
-                <div class="mockup-grid">
-                    <div class="mockup-sidebar">
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                <div class="grid gap-4 pt-4 md:grid-cols-[90px_1fr]">
+                    <div class="hidden content-start gap-3 md:grid">
+                        <div class="h-[38px] rounded-md bg-slate-100"></div>
+                        <div class="h-[38px] rounded-md bg-primary-light"></div>
+                        <div class="h-[38px] rounded-md bg-slate-100"></div>
                     </div>
 
-                    <div class="mockup-content">
-                        <div class="mockup-stat">
-                            <strong>94%</strong>
-                            <span>Schedule fit</span>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div class="rounded-lg bg-app-shell p-4">
+                            <strong class="block text-3xl font-black text-app-ink">94%</strong>
+                            <span class="text-sm font-medium text-app-muted">Schedule fit</span>
                         </div>
 
-                        <div class="mockup-stat">
-                            <strong>12</strong>
-                            <span>Conflicts solved</span>
+                        <div class="rounded-lg bg-app-shell p-4">
+                            <strong class="block text-3xl font-black text-app-ink">12</strong>
+                            <span class="text-sm font-medium text-app-muted">Conflicts solved</span>
                         </div>
 
-                        <div class="mockup-table">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                        <div class="grid gap-3 sm:col-span-2">
+                            <div
+                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
+                            <div
+                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
+                            <div
+                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
+                            <div
+                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
                         </div>
                     </div>
                 </div>

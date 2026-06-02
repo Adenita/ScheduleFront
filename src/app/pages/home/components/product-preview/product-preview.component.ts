@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
     selector: 'home-product-preview',
     standalone: true,
     templateUrl: './product-preview.component.html',
-    styleUrls: ['./product-preview.component.scss'],
 })
 export class ProductPreviewComponent {
     readonly checkListItems = [

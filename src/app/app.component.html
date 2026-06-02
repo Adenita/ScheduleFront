@@ -1,7 +1,7 @@
 <ng-container *ngIf="!isLoggedIn; else appShell">
     <app-header-bar></app-header-bar>
 
-    <main class="mx-auto w-[90%] max-w-none max-[992px]:w-full max-[992px]:px-4 public-main">
+    <main>
         <router-outlet></router-outlet>
     </main>
 
@@ -12,7 +12,7 @@
                     <a
                         class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white"
                         routerLink="/aboutus"
-                        >About Us</a
+                    >About Us</a
                     >
                 </li>
                 <li class="list-none">
@@ -20,7 +20,7 @@
                 </li>
                 <li class="list-none">
                     <a class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition text-white"
-                        >Privacy Policy</a
+                    >Privacy Policy</a
                     >
                 </li>
             </ul>
