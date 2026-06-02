@@ -1,22 +1,54 @@
-<header class="public-header">
-    <div class="app-container">
-        <nav class="public-navbar flex justify-between items-center">
-            <a class="brand" routerLink="/">
-                <img class="brand-logo" src="/assets/logo.png" alt="ScheduleUP" />
-                <span class="brand-name ">Schedule<span class="text-[var(--app-red)]">UP</span></span>
+<header
+    class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
+
+    <div class="mx-auto w-full max-w-[90%]">
+
+        <nav class="flex h-[65px] items-center justify-between px-[1rem]">
+
+            <!-- Brand -->
+            <a
+                class="flex items-center gap-3 no-underline"
+                routerLink="/">
+
+                <img
+                    class="h-10 w-auto"
+                    src="/assets/logo.png"
+                    alt="ScheduleUP" />
+
+                <span class="hidden text-base font-semibold text-[#333b4b] md:block">
+                    Schedule<span class="text-primary">UP</span>
+                </span>
             </a>
 
-            <div class="nav-section">
-                <a class="list-none nav-item" routerLink="/" routerLinkActive="active-link"
-                   [routerLinkActiveOptions]="{ exact: true }">
+            <!-- Navigation -->
+            <div class="flex items-center gap-4 md:gap-8">
+
+                <a
+                    class="font-semibold text-[#333b4b] transition-colors duration-200 hover:text-[var(--app-red)]"
+                    routerLink="/"
+                    routerLinkActive="text-[var(--app-red)]"
+                    [routerLinkActiveOptions]="{ exact: true }">
                     Home
                 </a>
 
-                <a class="list-none nav-item" routerLink="/aboutus" routerLinkActive="active-link"> About Us </a>
+                <a
+                    class="font-semibold text-[#333b4b] transition-colors duration-200 hover:text-[var(--app-red)]"
+                    routerLink="/aboutus"
+                    routerLinkActive="text-[var(--app-red)]">
+                    About Us
+                </a>
 
             </div>
 
-            <a class="login-btn" routerLink="/login"> Login </a>
+            <!-- Login -->
+            <a
+                class="rounded-xl border border-slate-800/30 px-4 py-2 font-semibold text-[#333b4b] transition-all duration-200 hover:bg-[var(--app-red)] hover:text-white hover:border-[var(--app-red)]"
+                routerLink="/login">
+                Login
+            </a>
+
         </nav>
+
     </div>
+
 </header>

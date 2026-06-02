@@ -2,9 +2,11 @@
     min-height: 85vh;
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
+    width: 100%;
+    max-width: 90%;
     align-items: center;
     gap: 3rem;
-    padding: 5rem 1rem;
+    padding: 1rem;
 }
 
 .hero-content {
@@ -68,10 +70,9 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.25;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+    transition: background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .hero-action-primary {
