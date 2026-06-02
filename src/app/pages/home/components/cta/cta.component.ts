@@ -6,6 +6,5 @@ import { RouterLink } from '@angular/router';
     standalone: true,
     imports: [RouterLink],
     templateUrl: './cta.component.html',
-    styleUrls: ['./cta.component.scss'],
 })
 export class CtaComponent {}
