@@ -4,79 +4,91 @@
     <!-- diagonal background -->
     <div
         class="absolute inset-0 -z-10 bg-blue-50">
-        <!--        [linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#eef6ff_48%,#f8fbff_100%)]-->
-
     </div>
 
     <section class="mx-auto w-full px-4 md:w-[90%]">
         <div class="mx-auto mb-14 max-w-3xl text-center">
       <span class="mb-4 inline-flex rounded-full bg-[#EAF4FF] px-4 py-2 text-sm font-bold text-[#2563EB]">
-        Simple scheduling workflow
+        ScheduleUP workflow
       </span>
 
             <h2 class="mb-4 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
-                From messy data to a clean timetable
+                Smarter scheduling starts here
             </h2>
 
             <p class="text-lg font-medium leading-8 text-slate-500">
-                ScheduleUP guides departments through a clear process: prepare the data,
-                generate the schedule, review conflicts, and publish the final result.
-            </p>
+                Transform university data into optimized schedules through a simple, guided workflow. ScheduleUP
+                streamlines every stage of timetable creation, helping universities reduce manual effort, minimize
+                conflicts, and publish schedules faster. </p>
         </div>
 
         <!-- Desktop -->
         <div class="relative hidden md:block">
             <svg
-                class="pointer-events-none absolute left-0 -top-10 h-[260px] w-full"
+                class="pointer-events-none absolute left-0 top-[35px] z-0 h-[260px] w-full"
                 viewBox="0 0 1200 260"
                 fill="none"
                 preserveAspectRatio="none"
             >
                 <path
-                    d="M40 130 C170 30, 270 30, 390 130 S610 230, 720 130 S940 30, 1160 130"
-                    stroke="#BFDBFE"
-                    stroke-width="6"
+                    class="process-path"
+                    d="M0 130 C120 70, 220 60, 300 130 S470 235, 560 130 S720 25, 820 130 S980 215, 1200 130"
+                    stroke="#60A5FA"
+                    stroke-width="5"
                     stroke-linecap="round"
-                    stroke-dasharray="14 14"
-                />
-
-                <path
-                    d="M1138 118 L1162 130 L1138 142"
-                    stroke="#EF4444"
-                    stroke-width="6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    stroke-dasharray="12 12"
                 />
             </svg>
 
-            <div class="grid grid-cols-5 gap-6">
-                @for (step of steps; track step.number) {
+            <div class="relative z-10 grid grid-cols-5 gap-6">
+                @for (step of steps; track step.number; let i = $index) {
                     <div
-                        class="group relative rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.07)] backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_26px_70px_rgba(37,99,235,0.14)]">
+                        class="group relative rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_45px_rgba(15,23,42,0.07)] backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_26px_70px_rgba(37,99,235,0.14)]"
+                    >
+                        @if (i === 0) {
+                            <div
+                                class="absolute left-[-14px] top-1/2 z-20 h-7 w-7 -translate-y-1/2 rounded-full border-[6px] border-white bg-[#2563EB] shadow-[0_0_24px_rgba(37,99,235,0.35)]">
+                            </div>
+                        }
+
+                        @if (i === steps.length - 1) {
+                            <div
+                                class="absolute right-[-14px] top-1/2 z-20 h-7 w-7 -translate-y-1/2 rounded-full border-[6px] border-white bg-secondary shadow-[0_0_24px_rgba(15,23,42,0.35)]">
+                            </div>
+                        }
 
                         <div class="flex justify-end">
                             <div
                                 class="mb-6 flex h-10 w-10 items-center justify-center rounded-2xl text-sm font-black text-white shadow-lg"
                                 [ngClass]="step.key === 'generate'
-                ? 'bg-gradient-to-br from-[#EF4444] to-[#FB7185]'
-                : 'bg-gradient-to-br from-[#2563EB] to-[#60A5FA]'">
+                                    ? 'bg-gradient-to-br from-[#EF4444] to-[#b02a37]'
+                                    : i === steps.length - 1
+                                      ? 'bg-gradient-to-br from-[#2563EB] to-[#1e3a5f]'
+                                      : 'bg-gradient-to-br from-[#2563EB] to-[#60A5FA]'
+                                "
+                            >
                                 {{ step.number }}
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-1.5 items-center">
+                        <div class="flex flex-wrap items-center gap-1">
                             <div
                                 class="flex h-8 w-8 items-center justify-center rounded-2xl"
                                 [ngClass]="step.key === 'generate'
-                ? 'bg-red-50 text-red-500'
-                : 'bg-blue-50 text-blue-500'">
+                                    ? 'bg-red-50 text-red-500'
+                                    : 'bg-blue-50 text-blue-500'
+                                "
+                            >
                                 <i class="bi {{ step.icon }} text-sm"></i>
                             </div>
-                            <h4 class="text-lg font-black text-slate-950">
+
+                            <h4
+                                class="text-lg font-black"
+                                [ngClass]="step.key === 'generate' ? 'text-primary' : 'text-slate-950'"
+                            >
                                 {{ step.title }}
                             </h4>
                         </div>
-
 
                         <p class="text-sm font-medium leading-6 text-slate-500">
                             {{ step.description }}
@@ -85,14 +97,20 @@
                 }
             </div>
         </div>
-
         <!-- Mobile -->
         <div class="space-y-4 md:hidden">
-            @for (step of steps; track step.number) {
+            @for (step of steps; track step.number; let i = $index) {
                 <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                     <div class="mb-4 flex items-center gap-4">
                         <div
-                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-500 text-sm font-black text-white">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-500 text-sm font-black text-white"
+                            [ngClass]="step.key === 'generate'
+                            ? 'bg-gradient-to-br from-[#EF4444] to-[#b02a37]'
+                            : i === steps.length - 1
+                            ? 'bg-gradient-to-br from-[#2563EB] to-[#1e3a5f]'
+                            : 'bg-gradient-to-br from-[#2563EB] to-[#60A5FA]'
+                            "
+                        >
                             {{ step.number }}
                         </div>
 
