@@ -2,7 +2,7 @@
     <div class="preview-card main-preview-card">
         <div class="flex justify-between gap-4 mb-6">
             <div>
-                <h5 class="mb-1 font-extrabold text-slate-900">Generated Schedule</h5>
+                <h5 class="mb-1 font-extrabold text-app-text">Generated Schedule</h5>
                 <p class="m-0 text-sm text-slate-500">Computer Science · Semester 4</p>
             </div>
 
@@ -12,7 +12,7 @@
         @for (row of schedulePreviewRows; track row.title) {
             <div class="schedule-preview-row {{ row.accent }}">
                 <div>
-                    <strong class="text-slate-900">{{ row.title }}</strong>
+                    <strong class="text-app-text">{{ row.title }}</strong>
                     <p>{{ row.details }}</p>
                 </div>
 

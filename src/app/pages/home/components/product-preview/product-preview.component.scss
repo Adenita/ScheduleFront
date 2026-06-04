@@ -48,7 +48,7 @@
 
     h3 {
         margin: 0.15rem 0 0;
-        color: var(--color-app-ink);
+        color: var(--color-app-text);
         font-size: 1.125rem;
         font-weight: 900;
     }
@@ -92,7 +92,7 @@
 
 .calendar-head {
     background: #f8fafc;
-    color: var(--color-app-ink);
+    color: var(--color-app-text);
     font-size: 0.8rem;
     font-weight: 900;
     text-align: center;
@@ -100,7 +100,7 @@
 
 .calendar-time {
     background: #f8fafc;
-    color: var(--color-app-ink);
+    color: var(--color-app-text);
     font-size: 0.8rem;
     font-weight: 800;
 }
@@ -155,7 +155,7 @@
 
     h2 {
         margin: 0 0 1rem;
-        color: var(--color-app-ink);
+        color: var(--color-app-text);
         font-size: clamp(2.1rem, 4vw, 3.5rem);
         font-weight: 950;
         line-height: 1.05;
@@ -180,7 +180,7 @@
     }
 
     strong {
-        color: var(--color-app-ink);
+        color: var(--color-app-text);
     }
 }
 

@@ -13,7 +13,8 @@
     --color-danger: #dc3545;
     --color-danger-hover: #bb2d3b;
     --color-danger-light: #f8d7da;
-    --color-app-ink: #1f2937;
+    --color-app-text: #333b4b;
+    --color-app-ink: #333b4b;
     --color-app-muted: #6b7280;
     --color-app-border: #eef0f4;
     --color-app-shell: #f8fafc;
@@ -31,13 +32,14 @@
     --color-danger: #dc3545;
     --color-danger-hover: #bb2d3b;
     --color-danger-light: #f8d7da;
-    --color-app-ink: #1f2937;
+    --color-app-text: #333b4b;
+    --color-app-ink: #333b4b;
     --color-app-muted: #6b7280;
     --color-app-border: #eef0f4;
     --color-app-shell: #f8fafc;
 
     --app-red: var(--color-primary);
-    --app-ink: var(--color-app-ink);
+    --app-ink: var(--color-app-text);
     --app-muted: var(--color-app-muted);
     --app-border: var(--color-app-border);
     --app-surface: #ffffff;
@@ -69,7 +71,7 @@
     }
 
     body {
-        @apply m-0 bg-white text-slate-950 antialiased;
+        @apply m-0 bg-white text-app-text antialiased;
         font-family: "Poppins", sans-serif;
     }
 
@@ -122,7 +124,7 @@
     }
 
     .btn-light {
-        @apply bg-white text-slate-950 hover:bg-slate-100;
+        @apply bg-white text-app-text hover:bg-slate-100;
     }
 
     .btn-danger {
@@ -142,7 +144,7 @@
     }
 
     .btn-outline-dark {
-        @apply border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white;
+        @apply border-slate-900 text-app-text hover:bg-slate-950 hover:text-white;
     }
 
     .btn-outline-danger {
@@ -150,11 +152,11 @@
     }
 
     .btn-outline-light {
-        @apply border-white text-white hover:bg-white hover:text-slate-950;
+        @apply border-white text-white hover:bg-white hover:text-app-text;
     }
 
     .btn-close {
-        @apply grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950;
+        @apply grid h-8 w-8 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-app-text;
     }
 
     .btn-close::before {
@@ -163,7 +165,7 @@
 
     .form-control,
     .form-select {
-        @apply block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200;
+        @apply block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-app-text outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-2 focus:ring-slate-200;
     }
 
     .form-label {
@@ -187,7 +189,7 @@
     }
 
     .card-title {
-        @apply mb-2 text-lg font-semibold text-slate-950;
+        @apply mb-2 text-lg font-semibold text-app-text;
     }
 
     .modalCenter {
@@ -226,7 +228,7 @@
     }
 
     .modal-title {
-        @apply text-lg font-semibold text-slate-950;
+        @apply text-lg font-semibold text-app-text;
     }
 
     .modal-body-scroll {
@@ -285,12 +287,12 @@
     }
 
     .nav-tabs .nav-link {
-        @apply rounded-b-none border border-transparent text-slate-600 hover:text-slate-950;
+        @apply rounded-b-none border border-transparent text-slate-600 hover:text-app-text;
     }
 
     .nav-tabs .active,
     .nav-tabs .active-link {
-        @apply border-slate-200 border-b-white bg-white text-slate-950;
+        @apply border-slate-200 border-b-white bg-white text-app-text;
     }
 
     .list-group {
