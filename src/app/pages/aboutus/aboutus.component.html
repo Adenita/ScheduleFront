@@ -1,208 +1,320 @@
-<div class="about-page">
+<div class="min-h-screen bg-slate-50 text-slate-900">
     <!-- HERO -->
-    <section class="about-hero app-container">
-        <div class="about-hero-content">
-            <span class="section-pill">
-                <i class="bi bi-calendar-check"></i>
-                About ScheduleUP
+    <section class="mx-auto w-full max-w-[90%] py-16 md:py-24">
+        <div
+            class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white px-6 py-12 shadow-sm md:px-12 lg:px-16"
+        >
+            <div
+                class="absolute left-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl"
+            ></div>
+            <div
+                class="absolute bottom-0 right-0 h-48 w-48 rounded-full bg-blue-900/10 blur-3xl"
+            ></div>
+
+            <div class="relative max-w-4xl">
+                <span
+                    class="mb-5 inline-flex items-center gap-2 rounded-full bg-primary-light px-4 py-2 text-sm font-bold text-primary"
+                >
+                    <i class="bi bi-calendar-check"></i>
+                    About ScheduleUP
+                </span>
+
+                <h1
+                    class="mb-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 md:text-6xl"
+                >
+                    Built by someone who experienced the scheduling problem firsthand.
+                </h1>
+
+                <p class="max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
+                    ScheduleUP was created to make academic scheduling simpler, more transparent,
+                    and less frustrating for universities. What started as a university project
+                    evolved into a platform focused on helping departments manage academic data and
+                    generate schedules more efficiently.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="mx-auto grid w-full max-w-[90%] gap-10 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div>
+            <span class="mb-4 inline-flex rounded-full bg-slate-200 px-4 py-2 text-sm font-bold text-slate-700">
+                The problem
             </span>
 
-            <h1>Building a smarter way for universities to create schedules.</h1>
+            <h2 class="text-3xl font-black tracking-[-0.03em] text-slate-950 md:text-4xl">
+                Universities spend too much time managing schedules.
+            </h2>
+        </div>
 
-            <p>
-                ScheduleUP was created to simplify university scheduling by helping departments manage academic data, generate
-                optimized schedules, and publish clear timetables for students and staff.
+        <div class="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+            <p class="mb-6 text-lg leading-8 text-slate-600">
+                Creating a timetable is rarely just placing classes into rooms. Departments have to
+                coordinate professors, student groups, classrooms, course requirements, and many
+                possible conflicts.
             </p>
-        </div>
 
-        <div class="about-hero-card">
-            <div class="mini-window">
-                <div class="mini-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="mini-schedule-card red">
-                    <strong>Genetic Algorithm</strong>
-                    <p>Searching for the best schedule combinations</p>
-                </div>
-
-                <div class="mini-schedule-card blue">
-                    <strong>Conflict Detection</strong>
-                    <p>Checking rooms, professors, groups, and subjects</p>
-                </div>
-
-                <div class="mini-schedule-card yellow">
-                    <strong>Public Schedule View</strong>
-                    <p>Simple timetable access for students and professors</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MISSION / VISION -->
-    <section class="about-section app-container">
-        <div class="section-heading">
-            <span class="section-pill">Our purpose</span>
-            <h2>Why ScheduleUP exists</h2>
-            <p>
-                University scheduling is often repetitive, time-consuming, and difficult to keep organized. ScheduleUP aims to
-                make that process faster, clearer, and easier to manage.
-            </p>
-        </div>
-
-        <div class="flex flex-wrap gap-4">
-            <div class="md:w-1/2">
-                <div class="info-card">
-                    <div class="card-icon red-bg">
-                        <i class="bi bi-bullseye"></i>
-                    </div>
-
-                    <h3>Our Vision</h3>
-
-                    <p>
-                        To provide universities with a modern scheduling platform that combines automation, clean data management,
-                        and simple schedule access in one place.
+            <div class="grid gap-3 sm:grid-cols-2">
+                <div class="rounded-2xl bg-slate-50 p-4">
+                    <i class="bi bi-person-workspace mb-3 block text-2xl text-primary"></i>
+                    <h3 class="font-bold text-slate-950">Professors and staff</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-500">
+                        Availability, workload, and overlapping teaching hours.
                     </p>
                 </div>
-            </div>
 
-            <div class="md:w-1/2">
-                <div class="info-card">
-                    <div class="card-icon dark-bg">
-                        <i class="bi bi-lightning-charge"></i>
-                    </div>
+                <div class="rounded-2xl bg-slate-50 p-4">
+                    <i class="bi bi-people mb-3 block text-2xl text-blue-900"></i>
+                    <h3 class="font-bold text-slate-950">Student groups</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-500">
+                        Group schedules, lectures, labs, and study program requirements.
+                    </p>
+                </div>
 
-                    <h3>Our Mission</h3>
+                <div class="rounded-2xl bg-slate-50 p-4">
+                    <i class="bi bi-door-open mb-3 block text-2xl text-yellow-600"></i>
+                    <h3 class="font-bold text-slate-950">Rooms and spaces</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-500">
+                        Classroom capacity, room availability, and lab requirements.
+                    </p>
+                </div>
 
-                    <p>
-                        To reduce manual scheduling work, minimize conflicts, and give students and academic staff a better way to
-                        view and follow their schedules.
+                <div class="rounded-2xl bg-slate-50 p-4">
+                    <i class="bi bi-arrow-repeat mb-3 block text-2xl text-slate-700"></i>
+                    <h3 class="font-bold text-slate-950">Repeated revisions</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-500">
+                        Manual changes often create new conflicts somewhere else.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- WHAT WE OFFER -->
-    <section class="about-section offer-section">
-        <div class="app-container">
-            <div class="section-heading text-center">
-                <span class="section-pill">What we offer</span>
-                <h2>A focused platform for academic scheduling</h2>
-                <p>ScheduleUP is designed around the real scheduling needs of universities and departments.</p>
+    <!-- MISSION -->
+    <section class="mx-auto w-full max-w-[90%] py-12">
+        <div
+            class="rounded-[2rem] bg-slate-950 px-6 py-12 text-white shadow-sm md:px-12 lg:px-16"
+        >
+            <span
+                class="mb-5 inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white"
+            >
+                Our mission
+            </span>
+
+            <h2 class="mb-6 max-w-4xl text-3xl font-black tracking-[-0.03em] md:text-5xl">
+                To help universities spend less time fighting schedules and more time focusing on education.
+            </h2>
+
+            <p class="max-w-3xl text-lg leading-8 text-slate-300">
+                ScheduleUP aims to reduce repetitive administrative work, make academic data easier
+                to manage, and provide clear schedules for students, professors, and department staff.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="mx-auto w-full max-w-[90%] py-12">
+        <div class="mb-10 max-w-3xl">
+            <span class="mb-4 inline-flex rounded-full bg-primary-light px-4 py-2 text-sm font-bold text-primary">
+                What we believe
+            </span>
+
+            <h2 class="text-3xl font-black tracking-[-0.03em] text-slate-950 md:text-4xl">
+                The principles behind ScheduleUP.
+            </h2>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-3">
+            @for (principle of principles; track principle.title) {
+                <div class="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                    <div
+                        class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-xl text-white"
+                    >
+                        <i [class]="principle.icon"></i>
+                    </div>
+
+                    <h3 class="mb-3 text-xl font-black text-slate-950">
+                        {{ principle.title }}
+                    </h3>
+
+                    <p class="leading-7 text-slate-600">
+                        {{ principle.description }}
+                    </p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="mx-auto w-full max-w-[90%] py-12">
+        <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+                <span class="mb-4 inline-flex rounded-full bg-slate-200 px-4 py-2 text-sm font-bold text-slate-700">
+                    The journey
+                </span>
+
+                <h2 class="text-3xl font-black tracking-[-0.03em] text-slate-950 md:text-4xl">
+                    From university project to scheduling platform.
+                </h2>
             </div>
 
-            <div class="offer-grid">
-                <div class="offer-card">
-                    <i class="bi bi-cpu"></i>
-                    <h4>Automatic Schedule Generation</h4>
-                    <p>
-                        Generate schedules using optimization logic instead of manually combining classes, rooms, professors, and
-                        groups.
-                    </p>
-                </div>
+            <div class="space-y-4">
+                @for (item of journey; track item.year) {
+                    <div class="flex gap-5 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+                        <div
+                            class="flex h-14 min-w-14 items-center justify-center rounded-2xl bg-primary-light font-black text-primary"
+                        >
+                            {{ item.year }}
+                        </div>
 
-                <div class="offer-card">
-                    <i class="bi bi-shield-check"></i>
-                    <h4>Conflict Reduction</h4>
-                    <p>
-                        Help reduce common scheduling issues such as overlapping professors, unavailable rooms, or clashing
-                        student groups.
-                    </p>
-                </div>
+                        <div>
+                            <h3 class="mb-1 text-lg font-black text-slate-950">
+                                {{ item.title }}
+                            </h3>
 
-                <div class="offer-card">
-                    <i class="bi bi-table"></i>
-                    <h4>Clean Schedule Views</h4>
-                    <p>Let users find schedules in a simple interface without exposing private department data.</p>
-                </div>
-
-                <div class="offer-card">
-                    <i class="bi bi-cloud-arrow-up"></i>
-                    <h4>Future Integrations</h4>
-                    <p>
-                        ScheduleUP is planned to support features such as Google Calendar synchronization for easier schedule
-                        tracking.
-                    </p>
-                </div>
+                            <p class="leading-7 text-slate-600">
+                                {{ item.description }}
+                            </p>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </section>
 
     <!-- FOUNDER -->
-    <section class="about-section app-container">
-        <div class="founder-card">
-            <div class="founder-content">
-                <span class="section-pill">Developer and Founder</span>
+    <section class="mx-auto w-full max-w-[90%] py-12">
+        <div
+            class="grid overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm lg:grid-cols-[1.2fr_0.8fr]"
+        >
+            <div class="p-6 md:p-10 lg:p-12">
+                <span class="mb-5 inline-flex rounded-full bg-primary-light px-4 py-2 text-sm font-bold text-primary">
+                    Founder
+                </span>
 
-                <h2>A project built from real scheduling problems.</h2>
+                <h2 class="mb-5 text-3xl font-black tracking-[-0.03em] text-slate-950 md:text-4xl">
+                    Meet the person behind ScheduleUP.
+                </h2>
 
-                <p>
-                    ScheduleUP was developed by <strong>Adenita Luta</strong>, a Computer Science graduate from FSHMN University.
-                    The project started with the goal of making university scheduling less manual, less confusing, and more
-                    accessible for everyone involved.
-                </p>
+                <div class="space-y-5 text-lg leading-8 text-slate-600">
+                    <p>
+                        ScheduleUP was created by <strong class="text-slate-950">Adenita Luta</strong>,
+                        a Computer Science graduate from FSHMN University.
+                    </p>
 
-                <p>
-                    From data management to schedule generation and user-friendly timetable views, ScheduleUP reflects a practical
-                    approach to solving a complex academic process.
-                </p>
+                    <p>
+                        While studying and working with academic schedules, it became clear how much
+                        time departments spend maintaining data, resolving conflicts, and adjusting
+                        timetables manually.
+                    </p>
 
-                <div class="founder-actions">
-                    <a href="https://github.com/adenita" target="_blank" class="github-link">
+                    <p>
+                        ScheduleUP was developed to address those challenges through automation,
+                        practical design, and modern web technologies.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex flex-wrap gap-3">
+                    @for (tech of stack; track tech) {
+                        <span class="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700">
+                            {{ tech }}
+                        </span>
+                    }
+                </div>
+
+                <div class="mt-8">
+                    <a
+                        href="https://github.com/adenita"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 font-bold text-white transition hover:bg-slate-800"
+                    >
                         <i class="bi bi-github"></i>
                         View GitHub
                     </a>
                 </div>
             </div>
 
-            <div class="founder-profile">
-                <div class="profile-avatar">AL</div>
+            <div
+                class="flex items-center justify-center bg-slate-950 p-8 text-white"
+            >
+                <div class="text-center">
+                    <div
+                        class="mx-auto mb-5 flex h-28 w-28 items-center justify-center rounded-full bg-white text-4xl font-black text-slate-950"
+                    >
+                        AL
+                    </div>
 
-                <h4>Adenita Luta</h4>
-                <p>Lead Developer · Designer · Founder</p>
+                    <h3 class="text-2xl font-black">Adenita Luta</h3>
+                    <p class="mt-2 text-slate-300">Founder & Software Engineer</p>
 
-                <div class="profile-tags">
-                    <span>Angular</span>
-                    <span>Spring Boot</span>
-                    <span>Scheduling</span>
+                    <div class="mt-6 rounded-2xl bg-white/10 p-4 text-sm leading-6 text-slate-300">
+                        Building ScheduleUP with Angular, Spring Boot, PostgreSQL, Docker,
+                        and a focus on real academic scheduling workflows.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="contact-section app-container">
-        <div class="contact-card">
-            <div>
-                <span class="section-pill light-pill">Contact us</span>
+    <!-- LOOKING AHEAD -->
+    <section class="mx-auto w-full max-w-[90%] py-12">
+        <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-10">
+            <div class="mb-8 max-w-3xl">
+                <span class="mb-4 inline-flex rounded-full bg-slate-200 px-4 py-2 text-sm font-bold text-slate-700">
+                    Looking ahead
+                </span>
 
-                <h2>Interested in ScheduleUP?</h2>
+                <h2 class="text-3xl font-black tracking-[-0.03em] text-slate-950 md:text-4xl">
+                    ScheduleUP is still evolving.
+                </h2>
 
-                <p>
-                    Reach out to learn more about the platform, request a demo, or discuss how ScheduleUP can support university
-                    scheduling workflows.
+                <p class="mt-4 text-lg leading-8 text-slate-600">
+                    The goal is to keep improving the platform so it can support more academic
+                    structures, better scheduling decisions, and easier collaboration.
                 </p>
             </div>
 
-            <div class="contact-actions">
-                <a
-                    href="mailto:adenita.luta@sogody.com"
-                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition bg-white text-slate-950 hover:bg-slate-100 px-5 py-3 text-base"
-                >
-                    <i class="bi bi-envelope"></i>
-                    Send Email
-                </a>
-
-                <a
-                    routerLink="/login"
-                    class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition border-white text-white hover:bg-white hover:text-slate-950 px-5 py-3 text-base"
-                >
-                    Sign In
-                </a>
+            <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+                <div class="rounded-2xl bg-slate-50 p-5 font-bold text-slate-700">
+                    Better schedule optimization
+                </div>
+                <div class="rounded-2xl bg-slate-50 p-5 font-bold text-slate-700">
+                    Calendar integrations
+                </div>
+                <div class="rounded-2xl bg-slate-50 p-5 font-bold text-slate-700">
+                    Improved reporting
+                </div>
+                <div class="rounded-2xl bg-slate-50 p-5 font-bold text-slate-700">
+                    Easier department collaboration
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto w-full max-w-[90%] pb-20 pt-12">
+        <div
+            class="flex flex-col items-start justify-between gap-6 rounded-[2rem] bg-primary px-6 py-8 text-white shadow-sm md:flex-row md:items-center md:px-10"
+        >
+            <div>
+                <h2 class="text-2xl font-black md:text-3xl">
+                    Interested in ScheduleUP?
+                </h2>
+
+                <p class="mt-2 max-w-2xl text-white/85">
+                    Reach out to learn more about the platform or discuss how ScheduleUP can support
+                    academic scheduling workflows.
+                </p>
+            </div>
+
+            <a
+                routerLink="/contact"
+                class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-bold text-primary transition hover:bg-slate-100"
+            >
+                Contact us
+                <i class="bi bi-arrow-right"></i>
+            </a>
         </div>
     </section>
 </div>
