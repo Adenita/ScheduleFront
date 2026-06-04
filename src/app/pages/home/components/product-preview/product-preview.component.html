@@ -4,11 +4,8 @@
         <!-- Row 1 -->
         <div class="mock-visual red-visual">
             <div class="mock-card rotate-left">
-                <div class="mock-header">
-                    <div>
-                        <p>Weekly schedule</p>
-                        <h3>Generated calendar</h3>
-                    </div>
+                <div class="mock-header p-2 bg-slate-50 border rounded-2xl">
+                    <h4 class="text-slate-500 font-bold px-2">Weekly schedule</h4>
                     <span class="success-pill">Ready</span>
                 </div>
 
@@ -24,9 +21,7 @@
                         @for (cell of slot.items; track cell.id) {
                             <div class="calendar-cell">
                                 @if (cell.title) {
-                                    <div class="lesson-card" [class]="cell.accent">
-                                        {{ cell.title }}
-                                    </div>
+                                    <div class="lesson-card" [class]="cell.accent"></div>
                                 } @else {
                                     <div class="empty-line"></div>
                                     <div class="empty-line short"></div>
@@ -93,12 +88,9 @@
 
         <div class="mock-visual blue-visual">
             <div class="mock-card rotate-right">
-                <div class="mock-header">
-                    <div>
-                        <p>Data dashboard</p>
-                        <h3>Manage data</h3>
-                    </div>
-                    <span class="sync-pill">Synced</span>
+                <div class="mock-header border rounded-2xl p-2 bg-slate-50">
+                    <h4 class="text-slate-500 font-bold px-2">Data dashboard</h4>
+                    <span class="sync-pill">Updated</span>
                 </div>
 
                 <div class="loader-cards">

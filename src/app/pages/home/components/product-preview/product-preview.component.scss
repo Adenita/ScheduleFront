@@ -24,11 +24,13 @@
 }
 
 .rotate-left {
-    transform: perspective(1000px) rotateY(-4deg) rotateZ(-1deg);
+    transform: perspective(1000px) rotateX(2deg) rotateY(8deg) rotateZ(-1deg);
+    transform-origin: center top;
 }
 
 .rotate-right {
-    transform: perspective(1000px) rotateY(4deg) rotateZ(1deg);
+    transform: perspective(1000px) rotateX(-2deg) rotateY(-8deg) rotateZ(1deg);
+    transform-origin: center bottom;
 }
 
 .mock-header {
@@ -40,14 +42,14 @@
     p {
         margin: 0;
         color: var(--color-primary);
-        font-size: 0.875rem;
+        font-size: 1.125rem;
         font-weight: 800;
     }
 
     h3 {
         margin: 0.15rem 0 0;
         color: var(--color-app-ink);
-        font-size: 1.5rem;
+        font-size: 1.125rem;
         font-weight: 900;
     }
 }
@@ -56,7 +58,7 @@
 .sync-pill {
     border-radius: 999px;
     padding: 0.35rem 0.75rem;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     font-weight: 800;
 }
 
@@ -66,8 +68,8 @@
 }
 
 .sync-pill {
-    background: var(--color-primary-light);
-    color: var(--color-primary);
+    background: #DBEAFE;
+    color: #3B82F6;
 }
 
 .calendar-grid {
@@ -106,11 +108,9 @@
 .lesson-card {
     height: 34px;
     border-radius: 8px;
-    padding: 0.45rem 0.55rem;
     overflow: hidden;
-    font-size: 0.72rem;
-    font-weight: 800;
-    white-space: nowrap;
+    background-size: 220% 100%;
+    animation: shimmer 1.8s infinite linear;
 }
 
 .lesson-card.blue {
@@ -228,7 +228,17 @@
     height: 46px;
     flex: 0 0 auto;
     border-radius: 999px;
-    background: linear-gradient(135deg, #bfdbfe, #ddd6fe, #99f6e4);
+    background: linear-gradient(135deg, #ddd6fe, #ede9fe);
+    background-size: 220% 100%;
+    animation: shimmer 1.8s infinite linear;
+}
+
+.loader-card:nth-child(2) .loader-circle {
+    background: linear-gradient(135deg, #bfdbfe, #dbeafe);
+}
+
+.loader-card:nth-child(3) .loader-circle {
+    background: linear-gradient(135deg, #99f6e4, #ccfbf1);
 }
 
 .loader-lines {
@@ -341,20 +351,22 @@
 .mock-visual::before {
     content: '';
     position: absolute;
-    inset: auto 7% -22px 7%;
-    height: 120px;
+    inset: auto 11% -34px 11%;
+    height: 92px;
     z-index: -1;
     border-radius: 999px;
-    filter: blur(28px);
-    opacity: 0.55;
+    filter: blur(24px);
+    opacity: 0.72;
+    transform: perspective(900px) rotateX(64deg);
+    transform-origin: center;
 }
 
 .red-visual::before {
-    background: linear-gradient(90deg, rgba(176, 42, 55, 0.32), rgba(248, 113, 113, 0.16));
+    background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.24), rgba(176, 42, 55, 0.2) 42%, transparent 72%);
 }
 
 .blue-visual::before {
-    background: linear-gradient(90deg, rgba(37, 99, 235, 0.28), rgba(147, 197, 253, 0.16));
+    background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.24), rgba(30, 58, 95, 0.2) 42%, transparent 72%);
 }
 
 .feature-list {
