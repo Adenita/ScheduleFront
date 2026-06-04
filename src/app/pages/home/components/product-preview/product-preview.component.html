@@ -1,75 +1,133 @@
-<section
-    class="px-[1rem] py-10 md:py-20 my-10"
-    style="
-    background:
-      radial-gradient(circle at top left, rgba(176,42,55,.10), transparent 35%),
-      radial-gradient(circle at bottom right, rgba(30,58,95,.08), transparent 40%),
-      #f8fafc;
-  ">
-    <div class="mx-auto flex w-full flex-wrap items-center gap-12 w-full md:w-[90%]">
-        <div class="flex-1 basis-[420px]">
-            <span class="mb-4 inline-flex rounded-full bg-primary-light px-3 py-1.5 text-sm font-bold text-primary">
-                Product preview
-            </span>
+<section class="schedule-showcase">
+    <div class="showcase-grid">
 
-            <h2 class="mb-3 text-3xl font-black leading-tight text-app-ink md:text-4xl">
-                Designed for universities, departments, and academic staff.
-            </h2>
+        <!-- Row 1 -->
+        <div class="mock-visual red-visual">
+            <div class="mock-card rotate-left">
+                <div class="mock-header">
+                    <div>
+                        <p>Weekly schedule</p>
+                        <h3>Generated calendar</h3>
+                    </div>
+                    <span class="success-pill">Ready</span>
+                </div>
 
-            <p class="text-base leading-7 text-app-muted md:text-lg">
-                ScheduleUP brings professors, subjects, rooms, groups, and generated schedules into one organized
-                platform.
+                <div class="calendar-grid">
+                    <div class="calendar-head"></div>
+                    @for (day of calendarDays; track day) {
+                        <div class="calendar-head">{{ day }}</div>
+                    }
+
+                    @for (slot of calendarSlots; track slot.time) {
+                        <div class="calendar-time">{{ slot.time }}</div>
+
+                        @for (cell of slot.items; track cell.id) {
+                            <div class="calendar-cell">
+                                @if (cell.title) {
+                                    <div class="lesson-card" [class]="cell.accent">
+                                        {{ cell.title }}
+                                    </div>
+                                } @else {
+                                    <div class="empty-line"></div>
+                                    <div class="empty-line short"></div>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block">
+            <span class="eyebrow red">Schedule generation</span>
+
+            <h2>Generate optimized university schedules.</h2>
+
+            <p>
+                ScheduleUP creates weekly timetables using professors, rooms,
+                subjects, student groups, and academic constraints.
             </p>
 
-            <div class="mt-6 grid gap-4">
-                @for (item of checkListItems; track item) {
-                    <div class="flex items-center gap-3 font-semibold text-app-ink">
-                        <i class="bi bi-check-circle-fill text-success"></i>
-                        <span>{{ item }}</span>
+            <ul class="feature-list red-list">
+                <li>
+                    <span class="feature-icon"><i class="bi bi-people"></i></span>
+                    <span><strong>Avoid conflicts:</strong> prevent overlaps between professors, rooms, groups, and lessons.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-lightning-charge"></i></span>
+                    <span><strong>Generate faster:</strong> reuse existing academic data instead of rebuilding schedules manually.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-shield-check"></i></span>
+                    <span><strong>Publish cleaner timetables:</strong> reduce last-minute corrections before publishing.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="content-block">
+            <span class="eyebrow blue">Data management</span>
+
+            <h2>Manage the academic data behind every schedule.</h2>
+
+            <p>
+                Keep departments, professors, rooms, subjects, groups, and constraints
+                organized in one place before generating the final timetable.
+            </p>
+
+            <ul class="feature-list blue-list">
+                <li>
+                    <span class="feature-icon"><i class="bi bi-database"></i></span>
+                    <span><strong>Centralized records:</strong> manage the core data needed for schedule generation.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-arrow-repeat"></i></span>
+                    <span><strong>Reusable semester setup:</strong> keep data structured for future timetable cycles.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-shield-check"></i></span>
+                    <span><strong>Better control:</strong> spot missing or incorrect data before running the generator.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mock-visual blue-visual">
+            <div class="mock-card rotate-right">
+                <div class="mock-header">
+                    <div>
+                        <p>Data dashboard</p>
+                        <h3>Manage data</h3>
                     </div>
-                }
+                    <span class="sync-pill">Synced</span>
+                </div>
+
+                <div class="loader-cards">
+                    @for (item of [1, 2, 3]; track item) {
+                        <div class="loader-card">
+                            <div class="loader-circle"></div>
+                            <div class="loader-lines">
+                                <div class="gradient-line w-70"></div>
+                                <div class="gradient-line w-45"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="loader-table">
+                    @for (row of [1, 2, 3, 4]; track row) {
+                        <div class="loader-row">
+                            <div class="loader-square"></div>
+                            <div class="loader-main">
+                                <div class="gradient-line w-40"></div>
+                                <div class="gradient-line w-85"></div>
+                            </div>
+                            <div class="gradient-line w-20"></div>
+                            <div class="gradient-line w-15"></div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 
-        <div class="flex-1 basis-[420px]">
-            <div class="rounded-[28px] border border-app-border bg-white p-5 shadow-xl">
-                <div class="flex gap-2 border-b border-app-border pb-4">
-                    <span class="h-3 w-3 rounded-full bg-primary-light"></span>
-                    <span class="h-3 w-3 rounded-full bg-warning"></span>
-                    <span class="h-3 w-3 rounded-full bg-success"></span>
-                </div>
-
-                <div class="grid gap-4 pt-4 md:grid-cols-[90px_1fr]">
-                    <div class="hidden content-start gap-3 md:grid">
-                        <div class="h-[38px] rounded-md bg-slate-100"></div>
-                        <div class="h-[38px] rounded-md bg-primary-light"></div>
-                        <div class="h-[38px] rounded-md bg-slate-100"></div>
-                    </div>
-
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <div class="rounded-lg bg-app-shell p-4">
-                            <strong class="block text-3xl font-black text-app-ink">94%</strong>
-                            <span class="text-sm font-medium text-app-muted">Schedule fit</span>
-                        </div>
-
-                        <div class="rounded-lg bg-app-shell p-4">
-                            <strong class="block text-3xl font-black text-app-ink">12</strong>
-                            <span class="text-sm font-medium text-app-muted">Conflicts solved</span>
-                        </div>
-
-                        <div class="grid gap-3 sm:col-span-2">
-                            <div
-                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
-                            <div
-                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
-                            <div
-                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
-                            <div
-                                class="h-[42px] rounded-lg bg-[linear-gradient(90deg,var(--color-primary-light),var(--color-brand-blue-soft))]"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
