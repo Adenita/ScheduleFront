@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'home-how-it-works',
     standalone: true,
+    imports: [NgClass],
     templateUrl: './how-it-works.component.html',
 })
 export class HowItWorksComponent {
