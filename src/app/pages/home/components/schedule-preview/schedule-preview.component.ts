@@ -11,20 +11,25 @@ export class SchedulePreviewComponent {
         {
             accent: 'red',
             title: 'Algorithms',
-            details: 'Prof. Arta Krasniqi',
-            time: '09:00',
+            professor: 'Prof. Arta Krasniqi',
+            room: 'Room B12',
+            start: '09:00',
+            end: '10:30',
         },
         {
             accent: 'blue',
-            title: 'Databases',
-            details: 'Lab 204',
-            time: '11:00',
+            title: 'Database Systems',
+            professor: 'Prof. Mentor Gashi',
+            room: 'Lab 204',
+            start: '11:00',
+            end: '12:30',
         },
         {
             accent: 'yellow',
             title: 'Software Engineering',
-            details: 'Room B12',
-            time: '13:30',
+            professor: 'Prof. Elira Berisha',
+            room: 'Room A08',
+            start: '13:30',
+            end: '15:00',
         },
-    ];
-}
+    ];}
