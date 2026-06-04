@@ -16,6 +16,7 @@ import { HeaderBarComponent } from './components/header-bar/header-bar.component
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ManageDataComponent } from './pages/manage-data/manage-data.component';
 import { SchedulesHubComponent } from './pages/schedules-hub/schedules-hub.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
     {
         path: 'aboutus',
         component: AboutusComponent,
+    },
+    {
+        path: 'contact',
+        component: ContactComponent,
     },
     {
         path: 'login',
@@ -123,6 +128,7 @@ const routes: Routes = [
         AuthModule,
         CustomRouterLinkActiveDirective,
         HomeComponent,
+        ContactComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],
