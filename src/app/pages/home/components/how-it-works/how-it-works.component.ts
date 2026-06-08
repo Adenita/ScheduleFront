@@ -6,6 +6,7 @@ import { NgClass } from '@angular/common';
     standalone: true,
     imports: [NgClass],
     templateUrl: './how-it-works.component.html',
+    styleUrls: ['./how-it-works.component.scss'],
 })
 export class HowItWorksComponent {
     readonly steps = [
