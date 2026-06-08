@@ -1,125 +1,128 @@
 <div class="relative flex items-center justify-center overflow-hidden">
-    <div class="section-bg absolute inset-0 -z-10 bg-blue-50"></div>
+    <!--    <div class="section-bg absolute inset-0 -z-10 bg-blue-50"></div>-->
 
-    <section class="w-full px-4 py-10 md:w-[90%] md:py-24">
+    <section class="w-full px-4 py-10 md:w-[90%]">
         <div class="mx-auto mb-12 max-w-3xl text-center">
             <h2 class="mb-3 text-3xl font-black text-app-text md:text-4xl">
-                What we do
-            </h2>
+                Everything you need for academic scheduling</h2>
 
-            <p class="text-lg font-medium leading-7 text-slate-500">
-                ScheduleUP supports the complete academic scheduling process, from preparing university data to
-                generating and sharing usable timetables.
+            <p class="text-lg font-medium leading-6 text-slate-500">
+                ScheduleUP brings the essential parts of academic scheduling into one place:
+                structured data management, conflict-aware timetable generation, and clear schedule access for every
+                role.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             @for (capability of capabilities; track capability.title) {
                 <div
-                    class="feature-card flex min-h-full flex-col overflow-hidden rounded-[28px] border border-red-600/15 bg-white transition duration-300 ease-out hover:-translate-y-2 hover:border-red-600/30">
-                    <div class="bg-slate-50 p-5">
-                        @if (capability.preview === 'data') {
-                            <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-                                <div
-                                    class="grid grid-cols-[1.2fr_1fr_70px] bg-secondary px-3 py-2 text-[10px] font-bold uppercase text-white">
-                                    <span>Resource</span>
-                                    <span>Department</span>
-                                    <span>Status</span>
-                                </div>
-                                <div class="divide-y divide-slate-100">
-                                    <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
-                                        <span class="font-bold text-app-text">Room A12</span>
-                                        <span class="text-slate-500">Computer Science</span>
-                                        <span
-                                            class="rounded-full bg-success/10 px-2 py-1 text-center font-bold text-success">Ready</span>
-                                    </div>
-                                    <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
-                                        <span class="font-bold text-app-text">Algorithms</span>
-                                        <span class="text-slate-500">Software</span>
-                                        <span
-                                            class="rounded-full bg-primary-light px-2 py-1 text-center font-bold text-primary">Edit</span>
-                                    </div>
-                                    <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
-                                        <span class="font-bold text-app-text">Prof. Ilic</span>
-                                        <span class="text-slate-500">Networks</span>
-                                        <span
-                                            class="rounded-full bg-success/10 px-2 py-1 text-center font-bold text-success">Ready</span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                        @if (capability.preview === 'calendar') {
-                            <div class="overflow-hidden rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
-                                <div class="mb-3 flex items-center justify-between">
-                                    <span class="text-xs font-bold text-app-text">Weekly schedule</span>
-                                    <span
-                                        class="rounded-full bg-success/10 px-2 py-1 text-[10px] font-bold text-success">No conflicts</span>
-                                </div>
-                                <div class="grid grid-cols-5 gap-1">
-                                    @for (day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']; track day) {
-                                        <span
-                                            class="pb-1 text-center text-[9px] font-bold text-slate-400">{{ day }}</span>
-                                    }
-                                    <div class="h-9 rounded bg-blue-100"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                    <div class="h-9 rounded bg-violet-100"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                    <div class="h-9 rounded bg-green-100"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                    <div class="h-9 rounded bg-primary-light"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                    <div class="h-9 rounded bg-blue-100"></div>
-                                    <div class="h-9 rounded bg-violet-100"></div>
-                                    <div class="h-9 rounded bg-green-100"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                    <div class="h-9 rounded bg-blue-100"></div>
-                                    <div class="h-9 rounded bg-primary-light"></div>
-                                    <div class="h-9 rounded bg-slate-100"></div>
-                                </div>
-                            </div>
-                        }
-
-                        @if (capability.preview === 'publish') {
-                            <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                                <div class="mb-4 flex items-center justify-between">
-                                    <div>
-                                        <div class="text-xs font-bold text-app-text">My timetable</div>
-                                        <div class="text-[10px] text-slate-400">Monday, June 8</div>
-                                    </div>
+                    class="feature-card flex min-h-full flex-col overflow-hidden rounded-[30px] transition duration-300 ease-out">
+                    <div class="preview-shell p-6">
+                        <div class="preview-inner">
+                            @if (capability.preview === 'data') {
+                                <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                                     <div
-                                        class="grid h-8 w-8 place-items-center rounded-full bg-secondary text-xs font-black text-white">
-                                        AL
+                                        class="grid grid-cols-[1.2fr_1fr_70px] bg-secondary px-3 py-2 text-[10px] font-bold uppercase text-white">
+                                        <span>Resource</span>
+                                        <span>Department</span>
+                                        <span>Status</span>
                                     </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div
-                                        class="flex items-center gap-3 rounded-md border-l-4 border-primary bg-primary-light/50 p-3">
-                                        <span class="text-[10px] font-bold text-primary">08:00</span>
-                                        <div>
-                                            <div class="text-xs font-bold text-app-text">Algorithms</div>
-                                            <div class="text-[10px] text-slate-400">Room A12</div>
+                                    <div class="divide-y divide-slate-100">
+                                        <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
+                                            <span class="font-bold text-app-text">Room A12</span>
+                                            <span class="text-slate-500">Computer Science</span>
+                                            <span
+                                                class="rounded-full bg-success/10 px-2 py-1 text-center font-bold text-success">Ready</span>
                                         </div>
-                                    </div>
-                                    <div
-                                        class="flex items-center gap-3 rounded-md border-l-4 border-secondary bg-blue-50 p-3">
-                                        <span class="text-[10px] font-bold text-secondary">10:00</span>
-                                        <div>
-                                            <div class="text-xs font-bold text-app-text">Databases</div>
-                                            <div class="text-[10px] text-slate-400">Lab B04</div>
+                                        <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
+                                            <span class="font-bold text-app-text">Algorithms</span>
+                                            <span class="text-slate-500">Software</span>
+                                            <span
+                                                class="rounded-full bg-primary-light px-2 py-1 text-center font-bold text-primary">Edit</span>
+                                        </div>
+                                        <div class="grid grid-cols-[1.2fr_1fr_70px] items-center px-3 py-3 text-xs">
+                                            <span class="font-bold text-app-text">Prof. Ilic</span>
+                                            <span class="text-slate-500">Networks</span>
+                                            <span
+                                                class="rounded-full bg-success/10 px-2 py-1 text-center font-bold text-success">Ready</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+
+                            @if (capability.preview === 'calendar') {
+                                <div class="overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                                    <div class="mb-3 flex items-center justify-between">
+                                        <span class="text-xs font-bold text-app-text">Weekly schedule</span>
+                                        <span
+                                            class="rounded-full bg-success/10 px-2 py-1 text-[10px] font-bold text-success">No conflicts</span>
+                                    </div>
+                                    <div class="grid grid-cols-5 gap-1">
+                                        @for (day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']; track day) {
+                                            <span
+                                                class="pb-1 text-center text-[9px] font-bold text-slate-400">{{ day }}</span>
+                                        }
+                                        <div class="h-9 rounded bg-blue-100"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                        <div class="h-9 rounded bg-violet-100"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                        <div class="h-9 rounded bg-green-100"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                        <div class="h-9 rounded bg-primary-light"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                        <div class="h-9 rounded bg-blue-100"></div>
+                                        <div class="h-9 rounded bg-violet-100"></div>
+                                        <div class="h-9 rounded bg-green-100"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                        <div class="h-9 rounded bg-blue-100"></div>
+                                        <div class="h-9 rounded bg-primary-light"></div>
+                                        <div class="h-9 rounded bg-slate-100"></div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (capability.preview === 'publish') {
+                                <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                                    <div class="mb-4 flex items-center justify-between">
+                                        <div>
+                                            <div class="text-xs font-bold text-app-text">My timetable</div>
+                                            <div class="text-[10px] text-slate-400">Monday, June 8</div>
+                                        </div>
+                                        <div
+                                            class="grid h-8 w-8 place-items-center rounded-full bg-secondary text-xs font-black text-white">
+                                            AL
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div
+                                            class="flex items-center gap-3 rounded-md border-l-4 border-primary bg-primary-light/50 p-3">
+                                            <span class="text-[10px] font-bold text-primary">08:00</span>
+                                            <div>
+                                                <div class="text-xs font-bold text-app-text">Algorithms</div>
+                                                <div class="text-[10px] text-slate-400">Room A12</div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex items-center gap-3 rounded-md border-l-4 border-secondary bg-blue-50 p-3">
+                                            <span class="text-[10px] font-bold text-secondary">10:00</span>
+                                            <div>
+                                                <div class="text-xs font-bold text-app-text">Databases</div>
+                                                <div class="text-[10px] text-slate-400">Lab B04</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
                     </div>
 
-                    <div class="flex flex-1 flex-col border-t border-slate-200 p-7">
-                        <h3 class="mb-3 text-xl font-bold leading-6 text-app-text">
+                    <div class="flex flex-1 flex-col border-t border-slate-200 p-7 ">
+                        <h3 class="mb-3 text-2xl font-medium leading-6 text-black">
                             {{ capability.title }}
                         </h3>
 
-                        <p class="text-sm font-normal leading-6 text-slate-500">
+                        <p class="text-base font-normal leading-6 text-slate-500">
                             {{ capability.description }}
                         </p>
                     </div>
