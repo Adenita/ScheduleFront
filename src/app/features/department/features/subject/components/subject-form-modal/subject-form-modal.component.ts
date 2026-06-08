@@ -4,33 +4,33 @@ import { ModalEventsService } from '../../../../shared/services/modal-events.ser
 import { SubjectModalData } from '../../services/subject-modal-management.service';
 
 @Component({
-  selector: 'app-subject-form-modal',
-  templateUrl: './subject-form-modal.component.html',
-  styleUrls: ['./subject-form-modal.component.css'],
+    selector: 'app-subject-form-modal',
+    standalone: false,
+    templateUrl: './subject-form-modal.component.html',
 })
 export class SubjectFormModalComponent {
-  @Input()
-  modalData!: SubjectModalData;
+    @Input()
+    modalData!: SubjectModalData;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalEventsService: ModalEventsService,
-  ) {}
+    constructor(
+        public activeModal: NgbActiveModal,
+        private modalEventsService: ModalEventsService,
+    ) {}
 
-  closeModal() {
-    this.modalEventsService.emitCloseEvent();
-    this.activeModal.close();
-  }
+    closeModal() {
+        this.modalEventsService.emitCloseEvent();
+        this.activeModal.close();
+    }
 
-  onUpdateClick(id: number) {
-    this.modalEventsService.emitUpdateEvent(id);
-  }
+    onUpdateClick(id: number) {
+        this.modalEventsService.emitUpdateEvent(id);
+    }
 
-  onPostClick() {
-    this.modalEventsService.emitPostEvent();
-  }
+    onPostClick() {
+        this.modalEventsService.emitPostEvent();
+    }
 
-  getSelectedSubject(id: number) {
-    this.modalEventsService.emitSelectEvent(id);
-  }
+    getSelectedSubject(id: number) {
+        this.modalEventsService.emitSelectEvent(id);
+    }
 }

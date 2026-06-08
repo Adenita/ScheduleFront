@@ -4,21 +4,21 @@ import { SubjectManagementComponent } from './pages/subject-management/subject-m
 import { SubjectDetailsComponent } from './pages/subject-details/subject-details.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SubjectManagementComponent,
-    children: [
-      {
-        path: ':sid',
-        component: SubjectDetailsComponent,
-      },
-    ],
-  },
+    {
+        path: '',
+        component: SubjectManagementComponent,
+        children: [
+            {
+                path: ':sid',
+                component: SubjectDetailsComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    declarations: [],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class SubjectRoutingModule {}

@@ -7,20 +7,20 @@ import { ProgramTransport } from '../../../../../shared/models/program';
 
 export interface ProgramModalData extends GeneralModalData {}
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ProgramModalManagementService extends ModalManagementService<ProgramFormModalComponent, ProgramModalData> {
-  bindProgramModalData(
-    selectedProgramId: number,
-    programForm: FormGroup,
-    isEditMode: boolean,
-    programs$: BehaviorSubject<ProgramTransport[]>,
-  ): ProgramModalData {
-    return {
-      selectedId: selectedProgramId,
-      form: programForm,
-      data$: programs$,
-      isEditMode: isEditMode,
-    };
-  }
+    bindProgramModalData(
+        selectedProgramId: number,
+        programForm: FormGroup,
+        isEditMode: boolean,
+        programs$: BehaviorSubject<ProgramTransport[]>,
+    ): ProgramModalData {
+        return {
+            selectedId: selectedProgramId,
+            form: programForm,
+            data$: programs$,
+            isEditMode: isEditMode,
+        };
+    }
 }

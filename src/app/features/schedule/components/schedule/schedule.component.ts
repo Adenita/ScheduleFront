@@ -4,14 +4,14 @@ import { EventTransport } from '../../shared/models/event';
 import { ScheduleTransport } from '../../shared/models/schedule';
 
 @Component({
-  selector: 'app-schedule',
-  templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.css'],
+    selector: 'app-schedule',
+    standalone: false,
+    templateUrl: './schedule.component.html',
 })
 export class ScheduleComponent {
-  @Input()
-  bestScheduleEvents$!: BehaviorSubject<EventTransport[]>;
+    @Input()
+    bestScheduleEvents$?: BehaviorSubject<EventTransport[]>;
 
-  @Input()
-  bestProgramSchedule!: ScheduleTransport;
+    @Input()
+    bestProgramSchedule?: ScheduleTransport;
 }

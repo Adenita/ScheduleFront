@@ -1,0 +1,60 @@
+<div class="hero-preview">
+    <div class="preview-glow"></div>
+
+    <div class="preview-card main-preview-card !bg-slate-50">
+        <div class="border rounded-3xl p-3 bg-white">
+            <div class="preview-header">
+                <div>
+                    <span class="preview-label">Daily schedule</span>
+                    <h5 class="text-slate-200 leading-6 !font-light">Computer Science · Semester 4</h5>
+                </div>
+
+                <span class="status-pill">
+                <i class="bi bi-stars"></i>
+                Optimized
+            </span>
+            </div>
+
+            <div class="timeline">
+                @for (row of schedulePreviewRows; track row.title) {
+                    <div class="schedule-preview-row {{ row.accent }}">
+                        <div class="time-block">
+                            <strong>{{ row.start }}</strong>
+                            <span>{{ row.end }}</span>
+                        </div>
+
+                        <div class="row-line"></div>
+
+                        <div class="class-info">
+                            <strong>{{ row.title }}</strong>
+                            <p>
+                                <i class="bi bi-person"></i>
+                                {{ row.professor }}
+                            </p>
+                            <p>
+                                <i class="bi bi-geo-alt"></i>
+                                {{ row.room }}
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-card conflicts-card">
+        <i class="bi bi-shield-check"></i>
+        <div>
+            <strong>Conflict-free planning</strong>
+            <p>Checks room, professor, and group availability.</p>
+        </div>
+    </div>
+
+    <div class="floating-card balance-card">
+        <i class="bi bi-bar-chart-line"></i>
+        <div>
+            <strong>Balanced daily load</strong>
+            <p>Spreads classes across the week more intelligently.</p>
+        </div>
+    </div>
+</div>

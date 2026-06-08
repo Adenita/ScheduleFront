@@ -8,8 +8,8 @@ import { ClassroomFormModalComponent } from './components/classroom-form-modal/c
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [ClassroomListComponent, ClassroomManagementComponent, ClassroomFormModalComponent],
-  imports: [CommonModule, ReactiveFormsModule, ClassroomRoutingModule, SharedModule],
-  exports: [ClassroomListComponent],
+    declarations: [ClassroomListComponent, ClassroomManagementComponent, ClassroomFormModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, ClassroomRoutingModule, SharedModule],
+    exports: [ClassroomListComponent],
 })
 export class ClassroomModule {}

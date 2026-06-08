@@ -7,20 +7,20 @@ import { Classroom } from '../../../../../shared/models/classroom';
 
 export interface ClassroomModalData extends GeneralModalData {}
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ClassroomModalManagementService extends ModalManagementService<ClassroomFormModalComponent, ClassroomModalData> {
-  bindClassroomModalData(
-    selectedClassroomId: number,
-    classroomForm: FormGroup,
-    isEditMode: boolean,
-    classrooms$: BehaviorSubject<Classroom[]>,
-  ): ClassroomModalData {
-    return {
-      selectedId: selectedClassroomId,
-      form: classroomForm,
-      data$: classrooms$,
-      isEditMode: isEditMode,
-    };
-  }
+    bindClassroomModalData(
+        selectedClassroomId: number,
+        classroomForm: FormGroup,
+        isEditMode: boolean,
+        classrooms$: BehaviorSubject<Classroom[]>,
+    ): ClassroomModalData {
+        return {
+            selectedId: selectedClassroomId,
+            form: classroomForm,
+            data$: classrooms$,
+            isEditMode: isEditMode,
+        };
+    }
 }

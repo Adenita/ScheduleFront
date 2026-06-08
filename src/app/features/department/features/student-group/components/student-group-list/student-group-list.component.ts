@@ -3,32 +3,32 @@ import { BehaviorSubject } from 'rxjs';
 import { StudentGroupTransport } from '../../../../../../shared/models/student-group';
 
 @Component({
-  selector: 'app-student-group-list',
-  templateUrl: './student-group-list.component.html',
-  styleUrls: ['./student-group-list.component.css'],
+    selector: 'app-student-group-list',
+    standalone: false,
+    templateUrl: './student-group-list.component.html',
 })
 export class StudentGroupListComponent {
-  @Input()
-  studentGroups$!: BehaviorSubject<StudentGroupTransport[]>;
+    @Input()
+    studentGroups$!: BehaviorSubject<StudentGroupTransport[]>;
 
-  @Input()
-  isAdmin!: boolean;
+    @Input()
+    isAdmin!: boolean;
 
-  @Input()
-  route!: string;
+    @Input()
+    route!: string;
 
-  @Output()
-  editEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output()
+    editEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  @Output()
-  deleteEvent: EventEmitter<number> = new EventEmitter<number>();
-  dateFormat: string = 'MMM d yyyy HH:mm';
+    @Output()
+    deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+    dateFormat: string = 'MMM d yyyy HH:mm';
 
-  onEditClick(id: number) {
-    this.editEvent.emit(id);
-  }
+    onEditClick(id: number) {
+        this.editEvent.emit(id);
+    }
 
-  onDeleteClick(id: number) {
-    this.deleteEvent.emit(id);
-  }
+    onDeleteClick(id: number) {
+        this.deleteEvent.emit(id);
+    }
 }

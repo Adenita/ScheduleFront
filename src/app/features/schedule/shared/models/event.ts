@@ -6,12 +6,12 @@ import { StudentGroupTransport } from '../../../../shared/models/student-group';
 import { ProgramTransport } from '../../../../shared/models/program';
 
 export interface EventTransport {
-  id: number;
-  studentGroupTransport: StudentGroupTransport;
-  programTransport: ProgramTransport;
-  subjectTransport: SubjectTransport;
-  professorTransport: ProfessorScheduleTransport;
-  classroom: Classroom;
-  timeslot: Timeslot;
-  conflict: boolean;
+    id: number;
+    studentGroupTransport: StudentGroupTransport;
+    programTransport: ProgramTransport;
+    subjectTransport: SubjectTransport;
+    professorTransport: ProfessorScheduleTransport;
+    classroom: Classroom;
+    timeslot: Timeslot;
+    conflict: boolean;
 }

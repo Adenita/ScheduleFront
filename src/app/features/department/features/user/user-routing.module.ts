@@ -6,23 +6,23 @@ import { AuthGuard } from '../../../../auth/auth.guard';
 import { Role } from '../../../../shared/models/user';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: UserManagementComponent,
-    canActivate: [AuthGuard],
-    data: { role: [Role.ADMIN] },
-  },
-  {
-    path: 'profile',
-    component: UserDetailsComponent,
-    canActivate: [AuthGuard],
-    data: { role: [Role.ADMIN, Role.PROFESSOR] },
-  },
+    {
+        path: '',
+        component: UserManagementComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.ADMIN] },
+    },
+    {
+        path: 'profile',
+        component: UserDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.ADMIN, Role.PROFESSOR] },
+    },
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    declarations: [],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class UserRoutingModule {}

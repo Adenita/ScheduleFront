@@ -1,0 +1,26 @@
+.section-bg {
+    background: radial-gradient(circle at 15% 20%, rgba(220, 38, 38, 0.06), transparent 28%),
+    radial-gradient(circle at 85% 75%, rgba(30, 58, 95, 0.07), transparent 32%),
+    #f8fafc;
+    clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.045);
+    backdrop-filter: blur(14px);
+}
+
+.preview-shell {
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgb(225 239 251 / 0.45), rgb(253 233 233 / 0.45)),
+    #f8fafc;
+}
+
+.preview-inner {
+    width: 100%;
+    max-width: 360px;
+}

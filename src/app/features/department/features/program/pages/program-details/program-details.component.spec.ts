@@ -3,19 +3,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProgramDetailsComponent } from './program-details.component';
 
 describe('ProgramComponent', () => {
-  let component: ProgramDetailsComponent;
-  let fixture: ComponentFixture<ProgramDetailsComponent>;
+    let component: ProgramDetailsComponent;
+    let fixture: ComponentFixture<ProgramDetailsComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProgramDetailsComponent],
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [ProgramDetailsComponent],
+        });
+        fixture = TestBed.createComponent(ProgramDetailsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
-    fixture = TestBed.createComponent(ProgramDetailsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

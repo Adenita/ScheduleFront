@@ -3,19 +3,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClassroomManagementComponent } from './classroom-management.component';
 
 describe('ClassroomListComponent', () => {
-  let component: ClassroomManagementComponent;
-  let fixture: ComponentFixture<ClassroomManagementComponent>;
+    let component: ClassroomManagementComponent;
+    let fixture: ComponentFixture<ClassroomManagementComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ClassroomManagementComponent]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [ClassroomManagementComponent],
+        });
+        fixture = TestBed.createComponent(ClassroomManagementComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
-    fixture = TestBed.createComponent(ClassroomManagementComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

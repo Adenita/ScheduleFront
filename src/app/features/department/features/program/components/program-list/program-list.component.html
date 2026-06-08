@@ -1,36 +1,51 @@
-<div class = "table-responsive" *ngIf="programs$?.getValue() && programs$.getValue().length > 0; else noProgramsFound">
-  <table class="table table-bordered table-striped table-hover rounded-3 overflow-hidden">
-    <thead class="thead-dark-red">
-    <tr>
-      <th>Name</th>
-      <ng-container *ngIf="isAdmin">
-        <th>Creation Date</th>
-        <th>Modification Date</th>
-        <th>Actions</th>
-      </ng-container>
-      <th class="text-center fst-italic lead fw-bold">i</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let program of programs$ | async" >
-      <td>{{ program.name }}</td>
-       <ng-container *ngIf="isAdmin">
-         <td>{{program.creationDate | date: dateFormat}}</td>
-         <td>{{program.modificationDate | date: dateFormat}}</td>
-         <td class="d-flex justify-content-center">
-           <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick(program.id)">Edit</button>
-           <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick(program.id)">Delete</button>
-         </td>
-       </ng-container>
-      <td class="text-center" [routerLink]="route ? route + '/' + program.id : null">
-        <span class="icon" >
-          <i class="bi bi-info-circle"></i>
-        </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<ng-container *ngIf="programs$ | async as programs">
+    <div class="w-full overflow-x-auto" *ngIf="programs.length > 0; else noProgramsFound">
+        <table
+            class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100 rounded-lg overflow-hidden"
+        >
+            <thead class="bg-[var(--app-red)] text-white">
+                <tr>
+                    <th>Name</th>
+                    <ng-container *ngIf="isAdmin">
+                        <th>Creation Date</th>
+                        <th>Modification Date</th>
+                        <th>Actions</th>
+                    </ng-container>
+                    <th class="text-center italic text-xl leading-relaxed font-bold">i</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let program of programs">
+                    <td>{{ program.name }}</td>
+                    <ng-container *ngIf="isAdmin">
+                        <td>{{ program.creationDate | date: dateFormat }}</td>
+                        <td>{{ program.modificationDate | date: dateFormat }}</td>
+                        <td class="flex justify-center">
+                            <button
+                                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1"
+                                (click)="onEditClick(program.id)"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white"
+                                (click)="onDeleteClick(program.id)"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </ng-container>
+                    <td class="text-center" [routerLink]="route ? route + '/' + program.id : null">
+                        <span class="icon">
+                            <i class="bi bi-info-circle"></i>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
+
 <ng-template #noProgramsFound>
-  <p>No Programs Found.</p>
+    <p>No Programs Found.</p>
 </ng-template>

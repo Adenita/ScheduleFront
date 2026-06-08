@@ -7,8 +7,8 @@ import { StudentGroupRoutingModule } from './student-group-routing.module';
 import { StudentGroupFormModalComponent } from './components/student-group-form-modal/student-group-form-modal.component';
 
 @NgModule({
-  declarations: [StudentGroupListComponent, StudentGroupManagementComponent, StudentGroupFormModalComponent],
-  imports: [CommonModule, ReactiveFormsModule, StudentGroupRoutingModule],
-  exports: [StudentGroupListComponent],
+    declarations: [StudentGroupListComponent, StudentGroupManagementComponent, StudentGroupFormModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, StudentGroupRoutingModule],
+    exports: [StudentGroupListComponent],
 })
 export class StudentGroupModule {}

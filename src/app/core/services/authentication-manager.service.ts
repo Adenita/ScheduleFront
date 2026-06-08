@@ -4,42 +4,50 @@ import { AuthenticationService } from './http/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { TokenTransport } from '../../shared/models/authentication';
 import { StorageService } from './storage.service';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class AuthenticationManagerService {
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private storageService: StorageService,
-  ) {}
+    constructor(
+        private router: Router,
+        private authenticationService: AuthenticationService,
+        private storageService: StorageService,
+    ) {}
 
-  login(loginForm: FormGroup) {
-    if (loginForm.valid) {
-      this.authenticationService
-        .login(loginForm.value)
-        .pipe()
-        .subscribe({
-          next: (tokenTransport: TokenTransport) => {
-            this.router.navigate(['/']).then(() => {
-              const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
-              this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
-              this.storageService.storedUser$.next(loggedUser);
-            });
-          },
+    login(loginForm: FormGroup): Observable<boolean> {
+        if (loginForm.valid) {
+            const credentials = { ...loginForm.getRawValue() };
+
+            return this.authenticationService.login(credentials).pipe(
+                tap((tokenTransport: TokenTransport) => {
+                    const loggedUser = { username: tokenTransport.username, roles: tokenTransport.roles };
+                    this.storageService.storeUserAndTokenToStorage(loggedUser, tokenTransport.token);
+                    this.storageService.storedUser$.next(loggedUser);
+                    this.router.navigate(['/dashboard']);
+                }),
+                map(() => true),
+                catchError((err) => {
+                    console.error('Login failed', err);
+                    this.storageService.removeUserAndTokenFromStorage();
+                    this.storageService.storedUser$.next(null);
+                    return of(false);
+                }),
+            );
+        }
+
+        return of(false);
+    }
+
+    logout() {
+        this.router.navigate(['/']).then(() => {
+            this.storageService.removeUserAndTokenFromStorage();
+            this.storageService.storedUser$.next(null);
         });
     }
-  }
 
-  logout() {
-    this.router.navigate(['/']).then(() => {
-      this.storageService.removeUserAndTokenFromStorage();
-      this.storageService.storedUser$.next(null);
-    });
-  }
-
-  isLoggedIn() {
-    return !!this.storageService.getAccessToken();
-  }
+    isLoggedIn() {
+        return !!this.storageService.getAccessToken();
+    }
 }

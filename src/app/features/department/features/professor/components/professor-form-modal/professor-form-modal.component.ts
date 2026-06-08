@@ -4,29 +4,29 @@ import { ModalEventsService } from '../../../../shared/services/modal-events.ser
 import { ProfessorModalData } from '../../services/professor-modal-management.service';
 
 @Component({
-  selector: 'app-professor-form-modal',
-  templateUrl: './professor-form-modal.component.html',
-  styleUrls: ['./professor-form-modal.component.css'],
+    selector: 'app-professor-form-modal',
+    standalone: false,
+    templateUrl: './professor-form-modal.component.html',
 })
 export class ProfessorFormModalComponent {
-  @Input()
-  modalData!: ProfessorModalData;
+    @Input()
+    modalData!: ProfessorModalData;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalEventsService: ModalEventsService,
-  ) {}
+    constructor(
+        public activeModal: NgbActiveModal,
+        private modalEventsService: ModalEventsService,
+    ) {}
 
-  closeModal() {
-    this.modalEventsService.emitCloseEvent();
-    this.activeModal.close();
-  }
+    closeModal() {
+        this.modalEventsService.emitCloseEvent();
+        this.activeModal.close();
+    }
 
-  onUpdateClick(id: number) {
-    this.modalEventsService.emitUpdateEvent(id);
-  }
+    onUpdateClick(id: number) {
+        this.modalEventsService.emitUpdateEvent(id);
+    }
 
-  onPostClick() {
-    this.modalEventsService.emitPostEvent();
-  }
+    onPostClick() {
+        this.modalEventsService.emitPostEvent();
+    }
 }

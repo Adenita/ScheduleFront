@@ -4,29 +4,29 @@ import { ModalEventsService } from '../../../../shared/services/modal-events.ser
 import { PreferredDayModalData } from '../../services/preferred-day-modal-management.service';
 
 @Component({
-  selector: 'app-professor-preferred-days-from-modal',
-  templateUrl: './professor-preferred-days-from-modal.component.html',
-  styleUrls: ['./professor-preferred-days-from-modal.component.css'],
+    selector: 'app-professor-preferred-days-from-modal',
+    standalone: false,
+    templateUrl: './professor-preferred-days-from-modal.component.html',
 })
 export class ProfessorPreferredDaysFromModalComponent {
-  @Input()
-  modalData!: PreferredDayModalData;
+    @Input()
+    modalData!: PreferredDayModalData;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalEventsService: ModalEventsService,
-  ) {}
+    constructor(
+        public activeModal: NgbActiveModal,
+        private modalEventsService: ModalEventsService,
+    ) {}
 
-  closeModal() {
-    this.modalEventsService.emitCloseEvent();
-    this.activeModal.close();
-  }
+    closeModal() {
+        this.modalEventsService.emitCloseEvent();
+        this.activeModal.close();
+    }
 
-  onUpdateClick(id: number) {
-    this.modalEventsService.emitUpdateEvent(id);
-  }
+    onUpdateClick(id: number) {
+        this.modalEventsService.emitUpdateEvent(id);
+    }
 
-  onPostClick() {
-    this.modalEventsService.emitPostEvent();
-  }
+    onPostClick() {
+        this.modalEventsService.emitPostEvent();
+    }
 }

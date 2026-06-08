@@ -1,58 +1,64 @@
 body {
-  background-color: #f9f9fa
+    background-color: #f9f9fa;
 }
 
 .padding {
-  padding: 3rem !important
+    padding: 3rem !important;
+}
+
+.user-details-page {
+    margin-top: 5rem;
+}
+
+.profile-image {
+    width: 18rem;
+    height: 18rem;
 }
 
 .user-card-full {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .card {
-  border-radius: 5px;
-  -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
-  box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
-  border: none;
-  margin-bottom: 30px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    border: none;
+    margin-bottom: 30px;
 }
 
 .user-card-full {
-  border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px;
 }
 
 .red-bg {
-  background: #ce2a2d;
+    background: #ce2a2d;
 }
 
 .user-profile {
-  padding: 20px 0;
+    padding: 20px 0;
 }
 
 .card-block {
-  padding: 1.25rem;
+    padding: 1.25rem;
 }
 
 .card .card-block p {
-  line-height: 25px;
+    line-height: 25px;
 }
 
 .card-block {
-  padding: 1.25rem;
+    padding: 1.25rem;
 }
 
 .b-b-default {
-  border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .text-muted {
-  color: #919aa3 !important;
+    color: #919aa3 !important;
 }
 
 .f-w-600 {
-  font-weight: 600;
+    font-weight: 600;
 }
-
-
-

@@ -1,31 +1,30 @@
 .card {
-  border: none;
-  border-radius: 10px;
+    border: none;
+    border-radius: 10px;
 
-  &-header {
-    border-bottom: none;
-    background-color: #212121EF;
+    &-header {
+        border-bottom: none;
+        background-color: #212121ef;
 
-    .nav-link {
-      color: white;
-      font-weight: 700;
-      font-size: 1.35em;
-      border: none;
-      transition: 0.2s ease-in-out;
+        .nav-link {
+            color: white;
+            font-weight: 700;
+            font-size: 1.35em;
+            border: none;
+            transition: 0.2s ease-in-out;
 
-      &-active {
-        background-color: #ce2a2d;
-        color: white;
-      }
+            &-active {
+                background-color: #ce2a2d;
+                color: white;
+            }
 
-      &:hover {
-        margin-top: -1px;
-      }
+            &:hover {
+                margin-top: -1px;
+            }
+        }
     }
-  }
 
-  &-body {
-    padding: 2px;
-  }
+    &-body {
+        padding: 2px;
+    }
 }
-

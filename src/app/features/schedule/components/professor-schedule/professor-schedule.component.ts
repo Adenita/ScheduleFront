@@ -5,34 +5,41 @@ import { DAY } from '../../../../shared/models/timeslots';
 import { ScheduleGroupingService } from '../../services/schedule-grouping.service';
 
 @Component({
-  selector: 'app-professor-schedule',
-  templateUrl: './professor-schedule.component.html',
-  styleUrls: ['./professor-schedule.component.css'],
+    selector: 'app-professor-schedule',
+    standalone: false,
+    templateUrl: './professor-schedule.component.html',
 })
 export class ProfessorScheduleComponent implements OnInit, OnDestroy {
-  @Input()
-  professorSchedule$!: BehaviorSubject<ScheduleTransport>;
-  professorSchedulePerDayMap!: Map<DAY, ScheduleTransport>;
-  destroyed$: Subject<void> = new Subject<void>();
-  emptyScheduleTransport: ScheduleTransport;
-  days: DAY[] = Object.values(DAY);
+    @Input()
+    professorSchedule$!: BehaviorSubject<ScheduleTransport>;
 
-  constructor(private scheduleGroupingService: ScheduleGroupingService) {
-    this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
-  }
+    professorSchedulePerDayMap$: BehaviorSubject<Map<DAY, ScheduleTransport>>;
+    destroyed$: Subject<void> = new Subject<void>();
+    emptyScheduleTransport: ScheduleTransport;
+    days: DAY[] = Object.values(DAY);
 
-  ngOnInit(): void {
-    this.professorSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
-      next: (schedule: ScheduleTransport) => {
-        if (schedule.events) {
-          this.professorSchedulePerDayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
-        }
-      },
-    });
-  }
+    constructor(private scheduleGroupingService: ScheduleGroupingService) {
+        this.emptyScheduleTransport = { id: 0, semester: '', events: [], fitness: 1, creationDate: new Date() };
+        this.professorSchedulePerDayMap$ = new BehaviorSubject<Map<DAY, ScheduleTransport>>(new Map());
+    }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    ngOnInit(): void {
+        this.professorSchedule$.pipe(takeUntil(this.destroyed$)).subscribe({
+            next: (schedule: ScheduleTransport) => {
+                console.log('Professor schedule received:', schedule);
+                if (schedule && schedule.events && schedule.events.length > 0) {
+                    const dayMap = this.scheduleGroupingService.groupEventsByDayAndSortByTimeslot(schedule);
+                    this.professorSchedulePerDayMap$.next(dayMap);
+                } else {
+                    console.warn('No events in professor schedule or schedule is empty');
+                    this.professorSchedulePerDayMap$.next(new Map());
+                }
+            },
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

@@ -1,0 +1,17 @@
+<section class="professor-self-view">
+    <div class="self-header">
+        <div>
+            <h4>My Professor Workspace</h4>
+            <p>Manage your availability and view assigned subjects.</p>
+        </div>
+    </div>
+
+    <div class="self-tabs">
+        <a class="self-tab" routerLink="preferred" routerLinkActive="active">Timeslots</a>
+        <a class="self-tab" routerLink="subjects" routerLinkActive="active">Subjects</a>
+    </div>
+
+    <div class="self-content">
+        <router-outlet></router-outlet>
+    </div>
+</section>

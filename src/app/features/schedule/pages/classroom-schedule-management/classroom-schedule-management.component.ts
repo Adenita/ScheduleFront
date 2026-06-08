@@ -2,113 +2,125 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Classroom } from '../../../../shared/models/classroom';
 import { ScheduleTransport } from '../../shared/models/schedule';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { RouteParametersService } from '../../../../core/services/route-parameters.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScheduleDataService } from '../../../../core/services/http/schedule-data.service';
 import { DepartmentService } from '../../../../core/services/http/department.service';
 import { ClassroomService } from '../../../../core/services/http/classroom.service';
+import { ScheduleRouteService } from '../../services/schedule-route.service';
 
 @Component({
-  selector: 'app-classroom-schedule-management',
-  templateUrl: './classroom-schedule-management.component.html',
-  styleUrls: ['./classroom-schedule-management.component.css'],
+    selector: 'app-classroom-schedule-management',
+    standalone: false,
+    templateUrl: './classroom-schedule-management.component.html',
+    styleUrls: ['./classroom-schedule-management.component.scss'],
 })
 export class ClassroomScheduleManagementComponent implements OnInit, OnDestroy {
-  scheduleId: number = -1;
-  classroomId: number = -1;
-  departmentId: number = -1;
+    scheduleId: number = -1;
+    classroomId: number = -1;
+    departmentId: number = -1;
+    loadedClassroomsDepartmentId: number = -1;
 
-  classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
-  classrooms!: Classroom[];
-  selectedClassroom$: BehaviorSubject<Classroom> = new BehaviorSubject<Classroom>({} as Classroom);
-  classroomName: string = '';
+    classroomSchedule$!: BehaviorSubject<ScheduleTransport>;
+    classrooms!: Classroom[];
+    selectedClassroom$: BehaviorSubject<Classroom> = new BehaviorSubject<Classroom>({} as Classroom);
+    classroomName: string = '';
 
-  currentRoute: string = '';
-  destroyed$: Subject<void> = new Subject<void>();
+    destroyed$: Subject<void> = new Subject<void>();
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private routeParametersService: RouteParametersService,
-    private scheduleDataService: ScheduleDataService,
-    private departmentService: DepartmentService,
-    private classroomService: ClassroomService,
-  ) {
-    this.classroomSchedule$ = new BehaviorSubject({} as ScheduleTransport);
-  }
-
-  ngOnInit() {
-    this.getRouteParameters()
-      .then(() => this.getInitialClassroom(this.classroomId))
-      .then(() => this.getScheduleForClassroom(this.scheduleId, this.classroomId))
-      .then(() => {
-        if (this.departmentId != -1) {
-          this.getDepartmentClassrooms(this.departmentId);
-        }
-      });
-  }
-
-  getDepartmentClassrooms(departmentId: number) {
-    this.departmentService
-      .getDepartmentClassrooms(departmentId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (classroomTransport) => {
-          this.classrooms = classroomTransport.classrooms;
-        },
-      });
-  }
-
-  getScheduleForClassroom(scheduleId: number, classroomId: number) {
-    this.scheduleDataService
-      .getScheduleForClassroom(scheduleId, classroomId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (schedule) => {
-          this.classroomSchedule$.next(schedule);
-        },
-      });
-  }
-  getRouteParameters() {
-    return this.routeParametersService.getCurrentRoute(this.activatedRoute).then(() => {
-      this.scheduleId = this.routeParametersService.scheduleId;
-      this.classroomId = this.routeParametersService.classroomId;
-      this.departmentId = this.routeParametersService.departmentId;
-      this.currentRoute = this.routeParametersService.currentRoute;
-    });
-  }
-
-  loadClassroomSchedule(classroom: Classroom) {
-    const currentRouteWithoutLastSlash: string = this.currentRoute.substring(0, this.currentRoute.length - 1);
-    const lastIndexOfSlash: number = currentRouteWithoutLastSlash.lastIndexOf('/');
-    const nextRoute: string = currentRouteWithoutLastSlash.substring(0, lastIndexOfSlash);
-    this.classroomName = classroom.name;
-    this.selectedClassroom$.next(classroom);
-    this.router.navigate([nextRoute, classroom.id]).then(() => this.getScheduleForClassroom(this.scheduleId, classroom.id));
-  }
-
-  getInitialClassroom(professorId: number) {
-    this.classroomService
-      .get(professorId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (classroom: Classroom) => {
-          this.selectedClassroom$.next(classroom);
-          this.classroomName = classroom.name;
-        },
-      });
-  }
-
-  goBack() {
-    if (this.departmentId != -1) {
-      this.router.navigate(['departments', this.departmentId, 'schedules']);
-    } else {
-      this.router.navigate(['schedules']);
+    constructor(
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private scheduleDataService: ScheduleDataService,
+        private departmentService: DepartmentService,
+        private classroomService: ClassroomService,
+        private scheduleRouteService: ScheduleRouteService,
+    ) {
+        this.classroomSchedule$ = new BehaviorSubject({} as ScheduleTransport);
     }
-  }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+    ngOnInit() {
+        this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
+            this.scheduleId = Number(params.get('scid')) || -1;
+            this.classroomId = Number(params.get('cid')) || -1;
+            this.departmentId = this.scheduleRouteService.getDepartmentId(this.activatedRoute);
+
+            this.getInitialClassroom(this.classroomId);
+            this.getScheduleForClassroom(this.scheduleId, this.classroomId);
+
+            if (this.departmentId !== -1 && this.departmentId !== this.loadedClassroomsDepartmentId) {
+                this.loadedClassroomsDepartmentId = this.departmentId;
+                this.getDepartmentClassrooms(this.departmentId);
+            }
+        });
+    }
+
+    getDepartmentClassrooms(departmentId: number) {
+        this.departmentService
+            .getDepartmentClassrooms(departmentId)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: (classroomTransport) => {
+                    this.classrooms = classroomTransport.classrooms;
+                },
+            });
+    }
+
+    getScheduleForClassroom(scheduleId: number, classroomId: number) {
+        if (scheduleId === -1 || classroomId === -1) {
+            console.warn('Cannot load classroom schedule because route ids are invalid', {
+                scheduleId,
+                classroomId,
+                departmentId: this.departmentId,
+            });
+            return;
+        }
+
+        this.scheduleDataService
+            .getScheduleForClassroom(scheduleId, classroomId)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: (schedule) => {
+                    this.classroomSchedule$.next(schedule);
+                },
+            });
+    }
+    loadClassroomSchedule(classroom: Classroom) {
+        this.classroomName = classroom.name;
+        this.selectedClassroom$.next(classroom);
+        this.router.navigate(
+            this.scheduleRouteService.getScheduleEntityRoute(this.departmentId, this.scheduleId, 'classrooms', classroom.id),
+        );
+    }
+
+    getInitialClassroom(classroomId: number) {
+        if (classroomId === -1) {
+            console.warn('Cannot load initial classroom because classroomId is invalid', {
+                classroomId,
+            });
+            return;
+        }
+
+        this.classroomService
+            .get(classroomId)
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe({
+                next: (classroom: Classroom) => {
+                    this.selectedClassroom$.next(classroom);
+                    this.classroomName = classroom.name;
+                },
+            });
+    }
+
+    goBack() {
+        if (this.departmentId !== -1) {
+            this.router.navigate(['departments', this.departmentId, 'schedules']);
+        } else {
+            this.router.navigate(['schedules']);
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }

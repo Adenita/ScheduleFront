@@ -10,22 +10,22 @@ import { Role } from '../../shared/models/user';
 import { ScheduleGeneratorManagementComponent } from './pages/schedule-generator-management/schedule-generator-management.component';
 
 const routes: Routes = [
-  { path: '', component: ScheduleManagementComponent },
-  { path: ':scid/classrooms/:cid', component: ClassroomScheduleManagementComponent },
-  { path: ':scid/programs/:pid', component: ProgramScheduleManagementComponent },
-  { path: ':scid/professors/:ppid', component: ProfessorScheduleManagementComponent },
-  {
-    path: 'generate',
-    component: ScheduleGeneratorManagementComponent,
-    canActivate: [AuthGuard],
-    data: { role: [Role.ADMIN] },
-    children: [{ path: ':ddid', component: ScheduleGeneratorComponent }],
-  },
+    { path: '', component: ScheduleManagementComponent },
+    { path: ':scid/classrooms/:cid', component: ClassroomScheduleManagementComponent },
+    { path: ':scid/programs/:pid', component: ProgramScheduleManagementComponent },
+    { path: ':scid/professors/:ppid', component: ProfessorScheduleManagementComponent },
+    {
+        path: 'generate',
+        component: ScheduleGeneratorManagementComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.ADMIN] },
+        children: [{ path: ':ddid', component: ScheduleGeneratorComponent }],
+    },
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    declarations: [],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class ScheduleRoutingModule {}

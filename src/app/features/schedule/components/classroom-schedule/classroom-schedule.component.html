@@ -1,8 +1,10 @@
-<div class="mt-3" *ngIf="classroomSchedulePerDayMap">
-  <ng-container *ngFor="let day of days">
-    <div *ngIf="classroomSchedulePerDayMap.has(day)">
-      <h4 class="mt-2 fw-semibold">Day | <span class="red-text">{{ day }}</span> </h4>
-      <app-schedule [bestProgramSchedule]="classroomSchedulePerDayMap.get(day) ?? emptyScheduleTransport"></app-schedule>
-    </div>
-  </ng-container>
+<div class="mt-3" *ngIf="classroomSchedulePerDayMap$ | async as classroomSchedulePerDayMap">
+    <ng-container *ngFor="let day of days">
+        <div *ngIf="classroomSchedulePerDayMap.has(day)">
+            <h4 class="mt-2 font-semibold">
+                Day | <span class="red-text">{{ day }}</span>
+            </h4>
+            <app-schedule [bestProgramSchedule]="classroomSchedulePerDayMap.get(day) ?? emptyScheduleTransport"></app-schedule>
+        </div>
+    </ng-container>
 </div>

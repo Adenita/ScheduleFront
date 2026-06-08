@@ -4,11 +4,11 @@ import { DataService } from '../data.service';
 import { Timeslot, TimeslotsTransport } from '../../../shared/models/timeslots';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class TimeslotService extends DataService<Timeslot, TimeslotsTransport> {
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
-    this.apiUrl = 'time_slots';
-  }
+    constructor(httpClient: HttpClient) {
+        super(httpClient);
+        this.apiUrl = 'time_slots';
+    }
 }

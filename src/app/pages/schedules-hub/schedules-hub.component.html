@@ -1,0 +1,38 @@
+<section class="schedule-hub">
+    <div class="page-heading">
+        <div>
+            <h2>Schedules</h2>
+            <p>Open department schedules, compare layouts, or generate a fresh schedule when needed.</p>
+        </div>
+    </div>
+
+    <div class="department-grid" *ngIf="visibleDepartments.length > 0; else emptyState">
+        <article class="department-card" *ngFor="let department of visibleDepartments">
+            <div class="card-icon">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <div>
+                <h3>{{ department.name }}</h3>
+                <p>Review the active schedule for this department.</p>
+            </div>
+            <div class="actions">
+                <a [routerLink]="['/departments', department.id, 'schedules']">
+                    <i class="bi bi-eye"></i>
+                    View
+                </a>
+                <a *ngIf="isAdmin" class="secondary" [routerLink]="['/schedules', 'generate', department.id]">
+                    <i class="bi bi-magic"></i>
+                    Generate
+                </a>
+            </div>
+        </article>
+    </div>
+
+    <ng-template #emptyState>
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            <h3>No schedules available</h3>
+            <p>No department is linked to your account yet.</p>
+        </div>
+    </ng-template>
+</section>

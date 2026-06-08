@@ -9,8 +9,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { SubjectFormModalComponent } from './components/subject-form-modal/subject-form-modal.component';
 
 @NgModule({
-  declarations: [SubjectManagementComponent, SubjectDetailsComponent, SubjectFormModalComponent],
-  imports: [CommonModule, ReactiveFormsModule, SubjectRoutingModule, StudentGroupModule, SharedModule],
-  exports: [],
+    declarations: [SubjectManagementComponent, SubjectDetailsComponent, SubjectFormModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, SubjectRoutingModule, StudentGroupModule, SharedModule],
+    exports: [],
 })
 export class SubjectModule {}

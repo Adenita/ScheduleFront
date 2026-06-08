@@ -1,0 +1,81 @@
+<aside class="app-sidebar" (click)="toggleSidebar.emit()">
+    <div class="sidebar-top">
+        <a class="sidebar-brand" routerLink="/dashboard" title="ScheduleUp" (click)="$event.stopPropagation()">
+            <img class="logo" src="/assets/logo.png" alt="logo" />
+
+            @if (!collapsed) {
+                <span>ScheduleUp</span>
+            }
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a routerLink="/dashboard" routerLinkActive="active-link" title="Dashboard" (click)="$event.stopPropagation()">
+            <i class="bi bi-speedometer2"></i>
+
+            @if (!collapsed) {
+                <span>Dashboard</span>
+            }
+        </a>
+
+        <a routerLink="/manage-data" routerLinkActive="active-link" title="Manage Data" (click)="$event.stopPropagation()">
+            <i class="bi bi-folder2-open"></i>
+
+            @if (!collapsed) {
+                <span>Manage Data</span>
+            }
+        </a>
+
+        <a routerLink="/schedule-center" routerLinkActive="active-link" title="Schedules" (click)="$event.stopPropagation()">
+            <i class="bi bi-calendar3"></i>
+
+            @if (!collapsed) {
+                <span>Schedules</span>
+            }
+        </a>
+
+        @if (isProfessor && currentUser) {
+            <a
+                [routerLink]="['/me', 'self', currentUser.id, 'preferred']"
+                routerLinkActive="active-link"
+                title="My Workspace"
+                (click)="$event.stopPropagation()"
+            >
+                <i class="bi bi-clock-history"></i>
+
+                @if (!collapsed) {
+                    <span>My Workspace</span>
+                }
+            </a>
+        }
+    </nav>
+
+    <div class="sidebar-user">
+        <button
+            type="button"
+            class="profile-link"
+            [routerLink]="['/users/profile']"
+            title="Profile"
+            (click)="$event.stopPropagation()"
+        >
+            <i class="bi bi-person-circle"></i>
+
+            @if (!collapsed) {
+                <span>{{ username }}</span>
+            }
+        </button>
+
+        <button
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs logout-button"
+            (click)="$event.stopPropagation(); logoutClick.emit()"
+            title="Logout"
+        >
+            <i class="bi bi-box-arrow-right"></i>
+
+            @if (!collapsed) {
+                <span>Logout</span>
+            }
+        </button>
+    </div>
+</aside>

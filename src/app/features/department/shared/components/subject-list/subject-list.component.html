@@ -1,40 +1,52 @@
-<div class = "table-responsive" *ngIf="subjects$?.getValue() && subjects$.getValue().length > 0; else noSubjectsFound">
-  <table class="table table-bordered table-striped table-hover">
-    <thead class="thead-dark-red">
-    <tr>
-      <th>Name</th>
-      <th>M/O</th>
-      <th>Hours</th>
-      <th>Etcs</th>
-      <th>Requires Lab</th>
-      <th>Semester</th>
-      <ng-container *ngIf="isAdmin">
-        <th>Creation Date</th>
-        <th>Modification Date</th>
-        <th>Actions</th>
-      </ng-container>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let subject of subjects$ | async" (click)="onSelectClick($event, subject.id)">
-      <td [routerLink]="[route ? route + '/' + subject.id : null]">{{ subject.name }}</td>
-      <td>{{ subject.requirementType }}</td>
-      <td>{{ subject.hours }}</td>
-      <td>{{ subject.etcs }}</td>
-      <td>{{ subject.requiresLab }}</td>
-      <td>{{ subject.semester }}</td>
-      <ng-container *ngIf="isAdmin">
-        <td>{{ subject.creationDate | date: dateFormat}}</td>
-        <td>{{ subject.modificationDate | date: dateFormat}}</td>
-        <td class="d-flex justify-content-center">
-          <button class="btn btn-sm btn-outline-dark me-1" (click)="onEditClick($event, subject.id)">Edit</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="onDeleteClick($event, subject.id)">Delete</button>
-        </td>
-      </ng-container>
-    </tr>
-    </tbody>
-  </table>
+<div class="w-full overflow-x-auto" *ngIf="subjects$.getValue() && subjects$.getValue().length > 0; else noSubjectsFound">
+    <table
+        class="w-full border-collapse text-left text-sm [&_td]:border [&_td]:border-slate-200 [&_th]:border [&_th]:border-slate-200 [&_tbody_tr:nth-child(odd)]:bg-slate-50 [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-slate-100"
+    >
+        <thead class="bg-[var(--app-red)] text-white">
+            <tr>
+                <th>Name</th>
+                <th>M/O</th>
+                <th>Hours</th>
+                <th>Etcs</th>
+                <th>Requires Lab</th>
+                <th>Semester</th>
+                <ng-container *ngIf="isAdmin">
+                    <th>Creation Date</th>
+                    <th>Modification Date</th>
+                    <th>Actions</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let subject of subjects$ | async" (click)="onSelectClick($event, subject.id)">
+                <td [routerLink]="[route ? route + '/' + subject.id : null]">{{ subject.name }}</td>
+                <td>{{ subject.requirementType }}</td>
+                <td>{{ subject.hours }}</td>
+                <td>{{ subject.etcs }}</td>
+                <td>{{ subject.requiresLab }}</td>
+                <td>{{ subject.semester }}</td>
+                <ng-container *ngIf="isAdmin">
+                    <td>{{ subject.creationDate | date: dateFormat }}</td>
+                    <td>{{ subject.modificationDate | date: dateFormat }}</td>
+                    <td class="flex justify-center">
+                        <button
+                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-slate-900 text-slate-950 hover:bg-slate-950 hover:text-white mr-1"
+                            (click)="onEditClick($event, subject.id)"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            class="inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-semibold leading-5 transition px-3 py-1.5 text-xs border-[var(--app-red)] text-[var(--app-red)] hover:bg-[var(--app-red)] hover:text-white"
+                            (click)="onDeleteClick($event, subject.id)"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <ng-template #noSubjectsFound>
-  <p>No Subjects Found.</p>
+    <p>No Subjects Found.</p>
 </ng-template>

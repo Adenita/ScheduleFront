@@ -1,0 +1,201 @@
+.contact-page {
+    min-height: calc(100vh - 80px);
+    padding: 5rem 1rem;
+    background: radial-gradient(circle at top left, rgba(176, 42, 55, 0.12), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.1), transparent 38%),
+    #f8fafc;
+}
+
+.contact-shell {
+    width: 90%;
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.contact-intro h1 {
+    margin: 0 0 1rem;
+    color: var(--color-app-text);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.contact-intro p {
+    max-width: 620px;
+    margin-bottom: 2rem;
+    color: var(--color-app-muted);
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.eyebrow {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    background: rgba(176, 42, 55, 0.1);
+    padding: 0.45rem 0.9rem;
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.contact-info {
+    display: grid;
+    gap: 1rem;
+}
+
+.contact-info div {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    color: var(--color-app-muted);
+    font-weight: 700;
+}
+
+.contact-info i {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    font-size: 1.1rem;
+}
+
+.contact-card {
+    position: relative;
+    isolation: isolate;
+}
+
+.card-glow {
+    position: absolute;
+    inset: auto 8% -28px 8%;
+    height: 130px;
+    z-index: -1;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        rgba(176, 42, 55, 0.28),
+        rgba(37, 99, 235, 0.22)
+    );
+    filter: blur(30px);
+    opacity: 0.65;
+}
+
+.contact-form {
+    border: 1px solid var(--color-app-border);
+    border-radius: 34px;
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+}
+
+.form-header {
+    margin-bottom: 1.5rem;
+}
+
+.form-header p {
+    margin: 0 0 0.25rem;
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.form-header h2 {
+    margin: 0;
+    color: var(--color-app-text);
+    font-size: 2rem;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.contact-form label {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-app-text);
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    border: 1px solid var(--color-app-border);
+    border-radius: 16px;
+    background: #f8fafc;
+    padding: 0.95rem 1rem;
+    color: var(--color-app-text);
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: var(--color-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(176, 42, 55, 0.1);
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    border: 0;
+    border-radius: 18px;
+    background: var(--color-primary);
+    padding: 1rem 1.25rem;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(176, 42, 55, 0.28);
+}
+
+@media (max-width: 1024px) {
+    .contact-shell {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form {
+        padding: 1.25rem;
+        border-radius: 26px;
+    }
+}

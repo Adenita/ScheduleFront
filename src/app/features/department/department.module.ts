@@ -7,8 +7,8 @@ import { DepartmentRoutingModule } from './department-routing.module';
 import { DepartmentFormModalComponent } from './components/department-form-modal/department-form-modal.component';
 
 @NgModule({
-  declarations: [DepartmentsListComponent, DepartmentDetailsComponent, DepartmentFormModalComponent],
-  imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule],
-  exports: [DepartmentsListComponent, DepartmentDetailsComponent],
+    declarations: [DepartmentsListComponent, DepartmentDetailsComponent, DepartmentFormModalComponent],
+    imports: [CommonModule, ReactiveFormsModule, DepartmentRoutingModule],
+    exports: [DepartmentsListComponent, DepartmentDetailsComponent],
 })
 export class DepartmentModule {}

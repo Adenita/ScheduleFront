@@ -1,18 +1,8 @@
-<div class="mt-3" *ngIf="programSchedulePerSemesterMap">
-  <ng-container *ngFor="let entry of programSchedulePerSemesterMap | keyvalue">
-    <h4 class="mt-2 fw-semibold">Semester | <span class="red-text">{{ entry.key }}</span> </h4>
-    <app-schedule [bestProgramSchedule]="entry.value"></app-schedule>
-  </ng-container>
+<div class="mt-3" *ngIf="programSchedulePerSemesterMap$ | async as programSchedulePerSemesterMap">
+    <ng-container *ngFor="let entry of programSchedulePerSemesterMap | keyvalue">
+        <h4 class="mt-2 font-semibold">
+            Semester | <span class="red-text">{{ entry.key }}</span>
+        </h4>
+        <app-schedule [bestProgramSchedule]="entry.value"></app-schedule>
+    </ng-container>
 </div>
-<!--<div class="mt-3" *ngIf="programSchedulePerDayArray">-->
-<!--  <ng-container *ngFor="let schedule of programSchedulePerDayArray ">-->
-<!--    <h3 class="mt-4 fw-semibold mb-3">Semester | <span class="red-text">{{ schedule.semester }}</span> </h3>-->
-<!--        <ng-container *ngFor="let day of days">-->
-<!--          <div *ngIf="schedule.schedulePerDay.has(day)">-->
-<!--            <h4 class="mt-2 fw-semibold">Day | <span class="red-text">{{ day }}</span> </h4>-->
-<!--            <app-schedule [bestProgramSchedule]="schedule.schedulePerDay.get(day) ?? emptyScheduleTransport"></app-schedule>-->
-<!--          </div>-->
-<!--        </ng-container>-->
-<!--  </ng-container>-->
-<!--</div>-->
-

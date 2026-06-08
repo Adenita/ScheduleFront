@@ -1,104 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationManagerService } from './core/services/authentication-manager.service';
-import { LoginFormModalComponent } from './auth/components/login-form-modal/login-form-modal.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginModalData, LoginModalManagementService } from './auth/services/login-modal-management.service';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { DepartmentService } from './core/services/http/department.service';
-import { DepartmentTransport } from './shared/models/department';
 import { StorageService } from './core/services/storage.service';
 import { PermissionService } from './auth/services/permission.service';
-import { Role } from './shared/models/user';
+import { Role, UserTransport } from './shared/models/user';
+import { UserService } from './core/services/http/user.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    standalone: false,
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  isLoggedIn = false;
-  isAdmin: boolean = false;
-  username: string | null = '';
-  loginForm: FormGroup;
-  loginModalData: LoginModalData = {} as LoginModalData;
-  selectedDepartmentId: number | null = null;
+    isLoggedIn = false;
+    isAdmin: boolean = false;
+    isProfessor: boolean = false;
+    isStudent: boolean = false;
+    isSidebarCollapsed: boolean = false;
+    username: string | null = '';
+    currentUser?: UserTransport;
 
-  destroyed$: Subject<void> = new Subject<void>();
-  departments: BehaviorSubject<DepartmentTransport[]>;
+    constructor(
+        private authenticationManagerService: AuthenticationManagerService,
+        private storageService: StorageService,
+        private permissionService: PermissionService,
+        private userService: UserService,
+    ) {}
 
-  constructor(
-    formBuilder: FormBuilder,
-    private router: Router,
-    private authenticationManagerService: AuthenticationManagerService,
-    private loginModalManagementService: LoginModalManagementService,
-    private storageService: StorageService,
-    private departmentService: DepartmentService,
-    private permissionService: PermissionService,
-  ) {
-    this.loginForm = this.buildLoginFormGroup(formBuilder);
-    this.departments = new BehaviorSubject<DepartmentTransport[]>([]);
-  }
-
-  ngOnInit(): void {
-    this.getDepartments();
-    this.bindLoginModalData();
-    this.storageService.storedUser$.subscribe({
-      next: (storedUser) => {
-        if (storedUser) {
-          this.username = storedUser.username;
-        }
-        this.isLoggedIn = !!storedUser;
-        this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
-      },
-    });
-  }
-
-  getDepartments() {
-    this.departmentService
-      .getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe({
-        next: (departments) => {
-          this.departments.next(departments.departmentTransportList);
-        },
-        error: (err) => console.error('Error fetching departments', err),
-      });
-  }
-
-  onScheduleChange(selectedSchedule: any) {
-    if (selectedSchedule) {
-      const value = selectedSchedule.target.value;
-      this.selectedDepartmentId = value;
-      console.log('department id: ', this.selectedDepartmentId);
-      this.router.navigate([`departments/${value}/schedules`]).then(() => {
-        console.log('navigated to page: ', `departments/${value}/schedules`);
-        // window.location.reload();
-      });
+    ngOnInit(): void {
+        this.storageService.storedUser$.subscribe({
+            next: (storedUser) => {
+                if (storedUser) {
+                    this.username = storedUser.username;
+                    this.loadCurrentUser(storedUser.username);
+                } else {
+                    this.username = '';
+                    this.currentUser = undefined;
+                }
+                this.isLoggedIn = !!storedUser;
+                this.isAdmin = this.permissionService.hasRole(Role.ADMIN);
+                this.isProfessor = this.permissionService.hasRole(Role.PROFESSOR);
+                this.isStudent = this.permissionService.hasRole(Role.STUDENT);
+            },
+        });
     }
-  }
 
-  buildLoginFormGroup(formBuilder: FormBuilder): FormGroup {
-    return formBuilder.group({
-      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    });
-  }
+    get linkedDepartmentId(): number | undefined {
+        return this.currentUser?.departmentTransport?.id;
+    }
 
-  login() {
-    this.authenticationManagerService.login(this.loginForm);
-  }
+    toggleSidebar() {
+        this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    }
 
-  logout() {
-    this.authenticationManagerService.logout();
-  }
+    logout() {
+        this.authenticationManagerService.logout();
+    }
 
-  openLoginModalData() {
-    this.loginModalManagementService.post = this.login.bind(this);
-    this.loginModalManagementService.openFormModal(LoginFormModalComponent, this.loginModalData);
-  }
-
-  bindLoginModalData() {
-    this.loginModalData = this.loginModalManagementService.bindLoginModalData(this.loginForm);
-  }
+    private loadCurrentUser(username: string) {
+        this.userService.getUserByUsername(username).subscribe({
+            next: (user) => {
+                this.currentUser = user;
+            },
+            error: (err) => console.error('Error fetching current user', err),
+        });
+    }
 }

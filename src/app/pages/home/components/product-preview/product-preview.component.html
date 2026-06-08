@@ -1,0 +1,125 @@
+<section class="schedule-showcase">
+    <div class="showcase-grid">
+
+        <!-- Row 1 -->
+        <div class="mock-visual red-visual">
+            <div class="mock-card rotate-left">
+                <div class="mock-header p-2 bg-slate-50 border rounded-2xl">
+                    <h4 class="text-slate-500 font-bold px-2">Weekly schedule</h4>
+                    <span class="success-pill">Ready</span>
+                </div>
+
+                <div class="calendar-grid">
+                    <div class="calendar-head"></div>
+                    @for (day of calendarDays; track day) {
+                        <div class="calendar-head">{{ day }}</div>
+                    }
+
+                    @for (slot of calendarSlots; track slot.time) {
+                        <div class="calendar-time">{{ slot.time }}</div>
+
+                        @for (cell of slot.items; track cell.id) {
+                            <div class="calendar-cell">
+                                @if (cell.title) {
+                                    <div class="lesson-card" [class]="cell.accent"></div>
+                                } @else {
+                                    <div class="empty-line"></div>
+                                    <div class="empty-line short"></div>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block">
+            <span class="eyebrow red">Schedule generation</span>
+
+            <h2>Generate optimized university schedules.</h2>
+
+            <p>
+                ScheduleUP creates weekly timetables using professors, rooms,
+                subjects, student groups, and academic constraints.
+            </p>
+
+            <ul class="feature-list red-list">
+                <li>
+                    <span class="feature-icon"><i class="bi bi-people"></i></span>
+                    <span><strong>Avoid conflicts:</strong> prevent overlaps between professors, rooms, groups, and lessons.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-lightning-charge"></i></span>
+                    <span><strong>Generate faster:</strong> reuse existing academic data instead of rebuilding schedules manually.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-shield-check"></i></span>
+                    <span><strong>Publish cleaner timetables:</strong> reduce last-minute corrections before publishing.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="content-block">
+            <span class="eyebrow blue">Data management</span>
+
+            <h2>Manage the academic data behind every schedule.</h2>
+
+            <p>
+                Keep departments, professors, rooms, subjects, groups, and constraints
+                organized in one place before generating the final timetable.
+            </p>
+
+            <ul class="feature-list blue-list">
+                <li>
+                    <span class="feature-icon"><i class="bi bi-database"></i></span>
+                    <span><strong>Centralized records:</strong> manage the core data needed for schedule generation.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-arrow-repeat"></i></span>
+                    <span><strong>Reusable semester setup:</strong> keep data structured for future timetable cycles.</span>
+                </li>
+                <li>
+                    <span class="feature-icon"><i class="bi bi-shield-check"></i></span>
+                    <span><strong>Better control:</strong> spot missing or incorrect data before running the generator.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mock-visual blue-visual">
+            <div class="mock-card rotate-right">
+                <div class="mock-header border rounded-2xl p-2 bg-slate-50">
+                    <h4 class="text-slate-500 font-bold px-2">Data dashboard</h4>
+                    <span class="sync-pill">Updated</span>
+                </div>
+
+                <div class="loader-cards">
+                    @for (item of [1, 2, 3]; track item) {
+                        <div class="loader-card">
+                            <div class="loader-circle"></div>
+                            <div class="loader-lines">
+                                <div class="gradient-line w-70"></div>
+                                <div class="gradient-line w-45"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="loader-table">
+                    @for (row of [1, 2, 3, 4]; track row) {
+                        <div class="loader-row">
+                            <div class="loader-square"></div>
+                            <div class="loader-main">
+                                <div class="gradient-line w-40"></div>
+                                <div class="gradient-line w-85"></div>
+                            </div>
+                            <div class="gradient-line w-20"></div>
+                            <div class="gradient-line w-15"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
