@@ -80,10 +80,11 @@
     "@angular-devkit/build-angular": {
       "fast-glob": {
         "micromatch": {
-          "picomatch": "2.3.2"
+    "picomatch": "2.3.2"
         }
       }
     },
+    "webpack-dev-server": "5.2.6",
     "sockjs": {
       "uuid": "11.1.1"
     },
