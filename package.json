@@ -68,6 +68,7 @@
     "vite": "6.4.3",
     "tmp": "0.2.7",
     "braces": "3.0.3",
+    "socket.io": "4.8.0",
     "follow-redirects": "1.16.0"
   }
 }
