@@ -67,6 +67,21 @@
       "minimatch": "3.1.4",
       "glob": {
         "minimatch": "3.1.4"
+      },
+      "chokidar": {
+        "anymatch": {
+          "picomatch": "2.3.2"
+        },
+        "readdirp": {
+          "picomatch": "2.3.2"
+        }
+      }
+    },
+    "@angular-devkit/build-angular": {
+      "fast-glob": {
+        "micromatch": {
+          "picomatch": "2.3.2"
+        }
       }
     },
     "immutable": "4.3.9",
