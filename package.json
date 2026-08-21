@@ -45,6 +45,7 @@
   "overrides": {
     "form-data": "3.0.4",
     "shell-quote": "1.8.3",
-    "websocket-driver": "0.7.5"
+    "websocket-driver": "0.7.5",
+    "flatted": "3.3.3"
   }
 }
