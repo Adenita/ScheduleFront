@@ -43,6 +43,7 @@
     "typescript": "~5.0.2"
   },
   "overrides": {
-    "form-data": "3.0.4"
+    "form-data": "3.0.4",
+    "shell-quote": "1.8.3"
   }
 }
